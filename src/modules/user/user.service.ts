@@ -6,31 +6,37 @@ import User from "./user.model";
 import { isEmailTaken } from "./user.helperFunctions";
 import * as bcrypt from "bcryptjs";
 import MongoConnection from "@/utils/db";
-import { ApiError } from "@/errors";
 import { generateAuthTokens } from "@/token/token.service";
 import { NextApiResponse } from "next";
 import { createUserValidation } from "./user.validation";
 import { Token } from "@/token";
-
+import { NextResponse } from "next/server";
 
 MongoConnection();
 
-export const createUser = async (userBody: UserInterface) => {
-  
+export const create = async (userBody: UserInterface) => {
   const emailCheck = isEmail(userBody.email);
   const emailTaken = await isEmailTaken(userBody.email);
-  const validate = createUserValidation.body.validate(userBody)
+  const validate = createUserValidation.body.validate(userBody);
 
-  if(validate.error){
-    return new ApiError(httpStatus.BAD_REQUEST, validate.error.message );
+  if (validate.error) {
+    return new NextResponse(
+      JSON.stringify({ message: validate.error.message }),
+      { status: httpStatus.BAD_REQUEST }
+    );
   }
 
   if (!emailCheck) {
-    return new ApiError(httpStatus.BAD_REQUEST, "Invalid Email" );
+    return new NextResponse(JSON.stringify({ message: "Invalid Email" }), {
+      status: httpStatus.BAD_REQUEST,
+    });
   }
 
   if (emailTaken) {
-    return new ApiError(httpStatus.CONFLICT, "Email Already Taken");
+    return new NextResponse(
+      JSON.stringify({ message: "Email Already Taken" }),
+      { status: httpStatus.CONFLICT }
+    );
   }
 
   const user = await User.create({
@@ -40,14 +46,14 @@ export const createUser = async (userBody: UserInterface) => {
 
   const tokens = await generateAuthTokens({ ...user, id: user.id });
 
-  return  ( {
+  return {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
     accessToken: tokens.access.token,
     refreshToken: tokens.refresh.token,
-    statusCode:httpStatus.CREATED
-  });
+    statusCode: httpStatus.CREATED,
+  };
 };
 
 export const getUserByEmail = async (email: string) => {
@@ -56,5 +62,3 @@ export const getUserByEmail = async (email: string) => {
   });
   return user;
 };
-
-

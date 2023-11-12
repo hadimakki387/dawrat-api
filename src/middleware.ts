@@ -1,12 +1,37 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
+import httpStatus from "http-status";
+import { verifyToken } from "./lib/auth";
 
-export function middleware(request: Request) {
+export async function middleware(request: Request) {
+  const bereer = request.headers.get("Authorization");
 
-    console.log('This is the middleware!')
+  if (!bereer) {
+    const error = new NextResponse(
+      JSON.stringify({ message: "Authorization header missing" }),
+      { status: httpStatus.UNAUTHORIZED }
+    );
+    return NextResponse.json(
+      { error: "Unauthorized" },
+      { status: httpStatus.UNAUTHORIZED }
+    );
+  }
 
-    return NextResponse.next()
+  const verify =
+    bereer &&
+    (await verifyToken(bereer).catch((err) => {
+      console.log(err);
+    }));
+
+  if (!verify) {
+    return NextResponse.json(
+      { error: "Invalid Token" },
+      { status: httpStatus.UNAUTHORIZED }
+    );
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: '/api/:path*',
-}
+  matcher: "/api/profile/:path*",
+};

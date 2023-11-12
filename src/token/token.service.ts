@@ -8,7 +8,8 @@ import httpStatus from "http-status";
 import { UserInterface } from "@/modules/user/user.interfaces";
 import { config } from "@/config/config";
 import { tokenTypes } from ".";
-import { ApiError } from "@/errors";
+import { NextResponse } from "next/server";
+
 
 export const generateToken = (
   userId: string,
@@ -61,11 +62,11 @@ export const verifyToken = async (token: string, type: string) => {
       blacklisted: false,
     });
     if (!tokenDoc) {
-      return new ApiError(httpStatus.BAD_REQUEST, "Token not found");
+      return new NextResponse( JSON.stringify({message:"Token not found"}),{status:httpStatus.BAD_REQUEST});
     }
     return tokenDoc;
   }else{
-    return new ApiError(httpStatus.BAD_REQUEST, "bad user");
+    return new NextResponse( JSON.stringify({message:"bad user"}),{status:httpStatus.BAD_REQUEST});
   }
 };
 
