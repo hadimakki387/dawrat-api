@@ -1,16 +1,13 @@
-import isEmail from "validator/lib/isEmail";
-import { UserInterface } from "./user.interfaces";
-import httpStatus, { BAD_REQUEST } from "http-status";
-import User from "./user.model";
-
-import { isEmailTaken } from "./user.helperFunctions";
-import * as bcrypt from "bcryptjs";
-import MongoConnection from "@/utils/db";
 import { generateAuthTokens } from "@/token/token.service";
-import { NextApiResponse } from "next";
-import { createUserValidation } from "./user.validation";
-import { Token } from "@/token";
+import MongoConnection from "@/utils/db";
+import * as bcrypt from "bcryptjs";
+import httpStatus from "http-status";
 import { NextResponse } from "next/server";
+import isEmail from "validator/lib/isEmail";
+import { isEmailTaken } from "./user.helperFunctions";
+import { UserInterface } from "./user.interfaces";
+import User from "./user.model";
+import { createUserValidation } from "./user.validation";
 
 MongoConnection();
 
@@ -46,14 +43,17 @@ export const create = async (userBody: UserInterface) => {
 
   const tokens = await generateAuthTokens({ ...user, id: user.id });
 
-  return {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    accessToken: tokens.access.token,
-    refreshToken: tokens.refresh.token,
-    statusCode: httpStatus.CREATED,
-  };
+  return new Response(
+    JSON.stringify({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      accessToken: tokens.access.token,
+      refreshToken: tokens.refresh.token,
+      statusCode: httpStatus.CREATED,
+    }),
+    { status: httpStatus.CREATED }
+  );
 };
 
 export const getUserByEmail = async (email: string) => {

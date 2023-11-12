@@ -1,21 +1,23 @@
-import { getUserByEmail } from "../user/user.service";
+import { returnData } from "@/helper-functions/returnData";
+import { generateToken } from "@/token/token.service";
 import httpStatus from "http-status";
-import { UserInterface } from "../user/user.interfaces";
-import { verifyPass } from "../user/user.helperFunctions";
-import { loginUserValidate } from "./auth.validate";
-import { Token } from "@/token";
-import { generateToken, verifyToken } from "@/token/token.service";
-import jwt from "jsonwebtoken";
-import { config } from "@/config/config";
 import moment from "moment";
 import { NextResponse } from "next/server";
+import { verifyPass } from "../user/user.helperFunctions";
+import { getUserByEmail } from "../user/user.service";
+import { loginUserValidate } from "./auth.validate";
+import Joi from "joi";
 
 export const loginUserWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
   const user = await getUserByEmail(email);
-  const validate = loginUserValidate.body.validate({ email, password });
+  const validate = loginUserValidate.body.validate({ email, password })
+
+  console.log(`this is validate `)
+  console.log(validate)
+
 
   if (validate.error) {
     return new NextResponse(
@@ -35,7 +37,10 @@ export const loginUserWithEmailAndPassword = async (
     const isMatch = await verifyPass(password, user.password);
     if (isMatch) {
       const access: string = generateToken(user._id,moment().add(3, "h"),"access");
-      return { user: user, token: access };
+      return new NextResponse(
+        JSON.stringify({ user: returnData(user), token: access }),
+        
+      );
     } else {
       return new NextResponse(
         JSON.stringify({ message: "Incorrect email or password" }),
@@ -43,4 +48,8 @@ export const loginUserWithEmailAndPassword = async (
       );
     }
   }
+  return new NextResponse(
+    JSON.stringify({ message: "somthing went wrong" }),
+    { status: httpStatus.BAD_REQUEST }
+  );
 };

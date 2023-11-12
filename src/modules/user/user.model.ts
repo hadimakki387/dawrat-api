@@ -40,15 +40,12 @@ const userSchema = new Schema<any,any>({
   },
   domain: {
     type: String,
-    required: true,
   },
   university: {
     type: String,
-    required: true,
   },
   currentYearOfStudying: {
     type: String,
-    required: true,
   },
   role: {
     type: String,
