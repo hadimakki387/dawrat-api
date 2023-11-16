@@ -1,6 +1,5 @@
-import StoreWrapper from "@/core/StoreWrapper";
-import "./globals.css";
-import "react-toastify/dist/ReactToastify.css";
+import LandingNavBar from "@/components/layout/LandingNavBar";
+
 
 export const metadata = {
   title: "Create Next App",
@@ -15,7 +14,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StoreWrapper>{children}</StoreWrapper>
+        <LandingNavBar/>
+        {children}
       </body>
     </html>
   );

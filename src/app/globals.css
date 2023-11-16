@@ -2,18 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: rgb(246,247,251);
+}
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --primary: #4089f8;
+    --input-border-radius: 12px;
+    --shadow: 1px 1px 8px rgba(0, 0, 0, 0.15);
+    --error: #ff4d49;
+    --button-padding: 5px 10px;
+    --button-border-radius: 4px;
+    --main-bg: #f7f7f9;
+    --icon-bg: #bdbdbd;
+    --input-border: #d1d5db;
+    --primary-transparent: rgba(2, 119, 189, 0.05);
+    --hint: rgba(76, 78, 100, 0.6);
+    --success: #72e128;
+    --yellow: #ffb304;
+    --primary-text-light: #4c4e64de;
+    --light-gray: rgba(76, 78, 100, 0.12);
+    --light-gray-text: rgba(76, 78, 100, 0.38);
+    --title-text: #4b5563;
+    --sub-title-text: #6b7280;
+    --body-text: #000000;
+    --deactivated-text: #9ca3af;
+    --colored-text: #ffffff;
+    --secondary: #26c6f9;
+    --icon-color: #d1d5db;
+    --deactivated-button: #e5e7eb;
+    --sidebar: rgba(236, 236, 239, 1);
+    --sidebar-color: #003f6d;
+    --gray: #808080
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-
