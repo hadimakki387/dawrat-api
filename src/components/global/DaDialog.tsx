@@ -40,6 +40,7 @@ export default function DaDialog({
   return (
     <React.Fragment>
       <Dialog
+      
         open={open}
         onClose={onClose}
         aria-labelledby="alert-dialog-title"
@@ -49,6 +50,7 @@ export default function DaDialog({
         PaperProps={{
           sx: PaperProps,
         }}
+        
       >
         {title && (
           <DialogTitle

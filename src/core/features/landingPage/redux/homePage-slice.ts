@@ -5,11 +5,13 @@ const initialState: {
   sideBar: boolean;
   signIn: boolean;
   signUp: boolean;
+  isAuth : boolean
 } = {
   tabs: 0,
   sideBar: false,
   signIn: false,
   signUp: false,
+  isAuth: false
 };
 
 const homePageSlice = createSlice({
@@ -28,9 +30,12 @@ const homePageSlice = createSlice({
     setSignUp(state, action) {
       state.signUp = action.payload;
     },
+    setIsAuth(state,action){
+      state.isAuth = action.payload
+    }
   },
 });
 
-export const { setTabs, setSideBar, setSignIn,setSignUp } = homePageSlice.actions;
+export const { setTabs, setSideBar, setSignIn,setSignUp,setIsAuth } = homePageSlice.actions;
 
 export default homePageSlice.reducer;

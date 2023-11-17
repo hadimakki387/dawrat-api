@@ -9,6 +9,7 @@ import { UserInterface } from "./user.interfaces";
 import User from "./user.model";
 import { createUserValidation } from "./user.validation";
 
+
 MongoConnection();
 
 export const create = async (userBody: UserInterface) => {
@@ -62,3 +63,30 @@ export const getUserByEmail = async (email: string) => {
   });
   return user;
 };
+
+export const getUserById = async (id: string) => {
+  const foundUser = await User.findById(id);
+  
+  if(!foundUser){
+    return new Response(
+      JSON.stringify({
+        message: "User not found",
+        statusCode: httpStatus.NOT_FOUND,
+      }),
+      { status: httpStatus.NOT_FOUND }
+    );
+  }
+
+  if(foundUser){
+    return new Response(
+      JSON.stringify({
+        firstName: foundUser.firstName,
+        lastName: foundUser.lastName,
+        email: foundUser.email,
+        statusCode: httpStatus.OK,
+      }),
+      { status: httpStatus.OK }
+    );
+  }
+  return foundUser;
+}

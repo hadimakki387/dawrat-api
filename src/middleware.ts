@@ -4,6 +4,7 @@ import { verifyToken } from "./lib/auth";
 
 export async function middleware(request: Request) {
   const bereer = request.headers.get("Authorization");
+  console.log("this is the middleware")
 
   if (!bereer) {
     const error = new NextResponse(

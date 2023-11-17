@@ -35,3 +35,9 @@ body {
     --sidebar-color: #003f6d;
     --gray: #808080
 }
+
+/* mui dialog styles */
+.MuiDialog-paper{
+  position: absolute !important;
+  top:1rem !important
+}

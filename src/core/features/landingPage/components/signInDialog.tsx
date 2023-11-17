@@ -4,14 +4,21 @@ import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { sign } from "crypto";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
-import { setSignIn } from "../redux/homePage-slice";
+import { setIsAuth, setSignIn } from "../redux/homePage-slice";
 import { useDispatch } from "react-redux";
-import { generateToast } from "@/services/global-function";
+import { generateToast, updateToast } from "@/services/global-function";
 import { ToastType } from "@/services/constants";
+import { useLoginMutation } from "@/core/rtk-query/landingPage";
+import { useRouter } from "next/navigation";
 
 function SignInDialog() {
+  const { signIn, signUp } = useAppSelector((state) => state.homePage);
+  const dispatch = useDispatch();
+  const [login, { isSuccess }] = useLoginMutation();
+  const router = useRouter()
+
   const formik = useFormik({
     validationSchema: Yup.object({
       email: Yup.string().email().required("email is required"),
@@ -25,15 +32,37 @@ function SignInDialog() {
       const id = generateToast({
         message: "Signing You In",
         isLoading: true,
-        toastType: ToastType.default
+        toastType: ToastType.default,
       });
-      console.log("this is the id")
-      console.log(id)
-      console.log(values);
+      login(values)
+        .unwrap()
+        .then(() => {
+          updateToast(id, "Your Signed In", {
+            isLoading: false,
+            toastType: ToastType.success,
+          });
+          dispatch(setSignIn(false))
+          formik.resetForm()
+          dispatch(setIsAuth(true))
+        })
+        .catch((err) => {
+          updateToast(id, `${err.data.message}`, {
+            isLoading: false,
+            toastType: ToastType.error,
+          });
+          dispatch(setSignIn(false))
+          formik.resetForm()
+        });
+       
     },
   });
-  const { signIn, signUp } = useAppSelector((state) => state.homePage);
-  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    if(isSuccess){
+      router.push("/")
+    }
+  },[isSuccess])
+
   return (
     <DaDialog
       open={signIn}

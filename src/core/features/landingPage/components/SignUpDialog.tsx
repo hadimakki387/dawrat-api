@@ -7,9 +7,16 @@ import { useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { setSignUp } from "../redux/homePage-slice";
+import { setIsAuth, setSignUp } from "../redux/homePage-slice";
+import { useRegisterMutation } from "@/core/rtk-query/landingPage";
+import { generateToast, updateToast } from "@/services/global-function";
+import { ToastType } from "@/services/constants";
 
 function SignUpDialog() {
+  const { signIn, signUp } = useAppSelector((state) => state.homePage);
+  const dispatch = useDispatch();
+  const [register,{data}] = useRegisterMutation()
+
   const formik = useFormik({
     validationSchema: Yup.object({
       firstName: Yup.string().required("first name is required").trim(),
@@ -22,11 +29,34 @@ function SignUpDialog() {
       password: "",
     },
     onSubmit: (values) => {
-      console.log(values);
+      const id = generateToast({
+        message: "Creating Your Account",
+        isLoading: true,
+        toastType: ToastType.default,
+      });
+      register(values)
+        .unwrap()
+        .then(() => {
+          updateToast(id, "Your Account has been created", {
+            isLoading: false,
+            toastType: ToastType.success,
+          });
+          dispatch(setSignUp(false))
+          formik.resetForm()
+        })
+        .catch((err) => {
+          updateToast(id, `${err.data.message}`, {
+            isLoading: false,
+            toastType: ToastType.error,
+          });
+          dispatch(setSignUp(false))
+          formik.resetForm()
+          dispatch(setIsAuth(true))
+        });
+     
     },
   });
-  const { signIn, signUp } = useAppSelector((state) => state.homePage);
-  const dispatch = useDispatch();
+  
   return (
     <DaDialog
       open={signUp}
