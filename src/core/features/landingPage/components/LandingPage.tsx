@@ -10,7 +10,7 @@ import { ToastType } from "@/services/constants";
 function LandingPage() {
   
   return (
-    <div>
+    <div className="overflow-hidden">
       <SignInDialog />
       <SignUpDialog/>
       <Header />

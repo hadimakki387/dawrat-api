@@ -1,5 +1,45 @@
 /* mui dialog styles */
-.MuiDialog-paper{
-    position: absolute !important;
-    top:1rem !important
-  }
+.MuiDialog-paper {
+  position: absolute !important;
+  top: 1rem !important;
+}
+
+.shape1 {
+  position: absolute;
+  height: 500px;
+  width: 500px;
+  bottom: -176px;
+  right: -214px;
+  transform: rotate(40deg);
+  z-index: 2;
+}
+
+.shape2 {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  rotate: -90deg;
+  right: 0;
+  bottom: 10rem;
+}
+
+.shape3 {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+
+  rotate: 120deg;
+  right: -5rem;
+  bottom: -15rem;
+  z-index: 3;
+}
+
+.shape4 {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  rotate: 100deg;
+  right: -2rem;
+  bottom: 10rem;
+  z-index: 3;
+}
