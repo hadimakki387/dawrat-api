@@ -2,16 +2,16 @@ import Button from "@/components/global/Button";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { sign } from "crypto";
+import { useLoginMutation } from "@/core/rtk-query/landingPage";
+import { ToastType } from "@/services/constants";
+import { generateToast, updateToast } from "@/services/global-function";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { setIsAuth, setSignIn } from "../redux/homePage-slice";
-import { useDispatch } from "react-redux";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
-import { useLoginMutation } from "@/core/rtk-query/landingPage";
-import { useRouter } from "next/navigation";
+import "./index.css"
 
 function SignInDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);

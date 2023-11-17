@@ -1,0 +1,5 @@
+/* mui dialog styles */
+.MuiDialog-paper{
+    position: absolute !important;
+    top:1rem !important
+  }

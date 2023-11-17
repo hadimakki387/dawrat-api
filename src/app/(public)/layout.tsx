@@ -1,10 +1,7 @@
-"use client"
+"use client";
 import LandingNavBar from "@/components/layout/LandingNavBar";
+import StoreWrapper from "@/core/StoreWrapper";
 import PublicAuthGuard from "./PublicAuthGuard";
-import { Provider } from "react-redux";
-import StoreWrapper, { store } from "@/core/StoreWrapper";
-
-
 
 export default function RootLayout({
   children,
@@ -12,13 +9,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <LandingNavBar />
-        <StoreWrapper>
-          <PublicAuthGuard>{children}</PublicAuthGuard>
-        </StoreWrapper>
-      </body>
-    </html>
+    <>
+      <LandingNavBar />
+      <StoreWrapper>
+        <PublicAuthGuard>{children}</PublicAuthGuard>
+      </StoreWrapper>
+    </>
   );
 }
