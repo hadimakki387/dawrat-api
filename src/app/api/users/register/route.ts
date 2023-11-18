@@ -7,6 +7,5 @@ export async function GET(res: NextRequest) {
 }
 export async function POST(req: NextRequest, res: NextResponse) {
   const data = await req.json();
-  const user = await create(data);
-  return new Response(JSON.stringify(user), { status: httpStatus.CREATED });
+  return await create(data);
 }

@@ -4,14 +4,16 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { setName } from "../redux/profile-slice";
 import { useLoginUserMutation } from "@/core/rtk-query/auth/login";
+import { useRegisterUserMutation } from "@/core/rtk-query/auth/register";
 
 function Index() {
   const { name } = useAppSelector((state) => state.profile);
   const dispatch = useDispatch();
-  const [login,{data,error}] = useLoginUserMutation()
+  const [login] = useLoginUserMutation();
+  const [register] = useRegisterUserMutation();
   return (
     <div className="flex flex-col bg-white">
-      <div>{`this is the name ${name}`}{" "}</div>
+      <div>{`this is the name ${name}`} </div>
       <button
         onClick={() => {
           dispatch(setName("ja3fusta"));
@@ -20,7 +22,17 @@ function Index() {
       >
         click to change name{" "}
       </button>
-      <button onClick={()=>login({data:{email:"hello@gmai.com",password:"password"}})}>
+
+      <button
+        onClick={() =>
+          login({
+            data: {
+              email: "hmakki387@gmail.com",
+              password: "password1",
+            },
+          })
+        }
+      >
         click me to post data
       </button>
     </div>
