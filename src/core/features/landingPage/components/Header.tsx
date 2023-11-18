@@ -6,7 +6,7 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <div className="bg-[#2a0316] w-full   flex justify-center items-center text-white flex-col text-center relative pt-[250px] pb-[50px]">
+    <div className="bg-[#38071f] w-full   flex justify-center items-center text-white flex-col text-center relative pt-[250px] pb-[50px]">
       <div className="w-[40%] flex flex-col gap-8 ">
         <div className="font-extrabold text-5xl">Let&apos;s Study Together</div>
         <div className="text-xl w-2/3 font-medium m-auto">
