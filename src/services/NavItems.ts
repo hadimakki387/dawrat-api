@@ -50,7 +50,7 @@ const items = [
       },
       {
         label: "Studylists",
-        path: "/studylists",
+        path: "/study-lists",
         icon: StudyList,
         hasSubItems: true,
         subItems: [],

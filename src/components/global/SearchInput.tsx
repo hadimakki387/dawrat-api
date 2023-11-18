@@ -1,12 +1,16 @@
 import React from "react";
 
+interface Props {
+  className?: string;
+  padding?: string;
+  placeholder?: string;
+}
+
 function SearchInput({
   className,
   padding = "p-2",
-}: {
-  className?: string;
-  padding?: string;
-}) {
+  placeholder = "Search...",
+}: Props) {
   return (
     <>
       <div className="relative">
@@ -14,7 +18,7 @@ function SearchInput({
           type="search"
           id="default-search"
           className={`block w-full  ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ${className} ${padding}`}
-          placeholder="Search..."
+          placeholder={placeholder}
           required
         />
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

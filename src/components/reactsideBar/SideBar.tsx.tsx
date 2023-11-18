@@ -80,7 +80,6 @@ const hexToRgba = (hex: string, alpha: number) => {
 export const SideBar: React.FC = () => {
   const Items = NavItems();
   const path = usePathname();
-  console.log(`this is the path ${path}`);
 
   const [collapsed, setCollapsed] = React.useState(false);
   const [toggled, setToggled] = React.useState(false);
