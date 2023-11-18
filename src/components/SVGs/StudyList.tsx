@@ -7,7 +7,7 @@ interface Props {
 
 }
 
-function StudyList({ fill = "4C5966", width = "16px", height = "16px", className, }: Props) {
+function StudyList({ fill = "#4C5966", width = "16px", height = "16px", className, }: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"

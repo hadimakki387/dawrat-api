@@ -16,7 +16,7 @@ export default function RootLayout({
         <PrivateAuthGuard>
           <HomeNavBar />
           <SideBar/>
-          <div className="mx-6">{children}</div>
+          <div className="ml-[15vw]  px-4 pt-4 ">{children}</div>
         </PrivateAuthGuard>
       </StoreWrapper>
     </>
