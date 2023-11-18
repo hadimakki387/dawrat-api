@@ -7,6 +7,7 @@ interface Props {
   endIcon?: React.ReactNode;
   label:string
   className?:string
+  id?:string
 }
 
 function Button({
@@ -16,10 +17,12 @@ function Button({
   endIcon,
   label,
   className,
+  id,
   ...rest
 }: Props) {
   return (
     <button
+    id={id}
       className={`${
         fullRounded ? "rounded-full" : "rounded-md"
       }  px-4 py-2 text-subTitleText ${className}`}

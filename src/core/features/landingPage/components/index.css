@@ -6,8 +6,8 @@
 
 .shape1 {
   position: absolute;
-  height: 500px;
-  width: 500px;
+  height: 600px;
+  width: 600px;
   bottom: -176px;
   right: -214px;
   transform: rotate(40deg);
@@ -16,30 +16,56 @@
 
 .shape2 {
   position: absolute;
-  height: 100px;
-  width: 100px;
-  rotate: -90deg;
-  right: 0;
-  bottom: 10rem;
+  height: 80px;
+  width: 70px;
+  right: 180px;
+  top: 360px;
+  bottom: 136px;
+  transform: rotate(18deg);
 }
 
 .shape3 {
   position: absolute;
-  height: 100px;
-  width: 100px;
-
-  rotate: 120deg;
-  right: -5rem;
-  bottom: -15rem;
+  height: 210px;
+  width: 130px;
+  rotate: 90deg;
+  bottom: -126px;
+  right: 50px;
   z-index: 3;
 }
 
+
 .shape4 {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  rotate: 100deg;
-  right: -2rem;
-  bottom: 10rem;
+  width: 80px;
+  height: 200px;
+  right: 100px;
+  top: 160px;
+  transform: rotate(60deg);
   z-index: 3;
+}
+
+
+
+.shape5 {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  left: -140px;
+  top: 196px;
+  transform: rotate(6deg);
+  z-index: 3;
+}
+
+
+
+.shape6 {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  bottom: 9%;
+  left: -140px;
+  transform: scaleY(-1) rotate(-86deg);
+  z-index: 3;
+
 }

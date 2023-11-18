@@ -12,7 +12,7 @@ function ItemsSection() {
   const data = Array(10).fill(0);
 
   return (
-    <div className="flex flex-col justify-center text-center mt-12 w-1/2 m-auto gap-8">
+    <div className="flex flex-col justify-center text-center mt-12 w-1/2 m-auto gap-8" >
       <h1 className="font-extrabold text-4xl ">Only the best for the best</h1>
       <h2 className="text-lg text-subTitleText">
         Find the best study documents to ace your way through education.
@@ -51,6 +51,7 @@ function ItemsSection() {
           </div>
         )}
         <Button
+        id="mostPopular"
           label="View All"
           className="border border-neutral-300 p-2 w-full text-primary font-semibold mt-8 hover:bg-blue-100 transition-all duration-300"
           fullRounded
