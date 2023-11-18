@@ -162,6 +162,7 @@ export const SideBar: React.FC = () => {
         direction: rtl ? "rtl" : "ltr",
         position: "fixed",
       }}
+      className="mt-[10vh]"
     >
       <Sidebar
         collapsed={collapsed}

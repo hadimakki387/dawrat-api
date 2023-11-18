@@ -14,7 +14,13 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      colors: { subTitleText: "#2f3e4e",titleText:"var(--title-text)", primary: "var(--primary)" },
+      colors: {
+        subTitleText: "var(--sub-title-text)",
+        titleText: "var(--title-text)",
+        primary: "var(--primary)",
+        darkText:"#2f3e4e",
+        primaryBg:"var(--primary-bg)"
+      },
     },
   },
   plugins: [],

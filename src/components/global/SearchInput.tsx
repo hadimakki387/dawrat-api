@@ -4,12 +4,14 @@ interface Props {
   className?: string;
   padding?: string;
   placeholder?: string;
+  placeholderClassName?: string;
 }
 
 function SearchInput({
   className,
   padding = "p-2",
   placeholder = "Search...",
+  placeholderClassName,
 }: Props) {
   return (
     <>
@@ -41,7 +43,7 @@ function SearchInput({
       </div>
       <label
         htmlFor="default-search"
-        className="mb-2 text-sm font-medium text-gray-900 sr-only "
+        className={`mb-2 text-sm font-medium text-gray-900 sr-only ${placeholderClassName}`}
       >
         Search
       </label>

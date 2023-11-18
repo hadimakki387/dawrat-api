@@ -3,6 +3,7 @@ import BouncingArrow from "@/components/global/bouncing arrow/BouncingArrow";
 import SideBar from "./SideBar";
 import Image from "next/image";
 import Link from "next/link";
+import DaSearch from "@/components/global/DaSearch/DaSearch";
 
 function Header() {
   return (
@@ -13,7 +14,7 @@ function Header() {
           Find top-rated study notes from students taking the same courses as
           you.
         </div>
-        <SearchInput padding="p-5" />
+        <DaSearch padding="p-4" placeholder="Search for courses, books or documents"/>
         <Link href={"#mostPopular"} className="relative mt-16">
           <BouncingArrow />
         </Link>
