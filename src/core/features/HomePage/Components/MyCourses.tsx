@@ -4,7 +4,7 @@ import React from "react";
 
 function MyCourses() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
         My Course
       </h1>

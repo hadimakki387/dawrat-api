@@ -5,7 +5,6 @@ import { Document, Page, Thumbnail, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import "./index.css"
 
 import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import type { PDFDocumentProxy } from "pdfjs-dist";
@@ -26,7 +25,15 @@ const maxWidth = 800;
 
 type PDFFile = string | File | null;
 
-function ViewPdf() {
+function GetPdfThumbnail({
+  width,
+  height,
+  className,
+}: {
+  width: number;
+  height: number;
+  className?: string;
+}) {
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
@@ -54,26 +61,23 @@ function ViewPdf() {
     <div>
       <div className="Example__container">
         <div className="Example__container__document" ref={setContainerRef}>
-          
           <Document
             file={"/14.pdf"}
             onLoadSuccess={onDocumentLoadSuccess}
-            options={{...options}}
-            
-            
+            options={{ ...options }}
+            loading=""
+
           >
-            
-            {Array.from(new Array(numPages), (el, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                width={
-                  containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-                }
-                className={"rounded-lg"}
-                
-              />
-            ))}
+            {/* i want render the custom renderer as png */}
+            <Thumbnail
+              pageNumber={1}
+              width={width}
+              height={height}
+              className={className}
+              renderMode="svg"
+              
+              
+            />
           </Document>
         </div>
       </div>
@@ -83,4 +87,4 @@ function ViewPdf() {
   );
 }
 
-export default ViewPdf;
+export default GetPdfThumbnail;

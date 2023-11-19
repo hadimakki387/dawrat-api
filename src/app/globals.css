@@ -2,79 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-html{
+html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: rgb(246,247,251);
+  background-color: rgb(246, 247, 251);
 }
 
 :root {
-    --primary: #3092fa;
-    --primary-bg:rgb(234, 242, 255);
-    --input-border-radius: 12px;
-    --shadow: 1px 1px 8px rgba(0, 0, 0, 0.15);
-    --error: #ff4d49;
-    --button-padding: 5px 10px;
-    --button-border-radius: 4px;
-    --main-bg: #f7f7f9;
-    --icon-bg: #bdbdbd;
-    --input-border: #d1d5db;
-    --primary-transparent: rgba(2, 119, 189, 0.05);
-    --hint: rgba(76, 78, 100, 0.6);
-    --success: #72e128;
-    --yellow: #ffb304;
-    --primary-text-light: #4c4e64de;
-    --light-gray: rgba(76, 78, 100, 0.12);
-    --light-gray-text: rgba(76, 78, 100, 0.38);
-    --title-text: #4b5563;
-    --sub-title-text: #6b7280;
-    --body-text: #000000;
-    --deactivated-text: #9ca3af;
-    --colored-text: #ffffff;
-    --secondary: #26c6f9;
-    --icon-color: #d1d5db;
-    --deactivated-button: #e5e7eb;
-    --sidebar: rgba(236, 236, 239, 1);
-    --sidebar-color: #003f6d;
-    --gray: #808080
-}
-
-
-.Example__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.Example__container__load {
-  margin-top: 1em;
-  color: white;
-}
-
-.Example__container__document {
-  width: 100%;
-  max-width: calc(100% - 2em);
-  margin: 1em 0;
-}
-
-.Example__container__document .react-pdf__Document {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.Example__container__document .react-pdf__Page {
-  margin: 1em 0;
-  border: 2px solid rgb(211, 211, 211);
-  border-radius: 1rem;
-  overflow: hidden;
-}
-
-.Example__container__document .react-pdf__message {
-  padding: 20px;
-  color: white;
+  --primary: #3092fa;
+  --primary-bg: rgb(234, 242, 255);
+  --input-border-radius: 12px;
+  --shadow: 1px 1px 8px rgba(0, 0, 0, 0.15);
+  --error: #ff4d49;
+  --button-padding: 5px 10px;
+  --button-border-radius: 4px;
+  --main-bg: #f7f7f9;
+  --icon-bg: #bdbdbd;
+  --input-border: #d1d5db;
+  --primary-transparent: rgba(2, 119, 189, 0.05);
+  --hint: rgba(76, 78, 100, 0.6);
+  --success: #72e128;
+  --yellow: #ffb304;
+  --primary-text-light: #4c4e64de;
+  --light-gray: rgba(76, 78, 100, 0.12);
+  --light-gray-text: rgba(76, 78, 100, 0.38);
+  --title-text: #4b5563;
+  --sub-title-text: #6b7280;
+  --body-text: #000000;
+  --deactivated-text: #9ca3af;
+  --colored-text: #ffffff;
+  --secondary: #26c6f9;
+  --icon-color: #d1d5db;
+  --deactivated-button: #e5e7eb;
+  --sidebar: rgba(236, 236, 239, 1);
+  --sidebar-color: #003f6d;
+  --gray: #808080;
 }

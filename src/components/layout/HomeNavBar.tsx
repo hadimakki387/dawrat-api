@@ -2,6 +2,7 @@ import React from "react";
 import SearchInput from "../global/SearchInput";
 import { usePathname } from "next/navigation";
 import DaSearch from "../global/DaSearch/DaSearch";
+import ProfileAvatar from "../global/ProfileAvatar";
 
 function HomeNavBar() {
   const path = usePathname()
@@ -18,12 +19,7 @@ function HomeNavBar() {
         </div>
       </div>
       
-      <div
-        className="h-11 w-9 bg-yellow-800 flex justify-center items-center font-semibold text-2xl pb-1 text-white"
-        style={{ borderRadius: "84% 16% 26% 69% / 31% 14% 85% 65%" }}
-      >
-        H
-      </div>
+      <ProfileAvatar/>
     </nav>
   );
 }

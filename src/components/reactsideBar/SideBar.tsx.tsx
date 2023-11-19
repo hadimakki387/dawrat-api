@@ -7,26 +7,9 @@ import {
   SubMenu,
   menuClasses,
 } from "react-pro-sidebar";
-import { Badge } from "./components/Badge";
 import { SidebarHeader } from "./components/SidebarHeader";
-import { Switch } from "./components/Switch";
 import { Typography } from "./components/Typography";
-import { BarChart } from "./icons/BarChart";
-
-import { Calendar } from "./icons/Calendar";
-import { Diamond } from "./icons/Diamond";
-import { Global } from "./icons/Global";
-import { InkBottle } from "./icons/InkBottle";
-import { Service } from "./icons/Service";
-import { ShoppingCart } from "./icons/ShoppingCart";
 import { NavItems } from "@/services/NavItems";
-import Home from "../SVGs/Home";
-import AI from "../SVGs/AI";
-import Folder from "../SVGs/Folder";
-import Book from "../SVGs/Book";
-import StudyList from "../SVGs/StudyList";
-import Questions from "../SVGs/Questions";
-import Clock from "../SVGs/Clock";
 import { usePathname, useRouter } from "next/navigation";
 
 type Theme = "light" | "dark";

@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -19,7 +21,10 @@ const config: Config = {
         titleText: "var(--title-text)",
         primary: "var(--primary)",
         darkText:"#2f3e4e",
-        primaryBg:"var(--primary-bg)"
+        primaryBg:"var(--primary-bg)",
+        error: "var(--error)",
+        success: "var(--success)",
+
       },
     },
   },
