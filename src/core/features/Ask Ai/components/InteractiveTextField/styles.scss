@@ -103,6 +103,15 @@
     }
   }
 }
+.divider {
+  background-color: var(--title-text) !important;
+}
+.is-active {
+  background-color: rgb(212, 212, 212) !important;
+}
+.menu-item:hover {
+  background-color: rgb(212, 212, 212) !important;
+}
 .tiptap p.is-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
@@ -113,7 +122,7 @@
 
 .editor {
   background-color: #fff;
-  border: 3px solid #0d0d0d;
+  border: 2px solid #c4c4c4;
   border-radius: 0.75rem;
   color: #0d0d0d;
   display: flex;
@@ -121,10 +130,10 @@
 
   &__header {
     align-items: center;
-    background: #0d0d0d;
-    border-bottom: 2px solid #0d0d0d;
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
+    background: white;
+    border-bottom: 2px solid #c4c4c4;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
     display: flex;
     flex: 0 0 auto;
     flex-wrap: wrap;

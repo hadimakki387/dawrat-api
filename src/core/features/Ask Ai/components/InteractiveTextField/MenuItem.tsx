@@ -10,11 +10,11 @@ const MenuItem = ({ icon: Icon, title, action, isActive = null }: any) => {
       title={title}
     >
       { title === "Heading 1" ? (
-        <Icon />
+        <Icon fill="var(--title-text)"/>
       ) :title === "Heading 2" ? (
-        <Icon />
+        <Icon fill="var(--title-text)"/>
       ): Icon ? (
-        <FontAwesomeIcon icon={Icon} fill={"white"} />
+        <FontAwesomeIcon icon={Icon} className="text-titleText" />
       ) : (
         ""
       )}
