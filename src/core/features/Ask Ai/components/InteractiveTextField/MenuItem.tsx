@@ -9,11 +9,11 @@ const MenuItem = ({ icon: Icon, title, action, isActive = null }: any) => {
       onClick={action}
       title={title}
     >
-      {title === "Heading 1" ? (
+      { title === "Heading 1" ? (
         <Icon />
-      ) : title === "Heading 2" ? (
+      ) :title === "Heading 2" ? (
         <Icon />
-      ) : Icon ? (
+      ): Icon ? (
         <FontAwesomeIcon icon={Icon} fill={"white"} />
       ) : (
         ""

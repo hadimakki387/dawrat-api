@@ -5,13 +5,21 @@ import ProfileAvatar from "@/components/global/ProfileAvatar";
 import { useAppSelector } from "@/core/StoreWrapper";
 import InteractiveTextField from "./InteractiveTextField/InteractivTextField";
 import { useDispatch } from "react-redux";
-import { setIsPrivate } from "../redux/askAi-slice";
+import {
+  decrementQuestionStep,
+  incrementQuestionStep,
+  incrementResetData,
+  resetQuestionStep,
+  setIsPrivate,
+} from "../redux/askAi-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import Button from "@/components/global/Button";
 
 function QuestionInput() {
-  const { isPrivate } = useAppSelector((state) => state.askAi);
+  const { isPrivate, QuestionStep } = useAppSelector((state) => state.askAi);
   const dispatch = useDispatch();
+  console.log(QuestionStep);
 
   return (
     <DaCard className="p-8 flex flex-col gap-6">
@@ -32,7 +40,7 @@ function QuestionInput() {
         </div>
         <div>
           <DaToggle
-            text="private"
+            text={isPrivate ? "Private" : "Public"}
             checked={isPrivate}
             onClick={() => {
               dispatch(setIsPrivate(!isPrivate));
@@ -40,8 +48,65 @@ function QuestionInput() {
           />
         </div>
       </div>
+      {QuestionStep === 0 ? (
+        <>
+          <InteractiveTextField />
+          <div className="flex justify-end">
 
-      <InteractiveTextField />
+            <div className="flex items-center gap-2">
+              <div>
+                <Button
+                  label="Reset Content"
+                  className="bg-primary text-white px-8"
+                  onClick={() => dispatch(incrementResetData())}
+                />
+              </div>
+              <div>
+                <Button
+                  label="Next"
+                  className="bg-primary text-white px-8"
+                  onClick={() => {
+                    dispatch(incrementQuestionStep());
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : QuestionStep === 1 ? (
+        <>
+          <div>step 2</div>
+          <div className="flex justify-end">
+            <div className="flex items-center gap-2">
+              <div>
+                <Button
+                  label="Back"
+                  className="bg-primary text-white px-8"
+                  onClick={() => dispatch(decrementQuestionStep())}
+                />
+              </div>
+              <div>
+                <Button
+                  label="Next"
+                  className="bg-primary text-white px-8"
+                  onClick={() => {
+                    dispatch(incrementQuestionStep());
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div>step 3</div>
+          <div className="flex justify-end">
+            <Button label="finish" className="bg-primary text-white px-8"  onClick={() => {
+                    dispatch(resetQuestionStep());
+                  }}/>
+          </div>
+        </>
+      )}
     </DaCard>
   );
 }

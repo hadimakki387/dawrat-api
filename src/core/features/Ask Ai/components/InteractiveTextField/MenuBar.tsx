@@ -1,13 +1,27 @@
-import React, { Fragment } from "react";
-import "./MenuBar.scss";
-import MenuItem from "./MenuItem";
-import Home from "@/components/SVGs/Home";
-import { faBold, faCode, faFileCode, faHeading, faHighlighter, faHome, faItalic, faListCheck, faListOl, faListUl, faParagraph, faQuoteRight, faRotateLeft, faRotateRight, faRulerHorizontal, faStrikethrough, faTextSlash } from "@fortawesome/free-solid-svg-icons";
 import H1 from "@/components/SVGs/H1";
 import H2 from "@/components/SVGs/H2";
+import {
+  faBold,
+  faCode,
+  faFileCode,
+  faHighlighter,
+  faItalic,
+  faListCheck,
+  faListOl,
+  faListUl,
+  faParagraph,
+  faQuoteRight,
+  faRotateLeft,
+  faRotateRight,
+  faRulerHorizontal,
+  faStrikethrough,
+  faTextSlash
+} from "@fortawesome/free-solid-svg-icons";
+import { Fragment } from "react";
+import "./MenuBar.scss";
+import MenuItem from "./MenuItem";
 
-
-const MenuBar = ({ editor }:any) => {
+const MenuBar = ({ editor }: any) => {
   const items = [
     {
       icon: faBold,
