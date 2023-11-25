@@ -1,23 +1,22 @@
-import Button from "@/components/global/Button";
-import React, { useState } from "react";
+import DaButton from "@/components/global/DaButton";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { subjects } from "@/services/constants";
+import CharacterCount from "@tiptap/extension-character-count";
+import Collaboration from "@tiptap/extension-collaboration";
+import Highlight from "@tiptap/extension-highlight";
+import Placeholder from "@tiptap/extension-placeholder";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { useDispatch } from "react-redux";
+import * as Y from "yjs";
 import {
   decrementQuestionStep,
   incrementQuestionStep,
   setSelectedSubject,
   setSubIndex,
 } from "../../redux/askAi-slice";
-import Placeholder from "@tiptap/extension-placeholder";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Highlight from "@tiptap/extension-highlight";
-import TaskList from "@tiptap/extension-task-list";
-import TaskItem from "@tiptap/extension-task-item";
-import CharacterCount from "@tiptap/extension-character-count";
-import Collaboration from "@tiptap/extension-collaboration";
-import * as Y from "yjs";
-import { useAppSelector } from "@/core/StoreWrapper";
-import { subjects } from "@/services/constants";
 
 const ydoc = new Y.Doc();
 
@@ -111,14 +110,14 @@ function Step2() {
       <div className="flex justify-end">
         <div className="flex items-center gap-2">
           <div>
-            <Button
+            <DaButton
               label="Back"
               className="bg-primary text-white px-8"
               onClick={() => dispatch(decrementQuestionStep())}
             />
           </div>
           <div>
-            <Button
+            <DaButton
               label="Next"
               className="bg-primary text-white px-8"
               onClick={() => {

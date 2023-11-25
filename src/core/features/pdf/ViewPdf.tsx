@@ -5,7 +5,7 @@ import { Document, Page, Thumbnail, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import "./index.css"
+import "./index.css";
 
 import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import type { PDFDocumentProxy } from "pdfjs-dist";
@@ -47,22 +47,17 @@ function ViewPdf() {
     setNumPages(nextNumPages);
   }
 
-  const url =
-    "http://docs.google.com/gview?url=https://utfs.io/f/16bba07c-a46e-46a1-af3a-19da34925b7c-9l9cjg.pdf&embedded=true";
+  const url = "https://utfs.io/f/ba969012-e8bd-491c-a0a7-f37ddb02de94-17n.pdf";
 
   return (
     <div>
       <div className="Example__container">
         <div className="Example__container__document" ref={setContainerRef}>
-          
           <Document
-            file={"/14.pdf"}
+            file={url}
             onLoadSuccess={onDocumentLoadSuccess}
-            options={{...options}}
-            
-            
+            options={{ ...options }}
           >
-            
             {Array.from(new Array(numPages), (el, index) => (
               <Page
                 key={`page_${index + 1}`}
@@ -71,7 +66,6 @@ function ViewPdf() {
                   containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
                 }
                 className={"rounded-lg"}
-                
               />
             ))}
           </Document>

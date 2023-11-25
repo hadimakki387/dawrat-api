@@ -1,3 +1,6 @@
+import { NavItems } from "@/services/NavItems";
+import { CircularProgress } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import {
   Menu,
@@ -7,11 +10,9 @@ import {
   SubMenu,
   menuClasses,
 } from "react-pro-sidebar";
+import DaButton from "../global/DaButton";
 import { SidebarHeader } from "./components/SidebarHeader";
 import { Typography } from "./components/Typography";
-import { NavItems } from "@/services/NavItems";
-import { usePathname, useRouter } from "next/navigation";
-import { CircularProgress } from "@mui/material";
 
 type Theme = "light" | "dark";
 
@@ -173,6 +174,30 @@ export const SideBar: React.FC = () => {
               rtl={rtl}
               style={{ marginBottom: "24px", marginTop: "16px" }}
             />
+            <div className="mx-6 flex flex-col items-center gap-4">
+              <div className="flex gap-8 items-center w-full justify-center">
+                <div className="text-center">
+                  <p className="text-darkText font-bold text-lg ">0</p>
+                  <p className="text-titleText text-sm font-semibold">
+                    Uploads
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-darkText font-bold text-lg ">0</p>
+                  <p className="text-titleText text-sm font-semibold">
+                    Upvotes
+                  </p>
+                </div>
+              </div>
+              <div className="w-full">
+                <DaButton
+                  label="Upload"
+                  className="bg-primary text-white font-semibold w-full py-1"
+                  fullRounded
+                  onClick={() => router.push("/upload")}
+                />
+              </div>
+            </div>
             <div style={{ flex: 1, marginBottom: "32px" }}>
               {Items?.map((item, index) => {
                 return (

@@ -1,11 +1,10 @@
-import React from "react";
-import InteractiveTextField from "../InteractiveTextField/InteractivTextField";
-import Button from "@/components/global/Button";
+import DaButton from "@/components/global/DaButton";
 import { useDispatch } from "react-redux";
 import {
   incrementQuestionStep,
   incrementResetData,
 } from "../../redux/askAi-slice";
+import InteractiveTextField from "../InteractiveTextField/InteractivTextField";
 
 function Step1() {
   const dispatch = useDispatch();
@@ -15,14 +14,14 @@ function Step1() {
       <div className="flex justify-end">
         <div className="flex items-center gap-2">
           <div>
-            <Button
+            <DaButton
               label="Reset Content"
               className="bg-primary text-white px-8"
               onClick={() => dispatch(incrementResetData())}
             />
           </div>
           <div>
-            <Button
+            <DaButton
               label="Next"
               className="bg-primary text-white px-8"
               onClick={() => {

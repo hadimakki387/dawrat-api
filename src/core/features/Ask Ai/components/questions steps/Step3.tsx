@@ -1,4 +1,4 @@
-import Button from "@/components/global/Button";
+import DaButton from "@/components/global/DaButton";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { subjects } from "@/services/constants";
@@ -10,14 +10,14 @@ import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Y from "yjs";
+import * as Yup from "yup";
 import {
   decrementQuestionStep,
   resetQuestionStep,
 } from "../../redux/askAi-slice";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 
 const ydoc = new Y.Doc();
 
@@ -100,7 +100,7 @@ function Step3() {
         />
       </div>
       <div className="flex justify-end">
-        <Button
+        <DaButton
           label="finish"
           className="bg-primary text-white px-8"
           onClick={() => {

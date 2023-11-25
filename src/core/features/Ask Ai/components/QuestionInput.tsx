@@ -14,7 +14,7 @@ import {
 } from "../redux/askAi-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import Button from "@/components/global/Button";
+import Button from "@/components/global/DaButton";
 import Step1 from "./questions steps/Step1";
 import Step2 from "./questions steps/Step2";
 import Step3 from "./questions steps/Step3";

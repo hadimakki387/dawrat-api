@@ -10,7 +10,7 @@ interface Props {
   id?:string
 }
 
-function Button({
+function DaButton({
   fullRounded = false,
   onClick,
   startIcon,
@@ -36,4 +36,4 @@ function Button({
   );
 }
 
-export default Button;
+export default DaButton;

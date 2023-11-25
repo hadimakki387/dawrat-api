@@ -55,7 +55,7 @@ export const SidebarHeader: React.FC<SidebarHeaderProps> = ({
   return (
     <StyledSidebarHeader {...rest}>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <div className="flex gap-4">
+        <div className="flex items gap-4">
           <div
             className="h-11 w-9 bg-yellow-800 flex justify-center items-center font-semibold text-2xl pb-1 text-white"
             style={{ borderRadius: "84% 16% 26% 69% / 31% 14% 85% 65%" }}
@@ -64,7 +64,10 @@ export const SidebarHeader: React.FC<SidebarHeaderProps> = ({
           </div>
           <div className="flex-col gap-4">
             <div className="text-subTitleText font-semibold">User Name</div>
-            <div className="text-primary flex items-center text-sm font-semibold gap-1 "><Institution fill="var(--primary)" width="12" height="12"/><p>UL</p></div>
+            <div className="text-primary flex items-center text-sm font-semibold gap-1 ">
+              <Institution fill="var(--primary)" width="12" height="12" />
+              <p>UL</p>
+            </div>
           </div>
         </div>
       </div>
