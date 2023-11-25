@@ -11,6 +11,7 @@ import { SidebarHeader } from "./components/SidebarHeader";
 import { Typography } from "./components/Typography";
 import { NavItems } from "@/services/NavItems";
 import { usePathname, useRouter } from "next/navigation";
+import { CircularProgress } from "@mui/material";
 
 type Theme = "light" | "dark";
 
@@ -147,133 +148,158 @@ export const SideBar: React.FC = () => {
       }}
       className="mt-[10vh]"
     >
-      <Sidebar
-        collapsed={collapsed}
-        toggled={toggled}
-        onBackdropClick={() => setToggled(false)}
-        onBreakPoint={setBroken}
-        rtl={rtl}
-        breakPoint="md"
-        backgroundColor={hexToRgba(
-          themes[theme].sidebar.backgroundColor,
-          hasImage ? 0.9 : 1
-        )}
-        rootStyles={{
-          color: themes[theme].sidebar.color,
-          width: "15vw",
-          borderRight: "2px solid #e0e0e0",
-        }}
-      >
-        <div
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+      {Items ? (
+        <Sidebar
+          collapsed={collapsed}
+          toggled={toggled}
+          onBackdropClick={() => setToggled(false)}
+          onBreakPoint={setBroken}
+          rtl={rtl}
+          breakPoint="md"
+          backgroundColor={hexToRgba(
+            themes[theme].sidebar.backgroundColor,
+            hasImage ? 0.9 : 1
+          )}
+          rootStyles={{
+            color: themes[theme].sidebar.color,
+            width: "15vw",
+            borderRight: "2px solid #e0e0e0",
+          }}
         >
-          <SidebarHeader
-            rtl={rtl}
-            style={{ marginBottom: "24px", marginTop: "16px" }}
-          />
-          <div style={{ flex: 1, marginBottom: "32px" }}>
-            {Items.map((item, index) => {
-              return (
-                <div key={index}>
-                  {item.title && (
-                    <div
-                      style={{
-                        padding: "0 24px",
-                        marginBottom: "8px",
-                        marginTop: "32px",
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
-                        fontWeight={600}
+          <div
+            style={{ display: "flex", flexDirection: "column", height: "100%" }}
+          >
+            <SidebarHeader
+              rtl={rtl}
+              style={{ marginBottom: "24px", marginTop: "16px" }}
+            />
+            <div style={{ flex: 1, marginBottom: "32px" }}>
+              {Items?.map((item, index) => {
+                return (
+                  <div key={index}>
+                    {item.title && (
+                      <div
                         style={{
-                          opacity: collapsed ? 0 : 0.7,
-                          letterSpacing: "0.5px",
+                          padding: "0 24px",
+                          marginBottom: "8px",
+                          marginTop: "32px",
                         }}
                       >
-                        {item.title}
-                      </Typography>
-                    </div>
-                  )}
-                  {item.links.map((link, index) => {
-                    if (!link.hasSubItems) {
-                      return (
-                        <Menu menuItemStyles={menuItemStyles} key={index}>
-                          <MenuItem
-                            icon={link.icon({
-                              width: "24",
-                              height: "24",
-                              fill:
-                                path === `${link.path}`
-                                  ? "var(--primary)"
-                                  : "var(--title-text)",
-                            })}
-                            onClick={() => router.push(`${link.path}`)}
-                            style={{
-                              fontWeight: 500,
-                              color:
-                                path === `${link.path}` ? "var(--primary)" : "",
-                              backgroundColor:
-                                path === `${link.path}`
-                                  ? themes[theme].menu.hover.backgroundColor
-                                  : "",
-                            }}
-                          >
-                            {link.label}
-                          </MenuItem>
-                        </Menu>
-                      );
-                    }
-                    if (link.hasSubItems) {
-                      return (
-                        <Menu menuItemStyles={menuItemStyles} key={index}>
-                          <SubMenu
-                            label={link.label}
-                            icon={link.icon({ width: "24", height: "24" })}
-                            //this is for some notifications
-                            // suffix={
-                            //   <Badge variant="danger" shape="circle">
-                            //     6
-                            //   </Badge>
-                            // }
-                          >
-                            {link.subItems.length > 0 ? (
-                              link.subItems.map((subItem, index) => (
-                                <MenuItem
-                                  key={index}
-                                  onClick={() =>
-                                    router.push(`${link.path}/${subItem.id}`)
-                                  }
-                                  style={{
-                                    fontWeight: 500,
-                                    color:
-                                      path === `${link.path}/${subItem.id}`
-                                        ? "var(--primary)"
-                                        : "",
-                                    backgroundColor:
-                                      path === `${link.path}/${subItem.id}`
-                                        ? themes[theme].menu.hover
-                                            .backgroundColor
-                                        : "",
-                                  }}
-                                >
-                                  {subItem.title}
-                                </MenuItem>
-                              ))
-                            ) : (
-                              <MenuItem>no Items</MenuItem>
-                            )}
-                          </SubMenu>
-                        </Menu>
-                      );
-                    }
-                  })}
-                </div>
-              );
-            })}
+                        <Typography
+                          variant="body2"
+                          fontWeight={600}
+                          style={{
+                            opacity: collapsed ? 0 : 0.7,
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
+                      </div>
+                    )}
+                    {item.links.map((link, index) => {
+                      if (!link.hasSubItems) {
+                        return (
+                          <Menu menuItemStyles={menuItemStyles} key={index}>
+                            <MenuItem
+                              icon={link.icon({
+                                width: "24",
+                                height: "24",
+                                fill:
+                                  path === `${link.path}`
+                                    ? "var(--primary)"
+                                    : "var(--title-text)",
+                              })}
+                              onClick={() => router.push(`${link.path}`)}
+                              style={{
+                                fontWeight: 500,
+                                color:
+                                  path === `${link.path}`
+                                    ? "var(--primary)"
+                                    : "",
+                                backgroundColor:
+                                  path === `${link.path}`
+                                    ? themes[theme].menu.hover.backgroundColor
+                                    : "",
+                              }}
+                            >
+                              {link.label}
+                            </MenuItem>
+                          </Menu>
+                        );
+                      }
+                      if (link.hasSubItems) {
+                        return (
+                          <Menu menuItemStyles={menuItemStyles} key={index}>
+                            <SubMenu
+                              label={link.label}
+                              icon={link.icon({ width: "24", height: "24" })}
+                              //this is for some notifications
+                              // suffix={
+                              //   <Badge variant="danger" shape="circle">
+                              //     6
+                              //   </Badge>
+                              // }
+                            >
+                              {link.subItems.length > 0 ? (
+                                link.subItems.map(
+                                  (subItem: any, index: any) => (
+                                    <MenuItem
+                                      key={index}
+                                      onClick={() =>
+                                        router.push(
+                                          `${link.path}/${subItem.id}`
+                                        )
+                                      }
+                                      style={{
+                                        fontWeight: 500,
+                                        color:
+                                          path === `${link.path}/${subItem.id}`
+                                            ? "var(--primary)"
+                                            : "",
+                                        backgroundColor:
+                                          path === `${link.path}/${subItem.id}`
+                                            ? themes[theme].menu.hover
+                                                .backgroundColor
+                                            : "",
+                                      }}
+                                    >
+                                      {subItem.title}
+                                    </MenuItem>
+                                  )
+                                )
+                              ) : (
+                                <MenuItem>no Items</MenuItem>
+                              )}
+                            </SubMenu>
+                          </Menu>
+                        );
+                      }
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
+        </Sidebar>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "90vh",
+            direction: rtl ? "rtl" : "ltr",
+            position: "fixed",
+            backgroundColor: "white",
+            width: "15vw",
+            borderRight: "2px solid #e0e0e0",
+          }}
+          className=" bg-white"
+        >
+          <CircularProgress />
         </div>
-      </Sidebar>
+      )}
     </div>
   );
 };

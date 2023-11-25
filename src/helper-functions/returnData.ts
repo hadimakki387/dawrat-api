@@ -7,6 +7,15 @@ export const returnData =(data:any)=>{
   }
 }
 
-export const returnUser = (user:any)=>{
-  
+export const returnArrayData = (data:any)=>{
+
+  const newData = data.map((item:any)=>{
+    const {_id, ...newData} = item
+    return {
+      id:_id,
+      ...newData._doc
+    }
+  })
+  return newData
+
 }

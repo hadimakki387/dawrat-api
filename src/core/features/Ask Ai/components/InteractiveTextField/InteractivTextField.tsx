@@ -8,7 +8,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import "./styles.scss";
-
+import Placeholder from "@tiptap/extension-placeholder";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useDispatch } from "react-redux";
 import * as Y from "yjs";
@@ -24,6 +24,9 @@ const InteractiveTextField = () => {
 
   const editor = useEditor({
     extensions: [
+      Placeholder.configure({
+        placeholder: "Ask a study question",
+      }),
       StarterKit.configure({
         history: false,
       }),
@@ -37,28 +40,26 @@ const InteractiveTextField = () => {
         document: ydoc,
       }),
     ],
-    content: content || contentSaved || "Ask ...",
+    content: content || contentSaved,
     onUpdate: ({ editor }) => {
       localStorage.setItem("contentSaved", editor.getHTML());
       dispatch(setContent(editor.getHTML()));
+
     },
   });
+  
 
   useEffect(() => {
     if (resetData > 0) {
-      editor?.chain().setContent("Ask ...").run();
+      editor?.chain().setContent("").run();
     }
   }, [resetData]);
-  console.log("this is the editor")
+  console.log("this is the editor");
 
   return (
     <div className="editor">
       {editor && <MenuBar editor={editor} />}
-      <EditorContent
-        className="editor__content"
-        editor={editor}
-        placeholder="Ask any question..."
-      />
+      <EditorContent className="editor__content" editor={editor} />
     </div>
   );
 };

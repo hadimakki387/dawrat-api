@@ -6,6 +6,9 @@ import Folder from "@/components/SVGs/Folder";
 import Home from "@/components/SVGs/Home";
 import Questions from "@/components/SVGs/Questions";
 import StudyList from "@/components/SVGs/StudyList";
+import { useGetUserQuery } from "@/core/rtk-query/auth";
+import { useGetManyCoursesQuery } from "@/core/rtk-query/courses";
+import Cookies from "js-cookie";
 
 interface items {
   label: string;
@@ -15,63 +18,68 @@ interface items {
 }
 
 // get User through the id in cookies
-const items = [
-  {
-    title: "",
-    links: [
-      {
-        label: "Home",
-        path: "/",
-        icon: Home,
-      },
-      {
-        label: "Ask AI",
-        path: "/ask-ai",
-        icon: AI,
-      },
-    ],
-  },
-  {
-    title: "My Library",
-    links: [
-      {
-        label: "Courses",
-        path: "/courses",
-        icon: Folder,
-        hasSubItems: true,
-        subItems: [{ title: "course 1", id: 1 },{ title: "course 2", id: 2 }],
-      },
-      {
-        label: "Books",
-        path: "/books",
-        icon: Book,
-        hasSubItems: true,
-        subItems: [],
-      },
-      {
-        label: "Studylists",
-        path: "/study-lists",
-        icon: StudyList,
-        hasSubItems: true,
-        subItems: [],
-      },
-      {
-        label: "Questions",
-        path: "/questions",
-        icon: Questions,
-      },
-      {
-        label: "Recent Documents",
-        path: "/recent-documents",
-        icon: Clock,
-        hasSubItems: true,
-        subItems: [],
-      },
-    ],
-  },
-];
 
 export const NavItems = () => {
-  //we can get the data from the database
-  return items;
+  const id = Cookies.get("dawratUserId");
+  const { data: user, isSuccess, isLoading, isError } = useGetUserQuery(id);
+  const { data: courses } = useGetManyCoursesQuery(user.reviewedCourses, {
+    skip: !user,
+  });
+
+  if (user && courses)
+    return [
+      {
+        title: "",
+        links: [
+          {
+            label: "Home",
+            path: "/",
+            icon: Home,
+          },
+          {
+            label: "Ask AI",
+            path: "/ask-ai",
+            icon: AI,
+          },
+        ],
+      },
+      {
+        title: "My Library",
+        links: [
+          {
+            label: "Courses",
+            path: "/courses",
+            icon: Folder,
+            hasSubItems: true,
+            subItems: courses,
+          },
+          {
+            label: "Books",
+            path: "/books",
+            icon: Book,
+            hasSubItems: true,
+            subItems: [],
+          },
+          {
+            label: "Studylists",
+            path: "/study-lists",
+            icon: StudyList,
+            hasSubItems: true,
+            subItems: [],
+          },
+          {
+            label: "Questions",
+            path: "/questions",
+            icon: Questions,
+          },
+          {
+            label: "Recent Documents",
+            path: "/recent-documents",
+            icon: Clock,
+            hasSubItems: true,
+            subItems: [],
+          },
+        ],
+      },
+    ];
 };

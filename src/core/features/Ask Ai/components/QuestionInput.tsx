@@ -15,9 +15,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/global/Button";
+import Step1 from "./questions steps/Step1";
+import Step2 from "./questions steps/Step2";
+import Step3 from "./questions steps/Step3";
 
 function QuestionInput() {
-  const { isPrivate, QuestionStep } = useAppSelector((state) => state.askAi);
+  const { isPrivate, QuestionStep,content } = useAppSelector((state) => state.askAi);
   const dispatch = useDispatch();
   console.log(QuestionStep);
 
@@ -28,7 +31,7 @@ function QuestionInput() {
           <ProfileAvatar className="h-10 w-8" />
           <p className="text-titleText font-semibold">Hadi Makki</p>
         </div>
-        <div className="text-green-600 bg-green-200 px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
+        {QuestionStep === 0 && <><div className="text-green-600 bg-green-200 px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
           <div className="w-4 h-4 rounded-full bg-green-600 flex justify-center items-center">
             <FontAwesomeIcon
               icon={faCheck}
@@ -46,67 +49,16 @@ function QuestionInput() {
               dispatch(setIsPrivate(!isPrivate));
             }}
           />
-        </div>
+        </div></>}
       </div>
       {QuestionStep === 0 ? (
-        <>
-          <InteractiveTextField />
-          <div className="flex justify-end">
-
-            <div className="flex items-center gap-2">
-              <div>
-                <Button
-                  label="Reset Content"
-                  className="bg-primary text-white px-8"
-                  onClick={() => dispatch(incrementResetData())}
-                />
-              </div>
-              <div>
-                <Button
-                  label="Next"
-                  className="bg-primary text-white px-8"
-                  onClick={() => {
-                    dispatch(incrementQuestionStep());
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </>
+        <Step1 />
       ) : QuestionStep === 1 ? (
-        <>
-          <div>step 2</div>
-          <div className="flex justify-end">
-            <div className="flex items-center gap-2">
-              <div>
-                <Button
-                  label="Back"
-                  className="bg-primary text-white px-8"
-                  onClick={() => dispatch(decrementQuestionStep())}
-                />
-              </div>
-              <div>
-                <Button
-                  label="Next"
-                  className="bg-primary text-white px-8"
-                  onClick={() => {
-                    dispatch(incrementQuestionStep());
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </>
+        <Step2 />
       ) : (
-        <>
-          <div>step 3</div>
-          <div className="flex justify-end">
-            <Button label="finish" className="bg-primary text-white px-8"  onClick={() => {
-                    dispatch(resetQuestionStep());
-                  }}/>
-          </div>
-        </>
+        <Step3 />
       )}
+      
     </DaCard>
   );
 }

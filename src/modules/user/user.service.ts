@@ -83,6 +83,7 @@ export const getUserById = async (id: string) => {
         firstName: foundUser.firstName,
         lastName: foundUser.lastName,
         email: foundUser.email,
+        reviewedCourses: foundUser.reviewedCourses,
         statusCode: httpStatus.OK,
       }),
       { status: httpStatus.OK }

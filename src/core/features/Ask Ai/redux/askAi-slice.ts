@@ -5,11 +5,17 @@ const initialState: {
   QuestionStep: number;
   content: string;
   resetData: number;
+  subject: number;
+  subIndex: number;
+  university: string;
 } = {
   isPrivate: true,
   QuestionStep: 0,
   content: "",
   resetData: 0,
+  subject: 0,
+  subIndex: 0,
+  university: "",
 };
 
 const AskAiSlice = createSlice({
@@ -34,6 +40,16 @@ const AskAiSlice = createSlice({
     incrementResetData(state) {
       state.resetData++;
     },
+    setSelectedSubject(state, action) {
+      state.subject = action.payload;
+    },
+    setSubIndex(state, action) {
+      state.subIndex = action.payload;
+    },
+    setUniversity(state, action) {
+      state.university = action.payload;
+    },
+
   },
 });
 
@@ -43,7 +59,10 @@ export const {
   decrementQuestionStep,
   resetQuestionStep,
   setContent,
-  incrementResetData
+  incrementResetData,
+  setSelectedSubject,
+  setSubIndex,
+  setUniversity,
 } = AskAiSlice.actions;
 
 export default AskAiSlice.reducer;

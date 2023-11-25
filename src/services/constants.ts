@@ -17,3 +17,49 @@ export enum ToastType {
   warning = "warning",
   default = "default",
 }
+
+export  const subjects = [
+  {
+    title: "science",
+    subItems: ["Biology", "Chemistry", "Physics", "Nursing"],
+  },
+  {
+    title: "Business",
+    subItems: [
+      "Marketing",
+      "General Management",
+      "Microeconomics",
+      "Accounting",
+      "Finances",
+    ],
+  },
+  {
+    title: "Math",
+    subItems: [
+      "Algebra",
+      "Tragonometry",
+      "Geometry",
+      "Calculas",
+      "statistics",
+      "Probabilities",
+    ],
+  },
+  {
+    title: "Technology",
+    subItems: ["Computer Science"],
+  },
+  {
+    title: "Social Science & Humanities",
+    subItems: [
+      "Psychology",
+      "Sociology",
+      "History",
+      "English Grammar",
+      "English Literature",
+    ],
+  },
+  {
+    title: "Other",
+    subItems: ["Other"],
+  },
+];

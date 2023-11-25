@@ -51,6 +51,10 @@ const userSchema = new Schema<any,any>({
     type: String,
     default: "user",
   },
+  reviewedCourses: {
+    type: Array,
+    default: [],
+  },
 });
 
 

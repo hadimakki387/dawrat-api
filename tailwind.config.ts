@@ -24,6 +24,8 @@ const config: Config = {
         primaryBg:"var(--primary-bg)",
         error: "var(--error)",
         success: "var(--success)",
+        myPink:"var(--pink)",
+        transparentPink:"var(--transparent-pink)",
 
       },
     },
