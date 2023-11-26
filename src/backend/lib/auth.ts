@@ -1,5 +1,6 @@
-import { config } from "@/config/config";
 import { jwtVerify } from "jose";
+import { config } from "../config/config";
+
 
 export const verifyToken = async (token: string) => {
   try {

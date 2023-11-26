@@ -1,6 +1,7 @@
-import { returnArrayData } from "@/helper-functions/returnData";
-import Course from "@/modules/Courses/courses.model";
-import MongoConnection from "@/utils/db";
+import { returnArrayData } from "@/backend/helper-functions/returnData";
+import Course from "@/backend/modules/Courses/courses.model";
+import MongoConnection from "@/backend/utils/db";
+
 
 
 export async function PATCH(req:Request) {

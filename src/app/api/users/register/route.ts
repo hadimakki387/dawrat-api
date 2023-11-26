@@ -1,5 +1,5 @@
-import { create } from "@/modules/user/user.service";
-import httpStatus from "http-status";
+
+import { create } from "@/backend/modules/user/user.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(res: NextRequest) {

@@ -41,4 +41,10 @@ body {
   --gray: #808080;
   --pink:#f064fc;
   --transparent-pink:#fde9ff;
+  --icon-bg:#acd3fd;
+}
+
+.MuiAutocomplete-listbox{
+  max-height: 15rem !important;
+  font-size: 14px !important;
 }

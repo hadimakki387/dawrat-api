@@ -55,6 +55,10 @@ const userSchema = new Schema<any,any>({
     type: Array,
     default: [],
   },
+  uploads:{
+    type:Number,
+    default:0
+  }
 });
 
 

@@ -1,4 +1,4 @@
-import { getUnversityById } from "@/modules/universities/universities.service";
+import { getUnversityById } from "@/backend/modules/universities/universities.service";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {

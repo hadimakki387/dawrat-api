@@ -1,5 +1,6 @@
-import Course from "@/modules/Courses/courses.model";
-import MongoConnection from "@/utils/db";
+import Course from "@/backend/modules/Courses/courses.model";
+import MongoConnection from "@/backend/utils/db";
+
 
 export async function GET(req: Request) {
   MongoConnection();

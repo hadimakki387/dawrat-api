@@ -1,9 +1,5 @@
-import University from "@/modules/universities/universities.model";
-import { getUniversities } from "@/modules/universities/universities.service";
-import { universities } from "@/services/constants";
-import MongoConnection from "@/utils/db";
-import { NextApiRequest } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { getUniversities } from "@/backend/modules/universities/universities.service";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   // MongoConnection();

@@ -1,5 +1,4 @@
-import { generateAuthTokens } from "@/token/token.service";
-import MongoConnection from "@/utils/db";
+
 import * as bcrypt from "bcryptjs";
 import httpStatus from "http-status";
 import { NextResponse } from "next/server";
@@ -9,6 +8,8 @@ import { UserInterface } from "./user.interfaces";
 import User from "./user.model";
 import { createUserValidation } from "./user.validation";
 import University from "../universities/universities.model";
+import MongoConnection from "@/backend/utils/db";
+import { generateAuthTokens } from "@/backend/token/token.service";
 
 MongoConnection();
 

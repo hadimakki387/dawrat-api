@@ -6,6 +6,7 @@ const universitySchema = new Schema<any, any>({
     type: String,
     required: true,
     trim: true,
+    unique: true,
   },
   abr:{
     type:String,

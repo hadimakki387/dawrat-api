@@ -1,22 +1,32 @@
-import { getIdFromUrl } from "@/helper-functions/getIdFromUrl";
-import { returnArrayData, returnData } from "@/helper-functions/returnData";
-import MongoConnection from "@/utils/db";
+
 import httpStatus from "http-status";
 import { NextRequest, NextResponse } from "next/server";
 import University from "./universities.model";
+import MongoConnection from "@/backend/utils/db";
+import { returnArrayData, returnData } from "@/backend/helper-functions/returnData";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 export const getUniversities = async (req: NextRequest) => {
   MongoConnection();
   const params = new URL(req.url as string);
   const title = params.searchParams.get("title");
+  const limit = params.searchParams.get("limit");
+
   if (title) {
     const regex = new RegExp(title, "i");
     const result = await University.find({ title: regex });
-    return new NextResponse(
-      JSON.stringify(returnArrayData(result.slice(0, 5)))
-    );
+    if (limit)
+      return new NextResponse(
+        JSON.stringify(returnArrayData(result.slice(0, +limit)))
+      );
+    return new NextResponse(JSON.stringify(returnArrayData(result)));
   }
   const result = await University.find();
+
+  if(limit)
+  return new NextResponse(
+    JSON.stringify(returnArrayData(result.slice(0, +limit)))
+  );
 
   return new NextResponse(JSON.stringify(returnArrayData(result)));
 };

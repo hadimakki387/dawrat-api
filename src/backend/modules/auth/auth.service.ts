@@ -1,5 +1,4 @@
-import { returnData } from "@/helper-functions/returnData";
-import { generateToken } from "@/token/token.service";
+
 import httpStatus from "http-status";
 import moment from "moment";
 import { NextResponse } from "next/server";
@@ -7,6 +6,8 @@ import { verifyPass } from "../user/user.helperFunctions";
 import { getUserByEmail } from "../user/user.service";
 import { loginUserValidate } from "./auth.validate";
 import Joi from "joi";
+import { generateToken } from "@/backend/token/token.service";
+import { returnData } from "@/backend/helper-functions/returnData";
 
 export const loginUserWithEmailAndPassword = async (
   email: string,

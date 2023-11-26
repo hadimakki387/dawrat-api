@@ -1,4 +1,3 @@
-import { UserInterface } from "@/modules/user/user.interfaces";
 import { UserI } from "@/services/types";
 import { createSlice } from "@reduxjs/toolkit";
 
