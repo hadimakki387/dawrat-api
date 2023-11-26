@@ -7,6 +7,10 @@ const universitySchema = new Schema<any, any>({
     required: true,
     trim: true,
   },
+  abr:{
+    type:String,
+    required:true
+  }
 });
 
 const University = models.University || model("University", universitySchema);

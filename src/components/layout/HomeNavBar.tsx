@@ -3,6 +3,8 @@ import SearchInput from "../global/SearchInput";
 import { usePathname } from "next/navigation";
 import DaSearch from "../global/DaSearch/DaSearch";
 import ProfileAvatar from "../global/ProfileAvatar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 function HomeNavBar() {
   const path = usePathname()
@@ -18,8 +20,11 @@ function HomeNavBar() {
           <p className="text-primary ">AI Questions</p>
         </div>
       </div>
-      
+      <div className="flex items-center gap-4">
       <ProfileAvatar/>
+      <FontAwesomeIcon icon={faAngleDown}/>
+      </div>
+      
     </nav>
   );
 }

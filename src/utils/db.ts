@@ -12,6 +12,8 @@ async function MongoConnection() {
     console.log(`Connected successfully!`);
     console.log(URI);
   } catch (error) {
+
+
     console.log(`MongoDB connection error: ${error}`);
   }
 }

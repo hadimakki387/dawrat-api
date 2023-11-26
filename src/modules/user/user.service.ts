@@ -8,7 +8,7 @@ import { isEmailTaken } from "./user.helperFunctions";
 import { UserInterface } from "./user.interfaces";
 import User from "./user.model";
 import { createUserValidation } from "./user.validation";
-
+import University from "../universities/universities.model";
 
 MongoConnection();
 
@@ -66,8 +66,8 @@ export const getUserByEmail = async (email: string) => {
 
 export const getUserById = async (id: string) => {
   const foundUser = await User.findById(id);
-  
-  if(!foundUser){
+
+  if (!foundUser) {
     return new Response(
       JSON.stringify({
         message: "User not found",
@@ -77,7 +77,9 @@ export const getUserById = async (id: string) => {
     );
   }
 
-  if(foundUser){
+  if (foundUser) {
+    const uni = await University.findById(foundUser.university);
+    console.log(uni);
     return new Response(
       JSON.stringify({
         firstName: foundUser.firstName,
@@ -85,9 +87,10 @@ export const getUserById = async (id: string) => {
         email: foundUser.email,
         reviewedCourses: foundUser.reviewedCourses,
         statusCode: httpStatus.OK,
+        university: uni,
       }),
       { status: httpStatus.OK }
     );
   }
   return foundUser;
-}
+};

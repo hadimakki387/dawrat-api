@@ -13,6 +13,7 @@ import {
 import DaButton from "../global/DaButton";
 import { SidebarHeader } from "./components/SidebarHeader";
 import { Typography } from "./components/Typography";
+import { useAppSelector } from "@/core/StoreWrapper";
 
 type Theme = "light" | "dark";
 
@@ -65,6 +66,7 @@ const hexToRgba = (hex: string, alpha: number) => {
 export const SideBar: React.FC = () => {
   const Items = NavItems();
   const path = usePathname();
+  const {user} = useAppSelector(state => state.global)
 
   const [collapsed, setCollapsed] = React.useState(false);
   const [toggled, setToggled] = React.useState(false);
