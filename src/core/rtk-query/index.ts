@@ -8,7 +8,7 @@ export const mainApi = createApi({
     baseQuery: fetchBaseQuery({
       baseUrl: process.env.NEXT_PUBLIC_API_URL,
       headers: {
-        Authorization: `${Cookies.get("access")}`,
+        Authorization: `${Cookies.get("dawratToken")}`,
       },
     }),
     endpoints: () => ({}),

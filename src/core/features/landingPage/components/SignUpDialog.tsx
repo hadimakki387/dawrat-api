@@ -9,11 +9,13 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { setIsAuth, setSignUp } from "../redux/homePage-slice";
+import { useRouter } from "next/navigation";
 
 function SignUpDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);
   const dispatch = useDispatch();
   const [register,{data}] = useRegisterMutation()
+  const router = useRouter()
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -41,6 +43,7 @@ function SignUpDialog() {
           });
           dispatch(setSignUp(false))
           formik.resetForm()
+          window.location.reload()
         })
         .catch((err) => {
           updateToast(id, `${err.data.message}`, {

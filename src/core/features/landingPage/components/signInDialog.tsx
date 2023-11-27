@@ -59,7 +59,7 @@ function SignInDialog() {
 
   useEffect(()=>{
     if(isSuccess){
-      router.push("/")
+      window.location.reload()
     }
   },[isSuccess])
 

@@ -4,7 +4,7 @@ const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({
       query: (id) => ({
-        url: `users/${id}`,
+        url: `users/auth/${id}`,
         method: "GET",
       }),
     }),
