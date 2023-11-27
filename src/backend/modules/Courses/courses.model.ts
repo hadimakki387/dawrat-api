@@ -27,7 +27,15 @@ const courseSchema = new Schema<any, any>({
   },
   documents:{
     type:Array
-  }
+  },
+  createdAu:{
+    type:Date,
+    default:Date.now()
+  },
+  updatedAt:{
+    type:Date,
+    default:Date.now()
+  } 
 });
 
 const Course = models.Course || model("Course", courseSchema);

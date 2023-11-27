@@ -6,10 +6,14 @@ const initialState: {
   searchUploadUniversity: string;
   selectedUniversity: string;
   uploadedDocs: any[];
+  searchCourse: string;
+  selectedCourse: any[];
 } = {
   searchUploadUniversity: "",
   selectedUniversity: "",
   uploadedDocs: [],
+  searchCourse: "",
+  selectedCourse: [],
 };
 
 const uploadSlice = createSlice({
@@ -25,6 +29,12 @@ const uploadSlice = createSlice({
     setUploadedDocs(state, action) {
       state.uploadedDocs = action.payload;
     },
+    setSearchCourse(state, action) {
+      state.searchCourse = action.payload;
+    },
+    setSelectedCourse(state, action) {
+      state.selectedCourse = action.payload;
+    },
   },
 });
 
@@ -32,6 +42,8 @@ export const {
   setSearchUploadUniversity,
   setSelectedUniversity,
   setUploadedDocs,
+  setSearchCourse,
+  setSelectedCourse
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

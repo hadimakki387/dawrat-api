@@ -1,6 +1,8 @@
 import Course from "@/backend/modules/Courses/courses.model";
+import { createDocument } from "@/backend/modules/Documents/document.service";
+import { createDocumentValidation } from "@/backend/modules/Documents/document.validation";
 import MongoConnection from "@/backend/utils/db";
-
+import { NextRequest } from "next/server";
 
 export async function GET(req: Request) {
   MongoConnection();
@@ -11,4 +13,8 @@ export async function GET(req: Request) {
     statusText: "hello",
     status: 200,
   });
+}
+
+export async function POST(req: NextRequest) {
+  return await createDocument(req);
 }

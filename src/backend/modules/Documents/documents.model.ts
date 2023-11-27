@@ -20,6 +20,10 @@ const documentSchema = new Schema<any, any>({
   currentYearOfStudying: {
     type: String,
   },
+  course:{
+    type:String,
+    required:true
+  },
   OwnerId: {
     type: String,
     required: true,
@@ -30,6 +34,14 @@ const documentSchema = new Schema<any, any>({
   url:{
     type:String
   },
+  createdAu:{
+    type:Date,
+    default:Date.now()
+  },
+  modifiedAt:{
+    type:Date,
+    default:Date.now()
+  }
   
 });
 
