@@ -1,4 +1,5 @@
 import Course from "@/backend/modules/Courses/courses.model";
+import { createCourse } from "@/backend/modules/Courses/courses.service";
 import { createDocument } from "@/backend/modules/Documents/document.service";
 import { createDocumentValidation } from "@/backend/modules/Documents/document.validation";
 import MongoConnection from "@/backend/utils/db";
@@ -16,5 +17,5 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: NextRequest) {
-  return await createDocument(req);
+  return await createCourse(req);
 }

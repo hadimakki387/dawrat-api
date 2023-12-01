@@ -3,8 +3,7 @@ export interface courseInterface {
   description: string;
   domain: string;
   university: string;
-  currentYearOfStudying: string;
-  OwnerId: string;
-  documents: string[];
-  url: string;
+  ownerId: string;
+  createdAt: string;
+  updatedAt: string;
 }

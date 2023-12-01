@@ -6,5 +6,7 @@ export async function GET(req: Request) {
   const id = getIdFromUrl(req.url);
   const courses = await Course.find({ university: id });
 
-  return new Response(JSON.stringify(returnArrayData(courses)), { status: 200 });
+  return new Response(JSON.stringify(returnArrayData(courses)), {
+    status: 200,
+  });
 }

@@ -17,10 +17,21 @@ const ExtendedApi = mainApi.injectEndpoints({
     }),
     getCoursesByUniversityId: builder.query({
       query: (id: string) => ({
-        url: `courses/university/${id}`,
+        url: `university/courses/${id}`,
+        method: "GET",
+      }),
+    }),
+    getCoursesByDomainId: builder.query({
+      query: (id: string) => ({
+        url: `domain/courses/${id}`,
         method: "GET",
       }),
     }),
   }),
 });
-export const { useGetAllCoursesQuery,useGetManyCoursesQuery,useGetCoursesByUniversityIdQuery } = ExtendedApi;
+export const {
+  useGetAllCoursesQuery,
+  useGetManyCoursesQuery,
+  useGetCoursesByUniversityIdQuery,
+  useGetCoursesByDomainIdQuery,
+} = ExtendedApi;

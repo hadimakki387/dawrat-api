@@ -7,6 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createDomainValidation } from "./domain.validate";
 import httpStatus from "http-status";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
+import MongoConnection from "@/backend/utils/db";
+
+MongoConnection()
 
 export const GetDomainById = async (id: string) => {
   return new NextResponse(

@@ -18,17 +18,11 @@ const courseSchema = new Schema<any, any>({
   university: {
     type: String,
   },
-  currentYearOfStudying: {
-    type: String,
-  },
-  OwnerId: {
+  ownerId: {
     type: String,
     required: true,
   },
-  documents:{
-    type:Array
-  },
-  createdAu:{
+  createdAt:{
     type:Date,
     default:Date.now()
   },

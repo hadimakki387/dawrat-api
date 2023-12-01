@@ -4,8 +4,10 @@ import { useAppSelector } from "@/core/StoreWrapper";
 import React, { useEffect, useState } from "react";
 import {
   setSearchCourse,
+  setSearchDomain,
   setSearchUploadUniversity,
   setSelectedCourse,
+  setSelectedDomain,
   setSelectedUniversity,
   setUploadedDocs,
 } from "../redux/upload-slice";
@@ -21,9 +23,16 @@ import { generateToast, updateToast } from "@/services/global-function";
 import { ToastType } from "@/services/constants";
 import { useDispatch } from "react-redux";
 import { set } from "mongoose";
-import { useGetCoursesByUniversityIdQuery } from "@/core/rtk-query/courses";
+import {
+  useGetCoursesByDomainIdQuery,
+  useGetCoursesByUniversityIdQuery,
+} from "@/core/rtk-query/courses";
 import Folder from "@/components/SVGs/Folder";
 import { CircularProgress } from "@mui/material";
+import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
+import TextFieldComponent from "@/components/global/TextFieldComponent";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function Details() {
   const dispatch = useDispatch();
@@ -32,13 +41,18 @@ function Details() {
     selectedUniversity,
     uploadedDocs,
     selectedCourse,
+    selectedDomain,
   } = useAppSelector((state) => state.upload);
   const { data } = useGetUniversitiesQuery({
     title: searchUploadUniversity,
     limit: 5,
   });
   const { data: courses, isLoading: loadingCourse } =
-    useGetCoursesByUniversityIdQuery(selectedUniversity, {
+    useGetCoursesByDomainIdQuery(selectedDomain, {
+      skip: !selectedDomain,
+    });
+  const { data: domains, isLoading: loadingDomains } =
+    useGetDomainsUsingUniversityIdQuery(selectedUniversity, {
       skip: !selectedUniversity,
     });
 
@@ -56,6 +70,22 @@ function Details() {
 
   console.log("this is selected Course");
   console.log(selectedCourse);
+
+  const formik = useFormik({
+    validationSchema: Yup.object({
+      description: Yup.string().required("Description is required"),
+      university: Yup.string().required("University is required"),
+    }),
+    initialValues: {
+      description: "",
+      university: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
@@ -132,6 +162,20 @@ function Details() {
         : null}
       <div className="w-full h-[1px] bg-neutral-400"></div>
       <div className="w-full space-y-4">
+        <div className="mb-8 flex flex-col gap-4">
+          <p >Enter University Title</p>
+          <div>
+            <TextFieldComponent
+              placeholder="Title"
+              name="description"
+              formik={formik}
+            />
+          </div>
+          <p>Enter University Description</p>
+          <div>
+            <TextFieldComponent placeholder="Description" />
+          </div>
+        </div>
         <div className="flex items-center w-full">
           <div className="w-[15vw] flex items-center gap-4">
             <Institution
@@ -149,16 +193,53 @@ function Details() {
               setSearch={setSearchUploadUniversity}
               setSelectedItem={setSelectedUniversity}
               style={{ borderRadius: "0.7rem" }}
-              className="w-1/2 p-1"
+              className="mr-4 p-1"
+              name="university"
+              formik={formik}
             />
           </div>
           <div
-            className="text-sm text-primary w-32 hover:cursor-pointer"
+            className="text-sm text-primary w-32 hover:cursor-pointer text-right"
             onClick={() => console.log("clicked")}
           >
             Add University
           </div>
         </div>
+
+        {loadingDomains ? (
+          <div className="w-full flex justify-center items-center m-auto">
+            <CircularProgress size={30} />
+          </div>
+        ) : (
+          domains && (
+            <div className="flex items-center w-full">
+              <div className="w-[15vw] flex items-center gap-4">
+                <Folder
+                  fill="var(--sub-title-text)"
+                  width="20px"
+                  height="20px"
+                />
+                <p>Domain</p>
+              </div>
+              <div className="w-full">
+                <AutoCompleteSearch
+                  data={domains}
+                  placeholder="Search for course"
+                  setSearch={setSearchDomain}
+                  setSelectedItem={setSelectedDomain}
+                  style={{ borderRadius: "0.7rem" }}
+                  className="mr-4 p-1"
+                />
+              </div>
+              <div
+                className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+                onClick={() => console.log("clicked")}
+              >
+                Add Domain
+              </div>
+            </div>
+          )
+        )}
 
         {loadingCourse ? (
           <div className="w-full flex justify-center items-center m-auto">
@@ -182,11 +263,11 @@ function Details() {
                   setSearch={setSearchCourse}
                   setSelectedItem={setSelectedCourse}
                   style={{ borderRadius: "0.7rem" }}
-                  className="w-1/2 p-1"
+                  className="mr-4 p-1"
                 />
               </div>
               <div
-                className="text-sm text-primary w-32 hover:cursor-pointer"
+                className="text-sm text-primary w-32 hover:cursor-pointer text-right"
                 onClick={() => console.log("clicked")}
               >
                 Add Course

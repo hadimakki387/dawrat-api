@@ -10,8 +10,10 @@ import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import { createUniversityValidation } from "./universities.validate";
 import { checkUniversityTitle } from "./document.helperFunction";
 
+MongoConnection();
+
 export const getUniversities = async (req: NextRequest) => {
-  MongoConnection();
+ 
   const params = new URL(req.url as string);
   const title = params.searchParams.get("title");
   const limit = params.searchParams.get("limit");
@@ -36,7 +38,7 @@ export const getUniversities = async (req: NextRequest) => {
 };
 
 export const getUnversityById = async (req: NextRequest) => {
-  MongoConnection();
+
   const id = getIdFromUrl(req.url);
   const result = await University.findById(id);
   if (!result)
@@ -49,7 +51,7 @@ export const getUnversityById = async (req: NextRequest) => {
 };
 
 export const createUniversity = async (req: NextRequest) => {
-  MongoConnection();
+
   const data = await req.json();
   const validateData = createUniversityValidation.body.validate(data);
   const checkTitle = await checkUniversityTitle(data.title);
