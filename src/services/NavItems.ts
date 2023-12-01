@@ -8,6 +8,7 @@ import Questions from "@/components/SVGs/Questions";
 import StudyList from "@/components/SVGs/StudyList";
 import { useGetUserQuery } from "@/core/rtk-query/auth";
 import { useGetManyCoursesQuery } from "@/core/rtk-query/courses";
+import { useGetManyDocumentsByIdQuery } from "@/core/rtk-query/documents";
 import Cookies from "js-cookie";
 
 interface items {
@@ -26,7 +27,11 @@ export const NavItems = () => {
     skip: !user,
   });
 
-  if (user && courses)
+  const {data:reviewedDocuments} = useGetManyDocumentsByIdQuery(user.reviewedDocuments, {
+    skip: !user,
+  });
+
+  if (user && courses && reviewedDocuments)
     return [
       {
         title: "",
@@ -77,7 +82,7 @@ export const NavItems = () => {
             path: "/recent-documents",
             icon: Clock,
             hasSubItems: true,
-            subItems: [],
+            subItems: reviewedDocuments,
           },
         ],
       },

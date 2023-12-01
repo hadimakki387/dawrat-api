@@ -67,6 +67,10 @@ const userSchema = new Schema<any,any>({
   updatedAt:{
     type:Date,
     default:Date.now()
+  },
+  reviewedDocuments: {
+    type: Array,
+    default: [],
   }
 });
 

@@ -9,9 +9,15 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "POST",
         body,
       }),
-     
+    }),
+    getManyDocumentsById: builder.query({
+      query: (body) => ({
+        url: `/documents/get-many`,
+        method: "PATCH",
+        body,
+      }),
     }),
   }),
 });
 
-export const { useCreateDocumentMutation } = ExtendedApi;
+export const { useCreateDocumentMutation, useGetManyDocumentsByIdQuery } = ExtendedApi;

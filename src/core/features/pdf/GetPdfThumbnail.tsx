@@ -74,7 +74,7 @@ function GetPdfThumbnail({
               width={width}
               height={height}
               className={className}
-              renderMode="svg"
+              renderMode="canvas"
               
               
             />

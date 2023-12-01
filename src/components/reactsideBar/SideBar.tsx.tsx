@@ -66,7 +66,7 @@ const hexToRgba = (hex: string, alpha: number) => {
 export const SideBar: React.FC = () => {
   const Items = NavItems();
   const path = usePathname();
-  const {user} = useAppSelector(state => state.global)
+  const { user } = useAppSelector((state) => state.global);
 
   const [collapsed, setCollapsed] = React.useState(false);
   const [toggled, setToggled] = React.useState(false);
@@ -179,7 +179,9 @@ export const SideBar: React.FC = () => {
             <div className="mx-6 flex flex-col items-center gap-4">
               <div className="flex gap-8 items-center w-full justify-center">
                 <div className="text-center">
-                  <p className="text-darkText font-bold text-lg ">{user?.uploads}</p>
+                  <p className="text-darkText font-bold text-lg ">
+                    {user?.uploads}
+                  </p>
                   <p className="text-titleText text-sm font-semibold">
                     Uploads
                   </p>
@@ -257,7 +259,7 @@ export const SideBar: React.FC = () => {
                       }
                       if (link.hasSubItems) {
                         return (
-                          <Menu menuItemStyles={menuItemStyles} key={index}>
+                          <Menu menuItemStyles={menuItemStyles}  key={index} >
                             <SubMenu
                               label={link.label}
                               icon={link.icon({ width: "24", height: "24" })}
@@ -267,6 +269,7 @@ export const SideBar: React.FC = () => {
                               //     6
                               //   </Badge>
                               // }
+                              
                             >
                               {link.subItems.length > 0 ? (
                                 link.subItems.map(

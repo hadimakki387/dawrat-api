@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { UserInterface } from "./user.interfaces";
 
-const createUserBody: Record<keyof Omit<UserInterface,"id">, any> = {
+const createUserBody: Record<keyof Omit<UserInterface,"id" | "reviewedDocuments"> , any> = {
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
     password:Joi.string().required(),

@@ -68,6 +68,8 @@ export const getUserByEmail = async (email: string) => {
 export const getUserById = async (id: string) => {
   const foundUser = await User.findById(id);
 
+  console.log(foundUser)
+
   if (!foundUser) {
     return new Response(
       JSON.stringify({
@@ -91,6 +93,7 @@ export const getUserById = async (id: string) => {
         university: uni,
         id: foundUser._id,
         uploads: foundUser.uploads,
+        reviewedDocuments: foundUser.reviewedDocuments,
       }),
       { status: httpStatus.OK }
     );

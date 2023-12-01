@@ -9,6 +9,7 @@ export interface UserInterface {
   domain: string;
   currentYearOfStudying: string;
   phone?: string;
+  reviewedDocuments?: string[];
 }
 
 export type createUserInterface = Pick<
