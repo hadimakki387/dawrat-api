@@ -10,6 +10,7 @@ const initialState: {
   selectedCourse: string;
   searchDomain:string;
   selectedDomain:string;
+  handleSubmit:number;
 } = {
   searchUploadUniversity: "",
   selectedUniversity: "",
@@ -17,7 +18,8 @@ const initialState: {
   searchCourse: "",
   selectedCourse: "",
   searchDomain:"",
-  selectedDomain:""
+  selectedDomain:"",
+  handleSubmit:0
 };
 
 const uploadSlice = createSlice({
@@ -45,6 +47,9 @@ const uploadSlice = createSlice({
     setSelectedDomain(state, action) {
       state.selectedDomain = action.payload;
     },
+    setHandleSubmit(state, action) {
+      state.handleSubmit = action.payload;
+    },
   },
 });
 
@@ -56,6 +61,7 @@ export const {
   setSelectedCourse,
   setSearchDomain,
   setSelectedDomain,
+  setHandleSubmit,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

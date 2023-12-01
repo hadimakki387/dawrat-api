@@ -24,7 +24,7 @@ const documentSchema = new Schema<any, any>({
     type:String,
     required:true
   },
-  OwnerId: {
+  ownerId: {
     type: String,
     required: true,
   },

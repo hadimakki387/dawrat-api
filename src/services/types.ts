@@ -1,3 +1,6 @@
+import { IconProps } from "@mui/material";
+import { ReactNode } from "react";
+
 export interface DropdownValue {
     value: any;
     label: string;
@@ -20,4 +23,13 @@ export interface DropdownValue {
     domain: string;
     currentYearOfStudying: string;
     phone?: string;
+    uploads?: number;
+  }
+
+  export interface MenuItemType {
+    name: string;
+    icon?: (props?: IconProps) => ReactNode;
+    suffix?: ReactNode;
+    onClick: () => void;
+    className?:string;
   }

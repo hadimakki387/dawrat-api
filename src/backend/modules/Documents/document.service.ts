@@ -1,9 +1,11 @@
 import MongoConnection from "@/backend/utils/db";
 import { NextRequest, NextResponse } from "next/server";
-import Document from "./documents.model";
+import Document from "./document.model";
 import { returnData } from "@/backend/helper-functions/returnData";
 import { createDocumentValidation } from "./document.validation";
 import { checkDocumentTitle } from "./document.helperFunction";
+import User from "../user/user.model";
+import { updateUserUploads } from "../user/user.helperFunctions";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -11,13 +13,28 @@ export const createDocument = async (req: NextRequest) => {
   const verifyData = createDocumentValidation.body.validate(userBody);
   const checkTitle = await checkDocumentTitle(userBody.title);
 
-  if(verifyData.error){
-   
-    return new NextResponse(JSON.stringify(verifyData.error.message), { status: 400 });
+  if (verifyData.error) {
+    return new NextResponse(
+      JSON.stringify({ message: verifyData.error.message }),
+      { status: 400 }
+    );
   }
-  console.log(!verifyData.error)
-  console.log(checkTitle)
-//   const doc = await Document.create(document);
 
-  return new NextResponse(JSON.stringify("hello"), { status: 200 });
+  if (checkTitle) {
+    return new NextResponse(
+      JSON.stringify({ message: "Title already Taken" }),
+      { status: 400 }
+    );
+  }
+
+  const doc = await Document.create(userBody);
+
+  const updatedUser = await updateUserUploads(userBody.ownerId);
+
+
+
+  return new NextResponse(
+    JSON.stringify({ doc: doc, updatedUser: updatedUser }),
+    { status: 200 }
+  );
 };

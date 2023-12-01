@@ -4,6 +4,7 @@ import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import { UploadDropzone } from "@uploadthing/react";
 import {
+  setHandleSubmit,
   setSearchUploadUniversity,
   setSelectedUniversity,
   setUploadedDocs,
@@ -16,18 +17,19 @@ import { generateToast, updateToast } from "@/services/global-function";
 import { ToastType } from "@/services/constants";
 
 function UploadPdf() {
-  const { searchUploadUniversity, selectedUniversity, uploadedDocs } = useAppSelector(
-    (state) => state.upload
-  );
+  const { searchUploadUniversity, selectedUniversity, uploadedDocs } =
+    useAppSelector((state) => state.upload);
   const { data } = useGetUniversitiesQuery({
     title: searchUploadUniversity,
     limit: 5,
   });
   const dispatch = useDispatch();
-  
 
   return (
-    <DaCard className="flex flex-col justify-center w-3/4 m-auto gap-8 p-8" loading = {!data}>
+    <DaCard
+      className="flex flex-col justify-center w-3/4 m-auto gap-8 p-8"
+      loading={!data}
+    >
       <div className="w-full m-auto">
         <h1 className="text-3xl font-semibold text-darkText mb-4">
           Share your <span className="text-primary font-bold">PDFs</span> and
@@ -62,12 +64,16 @@ function UploadPdf() {
           }}
         />
       </div>
-      <div className={`${uploadedDocs.length>0?"":"hidden"}`}>
+      <div className={`${uploadedDocs.length > 0 ? "" : "hidden"}`}>
         <Details />
       </div>
-      
+
       <div className="flex justify-end items-center">
-        <DaButton label="Submit" className="bg-primary text-white" />
+        <DaButton
+          label="Submit"
+          className="bg-primary text-white"
+          onClick={() => dispatch(setHandleSubmit(Math.random()))}
+        />
       </div>
     </DaCard>
   );

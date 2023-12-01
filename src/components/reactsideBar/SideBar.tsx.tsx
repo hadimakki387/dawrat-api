@@ -179,7 +179,7 @@ export const SideBar: React.FC = () => {
             <div className="mx-6 flex flex-col items-center gap-4">
               <div className="flex gap-8 items-center w-full justify-center">
                 <div className="text-center">
-                  <p className="text-darkText font-bold text-lg ">0</p>
+                  <p className="text-darkText font-bold text-lg ">{user?.uploads}</p>
                   <p className="text-titleText text-sm font-semibold">
                     Uploads
                   </p>

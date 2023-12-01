@@ -6,7 +6,7 @@ export interface DocumentInterface {
   university: string;
   currentYearOfStudying: string;
   course: string;
-  OwnerId: string;
+  ownerId: string;
   url: string;
   createdAt: string;
   modifiedAt: string;

@@ -11,7 +11,7 @@ interface Props {
   placeholder: string;
   label?: string;
   setSearch?: (value: string) => any;
-  setSelectedItem: (value: string) => any;
+  setSelectedItem?: (value: string) => any;
   style?: React.CSSProperties;
   className?: string;
   name?: string;
@@ -31,14 +31,6 @@ export default function AutoCompleteSearch({
 }: Props) {
   const dispatch = useDispatch();
 
-  if(name){
-    console.log("these are the values")
-    console.log(formik?.errors[name]);
-    console.log(formik?.touched[name]);
-  }
-
-
-
   return (
     <FormControl id="free-solo-2-demo">
       {label && <FormLabel>{label}</FormLabel>}
@@ -47,7 +39,9 @@ export default function AutoCompleteSearch({
         placeholder={placeholder}
         type="search"
         onChange={(event, value) => {
-          formik?.setFieldValue(name, value);
+          const selectedItem = data.find((item) => item.title === value);
+          if (setSelectedItem) dispatch(setSelectedItem(selectedItem.id));
+          formik?.setFieldValue(name, selectedItem.id);
         }}
         freeSolo
         disableClearable
@@ -56,11 +50,10 @@ export default function AutoCompleteSearch({
           if (setSearch) dispatch(setSearch(value));
           formik?.setFieldValue(name, value);
         }}
-        
         style={style}
         className={`${className}`}
       />
-      {name && formik?.errors[name]  && (
+      {name && formik?.errors[name] && (
         <div className="text-sm text-error">{formik?.errors[name]}</div>
       )}
     </FormControl>

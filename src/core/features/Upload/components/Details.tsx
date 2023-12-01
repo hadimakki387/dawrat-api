@@ -33,27 +33,32 @@ import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
+import { setUser } from "../../global/redux/global-slice";
 
 function Details() {
   const dispatch = useDispatch();
+
   const {
     searchUploadUniversity,
     selectedUniversity,
     uploadedDocs,
     selectedCourse,
     selectedDomain,
+    handleSubmit,
   } = useAppSelector((state) => state.upload);
+  const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
     title: searchUploadUniversity,
     limit: 5,
   });
-  const { data: courses, isLoading: loadingCourse } =
-    useGetCoursesByDomainIdQuery(selectedDomain, {
-      skip: !selectedDomain,
-    });
   const { data: domains, isLoading: loadingDomains } =
     useGetDomainsUsingUniversityIdQuery(selectedUniversity, {
-      skip: !selectedUniversity,
+      skip: !selectedUniversity ? true : false,
+    });
+  const { data: courses, isLoading: loadingCourse } =
+    useGetCoursesByDomainIdQuery(selectedDomain, {
+      skip: !selectedDomain ? true : false,
     });
 
   const storedDocs = localStorage.getItem("uploadedDocs");
@@ -66,26 +71,68 @@ function Details() {
     }
   }, []);
 
-  const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
-
-  console.log("this is selected Course");
-  console.log(selectedCourse);
+  const [createDocument] = useCreateDocumentMutation();
 
   const formik = useFormik({
     validationSchema: Yup.object({
+      title: Yup.string().required("Title is required"),
       description: Yup.string().required("Description is required"),
       university: Yup.string().required("University is required"),
     }),
     initialValues: {
+      title: "",
       description: "",
       university: "",
     },
     onSubmit: (values) => {
-      console.log(values);
+      const id = generateToast({
+        message: "Uploading Document",
+        toastType: ToastType.default,
+        isLoading: true,
+      });
+
+      createDocument({
+        title: values.title,
+        description: values.description,
+        university: selectedUniversity,
+        domain: selectedDomain,
+        course: selectedCourse,
+        ownerId: user?.id,
+        url: uploadedDocs[0]?.url,
+      }).unwrap()
+        .then((res) => {
+          console.log(res);
+          updateToast(id, "Document Uploaded", {
+            toastType: ToastType.success,
+            isLoading: false,
+            duration: 2000,
+          });
+          localStorage.setItem("uploadedDocs","");
+          dispatch(setUploadedDocs([]));
+          formik.resetForm();
+          dispatch(setUser({...user,uploads:res.updatedUser.uploads}))
+          dispatch(setSelectedCourse(""));
+          dispatch(setSelectedDomain(""));
+          dispatch(setSelectedUniversity(""));
+        })
+        .catch((err) => {
+          console.log(err);
+          updateToast(id, `${err.data.message}`, {
+            toastType: ToastType.error,
+            isLoading: false,
+            duration: 2000,
+          });
+        });
     },
   });
 
 
+
+  const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
+
+  useEffect(() => {
+    if (handleSubmit !== 0) formik.handleSubmit();
+  }, [handleSubmit]);
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
@@ -163,17 +210,25 @@ function Details() {
       <div className="w-full h-[1px] bg-neutral-400"></div>
       <div className="w-full space-y-4">
         <div className="mb-8 flex flex-col gap-4">
-          <p >Enter University Title</p>
+          <p>Enter Document Title</p>
           <div>
             <TextFieldComponent
               placeholder="Title"
+              name="title"
+              formik={formik}
+              onChange={(e) => {
+                console.log("input");
+                console.log(e.target.value);
+              }}
+            />
+          </div>
+          <p>Enter Document Description</p>
+          <div>
+            <TextFieldComponent
+              placeholder="Description"
               name="description"
               formik={formik}
             />
-          </div>
-          <p>Enter University Description</p>
-          <div>
-            <TextFieldComponent placeholder="Description" />
           </div>
         </div>
         <div className="flex items-center w-full">
