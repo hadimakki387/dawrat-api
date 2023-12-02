@@ -16,8 +16,6 @@ export const loginUserWithEmailAndPassword = async (
   const user = await getUserByEmail(email);
   const validate = loginUserValidate.body.validate({ email, password })
 
-  console.log(`this is validate `)
-  console.log(validate)
 
 
   if (validate.error) {

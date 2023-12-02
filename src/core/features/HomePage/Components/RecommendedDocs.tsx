@@ -3,9 +3,8 @@ import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetRecommendedDocumentsInDomainQuery } from "@/core/rtk-query/documents";
 import { DocumentI } from "@/services/types";
 import ItemCard from "./ItemCard";
+import MissingDataMessage from "./MissingDataMessage";
 import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 
 function RecommendedDocs() {
   const { user } = useAppSelector((state) => state.global);
@@ -13,27 +12,17 @@ function RecommendedDocs() {
     useGetRecommendedDocumentsInDomainQuery(user?.domain as string, {
       skip: !user,
     });
-  console.log(user?.domain);
+
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
-        Recommended Documents
+        Recommended Documents For You
       </h1>
       {recommendedDocuments && recommendedDocuments.length === 0 && (
-        <div className="flex items-center gap-4 bg-primaryBg p-4 text-primary rounded-lg">
-          <div className="bg-primary w-10 h-10 flex items-center justify-center rounded-lg">
-            <div className="bg-white w-4 h-4 flex items-center justify-center rounded-lg">
-              <FontAwesomeIcon
-                icon={faExclamation}
-                className="text-primary text-sm"
-              />
-            </div>
-          </div>
-          <p className="text-darkText">
-            You are not following any courses yet. Use the search bar to find
-            your courses and follow them.
-          </p>
-        </div>
+        <MissingDataMessage
+          message="You are not following any courses yet. Use the search bar to find
+        your courses and follow them."
+        />
       )}
       {/* */}
       <div className="w-full flex items-center gap-4">

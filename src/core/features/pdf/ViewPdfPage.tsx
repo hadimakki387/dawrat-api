@@ -10,7 +10,7 @@ function ViewPdfPage() {
   const id = param?.id;
   const { data } = useGetSingleDocumentQuery(id);
 
-  console.log(data);
+
   return (
     <div>
       {data ? (

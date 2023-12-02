@@ -1,7 +1,7 @@
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import MissingDataMessage from "./missingDataMessage";
+import MissingDataMessage from "./MissingDataMessage";
 
 function AiQuestions() {
   return (

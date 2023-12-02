@@ -8,7 +8,7 @@ import { Skeleton } from "@mui/material";
 import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
-import MissingDataMessage from "./missingDataMessage";
+import MissingDataMessage from "./MissingDataMessage";
 
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);
@@ -20,11 +20,11 @@ function MyRecentDocument() {
   );
   const router = useRouter();
 
-  console.log(reviewedDocuments);
+
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
-        Recently Reviewed Documents
+        Continue Reading
       </h1>
       {reviewedDocuments && reviewedDocuments.length === 0 && (
         <MissingDataMessage

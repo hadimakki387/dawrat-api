@@ -25,7 +25,12 @@ const config: Config = {
         success: "var(--success)",
         myPink:"var(--pink)",
         transparentPink:"var(--transparent-pink)",
-
+        greenBg:"var(--green-bg)",
+        greenText:"var(--green-text)",
+        greenHover:"var(--hover-green)",
+        purpleBg:"var(--purple-bg)",
+        purpleText:"var(--purple-text)",
+        purpleHover:"var(--hover-purple)",
       },
     },
   },

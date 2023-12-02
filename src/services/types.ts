@@ -25,6 +25,7 @@ export interface DropdownValue {
     phone?: string;
     uploads?: number;
     reviewedDocuments?: string[];
+    reviewedCourses?: string[];
   }
 
   export interface MenuItemType {

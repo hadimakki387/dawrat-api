@@ -42,12 +42,11 @@ export const getRecommendedDocumentsInDomain = async (req: NextRequest) => {
   MongoConnection();
   //i want to get the top 8 documents that have the highest upvotes at a specific university using the university id
   const id = getIdFromUrl(req.url);
-  console.log(id)
   const documents = await Document.find({ domain: id })
     .sort({ upvotes: -1 })
     .limit(8);
 
-    console.log(documents)
+
   
 
 
