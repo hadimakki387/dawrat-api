@@ -47,4 +47,6 @@ export interface DropdownValue {
     url:string;
     createdAt:string;
     updatedAt:string;
+    domainTitle:string;
+    courseTitle:string;
   }

@@ -15,7 +15,6 @@ function HomePage() {
       <MyRecentDocument />
       <RecommendedDocs/>
       <AiQuestions/>
-      <MyBooks/>
     </div>
   );
 }

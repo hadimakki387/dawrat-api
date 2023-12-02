@@ -4,6 +4,7 @@ import { updateUserUploads } from "../user/user.helperFunctions";
 import { checkDocumentTitle } from "./document.helperFunction";
 import Document from "./document.model";
 import { createDocumentValidation } from "./document.validation";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -37,12 +38,12 @@ export const createDocument = async (req: NextRequest) => {
   );
 };
 
-export const getRecommendedDocuments = async (req: NextRequest) => {
+export const getRecommendedDocumentsInDomain = async (req: NextRequest) => {
   MongoConnection();
   //i want to get the top 8 documents that have the highest upvotes at a specific university using the university id
-  const params = new URL(req.url as string);
-  const limit = params.searchParams.get("id");
-  const documents = await Document.find({ domain: limit })
+  const id = getIdFromUrl(req.url);
+  console.log(id)
+  const documents = await Document.find({ domain: id })
     .sort({ upvotes: -1 })
     .limit(8);
 

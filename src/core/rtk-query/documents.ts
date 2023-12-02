@@ -1,6 +1,5 @@
 import { mainApi } from ".";
 
-
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     createDocument: builder.mutation({
@@ -11,7 +10,7 @@ const ExtendedApi = mainApi.injectEndpoints({
       }),
     }),
     getManyDocumentsById: builder.query({
-      query: ({body,limit}) => ({
+      query: ({ body, limit }) => ({
         url: `/documents/get-many?${limit ? `limit=${limit}` : ""}`,
         method: "PATCH",
         body,
@@ -23,7 +22,18 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getRecommendedDocumentsInDomain: builder.query({
+      query: (id) => ({
+        url: `/domain/courses/recommended/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useCreateDocumentMutation, useGetManyDocumentsByIdQuery,useGetSingleDocumentQuery } = ExtendedApi;
+export const {
+  useCreateDocumentMutation,
+  useGetManyDocumentsByIdQuery,
+  useGetSingleDocumentQuery,
+  useGetRecommendedDocumentsInDomainQuery,
+} = ExtendedApi;

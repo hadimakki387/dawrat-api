@@ -10,6 +10,7 @@ import { createUserValidation } from "./user.validation";
 import University from "../universities/universities.model";
 import MongoConnection from "@/backend/utils/db";
 import { generateAuthTokens } from "@/backend/token/token.service";
+import { returnData } from "@/backend/helper-functions/returnData";
 
 MongoConnection();
 
@@ -68,8 +69,6 @@ export const getUserByEmail = async (email: string) => {
 export const getUserById = async (id: string) => {
   const foundUser = await User.findById(id);
 
-  console.log(foundUser)
-
   if (!foundUser) {
     return new Response(
       JSON.stringify({
@@ -82,18 +81,15 @@ export const getUserById = async (id: string) => {
 
   if (foundUser) {
     const uni = await University.findById(foundUser.university);
-    console.log(uni);
+    const { password, ...userWithoutPassword } = foundUser.toObject();
+
+
     return new Response(
       JSON.stringify({
-        firstName: foundUser.firstName,
-        lastName: foundUser.lastName,
-        email: foundUser.email,
-        reviewedCourses: foundUser.reviewedCourses,
+        ...userWithoutPassword,
+        id:userWithoutPassword._id,
         statusCode: httpStatus.OK,
         university: uni,
-        id: foundUser._id,
-        uploads: foundUser.uploads,
-        reviewedDocuments: foundUser.reviewedDocuments,
       }),
       { status: httpStatus.OK }
     );
