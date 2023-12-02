@@ -36,3 +36,19 @@ export const createDocument = async (req: NextRequest) => {
     { status: 200 }
   );
 };
+
+export const getRecommendedDocuments = async (req: NextRequest) => {
+  MongoConnection();
+  //i want to get the top 8 documents that have the highest upvotes at a specific university using the university id
+  const params = new URL(req.url as string);
+  const limit = params.searchParams.get("id");
+  const documents = await Document.find({ domain: limit })
+    .sort({ upvotes: -1 })
+    .limit(8);
+
+    console.log(documents)
+  
+
+
+  return new NextResponse(JSON.stringify(documents), { status: 200 });
+};

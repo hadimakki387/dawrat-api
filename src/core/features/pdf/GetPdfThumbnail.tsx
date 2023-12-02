@@ -10,7 +10,7 @@ import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
+  'pdfjs-dist/legacy/build/pdf.worker.min.js',
   import.meta.url
 ).toString();
 
