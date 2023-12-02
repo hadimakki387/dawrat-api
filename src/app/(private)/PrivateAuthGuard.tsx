@@ -15,7 +15,6 @@ function PrivateAuthGuard({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     if (!data && isError) {
-      console.log("unauthorized");
       router.push("/home");
     }
     if (isSuccess) {
@@ -25,7 +24,7 @@ function PrivateAuthGuard({ children }: { children: React.ReactNode }) {
   }, [data, isSuccess, isError, isLoading]);
 
   return (
-    <>{isSuccess ? <div>{children}</div> : isLoading && <LoadingScreen />}</>
+    <>{isSuccess ? <div>{children} </div> : isLoading && <LoadingScreen />}</>
   );
 }
 

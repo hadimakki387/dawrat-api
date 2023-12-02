@@ -1,13 +1,10 @@
-import React from "react";
-import SearchInput from "../global/SearchInput";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Cookie from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
+import DaPopOver from "../global/DaPopOver";
 import DaSearch from "../global/DaSearch/DaSearch";
 import ProfileAvatar from "../global/ProfileAvatar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { Menu, MenuItem } from "@mui/material";
-import DaPopOver from "../global/DaPopOver";
-import Cookie from "js-cookie";
 
 function HomeNavBar() {
   const path = usePathname();

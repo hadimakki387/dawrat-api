@@ -1,5 +1,5 @@
 export interface DocumentInterface {
-    id:string;
+  id:string;
   title: string;
   description: string;
   domain: string;

@@ -29,10 +29,12 @@ function GetPdfThumbnail({
   width,
   height,
   className,
+  url = ""
 }: {
   width: number;
   height: number;
   className?: string;
+  url:string
 }) {
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
@@ -54,15 +56,13 @@ function GetPdfThumbnail({
     setNumPages(nextNumPages);
   }
 
-  const url =
-    "http://docs.google.com/gview?url=https://utfs.io/f/16bba07c-a46e-46a1-af3a-19da34925b7c-9l9cjg.pdf&embedded=true";
 
   return (
     <div>
       <div className="Example__container">
         <div className="Example__container__document" ref={setContainerRef}>
           <Document
-            file={"/14.pdf"}
+            file={url?url:"/14.pdf"}
             onLoadSuccess={onDocumentLoadSuccess}
             options={{ ...options }}
             loading=""

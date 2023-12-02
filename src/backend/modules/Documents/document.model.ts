@@ -34,14 +34,22 @@ const documentSchema = new Schema<any, any>({
   url:{
     type:String
   },
-  createdAu:{
+  createdAt:{
     type:Date,
     default:Date.now()
   },
   modifiedAt:{
     type:Date,
     default:Date.now()
-  }
+  },
+  upvotes:{
+    type:Number,
+    default:0
+  },
+  downvotes:{
+    type:Number,
+    default:0
+  },
   
 });
 

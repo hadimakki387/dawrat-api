@@ -1,10 +1,17 @@
-import { faExclamation, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
+"use client";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { useGetManyDocumentsByIdQuery } from "@/core/rtk-query/documents";
 import ItemCard from "./ItemCard";
+import { useRouter } from "next/navigation";
 
 function MyRecentDocument() {
+  const {user} = useAppSelector((state) => state.global);
+  const {data:reviewedDocuments} = useGetManyDocumentsByIdQuery(user?.reviewedDocuments, {
+    skip: !user,
+  });
+  const router = useRouter()
+
+  console.log(reviewedDocuments)
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
@@ -25,8 +32,11 @@ function MyRecentDocument() {
         </p>
       </div> */}
       <div className="w-full flex items-center gap-4">
-        <ItemCard />
-        <ItemCard />
+        {reviewedDocuments && reviewedDocuments.map((doc:any,index:any)=>{
+          return <ItemCard onClick={()=>router.push(`/pdf/${doc.doc.id}`)} doc={doc} key={index}/>
+        })}
+
+
       </div>
     </div>
   );

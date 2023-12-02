@@ -17,7 +17,13 @@ const ExtendedApi = mainApi.injectEndpoints({
         body,
       }),
     }),
+    getSingleDocument: builder.query({
+      query: (id) => ({
+        url: `/documents/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useCreateDocumentMutation, useGetManyDocumentsByIdQuery } = ExtendedApi;
+export const { useCreateDocumentMutation, useGetManyDocumentsByIdQuery,useGetSingleDocumentQuery } = ExtendedApi;

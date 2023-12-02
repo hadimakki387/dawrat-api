@@ -1,11 +1,9 @@
 import MongoConnection from "@/backend/utils/db";
 import { NextRequest, NextResponse } from "next/server";
-import Document from "./document.model";
-import { returnData } from "@/backend/helper-functions/returnData";
-import { createDocumentValidation } from "./document.validation";
-import { checkDocumentTitle } from "./document.helperFunction";
-import User from "../user/user.model";
 import { updateUserUploads } from "../user/user.helperFunctions";
+import { checkDocumentTitle } from "./document.helperFunction";
+import Document from "./document.model";
+import { createDocumentValidation } from "./document.validation";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();

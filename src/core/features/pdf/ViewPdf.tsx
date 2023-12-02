@@ -11,7 +11,7 @@ import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
+  'pdfjs-dist/legacy/build/pdf.worker.min.js',
   import.meta.url
 ).toString();
 
@@ -26,7 +26,7 @@ const maxWidth = 800;
 
 type PDFFile = string | File | null;
 
-function ViewPdf() {
+function ViewPdf({url}:{url:string}) {
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
@@ -47,7 +47,7 @@ function ViewPdf() {
     setNumPages(nextNumPages);
   }
 
-  const url = "https://utfs.io/f/ba969012-e8bd-491c-a0a7-f37ddb02de94-17n.pdf";
+
 
   return (
     <div>
