@@ -13,7 +13,7 @@ import NavLoader from "../global/navLoader/NavLoader";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import Button from "../global/Button";
+import DaButton from "../global/DaButton";
 
 function LandingNavBar() {
   const Scroll = useScroll();
@@ -53,7 +53,7 @@ function LandingNavBar() {
           : "text-white bg-transparent"
       } transition-all duration-500 flex justify-between items-center z-50`}
     >
-      <div className="flex gap-4">
+      <div className="flex items-center gap-4">
         <FontAwesomeIcon
           icon={faBars}
           onClick={() => dispatch(setSideBar(true))}
@@ -69,13 +69,13 @@ function LandingNavBar() {
       <div className="flex gap-4 items-center">
         {!id || !data && !isLoading ? (
           <>
-            <Button
+            <DaButton
               fullRounded
               label="Sign In"
               className="bg-green-500 text-white"
               onClick={() => dispatch(setSignIn(true))}
             />
-            <Button
+            <DaButton
               fullRounded
               label="Sign Up"
               className="bg-green-500 text-white"

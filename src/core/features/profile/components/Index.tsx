@@ -3,14 +3,14 @@ import { useAppSelector } from "@/core/StoreWrapper";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { setName } from "../redux/profile-slice";
-import { useLoginUserMutation } from "@/core/rtk-query/auth/login";
-import { useRegisterUserMutation } from "@/core/rtk-query/auth/register";
+import { useLoginMutation, useRegisterMutation } from "@/core/rtk-query/landingPage";
+
 
 function Index() {
   const { name } = useAppSelector((state) => state.profile);
   const dispatch = useDispatch();
-  const [login] = useLoginUserMutation();
-  const [register] = useRegisterUserMutation();
+  const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
   return (
     <div className="flex flex-col bg-white">
       <div>{`this is the name ${name}`} </div>

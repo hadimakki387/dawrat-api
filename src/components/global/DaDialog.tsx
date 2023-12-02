@@ -1,12 +1,10 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import * as React from "react";
+import DaButton from "./DaButton";
 
 interface DialogProps {
   open: boolean;
@@ -40,7 +38,6 @@ export default function DaDialog({
   return (
     <React.Fragment>
       <Dialog
-      
         open={open}
         onClose={onClose}
         aria-labelledby="alert-dialog-title"
@@ -50,7 +47,6 @@ export default function DaDialog({
         PaperProps={{
           sx: PaperProps,
         }}
-        
       >
         {title && (
           <DialogTitle
@@ -77,10 +73,8 @@ export default function DaDialog({
 
         {defaultButtoms && (
           <DialogActions>
-            <Button onClick={onClose}>{closeText}</Button>
-            <Button onClick={onConfirm} autoFocus>
-              {confirmText}
-            </Button>
+            <DaButton onClick={onClose} label={closeText} />
+            <DaButton onClick={onConfirm} label={confirmText} />
           </DialogActions>
         )}
       </Dialog>

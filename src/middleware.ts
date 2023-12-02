@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import httpStatus from "http-status";
-import { verifyToken } from "./lib/auth";
+import { verifyToken } from "./backend/lib/auth";
 
 export async function middleware(request: Request) {
   const bereer = request.headers.get("Authorization");
-  console.log("this is the middleware")
 
   if (!bereer) {
     const error = new NextResponse(
@@ -34,5 +33,11 @@ export async function middleware(request: Request) {
 }
 
 export const config = {
-  matcher: "/api/profile/:path*",
+  matcher: [
+    "/api/profile/:path*",
+    "/api/documents/:path*",
+    "/api/university/:path*",
+    "/api/courses/:path*",
+    "/api/users/auth/:path*",
+  ],
 };

@@ -1,7 +1,9 @@
 "use client";
 
 import StoreWrapper from "@/core/StoreWrapper";
+import HomeNavBar from "../../components/layout/HomeNavBar";
 import PrivateAuthGuard from "./PrivateAuthGuard";
+import { SideBar } from "@/components/reactsideBar/SideBar.tsx";
 
 export default function RootLayout({
   children,
@@ -11,7 +13,13 @@ export default function RootLayout({
   return (
     <>
       <StoreWrapper>
-        <PrivateAuthGuard>{children}</PrivateAuthGuard>
+        <PrivateAuthGuard>
+          <HomeNavBar />
+          <SideBar />
+          <div className="ml-[15vw]  px-4 pt-[10vh] ">
+            <div className="mt-4">{children}</div>
+          </div>
+        </PrivateAuthGuard>
       </StoreWrapper>
     </>
   );

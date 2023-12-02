@@ -1,4 +1,4 @@
-import Button from "@/components/global/Button";
+import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { setIsAuth, setSignIn } from "../redux/homePage-slice";
-import "./index.css"
+import "./index.css";
 
 function SignInDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);
@@ -59,7 +59,7 @@ function SignInDialog() {
 
   useEffect(()=>{
     if(isSuccess){
-      router.push("/")
+      window.location.reload()
     }
   },[isSuccess])
 
@@ -88,7 +88,7 @@ function SignInDialog() {
           name="password"
           formik={formik}
         />
-        <Button
+        <DaButton
           label="signIn"
           className="w-full bg-primary font-medium text-white"
           fullRounded

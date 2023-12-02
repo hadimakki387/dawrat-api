@@ -1,10 +1,10 @@
 "use client";
 import Card from "@/components/global/Card";
+import DaButton from "@/components/global/DaButton";
 import TabsSwitch from "@/components/global/TabsSwitch";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useDispatch } from "react-redux";
 import { setTabs } from "../redux/homePage-slice";
-import Button from "@/components/global/Button";
 
 function ItemsSection() {
   const { tabs } = useAppSelector((state) => state.homePage);
@@ -29,7 +29,7 @@ function ItemsSection() {
         {tabs === 0 && (
           <div className="flex flex-wrap gap-2">
             {data.map((_, i) => (
-              <Button
+              <DaButton
                 label={`University ${i}`}
                 key={i}
                 fullRounded
@@ -41,7 +41,7 @@ function ItemsSection() {
         {tabs === 1 && (
           <div className="flex flex-wrap gap-2">
             {data.map((_, i) => (
-              <Button
+              <DaButton
                 label={`Document ${i}`}
                 key={i}
                 fullRounded
@@ -50,7 +50,7 @@ function ItemsSection() {
             ))}
           </div>
         )}
-        <Button
+        <DaButton
         id="mostPopular"
           label="View All"
           className="border border-neutral-300 p-2 w-full text-primary font-semibold mt-8 hover:bg-blue-100 transition-all duration-300"

@@ -3,7 +3,7 @@
 	--hue: 223;
 	--bg: hsl(var(--hue),10%,90%);
 	--fg: hsl(var(--hue),10%,10%);
-	--primary: hsl(var(--hue),90%,55%);
+	--loading-primary: hsl(var(--hue),90%,55%);
 	--primary-l: hsl(var(--hue),90%,65%);
 	--primary-d: hsl(var(--hue),90%,45%);
 	--white: hsl(var(--hue),10%,100%);
@@ -20,7 +20,7 @@
 	border-radius: 0.25em;
 	box-shadow:
 		0 0.25em 0.5em hsla(0,0%,0%,0.3),
-		0 0 0 0.25em var(--primary) inset;
+		0 0 0 0.25em var(--loading-primary) inset;
 	padding: 0.25em;
 	perspective: 37.5em;
 	position: relative;

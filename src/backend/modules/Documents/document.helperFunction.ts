@@ -1,0 +1,43 @@
+import { NextRequest } from "next/server";
+import Course from "../Courses/courses.model";
+import Document from "./document.model";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
+import { returnData } from "@/backend/helper-functions/returnData";
+
+export const checkDocumentTitle = async (title: string) => {
+  const doc = await Document.findOne({ title: title });
+  if (doc) {
+    return true;
+  }
+
+  return false;
+};
+
+export const getManyDocumentsById = async (req: NextRequest) => {
+  const body = await req.json();
+  const documents = await Document.find({ _id: { $in: body } });
+  const docsWithCourse = await Promise.all(
+    documents.map(async (doc) => {
+      const course = await Course.findById(doc.course);
+      const newDoc = {
+        doc: returnData(doc),
+        course: returnData(course),
+      };
+      return newDoc;
+    })
+  );
+  return new Response(JSON.stringify(docsWithCourse.slice(0, 5) || []), {
+    status: 200,
+  });
+};
+
+export const getDocumentById = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url);
+  const doc = await Document.findById(id);
+  if (!doc) {
+    return new Response(JSON.stringify({ message: "Document not found" }), {
+      status: 404,
+    });
+  }
+  return new Response(JSON.stringify(doc), { status: 200 });
+};

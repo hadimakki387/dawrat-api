@@ -1,0 +1,45 @@
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { lazy, Suspense } from "react";
+
+interface Props {
+  doc: any;
+  onClick?: () => any;
+}
+
+const LazyGetPdfThumbnail = lazy(() => import("../../pdf/GetPdfThumbnail"));
+
+function ItemCard({ doc, onClick }: Props) {
+  return (
+    <div
+      onClick={onClick}
+      className="w-44 h-72 rounded-xl  overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
+    >
+      <div className="h-1/2 overflow-hidden p-4">
+        <div className="w-[98%] m-auto overflow-hidden rounded-lg shadow-md">
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyGetPdfThumbnail
+              width={300}
+              height={100}
+              className="flex justify-center w-full "
+              url={doc?.doc.url}
+            />
+          </Suspense>
+        </div>
+      </div>
+      <div className="h-1/2  z-10 p-2 flex flex-col justify-between">
+        <p className="font-medium text-primary">{doc?.doc.title}</p>
+        <p className="text-subTitleText text-xs font-medium">
+          {doc?.course.title}
+        </p>
+        <div className="flex justify-center items-center gap-2 bg-neutral-100 rounded-md py-1">
+          <FontAwesomeIcon icon={faThumbsUp} className="text-green-400" />
+          <p className="text-titleText text-sm font-medium">100%</p>
+          <p className="text-subTitleText text-sm">(8)</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ItemCard;

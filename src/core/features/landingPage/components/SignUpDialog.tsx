@@ -1,21 +1,21 @@
-import Button from "@/components/global/Button";
+import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { sign } from "crypto";
+import { useRegisterMutation } from "@/core/rtk-query/landingPage";
+import { ToastType } from "@/services/constants";
+import { generateToast, updateToast } from "@/services/global-function";
 import { useFormik } from "formik";
-import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { setIsAuth, setSignUp } from "../redux/homePage-slice";
-import { useRegisterMutation } from "@/core/rtk-query/landingPage";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
+import { useRouter } from "next/navigation";
 
 function SignUpDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);
   const dispatch = useDispatch();
   const [register,{data}] = useRegisterMutation()
+  const router = useRouter()
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -43,6 +43,7 @@ function SignUpDialog() {
           });
           dispatch(setSignUp(false))
           formik.resetForm()
+          window.location.reload()
         })
         .catch((err) => {
           updateToast(id, `${err.data.message}`, {
@@ -95,7 +96,7 @@ function SignUpDialog() {
           name="password"
           formik={formik}
         />
-        <Button
+        <DaButton
           label="signIn"
           className="w-full bg-primary font-medium text-white"
           fullRounded
