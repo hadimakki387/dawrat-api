@@ -11,8 +11,8 @@ const ExtendedApi = mainApi.injectEndpoints({
       }),
     }),
     getManyDocumentsById: builder.query({
-      query: (body) => ({
-        url: `/documents/get-many`,
+      query: ({body,limit}) => ({
+        url: `/documents/get-many?${limit ? `limit=${limit}` : ""}`,
         method: "PATCH",
         body,
       }),

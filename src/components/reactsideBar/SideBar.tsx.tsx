@@ -278,13 +278,13 @@ export const SideBar: React.FC = () => {
                                       key={index}
                                       onClick={() =>
                                         router.push(
-                                          `${link.path}/${subItem.id}`
+                                          `${link.path}/${subItem?.id}`
                                         )
                                       }
                                       style={{
                                         fontWeight: 500,
                                         color:
-                                          path === `${link.path}/${subItem.id}`
+                                          path === `${link.path}/${subItem?.id}`
                                             ? "var(--primary)"
                                             : "",
                                         backgroundColor:
@@ -294,7 +294,7 @@ export const SideBar: React.FC = () => {
                                             : "",
                                       }}
                                     >
-                                      {subItem.title}
+                                      {subItem?.title}
                                     </MenuItem>
                                   )
                                 )

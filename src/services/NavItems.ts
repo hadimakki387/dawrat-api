@@ -27,9 +27,12 @@ export const NavItems = () => {
     skip: !user,
   });
 
-  const {data:reviewedDocuments} = useGetManyDocumentsByIdQuery(user.reviewedDocuments, {
-    skip: !user,
-  });
+  const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
+    { body: user.reviewedDocuments, limit: 3 },
+    {
+      skip: !user,
+    }
+  );
 
   if (user && courses && reviewedDocuments)
     return [
@@ -59,13 +62,6 @@ export const NavItems = () => {
             subItems: courses,
           },
           {
-            label: "Books",
-            path: "/books",
-            icon: Book,
-            hasSubItems: true,
-            subItems: [],
-          },
-          {
             label: "Studylists",
             path: "/study-lists",
             icon: StudyList,
@@ -79,7 +75,7 @@ export const NavItems = () => {
           },
           {
             label: "Recent Documents",
-            path: "/recent-documents",
+            path: "/pdf",
             icon: Clock,
             hasSubItems: true,
             subItems: reviewedDocuments,

@@ -16,17 +16,25 @@ export const checkDocumentTitle = async (title: string) => {
 export const getManyDocumentsById = async (req: NextRequest) => {
   const body = await req.json();
   const documents = await Document.find({ _id: { $in: body } });
+  const params = new URL(req.url as string);
+  const limit = params.searchParams.get("limit");
+
   const docsWithCourse = await Promise.all(
     documents.map(async (doc) => {
       const course = await Course.findById(doc.course);
       const newDoc = {
-        doc: returnData(doc),
-        course: returnData(course),
+        ...returnData(doc),
+        courseTitle: course?.title,
       };
       return newDoc;
     })
   );
-  return new Response(JSON.stringify(docsWithCourse.slice(0, 5) || []), {
+    console.log(limit)
+  if (limit)
+    return new Response(JSON.stringify(docsWithCourse.slice(0, +limit) || []), {
+      status: 200,
+    });
+  return new Response(JSON.stringify(docsWithCourse), {
     status: 200,
   });
 };

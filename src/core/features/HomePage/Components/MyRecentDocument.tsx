@@ -3,15 +3,21 @@ import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetManyDocumentsByIdQuery } from "@/core/rtk-query/documents";
 import ItemCard from "./ItemCard";
 import { useRouter } from "next/navigation";
+import DaLoader from "@/components/global/DaLoader";
+import { Skeleton } from "@mui/material";
+import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton"
 
 function MyRecentDocument() {
-  const {user} = useAppSelector((state) => state.global);
-  const {data:reviewedDocuments} = useGetManyDocumentsByIdQuery(user?.reviewedDocuments, {
-    skip: !user,
-  });
-  const router = useRouter()
+  const { user } = useAppSelector((state) => state.global);
+  const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
+    { body: user?.reviewedDocuments },
+    {
+      skip: !user,
+    }
+  );
+  const router = useRouter();
 
-  console.log(reviewedDocuments)
+  console.log(reviewedDocuments);
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
@@ -31,12 +37,21 @@ function MyRecentDocument() {
           courses and follow them.
         </p>
       </div> */}
+
       <div className="w-full flex items-center gap-4">
-        {reviewedDocuments && reviewedDocuments.map((doc:any,index:any)=>{
-          return <ItemCard onClick={()=>router.push(`/pdf/${doc.doc.id}`)} doc={doc} key={index}/>
-        })}
-
-
+        {reviewedDocuments
+          ? reviewedDocuments.map((doc: any, index: any) => {
+              return (
+                <ItemCard
+                  onClick={() => router.push(`/pdf/${doc?.id}`)}
+                  doc={doc}
+                  key={index}
+                />
+              );
+            })
+          : Array.from(new Array(4)).map((_, index) => (
+              <ItemCardLoadingSkeleton key={index} />
+            ))}
       </div>
     </div>
   );
