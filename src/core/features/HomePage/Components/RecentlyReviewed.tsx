@@ -52,18 +52,20 @@ function RecentlyReviewed() {
       <div className="w-full flex items-center gap-4">
         {RecentlyReviewed
           ? RecentlyReviewed.map((doc: any, index: number) => {
-              return <RecentlyViewedCard key={index} doc={doc}/>;
+              return <RecentlyViewedCard key={index} doc={doc} />;
             })
           : Array.from(new Array(4)).map((_, index) => {
-            return <div
-            key={index}
-            className={`w-44 h-40 flex flex-col justify-between items-start hover:cursor-pointer rounded-xl mt-4 p-4 shadow-md`}
-          >
-            <Skeleton variant="text" width="100%" height="1.5rem" />
-            <Skeleton variant="text" width="100%" height="1.5rem" />
-            <Skeleton variant="text" width="100%" height="1.5rem" />
-          </div>
-          })}
+              return (
+                <div
+                  key={index}
+                  className={`w-44 h-40 flex flex-col justify-between items-start hover:cursor-pointer rounded-xl mt-4 p-4 shadow-md`}
+                >
+                  <Skeleton variant="text" width="100%" height="1.5rem" />
+                  <Skeleton variant="text" width="100%" height="1.5rem" />
+                  <Skeleton variant="text" width="100%" height="1.5rem" />
+                </div>
+              );
+            })}
       </div>
     </div>
   );

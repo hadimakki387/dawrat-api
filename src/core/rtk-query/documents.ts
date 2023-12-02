@@ -8,6 +8,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      
     }),
     getManyDocumentsById: builder.query({
       query: ({ body, limit }) => ({

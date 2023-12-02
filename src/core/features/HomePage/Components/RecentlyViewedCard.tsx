@@ -7,7 +7,7 @@ function RecentlyViewedCard({ doc }: { doc: any }) {
         doc.course
           ? "bg-greenBg text-greenText hover:bg-greenHover"
           : "bg-purpleBg text-purpleText hover:bg-purpleHover"
-      } rounded-xl mt-4 p-4`}
+      } rounded-xl mt-4 p-4 transition-all duration-300`}
     >
       <div className="font-semibold text-lg">{doc?.title}</div>
       <div className="text-base">{

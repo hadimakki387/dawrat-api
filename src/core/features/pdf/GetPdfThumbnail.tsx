@@ -9,10 +9,7 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/legacy/build/pdf.worker.min.js',
-  import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 const options = {
   cMapUrl: "/cmaps/",
@@ -62,11 +59,11 @@ function GetPdfThumbnail({
       <div className="Example__container">
         <div className="Example__container__document" ref={setContainerRef}>
           <Document
-            file={url?url:"/14.pdf"}
+            file={url}
             onLoadSuccess={onDocumentLoadSuccess}
             options={{ ...options }}
             loading=""
-
+            onLoadError={(err)=>console.log(err)}
           >
             {/* i want render the custom renderer as png */}
             <Thumbnail
@@ -74,7 +71,7 @@ function GetPdfThumbnail({
               width={width}
               height={height}
               className={className}
-              renderMode="canvas"
+
               
               
             />
