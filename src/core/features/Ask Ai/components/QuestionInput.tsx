@@ -22,7 +22,7 @@ import Step3 from "./questions steps/Step3";
 function QuestionInput() {
   const { isPrivate, QuestionStep,content } = useAppSelector((state) => state.askAi);
   const dispatch = useDispatch();
-  console.log(QuestionStep);
+
 
   return (
     <DaCard className="p-8 flex flex-col gap-6">

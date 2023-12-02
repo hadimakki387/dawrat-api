@@ -1,15 +1,18 @@
 
 import * as bcrypt from "bcryptjs";
 import httpStatus from "http-status";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import isEmail from "validator/lib/isEmail";
-import { isEmailTaken } from "./user.helperFunctions";
+import { isEmailTaken, shuffleArray } from "./user.helperFunctions";
 import { UserInterface } from "./user.interfaces";
 import User from "./user.model";
 import { createUserValidation } from "./user.validation";
 import University from "../universities/universities.model";
 import MongoConnection from "@/backend/utils/db";
 import { generateAuthTokens } from "@/backend/token/token.service";
+import { returnData } from "@/backend/helper-functions/returnData";
+import Document from "../Documents/document.model";
+import Course from "../Courses/courses.model";
 
 MongoConnection();
 
@@ -68,8 +71,6 @@ export const getUserByEmail = async (email: string) => {
 export const getUserById = async (id: string) => {
   const foundUser = await User.findById(id);
 
-  console.log(foundUser)
-
   if (!foundUser) {
     return new Response(
       JSON.stringify({
@@ -82,21 +83,37 @@ export const getUserById = async (id: string) => {
 
   if (foundUser) {
     const uni = await University.findById(foundUser.university);
-    console.log(uni);
+    const { password, ...userWithoutPassword } = foundUser.toObject();
+
+
     return new Response(
       JSON.stringify({
-        firstName: foundUser.firstName,
-        lastName: foundUser.lastName,
-        email: foundUser.email,
-        reviewedCourses: foundUser.reviewedCourses,
+        ...userWithoutPassword,
+        id:userWithoutPassword._id,
         statusCode: httpStatus.OK,
         university: uni,
-        id: foundUser._id,
-        uploads: foundUser.uploads,
-        reviewedDocuments: foundUser.reviewedDocuments,
       }),
       { status: httpStatus.OK }
     );
   }
   return foundUser;
 };
+
+export const getRecentlyViewed = async (req:NextRequest)=>{
+  const body = await req.json()
+
+  console.log("this is the body")
+  console.log(body)
+  
+  const docs = body.filter((doc:any)=>doc.type === "doc")
+  const courses = body.filter((doc:any)=>doc.type === "course")
+  
+  const queryDocs = await Document.find({_id:{$in:docs.map((doc:any)=>doc.id)}})
+  const queryCourses = await Course.find({_id:{$in:courses.map((course:any)=>course.id)}})
+
+  // i want to create a shuffled array of the two arrays
+  const shuffledArray = shuffleArray([...queryDocs,...queryCourses])
+
+
+  return new NextResponse(JSON.stringify(shuffledArray),{status:200})
+}

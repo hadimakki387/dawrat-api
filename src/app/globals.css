@@ -42,6 +42,12 @@ body {
   --pink:#f064fc;
   --transparent-pink:#fde9ff;
   --icon-bg:#acd3fd;
+  --green-bg:#cff5b7;
+  --green-text:#259f02;
+  --hover-green:#b1fa84;
+  --purple-bg:#e7defe;
+  --purple-text:#967fd6;
+  --hover-purple:#d6c5fd;
 }
 
 .MuiAutocomplete-listbox{

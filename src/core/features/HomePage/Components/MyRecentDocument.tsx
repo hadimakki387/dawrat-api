@@ -5,7 +5,10 @@ import ItemCard from "./ItemCard";
 import { useRouter } from "next/navigation";
 import DaLoader from "@/components/global/DaLoader";
 import { Skeleton } from "@mui/material";
-import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton"
+import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import MissingDataMessage from "./MissingDataMessage";
 
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);
@@ -17,26 +20,18 @@ function MyRecentDocument() {
   );
   const router = useRouter();
 
-  console.log(reviewedDocuments);
+
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
-        My Recent Documents
+        Continue Reading
       </h1>
-      {/* <div className="flex items-center gap-4 bg-primaryBg p-4 text-primary rounded-lg">
-        <div className="bg-primary w-10 h-10 flex items-center justify-center rounded-lg">
-          <div className="bg-white w-4 h-4 flex items-center justify-center rounded-lg">
-            <FontAwesomeIcon
-              icon={faExclamation}
-              className="text-primary text-sm"
-            />
-          </div>
-        </div>
-        <p className="text-darkText">
-          You are not following any courses yet. Use the search bar to find your
-          courses and follow them.
-        </p>
-      </div> */}
+      {reviewedDocuments && reviewedDocuments.length === 0 && (
+        <MissingDataMessage
+          message="You are not following any courses yet. Use the search bar to find
+        your courses and follow them."
+        />
+      )}
 
       <div className="w-full flex items-center gap-4">
         {reviewedDocuments

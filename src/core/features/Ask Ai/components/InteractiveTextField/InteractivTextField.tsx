@@ -54,7 +54,7 @@ const InteractiveTextField = () => {
       editor?.chain().setContent("").run();
     }
   }, [resetData]);
-  console.log("this is the editor");
+
 
   return (
     <div className="editor">

@@ -176,7 +176,7 @@ export const SideBar: React.FC = () => {
               rtl={rtl}
               style={{ marginBottom: "24px", marginTop: "16px" }}
             />
-            <div className="mx-6 flex flex-col items-center gap-4">
+            <div className="mx-6 flex flex-col items-center gap-4 mb-4">
               <div className="flex gap-8 items-center w-full justify-center">
                 <div className="text-center">
                   <p className="text-darkText font-bold text-lg ">

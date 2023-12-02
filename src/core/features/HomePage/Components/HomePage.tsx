@@ -1,5 +1,5 @@
 import DaSearch from "@/components/global/DaSearch/DaSearch";
-import MyCourses from "./MyCourses";
+import RecentlyReviewed from "./RecentlyReviewed";
 import MyRecentDocument from "./MyRecentDocument";
 import RecommendedDocs from "./RecommendedDocs";
 import AiQuestions from "./AIQuestions";
@@ -11,11 +11,10 @@ function HomePage() {
       <div className="w-full">
         <DaSearch placeholder="Search for courses, books or documents" />
       </div>
-      <MyCourses />
       <MyRecentDocument />
+      <RecentlyReviewed />
       <RecommendedDocs/>
       <AiQuestions/>
-      <MyBooks/>
     </div>
   );
 }

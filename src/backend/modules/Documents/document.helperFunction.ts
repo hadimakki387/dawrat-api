@@ -29,7 +29,6 @@ export const getManyDocumentsById = async (req: NextRequest) => {
       return newDoc;
     })
   );
-    console.log(limit)
   if (limit)
     return new Response(JSON.stringify(docsWithCourse.slice(0, +limit) || []), {
       status: 200,

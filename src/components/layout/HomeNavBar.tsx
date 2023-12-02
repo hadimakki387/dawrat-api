@@ -8,7 +8,6 @@ import ProfileAvatar from "../global/ProfileAvatar";
 
 function HomeNavBar() {
   const path = usePathname();
-  console.log(path);
   const router = useRouter()
 
   return (
