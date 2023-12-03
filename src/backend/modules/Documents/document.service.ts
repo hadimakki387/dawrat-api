@@ -5,6 +5,8 @@ import { checkDocumentTitle } from "./document.helperFunction";
 import Document from "./document.model";
 import { createDocumentValidation } from "./document.validation";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
+import Course from "../Courses/courses.model";
+import University from "../universities/universities.model";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -26,11 +28,16 @@ export const createDocument = async (req: NextRequest) => {
     );
   }
 
-  const doc = await Document.create(userBody);
+  const course = await Course.findById(userBody.course);
+  const university = await University.findById(userBody.university);
+
+  const doc = await Document.create({
+    ...userBody,
+    courseName: course.title,
+    universityName: university.title,
+  });
 
   const updatedUser = await updateUserUploads(userBody.ownerId);
-
-
 
   return new NextResponse(
     JSON.stringify({ doc: doc, updatedUser: updatedUser }),
@@ -45,10 +52,6 @@ export const getRecommendedDocumentsInDomain = async (req: NextRequest) => {
   const documents = await Document.find({ domain: id })
     .sort({ upvotes: -1 })
     .limit(8);
-
-
-  
-
 
   return new NextResponse(JSON.stringify(documents), { status: 200 });
 };

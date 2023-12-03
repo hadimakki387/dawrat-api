@@ -50,6 +50,14 @@ const documentSchema = new Schema<any, any>({
     type:Number,
     default:0
   },
+  courseName:{
+    type:String,
+    required:true
+  },
+  universityName:{
+    type:String,
+    required:true
+  }
   
 });
 

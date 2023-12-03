@@ -7,4 +7,5 @@ export interface courseInterface {
   ownerId: string;
   createdAt: string;
   updatedAt: string;
+  universityName:string;
 }

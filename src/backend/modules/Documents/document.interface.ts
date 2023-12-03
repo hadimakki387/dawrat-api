@@ -10,4 +10,8 @@ export interface DocumentInterface {
   url: string;
   createdAt: string;
   modifiedAt: string;
+  courseName:string;
+  upvotes:number;
+  downvotes:number;
+  universityName:string;
 }

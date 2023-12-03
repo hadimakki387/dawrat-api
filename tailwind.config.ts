@@ -31,6 +31,7 @@ const config: Config = {
         purpleBg:"var(--purple-bg)",
         purpleText:"var(--purple-text)",
         purpleHover:"var(--hover-purple)",
+        silverBg:"var(--silver-bg)",
       },
     },
   },

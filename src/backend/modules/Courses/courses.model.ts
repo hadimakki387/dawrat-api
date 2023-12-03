@@ -29,7 +29,11 @@ const courseSchema = new Schema<any, any>({
   updatedAt:{
     type:Date,
     default:Date.now()
-  } 
+  },
+  universityName:{
+    type:String,
+    required:true
+  }
 });
 
 const Course = models.Course || model("Course", courseSchema);

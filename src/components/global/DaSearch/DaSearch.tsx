@@ -1,19 +1,41 @@
+"use client"
 import React from "react";
 import "./index.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 //add the same props here as in searchInput.tsx
 interface Props {
-    placeholder?: string;
-    className?: string;
-    padding?: string;
-
+  placeholder?: string;
+  className?: string;
+  padding?: string;
+  handleSubmit?: (search: string) => any;
 }
 
-function DaSearch({ placeholder="search ...",padding="p-2"}: Props)  {
+function DaSearch({
+  placeholder = "search ...",
+  padding = "p-2",
+  handleSubmit,
+}: Props) {
+  const formik = useFormik({
+    validationSchema: Yup.object({
+      search: Yup.string(),
+    }),
+    initialValues: {
+      search: "",
+    },
+    onSubmit: (values) => {
+      if (handleSubmit) handleSubmit(values.search);
+    },
+  });
   return (
-    <div
+    <form
       aria-label="Courses, books, or documents"
       className={`_e1f367dfc208 _f04bf322e3f3 snipcss-h6A3v  ${padding}`}
+      onSubmit={(e) => {
+        e.preventDefault()
+        formik.handleSubmit()
+      }}
     >
       <input
         type="search"
@@ -21,6 +43,10 @@ function DaSearch({ placeholder="search ...",padding="p-2"}: Props)  {
         data-hj-whitelist="true"
         spellCheck="true"
         className="_ccbdb6025af7 _f04bf322e3f3 p-2"
+        name="search"
+        value={formik.values.search}
+        onChange={(e)=>formik.handleChange(e)}
+        onBlur={(e)=>formik.handleBlur(e)}
       />
       <span className="_b5480744d655 _f04bf322e3f3">
         <button
@@ -28,6 +54,7 @@ function DaSearch({ placeholder="search ...",padding="p-2"}: Props)  {
           type="submit"
           data-test-selector="big-search-bar-input-submit-button"
           aria-label="Search"
+          onClick={() => formik.handleSubmit()}
         >
           <svg
             aria-hidden="true"
@@ -46,7 +73,7 @@ function DaSearch({ placeholder="search ...",padding="p-2"}: Props)  {
           </svg>
         </button>
       </span>
-    </div>
+    </form>
   );
 }
 

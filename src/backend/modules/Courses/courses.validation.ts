@@ -8,6 +8,7 @@ const createCourse: Record<keyof Omit<courseInterface, "id">, any> = {
     domain: Joi.string().required(),
     university: Joi.string().required(),
     ownerId: Joi.string().required(),
+    universityName: Joi.string().required(),
     createdAt: Joi.string(),
     updatedAt: Joi.string(),
 };

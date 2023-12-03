@@ -18,7 +18,9 @@ function HomeNavBar() {
         </div>
         {path !== "/" && (
           <div className="w-[20vw]">
-            <DaSearch padding="" />
+            <DaSearch padding="" handleSubmit={(search)=>{
+              router.push(`/search/${search}`)
+            }}/>
           </div>
         )}
         <div className="flex items-center gap-4">
