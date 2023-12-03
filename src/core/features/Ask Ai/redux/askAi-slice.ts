@@ -8,6 +8,10 @@ const initialState: {
   subject: number;
   subIndex: number;
   university: string;
+  searchUniversity: string;
+  selectedUniversity: string;
+  searchCourse: string;
+  selectedCourse: string;
 } = {
   isPrivate: true,
   QuestionStep: 0,
@@ -16,6 +20,10 @@ const initialState: {
   subject: 0,
   subIndex: 0,
   university: "",
+  searchUniversity: "",
+  selectedUniversity: "",
+  searchCourse: "",
+  selectedCourse: "",
 };
 
 const AskAiSlice = createSlice({
@@ -49,7 +57,18 @@ const AskAiSlice = createSlice({
     setUniversity(state, action) {
       state.university = action.payload;
     },
-
+    setSearchUniversity(state, action) {
+      state.searchUniversity = action.payload;
+    },
+    setSelectedUniversity(state, action) {
+      state.selectedUniversity = action.payload;
+    },
+    setSearchCourse(state, action) {
+      state.searchCourse = action.payload;
+    },
+    setSelectedCourse(state, action) {
+      state.selectedCourse = action.payload;
+    },
   },
 });
 
@@ -63,6 +82,10 @@ export const {
   setSelectedSubject,
   setSubIndex,
   setUniversity,
+  setSearchUniversity,
+  setSelectedUniversity,
+  setSearchCourse,
+  setSelectedCourse,
 } = AskAiSlice.actions;
 
 export default AskAiSlice.reducer;

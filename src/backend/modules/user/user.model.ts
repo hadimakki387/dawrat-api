@@ -71,7 +71,11 @@ const userSchema = new Schema<any,any>({
   reviewedDocuments: {
     type: Array,
     default: [],
-  }
+  },
+  questionsCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 

@@ -1,8 +1,10 @@
+
+import Questions from '@/core/features/questions/components/Questions'
 import React from 'react'
 
 function questions() {
   return (
-    <div>questions</div>
+    <Questions/>
   )
 }
 
