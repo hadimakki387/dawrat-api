@@ -3,7 +3,6 @@
 import mongoose, { models } from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-
   subject: {
     type: String,
     required: true,
@@ -32,6 +31,24 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  ownerName: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: String,
+    required: true,
+    default: new Date().toISOString(),
+  },
+    updatedAt: {
+    type: String,
+    required: true,
+    default: new Date().toISOString(),
+  },
+  public:{
+    type:Boolean,
+    default:false
+  }
 });
 
 const Question = models.Question || mongoose.model("Question", questionSchema);

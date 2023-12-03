@@ -1,13 +1,11 @@
 // use react pdf to view pdf
-"use client";
-import { useState, useCallback } from "react";
-import { Document, Page, Thumbnail, pdfjs } from "react-pdf";
+
+import { Document, Thumbnail, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
-import { useResizeObserver } from "@wojtekmaj/react-hooks";
-import type { PDFDocumentProxy } from "pdfjs-dist";
+// import { useResizeObserver } from "@wojtekmaj/react-hooks";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -26,44 +24,42 @@ function GetPdfThumbnail({
   width,
   height,
   className,
-  url = ""
+  url = "",
 }: {
   width: number;
   height: number;
   className?: string;
-  url:string
+  url: string;
 }) {
-  const [numPages, setNumPages] = useState<number>();
-  const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number>();
+  // const [numPages, setNumPages] = useState<number>();
+  // const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
+  // const [containerWidth, setContainerWidth] = useState<number>();
 
-  const onResize = useCallback<ResizeObserverCallback>((entries) => {
-    const [entry] = entries;
+  // const onResize = useCallback<ResizeObserverCallback>((entries) => {
+  //   const [entry] = entries;
 
-    if (entry) {
-      setContainerWidth(entry.contentRect.width);
-    }
-  }, []);
+  //   if (entry) {
+  //     setContainerWidth(entry.contentRect.width);
+  //   }
+  // }, []);
 
-  useResizeObserver(containerRef, resizeObserverOptions, onResize);
+  // useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
-  function onDocumentLoadSuccess({
-    numPages: nextNumPages,
-  }: PDFDocumentProxy): void {
-    setNumPages(nextNumPages);
-  }
-
+  // function onDocumentLoadSuccess({
+  //   numPages: nextNumPages,
+  // }: PDFDocumentProxy): void {
+  //   setNumPages(nextNumPages);
+  // }
 
   return (
     <div>
       <div className="Example__container">
-        <div className="Example__container__document" ref={setContainerRef}>
+        <div className="Example__container__document">
           <Document
             file={url}
-            onLoadSuccess={onDocumentLoadSuccess}
             options={{ ...options }}
             loading=""
-            onLoadError={(err)=>console.log(err)}
+            onLoadError={(err) => console.log(err)}
           >
             {/* i want render the custom renderer as png */}
             <Thumbnail
@@ -71,9 +67,6 @@ function GetPdfThumbnail({
               width={width}
               height={height}
               className={className}
-
-              
-              
             />
           </Document>
         </div>

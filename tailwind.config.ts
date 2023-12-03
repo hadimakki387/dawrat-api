@@ -19,7 +19,7 @@ const config: Config = {
         subTitleText: "var(--sub-title-text)",
         titleText: "var(--title-text)",
         primary: "var(--primary)",
-        darkText:"#2f3e4e",
+        darkText:"var(--dark-text)",
         primaryBg:"var(--primary-bg)",
         error: "var(--error)",
         success: "var(--success)",

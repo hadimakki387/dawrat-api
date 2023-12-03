@@ -40,6 +40,7 @@ body {
   --sidebar-color: #003f6d;
   --gray: #808080;
   --pink:#f064fc;
+  --pink-bg:#f9c1fe;
   --transparent-pink:#fde9ff;
   --icon-bg:#acd3fd;
   --green-bg:#cff5b7;
@@ -48,6 +49,7 @@ body {
   --purple-bg:#e7defe;
   --purple-text:#967fd6;
   --hover-purple:#d6c5fd;
+  --dark-text:#2f3e4e;
 }
 
 .MuiAutocomplete-listbox{

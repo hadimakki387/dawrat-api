@@ -68,6 +68,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   //   university: "university of lagos",
   //   course: "algebra",
   //   userId: "65573975d1514963f263b311",
+  //   ownerName: "Hadi Makki",
   // };
   
   // await Question.create(question);
