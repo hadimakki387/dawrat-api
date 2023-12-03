@@ -4,7 +4,7 @@ import {
   setSignIn,
   setSignUp,
 } from "@/core/features/landingPage/redux/homePage-slice";
-import { useGetUserQuery } from "@/core/rtk-query/auth";
+import { useGetUserQuery } from "@/core/rtk-query/user";
 import useScroll from "@/hooks/useScroll";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

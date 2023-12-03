@@ -1,4 +1,4 @@
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookie from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import ProfileAvatar from "../global/ProfileAvatar";
 
 function HomeNavBar() {
   const path = usePathname();
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 ">
@@ -28,28 +28,34 @@ function HomeNavBar() {
         </div>
       </div>
       <div className="flex items-center gap-4 relative">
-
         <DaPopOver
           open={true}
           menuItems={[
             {
               name: "Profile",
               onClick: () => {
-                router.push("/profile")
+                router.push("/profile");
               },
+              icon:<FontAwesomeIcon icon={faUser} className="text-subTitleText"/>
+            },
+            {
+              name: "Settings",
+              onClick: () => router.push("/settings"),
+              icon:<FontAwesomeIcon icon={faGear} className="text-subTitleText"/>
             },
             {
               name: "Logout",
               onClick: () => {
-                Cookie.remove("dawratToken")
-                window.location.reload()
+                Cookie.remove("dawratToken");
+                window.location.reload();
               },
+              icon:<FontAwesomeIcon icon={faSignOut}/>
             },
           ]}
         >
           <div className="flex items-center gap-4 relative">
             <ProfileAvatar />
-            <FontAwesomeIcon icon={faAngleDown} />
+            <FontAwesomeIcon icon={faAngleDown} className="text-subTitleText"/>
           </div>
         </DaPopOver>
       </div>

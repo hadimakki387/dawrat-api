@@ -6,7 +6,7 @@ import Folder from "@/components/SVGs/Folder";
 import Home from "@/components/SVGs/Home";
 import Questions from "@/components/SVGs/Questions";
 import StudyList from "@/components/SVGs/StudyList";
-import { useGetUserQuery } from "@/core/rtk-query/auth";
+import { useGetUserQuery } from "@/core/rtk-query/user";
 import { useGetManyCoursesQuery } from "@/core/rtk-query/courses";
 import { useGetManyDocumentsByIdQuery } from "@/core/rtk-query/documents";
 import Cookies from "js-cookie";

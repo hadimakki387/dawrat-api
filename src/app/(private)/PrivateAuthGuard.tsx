@@ -1,7 +1,7 @@
 "use client";
 import React, { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
-import { useGetUserQuery } from "@/core/rtk-query/auth";
+import { useGetUserQuery } from "@/core/rtk-query/user";
 import { useRouter } from "next/navigation";
 import LoadingScreen from "@/components/global/loading screen/LoadingScreen";
 import { useDispatch } from "react-redux";

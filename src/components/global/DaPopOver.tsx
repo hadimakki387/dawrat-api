@@ -79,7 +79,10 @@ function DaPopOver({
                 item.onClick && item.onClick();
                 closeOnClick && handleClose();
               }}>
-                {item.name}
+                <div className="flex items-center ">
+                  <div className="w-32">{item.name}</div>
+                  <div>{item.icon&& item.icon}</div>
+                </div>
               </MenuItem>
             );
           })}

@@ -1,4 +1,4 @@
-import { useGetUserQuery } from "@/core/rtk-query/auth";
+import { useGetUserQuery } from "@/core/rtk-query/user";
 import React, { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
