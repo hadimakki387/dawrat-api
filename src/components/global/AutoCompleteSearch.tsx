@@ -16,6 +16,7 @@ interface Props {
   className?: string;
   name?: string;
   formik?: any; // Add formik prop
+  defaultValue?: string;
 }
 
 export default function AutoCompleteSearch({
@@ -27,6 +28,7 @@ export default function AutoCompleteSearch({
   style,
   className,
   name,
+  defaultValue,
   formik, // Assign formik prop
 }: Props) {
   const dispatch = useDispatch();
@@ -35,6 +37,7 @@ export default function AutoCompleteSearch({
     <FormControl id="free-solo-2-demo">
       {label && <FormLabel>{label}</FormLabel>}
       <Autocomplete
+      defaultValue={defaultValue}
         name={name}
         placeholder={placeholder}
         type="search"

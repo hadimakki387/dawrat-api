@@ -1,4 +1,3 @@
-
 import * as bcrypt from "bcryptjs";
 import httpStatus from "http-status";
 import { NextRequest, NextResponse } from "next/server";
@@ -13,6 +12,7 @@ import { generateAuthTokens } from "@/backend/token/token.service";
 import { returnData } from "@/backend/helper-functions/returnData";
 import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 MongoConnection();
 
@@ -85,11 +85,10 @@ export const getUserById = async (id: string) => {
     const uni = await University.findById(foundUser.university);
     const { password, ...userWithoutPassword } = foundUser.toObject();
 
-
     return new Response(
       JSON.stringify({
         ...userWithoutPassword,
-        id:userWithoutPassword._id,
+        id: userWithoutPassword._id,
         statusCode: httpStatus.OK,
         university: uni,
       }),
@@ -99,21 +98,63 @@ export const getUserById = async (id: string) => {
   return foundUser;
 };
 
-export const getRecentlyViewed = async (req:NextRequest)=>{
-  const body = await req.json()
+export const getRecentlyViewed = async (req: NextRequest) => {
+  const body = await req.json();
 
-  console.log("this is the body")
-  console.log(body)
-  
-  const docs = body.filter((doc:any)=>doc.type === "doc")
-  const courses = body.filter((doc:any)=>doc.type === "course")
-  
-  const queryDocs = await Document.find({_id:{$in:docs.map((doc:any)=>doc.id)}})
-  const queryCourses = await Course.find({_id:{$in:courses.map((course:any)=>course.id)}})
+  console.log("this is the body");
+  console.log(body);
+
+  const docs = body.filter((doc: any) => doc.type === "doc");
+  const courses = body.filter((doc: any) => doc.type === "course");
+
+  const queryDocs = await Document.find({
+    _id: { $in: docs.map((doc: any) => doc.id) },
+  });
+  const queryCourses = await Course.find({
+    _id: { $in: courses.map((course: any) => course.id) },
+  });
 
   // i want to create a shuffled array of the two arrays
-  const shuffledArray = shuffleArray([...queryDocs,...queryCourses])
+  const shuffledArray = shuffleArray([...queryDocs, ...queryCourses]);
 
+  return new NextResponse(JSON.stringify(shuffledArray), { status: 200 });
+};
 
-  return new NextResponse(JSON.stringify(shuffledArray),{status:200})
-}
+export const updateUser = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+
+  const update = await User.findByIdAndUpdate(id, body, { new: true });
+
+  if (!update) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
+  }
+
+  const { password, ...userWithoutPassword } = update.toObject();
+
+  return new NextResponse(
+    JSON.stringify({ ...userWithoutPassword, id: userWithoutPassword._id }),
+    { status: 200 }
+  );
+};
+
+export const updateUniversity = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+
+  const update = await User.findByIdAndUpdate(id, body, { new: true });
+
+  if (!update) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
+  }
+
+  const updatedUni = await University.findById(update.university);
+
+  return new NextResponse(JSON.stringify(returnData(updatedUni)), {
+    status: 200,
+  });
+};
