@@ -58,6 +58,13 @@ const extendedApi = mainApi.injectEndpoints({
         } catch {}
       },
     }),
+    changePassword: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/users/change-password/${id}`,
+        method: "PATCH",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -65,5 +72,6 @@ export const {
   useGetRecentlyReviewedDataQuery,
   useGetUserQuery,
   useUpdateUserMutation,
-  useUpdateUserUniversityMutation
+  useUpdateUserUniversityMutation,
+  useChangePasswordMutation,
 } = extendedApi;

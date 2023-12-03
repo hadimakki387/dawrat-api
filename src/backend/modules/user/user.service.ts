@@ -158,3 +158,32 @@ export const updateUniversity = async (req: NextRequest) => {
     status: 200,
   });
 };
+
+export const changePassword = async (req: NextRequest) => {
+  
+  const id = getIdFromUrl(req.url);
+  const {oldPassword,newPassword} = await req.json();
+
+  const user = await User.findById(id);
+
+  if(!user){
+    return new NextResponse(JSON.stringify({message:"User not found"}),{status:404})
+  }
+
+  const isMatch = await bcrypt.compare(oldPassword,user.password);
+
+  if(!isMatch){
+    return new NextResponse(JSON.stringify({message:"Incorrect Password"}),{status:400})
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword,8);
+
+  const updateUser = await User.findByIdAndUpdate(id,{password:hashedPassword},{new:true});
+
+  if(!updateUser){
+    return new NextResponse(JSON.stringify({message:"User not found"}),{status:404})
+  }
+
+  return new NextResponse(JSON.stringify({message:"Password Changed"}),{status:200})
+
+}
