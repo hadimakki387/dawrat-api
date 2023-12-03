@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 import Question from "./questions.model";
+import User from "../user/user.model";
 
 export const getQuestions = async (req: NextRequest) => {
   const params = new URL(req.url);
@@ -31,6 +32,19 @@ export const getQuestionsByUserId = async (req: NextRequest) => {
 
 export const createQuestion = async (req: NextRequest) => {
   const data = await req.json();
+
+  const user = await User.findById(data?.userId);
+
+  if (user.questionsCount.length >= 30) {
+    return new Response(
+      JSON.stringify({
+        message: "You have reached the maximum number of questions",
+      }),
+      {
+        status: httpStatus.BAD_REQUEST,
+      }
+    );
+  }
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -74,6 +88,25 @@ export const createQuestion = async (req: NextRequest) => {
   };
 
   const savedQuestion = await Question.create(question);
+
+  if (!savedQuestion) {
+    return new Response(
+      JSON.stringify({
+        message: "Somthing went wrong, question not saved",
+      }),
+      {
+        status: httpStatus.BAD_REQUEST,
+      }
+    );
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
+    data?.userId,
+    {
+      questions: user?.questionsCount + 1,
+    },
+    { new: true }
+  );
 
   return new Response(JSON.stringify(savedQuestion), {
     status: httpStatus.CREATED,

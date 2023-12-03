@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import {
   decrementQuestionStep,
   resetQuestionStep,
+  setContent,
   setSearchCourse,
   setSearchUniversity,
   setSelectedCourse,
@@ -31,6 +32,7 @@ import { UniversityInterface } from "@/backend/modules/universities/universities
 import { courseInterface } from "@/backend/modules/Courses/courses.interface";
 import { useRouter } from "next/navigation";
 import { generateToast, updateToast } from "@/services/global-function";
+import { setUser } from "@/core/features/global/redux/global-slice";
 
 const ydoc = new Y.Doc();
 
@@ -119,6 +121,14 @@ function Step3() {
             toastType: ToastType.success,
             duration: 2000,
           });
+          dispatch(
+            setUser({
+              ...user,
+              questionsCount: user?.questionsCount && user?.questionsCount + 1,
+            })
+          );
+          dispatch(setContent(""));
+          localStorage.setItem("contentSaved", "");
           router.push("/questions");
         })
         .catch((err) => {
@@ -131,7 +141,6 @@ function Step3() {
         });
     },
   });
-
 
   return (
     <>

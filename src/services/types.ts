@@ -23,10 +23,11 @@ export interface DropdownValue {
     };
     domain: string;
     currentYearOfStudying: string;
-    phone?: string;
-    uploads?: number;
-    reviewedDocuments?: string[];
-    reviewedCourses?: string[];
+    phone: string;
+    uploads: number;
+    reviewedDocuments: string[];
+    reviewedCourses: string[];
+    questionsCount: number;
   }
 
   export interface MenuItemType {

@@ -25,6 +25,7 @@ function QuestionInput() {
     (state) => state.askAi
   );
   const dispatch = useDispatch();
+  const { user } = useAppSelector((state) => state.global);
 
   return (
     <DaCard className="p-8 flex flex-col gap-6">
@@ -43,7 +44,7 @@ function QuestionInput() {
                   size="xs"
                 />
               </div>
-              <p>You Asked 30 Question</p>
+              <p>You still have {user?.questionsCount && (30 - user?.questionsCount)} Question</p>
             </div>
             <div>
               <DaToggle
@@ -62,7 +63,7 @@ function QuestionInput() {
       ) : QuestionStep === 1 ? (
         <Step2 />
       ) : (
-       <Step3 />
+        <Step3 />
       )}
     </DaCard>
   );
