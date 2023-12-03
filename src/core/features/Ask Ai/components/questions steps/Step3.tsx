@@ -141,7 +141,7 @@ function Step3() {
             <EditorContent editor={editor} />
             <div
               className="text-primary hover:cursor-pointer font-semibold"
-              onClick={() => dispatch(decrementQuestionStep())}
+              onClick={() => dispatch(resetQuestionStep())}
             >
               Edit
             </div>
