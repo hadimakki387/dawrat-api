@@ -19,6 +19,7 @@ const createQuestionBody: Record<
   topic: Joi.string().required(),
   createdAt: Joi.string(),
     updatedAt: Joi.string(),
+    public:Joi.boolean()
 };
 
 export const createQuestionValidation = {

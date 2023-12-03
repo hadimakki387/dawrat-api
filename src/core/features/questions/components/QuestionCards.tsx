@@ -1,21 +1,22 @@
 "use client";
 import { QuestionInterface } from "@/backend/modules/questions/questions.interface";
+import CheckWithFlower from "@/components/SVGs/CheckWithFlower";
 import DaCard from "@/components/SVGs/DaCard";
+import Folder from "@/components/SVGs/Folder";
+import Institution from "@/components/SVGs/Institution";
+import DaButton from "@/components/global/DaButton";
 import ProfileAvatar from "@/components/global/ProfileAvatar";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { useGetQuestionByIdQuery } from "@/core/rtk-query/questions";
-import React from "react";
+import { Divider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import DaButton from "@/components/global/DaButton";
-import { Divider } from "@mui/material";
-import Institution from "@/components/SVGs/Institution";
-import Folder from "@/components/SVGs/Folder";
-import CheckWithFlower from "@/components/SVGs/CheckWithFlower";
+import React from "react";
 dayjs.extend(relativeTime);
+
 
 function QuestionCards({ question }: { question: QuestionInterface }) {
   const { user } = useAppSelector((state) => state.global);
+
 
   return (
     <DaCard loading={!user} className="space-y-4">
@@ -54,7 +55,7 @@ function QuestionCards({ question }: { question: QuestionInterface }) {
         Subject:{" "}
         <span className="text-darkText font-semibold">{question.subject}</span>
       </div>
-      <div className="text-titleText">{question.question}</div>
+      <div className="text-titleText"><div dangerouslySetInnerHTML={{ __html: question.question }} /></div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-darkText font-semibold text-sm">
           <Institution

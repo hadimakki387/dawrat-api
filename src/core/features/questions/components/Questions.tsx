@@ -6,12 +6,16 @@ import { useGetQuestionByIdQuery } from "@/core/rtk-query/questions";
 import DaButton from "@/components/global/DaButton";
 import CheckWithFlower from "@/components/SVGs/CheckWithFlower";
 import QuestionCardSkeleton from "./QuestionCardSkeleton";
+import { useRouter } from "next/navigation";
 
 function Questions() {
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetQuestionByIdQuery(user?.id as string, {
     skip: !user?.id,
   });
+
+const router = useRouter()
+
   return (
     <div className="space-y-4 mb-4">
       {data ? (
@@ -26,6 +30,7 @@ function Questions() {
                 label="Ask another question"
                 fullRounded
                 className="text-white font-bold bg-myPink"
+                onClick={()=>router.push('/ask-ai')}
               />
             </div>
           </Fragment>

@@ -10,4 +10,5 @@ export interface QuestionInterface {
   ownerName: string;
   createdAt: string;
     updatedAt: string;
+    public:boolean;
 }

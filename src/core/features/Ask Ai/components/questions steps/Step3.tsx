@@ -1,7 +1,7 @@
 import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
-import { subjects } from "@/services/constants";
+import { ToastType, subjects } from "@/services/constants";
 import CharacterCount from "@tiptap/extension-character-count";
 import Collaboration from "@tiptap/extension-collaboration";
 import Highlight from "@tiptap/extension-highlight";
@@ -26,6 +26,11 @@ import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import DaLoader from "@/components/global/DaLoader";
 import { useGetCoursesByUniversityIdQuery } from "@/core/rtk-query/courses";
 import { CircularProgress } from "@mui/material";
+import { useCreateQuestionMutation } from "@/core/rtk-query/questions";
+import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
+import { courseInterface } from "@/backend/modules/Courses/courses.interface";
+import { useRouter } from "next/navigation";
+import { generateToast, updateToast } from "@/services/global-function";
 
 const ydoc = new Y.Doc();
 
@@ -41,7 +46,19 @@ function Step3() {
     selectedUniversity,
     searchCourse,
     selectedCourse,
+    isPrivate,
   } = useAppSelector((state) => state.askAi);
+  const { user } = useAppSelector((state) => state.global);
+  const { data } = useGetUniversitiesQuery({
+    title: searchUniversity,
+    limit: 5,
+  });
+  const { data: courses, isLoading: loadingCourses } =
+    useGetCoursesByUniversityIdQuery(selectedUniversity, {
+      skip: !selectedUniversity ? true : false,
+    });
+
+  const [createQuestion] = useCreateQuestionMutation();
   const editor = useEditor({
     editable: false,
     extensions: [
@@ -64,6 +81,7 @@ function Step3() {
     ],
     content: content,
   });
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -73,18 +91,47 @@ function Step3() {
       university: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      dispatch(resetQuestionStep());
+      const id = generateToast({
+        message: "Genearating answer...",
+        isLoading: true,
+      });
+      createQuestion({
+        body: {
+          question: content,
+          university: data?.find(
+            (item: UniversityInterface) => item.id === selectedUniversity
+          )?.title,
+          course: courses?.find(
+            (item: courseInterface) => item.id === selectedCourse
+          )?.title,
+          public: !isPrivate,
+          subject: subjects[subject].title,
+          topic: subjects[subject].subItems[subIndex],
+          userId: user?.id,
+          ownerName: user?.firstName + " " + user?.lastName,
+        },
+        id: user?.id,
+      })
+        .unwrap()
+        .then(() => {
+          updateToast(id, "Answer generated successfully", {
+            isLoading: false,
+            toastType: ToastType.success,
+            duration: 2000,
+          });
+          router.push("/questions");
+        })
+        .catch((err) => {
+          updateToast(id, `${err.data.message}`, {
+            isLoading: false,
+            toastType: ToastType.error,
+            duration: 2000,
+          });
+          dispatch(resetQuestionStep());
+        });
     },
   });
 
-  const { data } = useGetUniversitiesQuery({
-    title: searchUniversity,
-    limit: 5,
-  });
-  const { data: courses, isLoading: loadingCourses } =
-    useGetCoursesByUniversityIdQuery(selectedUniversity, {
-      skip: !selectedUniversity ? true : false,
-    });
 
   return (
     <>
