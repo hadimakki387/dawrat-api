@@ -28,34 +28,6 @@ export const updateUserUploads = async (userId: string) => {
   return updateUser;
 };
 
-export const updateReviewdDocuments = async (userId: string, docId: string) => {
-  const user = await User.findById(userId);
-
-  if (!user) {
-    return new NextResponse(JSON.stringify({ message: "User not found" }), {
-      status: 400,
-    });
-  }
-
-  if (user) {
-    let recentDocuments = user.reviewedDocuments;
-    recentDocuments.unshift(docId);
-
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { recentDocuments: recentDocuments },
-      { new: true }
-    );
-
-    return new NextResponse(
-      JSON.stringify({
-        message: "Recent Documents Updated",
-        updatedUser: updatedUser,
-      }),
-      { status: 200 }
-    );
-  }
-};
 
 export function shuffleArray(array:unknown[]) {
   let currentIndex = array.length,  randomIndex;

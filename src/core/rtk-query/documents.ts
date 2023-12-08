@@ -8,7 +8,6 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      
     }),
     getManyDocumentsById: builder.query({
       query: ({ body, limit }) => ({
@@ -29,6 +28,29 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateReviewedDocuments: builder.mutation({
+      query: ({ id, body, limit }) => ({
+        url: `/users/update-reviewed-docs/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      onQueryStarted: async ({ limit, id }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+         
+          dispatch(
+            ExtendedApi.util.updateQueryData(
+              "getManyDocumentsById",
+              { limit: 3, id: id },
+              (draft) => {
+                console.log("accessed");
+                draft.unshift(updatedUser);
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
@@ -37,4 +59,5 @@ export const {
   useGetManyDocumentsByIdQuery,
   useGetSingleDocumentQuery,
   useGetRecommendedDocumentsInDomainQuery,
+  useUpdateReviewedDocumentsMutation,
 } = ExtendedApi;

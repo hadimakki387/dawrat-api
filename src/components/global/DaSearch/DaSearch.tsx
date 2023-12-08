@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,12 +10,14 @@ interface Props {
   className?: string;
   padding?: string;
   handleSubmit?: (search: string) => any;
+  defaultValue?: string;
 }
 
 function DaSearch({
   placeholder = "search ...",
   padding = "p-2",
   handleSubmit,
+    defaultValue
 }: Props) {
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -28,6 +30,11 @@ function DaSearch({
       if (handleSubmit) handleSubmit(values.search);
     },
   });
+  useEffect(() => {
+    if (defaultValue) {
+      formik.setFieldValue("search", defaultValue);
+    }
+  }, []);
   return (
     <form
       aria-label="Courses, books, or documents"
@@ -47,6 +54,7 @@ function DaSearch({
         value={formik.values.search}
         onChange={(e)=>formik.handleChange(e)}
         onBlur={(e)=>formik.handleBlur(e)}
+       
       />
       <span className="_b5480744d655 _f04bf322e3f3">
         <button

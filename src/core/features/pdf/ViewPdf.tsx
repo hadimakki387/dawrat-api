@@ -28,18 +28,7 @@ type PDFFile = string | File | null;
 
 function ViewPdf({url}:{url:string}) {
   const [numPages, setNumPages] = useState<number>();
-  const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number>();
 
-  const onResize = useCallback<ResizeObserverCallback>((entries) => {
-    const [entry] = entries;
-
-    if (entry) {
-      setContainerWidth(entry.contentRect.width);
-    }
-  }, []);
-
-  useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
   function onDocumentLoadSuccess({
     numPages: nextNumPages,
@@ -52,7 +41,7 @@ function ViewPdf({url}:{url:string}) {
   return (
     <div>
       <div className="Example__container">
-        <div className="Example__container__document" ref={setContainerRef}>
+        <div className="Example__container__document" >
           <Document
             file={url}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -62,9 +51,6 @@ function ViewPdf({url}:{url:string}) {
               <Page
                 key={`page_${index + 1}`}
                 pageNumber={index + 1}
-                width={
-                  containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-                }
                 className={"rounded-lg"}
               />
             ))}

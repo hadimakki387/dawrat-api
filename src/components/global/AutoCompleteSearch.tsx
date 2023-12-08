@@ -17,6 +17,8 @@ interface Props {
   name?: string;
   formik?: any; // Add formik prop
   defaultValue?: string;
+  disabled?:boolean
+
 }
 
 export default function AutoCompleteSearch({
@@ -30,6 +32,7 @@ export default function AutoCompleteSearch({
   name,
   defaultValue,
   formik, // Assign formik prop
+  disabled
 }: Props) {
   const dispatch = useDispatch();
 
@@ -55,6 +58,13 @@ export default function AutoCompleteSearch({
         }}
         style={style}
         className={`${className}`}
+        disabled={disabled}
+        sx={{
+          "&.Mui-disabled": {
+            backgroundColor: "var(--silver-bg)"
+          },
+          width:"100%"
+        }}
       />
       {name && formik?.errors[name] && (
         <div className="text-sm text-error">{formik?.errors[name]}</div>

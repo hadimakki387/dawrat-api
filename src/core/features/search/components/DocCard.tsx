@@ -1,19 +1,36 @@
-import { DocumentI } from "@/services/types";
-import React from "react";
-import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+"use client";
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import Folder from "@/components/SVGs/Folder";
 import Institution from "@/components/SVGs/Institution";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { useUpdateReviewedDocumentsMutation } from "@/core/rtk-query/documents";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/navigation";
+import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
+  const router = useRouter();
+  const [updateReviewsDocs] = useUpdateReviewedDocumentsMutation();
+  const { user } = useAppSelector((state) => state.global);
   return (
-    <div className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl">
-      <div className="flex items-center gap-2">
+    <div
+      onClick={() => {
+        updateReviewsDocs({
+          id: user?.id,
+          body: {
+            document: doc.id,
+          },
+          limit: 3,
+        });
+        router.push(`/pdf/${doc.id}`);
+      }}
+      className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl"
+    >
+      <div className="flex items-center gap-4">
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
-            <GetPdfThumbnail url={doc?.url} width={100} height={100} />
+            <GetPdfThumbnail url={doc?.url} width={112} height={80} />
           </div>
         </div>
         <div className="flex flex-col justify-between">

@@ -1,7 +1,12 @@
-import { faAngleDown, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faGear,
+  faSignOut,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookie from "js-cookie";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import DaPopOver from "../global/DaPopOver";
 import DaSearch from "../global/DaSearch/DaSearch";
 import ProfileAvatar from "../global/ProfileAvatar";
@@ -9,6 +14,9 @@ import ProfileAvatar from "../global/ProfileAvatar";
 function HomeNavBar() {
   const path = usePathname();
   const router = useRouter();
+  const params = useParams();
+  const search = params?.search;
+
 
   return (
     <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 ">
@@ -18,9 +26,13 @@ function HomeNavBar() {
         </div>
         {path !== "/" && (
           <div className="w-[20vw]">
-            <DaSearch padding="" handleSubmit={(search)=>{
-              router.push(`/search/${search}`)
-            }}/>
+            <DaSearch
+              defaultValue={search ? search as string : ""}
+              padding=""
+              handleSubmit={(search) => {
+                router.push(`/search/${search}`);
+              }}
+            />
           </div>
         )}
         <div className="flex items-center gap-4">
@@ -38,12 +50,16 @@ function HomeNavBar() {
               onClick: () => {
                 router.push("/profile");
               },
-              icon:<FontAwesomeIcon icon={faUser} className="text-subTitleText"/>
+              icon: (
+                <FontAwesomeIcon icon={faUser} className="text-subTitleText" />
+              ),
             },
             {
               name: "Settings",
               onClick: () => router.push("/settings"),
-              icon:<FontAwesomeIcon icon={faGear} className="text-subTitleText"/>
+              icon: (
+                <FontAwesomeIcon icon={faGear} className="text-subTitleText" />
+              ),
             },
             {
               name: "Logout",
@@ -51,13 +67,13 @@ function HomeNavBar() {
                 Cookie.remove("dawratToken");
                 window.location.reload();
               },
-              icon:<FontAwesomeIcon icon={faSignOut}/>
+              icon: <FontAwesomeIcon icon={faSignOut} />,
             },
           ]}
         >
           <div className="flex items-center gap-4 relative">
             <ProfileAvatar />
-            <FontAwesomeIcon icon={faAngleDown} className="text-subTitleText"/>
+            <FontAwesomeIcon icon={faAngleDown} className="text-subTitleText" />
           </div>
         </DaPopOver>
       </div>

@@ -14,8 +14,8 @@ import DocCardSkeleton from "./DocCardSkeleton";
 
 function Search() {
   const param = useParams();
-  const id = param?.id;
-  const { data, isLoading } = useSearchDataQuery({ title: id });
+  const search = param?.search;
+  const { data, isLoading } = useSearchDataQuery({ title: search });
   return (
     <>
     

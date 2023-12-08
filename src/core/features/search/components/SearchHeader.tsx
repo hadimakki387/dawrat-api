@@ -3,7 +3,7 @@ import React from 'react'
 
 function SearchHeader() {
   return (
-    <div className="w-full flex items-center mb-4">
+    <div className="w-full flex items-center mb-4 gap-4">
     <div className="w-1/4">
       <AutoCompleteSearch
         data={[{ title: "data", id: "fjhkjg" }]}

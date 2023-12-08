@@ -1,7 +1,7 @@
 import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
-import { ToastType, subjects } from "@/services/constants";
+import { ToastType, subjects, universities } from "@/services/constants";
 import CharacterCount from "@tiptap/extension-character-count";
 import Collaboration from "@tiptap/extension-collaboration";
 import Highlight from "@tiptap/extension-highlight";
@@ -174,7 +174,7 @@ function Step3() {
               Edit
             </div>
           </div>
-          <div>
+          <div className="w-1/4">
             <AutoCompleteSearch
               data={data}
               placeholder="Search for your university"
@@ -186,24 +186,22 @@ function Step3() {
               formik={formik}
             />
           </div>
-          {loadingCourses ? (
-            <div className="w-full flex justify-center items-center m-auto">
-              <CircularProgress size={30} />
-            </div>
-          ) : (
-            courses && (
-              <div>
-                <AutoCompleteSearch
-                  data={courses}
-                  placeholder="Search for course"
-                  setSearch={setSearchCourse}
-                  setSelectedItem={setSelectedCourse}
-                  style={{ borderRadius: "0.7rem" }}
-                  className="mr-4 p-1"
-                />
+      
+              <div className="flex justify-end items-center gap-2 w-1/4">
+                <div className="w-full">
+                  <AutoCompleteSearch
+                    data={courses}
+                    placeholder={universities ? "Search for your course" : "Select a university first"}
+                    setSearch={setSearchCourse}
+                    setSelectedItem={setSelectedCourse}
+                    style={{ borderRadius: "0.7rem" ,width:"100%"}}
+                    className="mr-4 p-1 w-full"
+                    disabled={!courses}
+                  />
+                </div>
+                {loadingCourses&& <CircularProgress size={20} className="ml-2" />}
               </div>
-            )
-          )}
+      
           <div className="flex justify-end">
             <DaButton
               label="finish"
@@ -212,6 +210,7 @@ function Step3() {
                 formik.handleSubmit();
               }}
             />
+            
           </div>
         </>
       ) : (
