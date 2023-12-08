@@ -99,7 +99,8 @@ function Details() {
         course: selectedCourse,
         ownerId: user?.id,
         url: uploadedDocs[0]?.url,
-      }).unwrap()
+      })
+        .unwrap()
         .then((res) => {
           console.log(res);
           updateToast(id, "Document Uploaded", {
@@ -107,10 +108,10 @@ function Details() {
             isLoading: false,
             duration: 2000,
           });
-          localStorage.setItem("uploadedDocs","");
+          localStorage.setItem("uploadedDocs", "");
           dispatch(setUploadedDocs([]));
           formik.resetForm();
-          dispatch(setUser({...user,uploads:res.updatedUser.uploads}))
+          dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
           dispatch(setSelectedCourse(""));
           dispatch(setSelectedDomain(""));
           dispatch(setSelectedUniversity(""));
@@ -125,8 +126,6 @@ function Details() {
         });
     },
   });
-
-
 
   const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
 
@@ -145,8 +144,7 @@ function Details() {
                     <Document
                       fill="var(--icon-bg)"
                       patternFill="var(--primary)"
-                      width="40px"
-                      height="40px"
+                      size={40}
                     />
                   </div>
                   <div className="flex flex-col justify-between">
@@ -269,11 +267,7 @@ function Details() {
           domains && (
             <div className="flex items-center w-full">
               <div className="w-[15vw] flex items-center gap-4">
-                <Folder
-                  fill="var(--sub-title-text)"
-                  width="20px"
-                  height="20px"
-                />
+                <Folder fill="var(--sub-title-text)" size={20} />
                 <p>Domain</p>
               </div>
               <div className="w-full">
@@ -304,11 +298,7 @@ function Details() {
           courses && (
             <div className="flex items-center w-full">
               <div className="w-[15vw] flex items-center gap-4">
-                <Folder
-                  fill="var(--sub-title-text)"
-                  width="20px"
-                  height="20px"
-                />
+                <Folder fill="var(--sub-title-text)" size={20} />
                 <p>Course</p>
               </div>
               <div className="w-full">

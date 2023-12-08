@@ -18,7 +18,7 @@ function AnalysticsSection() {
       <div className="flex items-center justify-end m-auto w-[50%] gap-8 relative">
           <div className="w-32">
             <h1 className="text-6xl font-bold">100</h1>
-            <p className="text-sm"><Document width="15px" height="15px" fill="var(--hint)"/> Study Resource</p>
+            <p className="text-sm"><Document size={16} fill="var(--hint)"/> Study Resource</p>
           </div>
           <div className="w-32">
             <h1 className="text-6xl font-bold">100</h1>
