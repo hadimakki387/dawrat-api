@@ -30,7 +30,13 @@ function DaButton({
       className={`${
         fullRounded ? "rounded-full" : "rounded-md"
 <<<<<<< HEAD
+<<<<<<< HEAD
       }  ${className} px-4 py-2  text-subTitleText `}
+=======
+      }  px-4 py-2 text-subTitleText ${className} ${
+        startIcon || endIcon ? "flex justify-between items-center gap-2" : ""
+      }`}
+>>>>>>> b6c241b42af24b11b47602164ecd7f7457d92c2b
 =======
       }  px-4 py-2 text-subTitleText ${className} ${
         startIcon || endIcon ? "flex justify-between items-center gap-2" : ""
