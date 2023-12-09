@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Document from "../Documents/document.model";
 import User from "./user.model";
 import * as bcrypt from "bcryptjs";
+import Course from "../Courses/courses.model";
 
 export const isEmailTaken = async (email: string) => {
   const user = await User.findOne({ email: email });
@@ -28,20 +29,31 @@ export const updateUserUploads = async (userId: string) => {
   return updateUser;
 };
 
+export const updateDocsCountInCourse = async (courseId: string) => {
+  const docs = await Document.find({ course: courseId });
+  const updateCourse = await Course.findByIdAndUpdate(
+    courseId,
+    { docsCount: docs.length },
+    { new: true }
+  );
+  return updateCourse;
+};
 
-export function shuffleArray(array:unknown[]) {
-  let currentIndex = array.length,  randomIndex;
+export function shuffleArray(array: unknown[]) {
+  let currentIndex = array.length,
+    randomIndex;
 
   // While there remain elements to shuffle.
   while (currentIndex > 0) {
-
     // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
     // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+      array[randomIndex],
+      array[currentIndex],
+    ];
   }
 
   return array;

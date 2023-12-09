@@ -2,7 +2,7 @@
 import Joi from "joi";
 import { courseInterface } from "./courses.interface";
 
-const createCourse: Record<keyof Omit<courseInterface, "id">, any> = {
+const createCourse: Record<keyof Omit<courseInterface, "id" | "_id">, any> = {
     title: Joi.string().required(),
     description: Joi.string().required(),
     domain: Joi.string().required(),
@@ -11,6 +11,7 @@ const createCourse: Record<keyof Omit<courseInterface, "id">, any> = {
     universityName: Joi.string().required(),
     createdAt: Joi.string(),
     updatedAt: Joi.string(),
+    docsCount: Joi.number(),
 };
 
 export const createCourseValidation = {

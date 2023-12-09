@@ -53,3 +53,12 @@ export interface DropdownValue {
     domainTitle:string;
     courseTitle:string;
   }
+
+export interface sideBarInterface{
+  title:string;
+  label: string;
+  path: string;
+  icon: any;
+  hasSubItems: boolean;
+  subItems: any;
+}

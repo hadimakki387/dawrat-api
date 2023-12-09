@@ -14,7 +14,7 @@ function CourseCard({ course }: { course: courseInterface }) {
     <div
       onClick={() => {
         reviewedCourses({
-          id: user?.id,
+          id: user?.id as string,
           body: {
             course: course.id,
           },

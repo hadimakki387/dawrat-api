@@ -17,7 +17,6 @@ function Courses() {
     id: id,
     sort: value ? "rating" : "date",
   });
-  
 
   return (
     <div className="mr-6">
@@ -42,15 +41,19 @@ function Courses() {
             }}
           />
 
-          {isLoading
-            ? Array(5)
-                .fill(3)
-                .map((_, i) => {
-                  return <DocCardSkeleton key={i} />;
-                })
-            : data?.map((doc: DocumentInterface) => {
-                return <DocCard key={doc.id} doc={doc} />;
-              })}
+          {isLoading ? (
+            Array(5)
+              .fill(3)
+              .map((_, i) => {
+                return <DocCardSkeleton key={i} />;
+              })
+          ) : data && data.length > 0 ? (
+            data?.map((doc: DocumentInterface) => {
+              return <>{doc?.url && <DocCard key={doc.id} doc={doc} />}</>;
+            })
+          ) : (
+            <div className="text-center text-darkText mt-8 font-medium">No documents found</div>
+          )}
         </div>
       </div>
     </div>

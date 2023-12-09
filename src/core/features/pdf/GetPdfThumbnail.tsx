@@ -1,5 +1,7 @@
 // use react pdf to view pdf
 
+"use client"
+import { useEffect, useState } from "react";
 import { Document, Thumbnail, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -51,9 +53,16 @@ function GetPdfThumbnail({
   //   setNumPages(nextNumPages);
   // }
 
+  const [client, setClient] = useState<any>(false);
+
+  useEffect(()=>{
+    setClient(true)
+  },[])
+  
+
   return (
     <div>
-      {url?<div className="Example__container">
+      {url && client ?<div className="Example__container">
         <div className="Example__container__document">
           <Document
             file={url}

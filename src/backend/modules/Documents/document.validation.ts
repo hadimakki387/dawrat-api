@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { DocumentInterface } from "./document.interface";
 
-const createDocument: Record<keyof Omit<DocumentInterface,"id">, any> = {
+const createDocument: Record<keyof Omit<DocumentInterface,"id"| "_id">, any> = {
     title: Joi.string().required(),
     description: Joi.string().required(),
     domain: Joi.string().required(),

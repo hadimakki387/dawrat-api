@@ -1,6 +1,6 @@
 import MongoConnection from "@/backend/utils/db";
 import { NextRequest, NextResponse } from "next/server";
-import { updateUserUploads } from "../user/user.helperFunctions";
+import { updateDocsCountInCourse, updateUserUploads } from "../user/user.helperFunctions";
 import { checkDocumentTitle } from "./document.helperFunction";
 import Document from "./document.model";
 import { createDocumentValidation } from "./document.validation";
@@ -8,6 +8,7 @@ import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import Course from "../Courses/courses.model";
 import University from "../universities/universities.model";
 import { returnArrayData } from "@/backend/helper-functions/returnData";
+import httpStatus from "http-status";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -38,7 +39,16 @@ export const createDocument = async (req: NextRequest) => {
     universityName: university.title,
   });
 
+  if (!doc) {
+    return new NextResponse(
+      JSON.stringify({ message: "Something went Wrong, Doc Not Created" }),
+      { status: httpStatus.BAD_REQUEST }
+    );
+  }
+
   const updatedUser = await updateUserUploads(userBody.ownerId);
+  const updatedCourse = await updateDocsCountInCourse(userBody.course);
+  
 
   return new NextResponse(
     JSON.stringify({ doc: doc, updatedUser: updatedUser }),
@@ -68,7 +78,7 @@ export const getDocumentsByCourseId = async (req: NextRequest) => {
     const documents = await Document.find({ course: id }).sort({
       createdAt: -1,
     });
-    console.log(documents)
+    console.log(documents);
     return new NextResponse(JSON.stringify(returnArrayData(documents)), {
       status: 200,
     });

@@ -9,4 +9,5 @@ export interface courseInterface {
   createdAt: string;
   updatedAt: string;
   universityName:string;
+  docsCount:number;
 }

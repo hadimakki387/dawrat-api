@@ -1,3 +1,4 @@
+import { courseInterface } from "@/backend/modules/Courses/courses.interface";
 import { mainApi } from ".";
 
 const ExtendedApi = mainApi.injectEndpoints({
@@ -8,7 +9,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getCourseById: builder.query({
+    getCourseById: builder.query<courseInterface,string>({
       query: (id) => ({
         url: `courses/${id}`,
         method: "GET",
@@ -33,7 +34,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    updateReviewdCourses: builder.mutation({
+    updateReviewdCourses: builder.mutation<any,{id:string,body:{course:string}}>({
       query: ({ id, body }) => ({
         url: `/users/update-reviewed-courses/${id}`,
         method: "PATCH",
@@ -49,4 +50,5 @@ export const {
   useGetCoursesByUniversityIdQuery,
   useGetCoursesByDomainIdQuery,
   useUpdateReviewdCoursesMutation,
+  useGetCourseByIdQuery
 } = ExtendedApi;

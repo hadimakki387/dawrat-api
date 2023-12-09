@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 function PublicAuthGuard({ children }: { children: React.ReactNode }) {
   const id = Cookies.get("dawratUserId");
-  const { data, isSuccess } = useGetUserQuery(id);
+  const { data, isSuccess } = useGetUserQuery(id as string);
   const router = useRouter();
   useLayoutEffect(() => {
     if (data && isSuccess) {

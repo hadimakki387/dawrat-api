@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { createCourseValidation } from "./courses.validation";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Course from "./courses.model";
 import {
   returnArrayData,
@@ -9,6 +9,7 @@ import {
 import MongoConnection from "@/backend/utils/db";
 import { DocumentInterface } from "../Documents/document.interface";
 import { DocumentI } from "@/services/types";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 MongoConnection();
 
@@ -19,7 +20,8 @@ export const getCourses = async () => {
   });
 };
 
-export const getCourseById = async (id: string) => {
+export const getCourseById = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url)
   const course = await Course.findById(id);
   return new NextResponse(JSON.stringify(returnData(course)), {
     status: 200,
@@ -64,6 +66,14 @@ export const createCourse = async (req: Request) => {
 
   //create course
   const course = await Course.create(data);
+
+  if (!course) {
+    return new NextResponse(
+      JSON.stringify("Something went wrong, course not created"),
+      { status: httpStatus.BAD_REQUEST }
+    );
+  }
+
   return new NextResponse(JSON.stringify(returnData(course)), { status: 200 });
 };
 
@@ -82,3 +92,4 @@ export const getManyCoursesByIds = async (req: Request) => {
     status: 200,
   });
 };
+
