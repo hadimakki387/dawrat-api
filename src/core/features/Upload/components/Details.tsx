@@ -113,9 +113,6 @@ function Details() {
           dispatch(setUploadedDocs([]));
           formik.resetForm();
           dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
-          dispatch(setSelectedCourse(""));
-          dispatch(setSelectedDomain(""));
-          dispatch(setSelectedUniversity(""));
         })
         .catch((err) => {
           console.log(err);

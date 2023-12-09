@@ -17,13 +17,13 @@ const ExtendedApi = mainApi.injectEndpoints({
         body,
       }),
     }),
-    getDocumentsByOwnerId: builder.query<DocumentInterface[],string>({
+    getDocumentsByOwnerId: builder.query<DocumentInterface[], string>({
       query: (id) => ({
         url: `/users/documents/${id}`,
         method: "GET",
       }),
     }),
-    getSingleDocument: builder.query<DocumentInterface,string>({
+    getSingleDocument: builder.query<DocumentInterface, string>({
       query: (id) => ({
         url: `/documents/${id}`,
         method: "GET",
@@ -64,11 +64,30 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    deleteDocument: builder.mutation({
-      query: (id) => ({
+    deleteDocument: builder.mutation<any, { id: string; body: string[] ,ownerId:string}>({
+      query: ({ id, body }) => ({
         url: `/documents/${id}`,
         method: "DELETE",
+        body,
       }),
+      onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+
+          dispatch(
+            ExtendedApi.util.updateQueryData(
+              "getDocumentsByOwnerId",
+              ownerId,
+              (draft) => {
+                console.log("accessed");
+                // i want to remove the document from the array
+                const index = draft.findIndex((doc) => doc._id === ownerId);
+                draft.splice(index, 1);
+              }
+            )
+          );
+        } catch {}
+      },
     }),
   }),
 });

@@ -6,13 +6,14 @@ import {
   useGetDocumentsByOwnerIdQuery,
   useGetManyDocumentsByIdQuery,
 } from "@/core/rtk-query/documents";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
   setDeleteDocumentDialog,
+  setEditDocumentDialog,
   setSelectedDoc,
 } from "../redux/profile-slice";
 
@@ -27,7 +28,10 @@ function UploadedDocs() {
         <div className="w-1/3 flex items-center">
           <div className="w-1/4">Views</div>
           <div className="w-1/4">Rating</div>
-          <div className="w-1/2">Delete</div>
+          <div className="w-1/2 flex items-center">
+            <div className="w-1/2">Delete</div>
+            <div className="w-1/2">Edit</div>
+          </div>
         </div>
       </div>
       <div className="overflow-y-auto h-full p-4 pt-16 ">
@@ -44,15 +48,27 @@ function UploadedDocs() {
                 <div className="w-1/3 flex items-center">
                   <div className="w-1/4">0</div>
                   <div className="w-1/4">{doc?.upvotes}</div>
-                  <div className="w-1/2">
-                    <FontAwesomeIcon
-                      icon={faTrashCan}
-                      className="text-titleText hover:cursor-pointer hover:text-error transition-all duration-200"
-                      onClick={() => {
-                        dispatch(setSelectedDoc(doc?.doc));
-                        dispatch(setDeleteDocumentDialog(true));
-                      }}
-                    />
+                  <div className="w-1/2 flex items-center">
+                    <div className="w-1/2">
+                      <FontAwesomeIcon
+                        icon={faTrashCan}
+                        className="text-titleText hover:cursor-pointer hover:text-error transition-all duration-200"
+                        onClick={() => {
+                          dispatch(setSelectedDoc(doc));
+                          dispatch(setDeleteDocumentDialog(true));
+                        }}
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <FontAwesomeIcon
+                        icon={faPen}
+                        className="text-titleText hover:cursor-pointer hover:text-primary transition-all duration-200"
+                        onClick={() => {
+                          dispatch(setSelectedDoc(doc));
+                          dispatch(setEditDocumentDialog(true));
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

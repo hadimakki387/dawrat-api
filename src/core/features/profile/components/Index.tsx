@@ -5,12 +5,14 @@ import ProfileStats from "./ProfileStats";
 import ProfileHeader from "./profile-header";
 import UploadedDocs from "./UploadedDocs";
 import DeleteDocumentDialog from "./DeleteDocumentDialog";
+import EditDocumentDialog from "./EditDocumentDialog";
 
 function Index() {
 
   return (
     <div>
       <DeleteDocumentDialog/>
+      <EditDocumentDialog/>
       <ProfileHeader />
       <DaCard className="p-8">
         <ProfileStats />

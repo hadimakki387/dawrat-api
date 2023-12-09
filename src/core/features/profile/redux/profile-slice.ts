@@ -1,13 +1,16 @@
+import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: {
   name: string;
   deleteDocumentDialog: boolean;
-  selectedDoc: any;
+  selectedDoc: DocumentInterface | null;
+  editDocumentDialog: boolean;
 } = {
   name: "hadi",
   deleteDocumentDialog: false,
   selectedDoc: null,
+  editDocumentDialog: false,
 };
 
 const profileSlice = createSlice({
@@ -23,10 +26,17 @@ const profileSlice = createSlice({
     setSelectedDoc(state, action) {
       state.selectedDoc = action.payload;
     },
+    setEditDocumentDialog(state, action) {
+      state.editDocumentDialog = action.payload;
+    },
   },
 });
 
-export const { setName, setDeleteDocumentDialog, setSelectedDoc } =
-  profileSlice.actions;
+export const {
+  setName,
+  setDeleteDocumentDialog,
+  setSelectedDoc,
+  setEditDocumentDialog,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;
