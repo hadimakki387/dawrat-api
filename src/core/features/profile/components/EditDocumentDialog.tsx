@@ -7,6 +7,9 @@ import React from "react";
 import * as Yup from "yup";
 import { setEditDocumentDialog, setSelectedDoc } from "../redux/profile-slice";
 import { useDispatch } from "react-redux";
+import { useUpdateDocumentMutation } from "@/core/rtk-query/documents";
+import { generateToast, updateToast } from "@/services/global-function";
+import { ToastType } from "@/services/constants";
 
 function EditDocumentDialog() {
   const { editDocumentDialog, selectedDoc } = useAppSelector(
@@ -14,6 +17,7 @@ function EditDocumentDialog() {
   );
 
   const dispatch = useDispatch();
+  const [updateDocument] = useUpdateDocumentMutation();
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -25,7 +29,36 @@ function EditDocumentDialog() {
       description: selectedDoc?.description,
     },
     onSubmit: (values) => {
-      console.log(values);
+      const id = generateToast({
+        message: "Updating...",
+        isLoading: true,
+      });
+      if (selectedDoc?.id)
+        updateDocument({
+          id: selectedDoc?.id,
+          body: {
+            title: values.title || "",
+            description: values.description || "",
+          },
+          ownerId: selectedDoc?.ownerId,
+        })
+          .unwrap()
+          .then((res) => {
+            dispatch(setEditDocumentDialog(false));
+            dispatch(setSelectedDoc(null));
+            updateToast(id, "Document Updated", {
+              toastType: ToastType.success,
+              isLoading: false,
+              duration: 2000,
+            });
+          })
+          .catch((err) => {
+            updateToast(id, `${err?.data?.message}`, {
+              toastType: ToastType.error,
+              isLoading: false,
+              duration: 2000,
+            });
+          });
     },
   });
   return (
@@ -61,8 +94,7 @@ function EditDocumentDialog() {
             label="Edit"
             className="bg-primary text-white w-[5rem]"
             onClick={() => {
-              dispatch(setEditDocumentDialog(false));
-              dispatch(setSelectedDoc(null));
+              formik.handleSubmit();
             }}
           />
         </div>

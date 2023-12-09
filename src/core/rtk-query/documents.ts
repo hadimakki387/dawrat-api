@@ -1,5 +1,6 @@
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import { mainApi } from ".";
+import { DocumentI } from "@/services/types";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -64,7 +65,10 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    deleteDocument: builder.mutation<any, { id: string; body: string[] ,ownerId:string}>({
+    deleteDocument: builder.mutation<
+      any,
+      { id: string; body: string[]; ownerId: string }
+    >({
       query: ({ id, body }) => ({
         url: `/documents/${id}`,
         method: "DELETE",
@@ -89,6 +93,41 @@ const ExtendedApi = mainApi.injectEndpoints({
         } catch {}
       },
     }),
+    updateDocument: builder.mutation<
+      DocumentI,
+      {
+        id: string;
+        body: { title: string; description: string };
+        ownerId: string;
+      }
+    >({
+      query: ({ id, body }) => ({
+        url: `/documents/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+          console.log("this is the owner id")
+          console.log(ownerId)
+          dispatch(
+            ExtendedApi.util.updateQueryData(
+              "getDocumentsByOwnerId",
+              ownerId,
+              (draft) => {
+                console.log("accessed");
+                const doc = draft.find((doc) => doc.ownerId === ownerId);
+                if (doc) {
+                  doc.title = updatedUser.title;
+                  doc.description = updatedUser.description;
+                }
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
@@ -101,4 +140,5 @@ export const {
   useGetDocumentsByCourseIdQuery,
   useGetDocumentsByOwnerIdQuery,
   useDeleteDocumentMutation,
+  useUpdateDocumentMutation
 } = ExtendedApi;

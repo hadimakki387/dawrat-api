@@ -154,3 +154,20 @@ export const DeleteDocument = async (req: NextRequest) => {
     status: httpStatus.OK,
   });
 };
+
+export const updateDocument = async (req: NextRequest) => {
+  MongoConnection();
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+  const doc = await Document.findById(id);
+
+  if (!doc) {
+    return new NextResponse(JSON.stringify({ message: "Document Not Found" }), {
+      status: httpStatus.NOT_FOUND,
+    });
+  }
+
+  const updatedDoc = await Document.findByIdAndUpdate(id, body, { new: true });
+
+  return new NextResponse(JSON.stringify(updatedDoc), { status: 200 });
+};
