@@ -8,6 +8,12 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getCourseById: builder.query({
+      query: (id) => ({
+        url: `courses/${id}`,
+        method: "GET",
+      }),
+    }),
     getManyCourses: builder.query({
       query: (ids: string[]) => ({
         url: `courses/get-many`,
@@ -27,6 +33,14 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateReviewdCourses: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/users/update-reviewed-courses/${id}`,
+        method: "PATCH",
+        body,
+      }),
+    }),
+
   }),
 });
 export const {
@@ -34,4 +48,5 @@ export const {
   useGetManyCoursesQuery,
   useGetCoursesByUniversityIdQuery,
   useGetCoursesByDomainIdQuery,
+  useUpdateReviewdCoursesMutation,
 } = ExtendedApi;

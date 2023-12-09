@@ -14,7 +14,7 @@ import React from "react";
 function CourseHeader() {
   const following = true;
   return (
-    <div className="rounded-2xl bg-greenBg py-4 px-40 space-y-8">
+    <div className="rounded-2xl bg-greenBg py-4 px-40 space-y-8 ">
       <div className="flex items-center gap-2">
         <p className="text-primary font-semibold">University</p>
         <FontAwesomeIcon

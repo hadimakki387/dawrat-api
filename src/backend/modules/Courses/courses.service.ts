@@ -7,8 +7,10 @@ import {
   returnData,
 } from "@/backend/helper-functions/returnData";
 import MongoConnection from "@/backend/utils/db";
+import { DocumentInterface } from "../Documents/document.interface";
+import { DocumentI } from "@/services/types";
 
-MongoConnection()
+MongoConnection();
 
 export const getCourses = async () => {
   const courses = await Course.find();
@@ -63,4 +65,20 @@ export const createCourse = async (req: Request) => {
   //create course
   const course = await Course.create(data);
   return new NextResponse(JSON.stringify(returnData(course)), { status: 200 });
+};
+
+export const getManyCoursesByIds = async (req: Request) => {
+  MongoConnection();
+  const ids: string[] = await req.json();
+
+  const courses = await Course.find({ _id: { $in: ids } });
+  const updatedCourses = returnArrayData(courses);
+
+  const sortedDocs = ids.map((id: string) =>
+    updatedCourses.find((doc: DocumentInterface) => doc._id.toString() === id)
+  );
+
+  return new Response(JSON.stringify(sortedDocs), {
+    status: 200,
+  });
 };

@@ -37,7 +37,7 @@ const ExtendedApi = mainApi.injectEndpoints({
       onQueryStarted: async ({ limit, id }, { dispatch, queryFulfilled }) => {
         try {
           const { data: updatedUser } = await queryFulfilled;
-         
+
           dispatch(
             ExtendedApi.util.updateQueryData(
               "getManyDocumentsById",
@@ -51,6 +51,13 @@ const ExtendedApi = mainApi.injectEndpoints({
         } catch {}
       },
     }),
+    getDocumentsByCourseId: builder.query({
+      query: ({ id, sort }) => ({
+        url: `/courses/documents/${id}&${sort ? `sort=${sort}` : ""}`,
+        method: "GET",
+      }),
+    }),
+
   }),
 });
 
@@ -60,4 +67,5 @@ export const {
   useGetSingleDocumentQuery,
   useGetRecommendedDocumentsInDomainQuery,
   useUpdateReviewedDocumentsMutation,
+  useGetDocumentsByCourseIdQuery,
 } = ExtendedApi;

@@ -7,6 +7,7 @@ import { createDocumentValidation } from "./document.validation";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import Course from "../Courses/courses.model";
 import University from "../universities/universities.model";
+import { returnArrayData } from "@/backend/helper-functions/returnData";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -54,4 +55,28 @@ export const getRecommendedDocumentsInDomain = async (req: NextRequest) => {
     .limit(8);
 
   return new NextResponse(JSON.stringify(documents), { status: 200 });
+};
+
+export const getDocumentsByCourseId = async (req: NextRequest) => {
+  MongoConnection();
+  const id = getIdFromUrl(req.url);
+  const params = new URLSearchParams(req.url);
+  const sort = params.get("sort");
+  //set the sort to be sorted according to date or upvotes according to the query params
+
+  if (sort === "date") {
+    const documents = await Document.find({ course: id }).sort({
+      createdAt: -1,
+    });
+    console.log(documents)
+    return new NextResponse(JSON.stringify(returnArrayData(documents)), {
+      status: 200,
+    });
+  } else {
+    const documents = await Document.find({ course: id }).sort({ upvotes: -1 });
+
+    return new NextResponse(JSON.stringify(returnArrayData(documents)), {
+      status: 200,
+    });
+  }
 };

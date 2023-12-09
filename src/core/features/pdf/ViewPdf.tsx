@@ -40,7 +40,7 @@ function ViewPdf({url}:{url:string}) {
 
   return (
     <div>
-      <div className="Example__container">
+     {url && <div className="Example__container">
         <div className="Example__container__document" >
           <Document
             file={url}
@@ -56,7 +56,7 @@ function ViewPdf({url}:{url:string}) {
             ))}
           </Document>
         </div>
-      </div>
+      </div>}
 
       {/* <iframe src={url} width="100%" height="600px" /> */}
     </div>
