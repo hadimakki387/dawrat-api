@@ -16,18 +16,18 @@ function ProfileHeader(){
     const {user} = useAppSelector((state) => state.global)    
   return (
     <div className='w-full h-full'>
-    <div className='flex flex-row justify-between bg-gradient-to-r from-indigo-50 px-10'>
+    <div className='flex flex-row justify-between  px-10'>
         <div className='flex flex-row gap-4 mt-7 ml-8'>
             <div className='w-24 mr-8'>
-                <ProfileAvatar className='h-32 w-full'/>
+                <ProfileAvatar className='h-32 w-44'/>
             </div>
-            <div className='flex flex-col text-center'>
+            <div className='flex flex-col text-left'>
                 <p className='font-semibold text-3xl mb-2'>{user?.firstName} {user?.lastName}  </p>
                 <div className='flex flex-row  text-sm gap-2 items-center text-center' >
                     <Institution fill="var(--primary)" width="16" height="16" />
                     <p className='text-primary text-lg'>  {user?.university.title}</p>
                 </div>
-                <div className='flex flex-row gap-4 justify-center mt-2'>
+                <div className='flex flex-row gap-4 justify-start mt-2'>
                     <div className='flex flex-col items-center'>
                         <p className='font-bold'>0</p>
                         <p className='text-slate-500'>Followers</p>
@@ -98,7 +98,7 @@ function ProfileHeader(){
             <div className="text-slate-400 m-2 flex flex-row mt-3 gap-2 text-lg"> <span className='mt-1'><Document fill="var(--secondary)" width="20" height="20"/></span> Your Documents </div>                <div className="h-0 border-t border-slate-200 text-2xl text-center"></div>
                 <div className="flex flex-row mx-3 justify-around items-center my-2">
                     <div className="flex flex-col items-center">
-                        <p className="font-bold text-lg text-slate-600">0</p>
+                        <p className="font-bold text-lg text-slate-600">{user?.uploads}</p>
                         <p className="text-slate-400 text-sm font-normal">uploads</p>
                     </div>
                     <Divider orientation="vertical" variant="middle" flexItem />
