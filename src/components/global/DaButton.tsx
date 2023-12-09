@@ -29,11 +29,11 @@ function DaButton({
       id={id}
       className={`${
         fullRounded ? "rounded-full" : "rounded-md"
-      }  px-4 py-2 text-subTitleText ${className} ${
+      }  px-4 py-2 text-subTitleText  ${
         startIcon || endIcon
           ? "flex justify-between items-center gap-2"
           : "flex justify-center items-center"
-      }`}
+      } ${className}`}
       onClick={onClick}
       style={style}
       {...rest}

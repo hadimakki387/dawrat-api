@@ -8,7 +8,12 @@ const createDocument: Record<keyof Omit<DocumentInterface,"id"| "_id">, any> = {
     university: Joi.string().required(),
     currentYearOfStudying: Joi.string(),
     ownerId: Joi.string().required(),
-    url: Joi.string().required(),
+    doc: Joi.object().keys({
+        name: Joi.string().required(),
+        size: Joi.number().required(),
+        key: Joi.string().required(),
+        url: Joi.string().required(),
+    }),
     course: Joi.string().required(),
     createdAt: Joi.string(),
     modifiedAt: Joi.string(),

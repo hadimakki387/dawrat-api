@@ -15,6 +15,12 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getCoursesByUserId: builder.query<courseInterface[],string>({
+      query: (id) => ({
+        url: `users/courses/${id}`,
+        method: "GET",
+      }),
+    }),
     getManyCourses: builder.query({
       query: (ids: string[]) => ({
         url: `courses/get-many`,
@@ -50,5 +56,6 @@ export const {
   useGetCoursesByUniversityIdQuery,
   useGetCoursesByDomainIdQuery,
   useUpdateReviewdCoursesMutation,
-  useGetCourseByIdQuery
+  useGetCourseByIdQuery,
+  useGetCoursesByUserIdQuery,
 } = ExtendedApi;

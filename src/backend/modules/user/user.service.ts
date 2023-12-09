@@ -14,9 +14,10 @@ import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
-MongoConnection();
+
 
 export const create = async (userBody: UserInterface) => {
+  MongoConnection();
   const emailCheck = isEmail(userBody.email);
   const emailTaken = await isEmailTaken(userBody.email);
   const validate = createUserValidation.body.validate(userBody);
@@ -62,6 +63,7 @@ export const create = async (userBody: UserInterface) => {
 };
 
 export const getUserByEmail = async (email: string) => {
+  
   const user = await User.findOne({
     email: email,
   });
@@ -69,6 +71,8 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUserById = async (id: string) => {
+  MongoConnection();
+
   const foundUser = await User.findById(id);
 
   if (!foundUser) {

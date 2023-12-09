@@ -16,7 +16,7 @@ import React from "react";
 import CourseHeaderSkeleton from "./CourseHeaderSkeleton";
 
 function CourseHeader() {
-  const following = true;
+  const following = false;
   const params = useParams();
   const id = params?.id;
 
@@ -63,14 +63,15 @@ function CourseHeader() {
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <div>
+            <div >
               <DaButton
-                startIcon={<FontAwesomeIcon icon={faCheck} />}
+                startIcon={following?<FontAwesomeIcon icon={faCheck} />:null}
                 label={following ? "Following" : "Follow"}
                 fullRounded
                 className={`${
-                  following ? "bg-white" : "bg-primary"
+                  following ? "bg-white" : "bg-primary text-white"
                 } font-medium`}
+                onClick={()=>console.log("clicked")}
               />
             </div>
             <div className="w-[25rem]">

@@ -1,3 +1,4 @@
+import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import { mainApi } from ".";
 
 const ExtendedApi = mainApi.injectEndpoints({
@@ -16,7 +17,13 @@ const ExtendedApi = mainApi.injectEndpoints({
         body,
       }),
     }),
-    getSingleDocument: builder.query({
+    getDocumentsByOwnerId: builder.query<DocumentInterface[],string>({
+      query: (id) => ({
+        url: `/users/documents/${id}`,
+        method: "GET",
+      }),
+    }),
+    getSingleDocument: builder.query<DocumentInterface,string>({
       query: (id) => ({
         url: `/documents/${id}`,
         method: "GET",
@@ -57,7 +64,12 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-
+    deleteDocument: builder.mutation({
+      query: (id) => ({
+        url: `/documents/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -68,4 +80,6 @@ export const {
   useGetRecommendedDocumentsInDomainQuery,
   useUpdateReviewedDocumentsMutation,
   useGetDocumentsByCourseIdQuery,
+  useGetDocumentsByOwnerIdQuery,
+  useDeleteDocumentMutation,
 } = ExtendedApi;

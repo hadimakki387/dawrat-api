@@ -19,6 +19,14 @@ interface DialogProps {
   defaultButtoms?: boolean;
   children?: React.ReactNode;
   closeIcon?: boolean;
+  styling?:{
+    okButton?:{
+      className?:string
+    },
+    closeButton?:{
+      className?:string
+    }
+  }
 }
 
 export default function DaDialog({
@@ -31,7 +39,7 @@ export default function DaDialog({
   PaperProps,
   closeText = "Cancel",
   confirmText = "Confirm",
-  defaultButtoms = true,
+  defaultButtoms = false,
   children,
   closeIcon = false,
 }: DialogProps) {
@@ -69,7 +77,7 @@ export default function DaDialog({
           </DialogTitle>
         )}
 
-        <div className="px-5 pb-5">{children}</div>
+        <div className="p-4">{children}</div>
 
         {defaultButtoms && (
           <DialogActions>

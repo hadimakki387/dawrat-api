@@ -28,6 +28,14 @@ export const getCourseById = async (req: NextRequest) => {
   });
 };
 
+export const getCoursesByUserId = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url)
+  const courses = await Course.find({ ownerId: id });
+  return new NextResponse(JSON.stringify(returnArrayData(courses)), {
+    status: 200,
+  });
+}
+
 export const getCoursesByDomainId = async (id: string) => {
   const courses = await Course.find({ domain: id });
   return new NextResponse(JSON.stringify(returnArrayData(courses)), {

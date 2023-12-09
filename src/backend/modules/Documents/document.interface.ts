@@ -8,7 +8,12 @@ export interface DocumentInterface {
   currentYearOfStudying: string;
   course: string;
   ownerId: string;
-  url: string;
+  doc:{
+    name:string;
+    size:number;
+    key:string;
+    url:string;
+  }
   createdAt: string;
   modifiedAt: string;
   courseName:string;

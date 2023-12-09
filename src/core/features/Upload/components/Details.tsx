@@ -65,7 +65,7 @@ function Details() {
   const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
 
   useEffect(() => {
-    console.log(parsedStoredDocs);
+    console.log("this is the parsed docs")
     if (parsedStoredDocs?.length > 0) {
       dispatch(setUploadedDocs(parsedStoredDocs));
     }
@@ -91,6 +91,7 @@ function Details() {
         isLoading: true,
       });
 
+      const {serverData,...actualDoc} = uploadedDocs[0]
       createDocument({
         title: values.title,
         description: values.description,
@@ -98,7 +99,7 @@ function Details() {
         domain: selectedDomain,
         course: selectedCourse,
         ownerId: user?.id,
-        url: uploadedDocs[0]?.url,
+        doc: actualDoc,
       })
         .unwrap()
         .then((res) => {

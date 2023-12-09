@@ -49,7 +49,7 @@ function Courses() {
               })
           ) : data && data.length > 0 ? (
             data?.map((doc: DocumentInterface) => {
-              return <>{doc?.url && <DocCard key={doc.id} doc={doc} />}</>;
+              return <>{doc?.doc?.url && <DocCard key={doc.id} doc={doc} />}</>;
             })
           ) : (
             <div className="text-center text-darkText mt-8 font-medium">No documents found</div>

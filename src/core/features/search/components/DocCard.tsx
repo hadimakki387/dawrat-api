@@ -32,7 +32,7 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
       <div className="flex items-center gap-4">
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
-            <GetPdfThumbnail url={doc?.url} width={112} height={80} />
+            <GetPdfThumbnail url={doc?.doc?.url} width={112} height={80} />
           </div>
         </div>
         <div className="flex flex-col justify-between">

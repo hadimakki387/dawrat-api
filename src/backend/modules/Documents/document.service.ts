@@ -90,3 +90,13 @@ export const getDocumentsByCourseId = async (req: NextRequest) => {
     });
   }
 };
+
+export const getDocumentsByOwnerId = async (req: NextRequest) => {
+  MongoConnection();
+  const id = getIdFromUrl(req.url);
+  const documents = await Document.find({ ownerId: id });
+
+  return new NextResponse(JSON.stringify(returnArrayData(documents)), {
+    status: 200,
+  });
+};

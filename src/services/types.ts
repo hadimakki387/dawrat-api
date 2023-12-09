@@ -38,20 +38,28 @@ export interface DropdownValue {
     className?:string;
   }
 
-  export interface DocumentI{
+  export interface DocumentI {
+    _id:string;
     id:string;
-    title:string;
-    description:string;
-    course:string;
-    domain:string;
-    university:string;
-    ownerId:string;
-    documents:string[];
-    url:string;
-    createdAt:string;
-    updatedAt:string;
-    domainTitle:string;
-    courseTitle:string;
+    title: string;
+    description: string;
+    domain: string;
+    university: string;
+    currentYearOfStudying: string;
+    course: string;
+    ownerId: string;
+    doc:{
+      name:string;
+      size:number;
+      key:string;
+      url:string;
+    }
+    createdAt: string;
+    modifiedAt: string;
+    courseName:string;
+    upvotes:number;
+    downvotes:number;
+    universityName:string;
   }
 
 export interface sideBarInterface{

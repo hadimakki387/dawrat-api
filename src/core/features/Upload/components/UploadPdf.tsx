@@ -55,6 +55,7 @@ function UploadPdf() {
               toastType: ToastType.success,
               duration: 2000,
             });
+
           }}
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);

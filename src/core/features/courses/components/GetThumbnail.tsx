@@ -11,9 +11,9 @@ function GetThumbnail({
 }) {
   return (
     <>
-      {doc?.url && (
+      {doc?.doc?.url && (
         <GetPdfThumbnail
-          url={doc?.url}
+          url={doc?.doc?.url}
           width={112}
           height={80}
           getNumPages={(number: number) => {
