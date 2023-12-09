@@ -36,9 +36,12 @@ function DaButton({
       style={style}
       {...rest}
     >
+      <div className="flex flex-row gap-2 ">
       {startIcon ? startIcon : null}
       {label}
       {endIcon ? endIcon : null}
+      </div>
+      
     </button>
   );
 }
