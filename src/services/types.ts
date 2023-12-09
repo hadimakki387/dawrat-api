@@ -1,3 +1,4 @@
+import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import { IconProps } from "@mui/material";
 import { ReactNode } from "react";
 
@@ -22,15 +23,16 @@ export interface DropdownValue {
     };
     domain: string;
     currentYearOfStudying: string;
-    phone?: string;
-    uploads?: number;
-    reviewedDocuments?: string[];
-    reviewedCourses?: string[];
+    phone: string;
+    uploads: number;
+    reviewedDocuments: string[];
+    reviewedCourses: string[];
+    questionsCount: number;
   }
 
   export interface MenuItemType {
     name: string;
-    icon?: (props?: IconProps) => ReactNode;
+    icon?: any;
     suffix?: ReactNode;
     onClick: () => void;
     className?:string;

@@ -14,6 +14,7 @@ import * as Y from "yjs";
 import {
   decrementQuestionStep,
   incrementQuestionStep,
+  resetQuestionStep,
   setSelectedSubject,
   setSubIndex,
 } from "../../redux/askAi-slice";
@@ -55,7 +56,7 @@ function Step2() {
           <EditorContent editor={editor} />
           <div
             className="text-primary hover:cursor-pointer font-semibold"
-            onClick={() => dispatch(decrementQuestionStep())}
+            onClick={() => dispatch(resetQuestionStep())}
           >
             Edit
           </div>
