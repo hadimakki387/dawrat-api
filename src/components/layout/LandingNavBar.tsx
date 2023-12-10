@@ -20,7 +20,7 @@ function LandingNavBar() {
   console.log(`this is the scroll ${Scroll.y}`);
   const dispatch = useDispatch();
   const id = Cookies.get("dawratUserId");
-  const { data, isLoading } = useGetUserQuery(id);
+  const { data, isLoading } = useGetUserQuery(id as string);
 
   const CssTextField = styled(TextField)({
     color: "#A0AAB4",

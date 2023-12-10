@@ -3,15 +3,12 @@ import { mainApi } from ".";
 
 const extendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getRecentlyReviewedData: builder.query({
+    getRecentlyReviewedData: builder.query<any[],any>({
       query: (body) => ({
         url: `/users/recently-reviewed`,
         method: "PATCH",
         body,
       }),
-      transformResponse: (response) => {
-        return response;
-      },
     }),
     getUser: builder.query<UserI,string>({
       query: (id) => ({

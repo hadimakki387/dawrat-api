@@ -3,13 +3,12 @@ import React from "react";
 // the same as user.tsx
 
 interface Props {
-  width?: string;
-  height?: string;
+  size?: number;
   fill?: string;
   patternFill?: string;
 }
 
-function Document({ width, height, fill, patternFill }: Props) {
+function Document({ size = 16, fill, patternFill }: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -17,12 +16,11 @@ function Document({ width, height, fill, patternFill }: Props) {
       focusable="false"
       data-prefix="fad"
       data-icon="file-lines"
-
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 384 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
     >
       <g className="fa-duotone-group">
         <path

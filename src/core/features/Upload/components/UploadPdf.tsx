@@ -15,6 +15,8 @@ import DaButton from "@/components/global/DaButton";
 import { useDispatch } from "react-redux";
 import { generateToast, updateToast } from "@/services/global-function";
 import { ToastType } from "@/services/constants";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 function UploadPdf() {
   const { searchUploadUniversity, selectedUniversity, uploadedDocs } =
@@ -24,6 +26,15 @@ function UploadPdf() {
     limit: 5,
   });
   const dispatch = useDispatch();
+
+  const {user} = useAppSelector((state) => state.global);
+  const router = useRouter()
+
+  useEffect(() => {
+    if(user && user.role !== 'admin'){
+      router.push('/')
+    }
+  }, [user, router]);
 
   return (
     <DaCard
@@ -55,6 +66,7 @@ function UploadPdf() {
               toastType: ToastType.success,
               duration: 2000,
             });
+
           }}
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);

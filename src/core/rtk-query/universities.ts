@@ -1,9 +1,10 @@
+import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
 import { mainApi } from ".";
 import Cookies from "js-cookie";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUniversities: builder.query({
+    getUniversities: builder.query<UniversityInterface[],any>({
       query: ({ title, limit }) => ({
         url: `university?${title ? `&title=${title}` : ``}${
           limit ? `&limit=${limit}` : ``
@@ -11,7 +12,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getUniversityById: builder.query({
+    getUniversityById: builder.query<UniversityInterface, { id: string }>({
       query: ({ id }) => ({
         url: `university/${id}`,
         method: "GET",

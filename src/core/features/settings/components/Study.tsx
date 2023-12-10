@@ -30,7 +30,7 @@ function Study() {
         <p className="text-titleText mb-2">Selet University</p>
         <AutoCompleteSearch
           defaultValue={user?.university?.title}
-          data={data}
+          data={data || []}
           placeholder="Search for your university"
           setSearch={setSearchSettingsUniversity}
           setSelectedItem={setSelectedSettingsUniversity}

@@ -19,7 +19,12 @@ function HomeNavBar() {
 
 
   return (
+    <>
+    <div className="w-full flex items-center justify-center bg-primary text-sm text-white font-semibold fixed to-pink-200 z-30">
+        The Website Is Still Under Development
+          </div>
     <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 ">
+      
       <div className="flex gap-4 items-center">
         <div className={`text-xl font-bold ${path !== "/" ? "w-[13vw]" : ""}`}>
           Dawrat
@@ -78,6 +83,8 @@ function HomeNavBar() {
         </DaPopOver>
       </div>
     </nav>
+    </>
+    
   );
 }
 

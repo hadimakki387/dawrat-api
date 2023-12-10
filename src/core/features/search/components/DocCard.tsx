@@ -8,11 +8,13 @@ import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
+import { useUpdateReviewdCoursesMutation } from "@/core/rtk-query/courses";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
   const router = useRouter();
   const [updateReviewsDocs] = useUpdateReviewedDocumentsMutation();
   const { user } = useAppSelector((state) => state.global);
+  const [updateReviewdCourses] = useUpdateReviewdCoursesMutation();
   return (
     <div
       onClick={() => {
@@ -30,13 +32,22 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
       <div className="flex items-center gap-4">
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
-            <GetPdfThumbnail url={doc?.url} width={112} height={80} />
+            <GetPdfThumbnail url={doc?.doc?.url} width={112} height={80} />
           </div>
         </div>
         <div className="flex flex-col justify-between">
           <div className="text-primary">{doc?.title}</div>
           <div className="flex gap-3 items-center py-2 text-titleText">
-            <div className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold">
+            <div
+              onClick={() => {
+                updateReviewdCourses({
+                  id: user?.id as string,
+                  body: { course: doc?.course },
+                });
+                router.push(`/courses/${doc?.course}`);
+              }}
+              className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold"
+            >
               <Folder fill="var(--title-text)" /> {doc?.courseName}
             </div>
             <div className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold">

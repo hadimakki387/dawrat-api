@@ -33,7 +33,11 @@ const courseSchema = new Schema<any, any>({
   universityName:{
     type:String,
     required:true
-  }
+  },
+  docsCount:{
+    type:Number,
+    default:0
+  },
 });
 
 const Course = models.Course || model("Course", courseSchema);

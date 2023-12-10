@@ -14,6 +14,7 @@ import DaButton from "../global/DaButton";
 import { SidebarHeader } from "./components/SidebarHeader";
 import { Typography } from "./components/Typography";
 import { useAppSelector } from "@/core/StoreWrapper";
+import { sideBarInterface } from "@/services/types";
 
 type Theme = "light" | "dark";
 
@@ -176,7 +177,7 @@ export const SideBar: React.FC = () => {
               rtl={rtl}
               style={{ marginBottom: "24px", marginTop: "16px" }}
             />
-            <div className="mx-6 flex flex-col items-center gap-4 mb-4">
+            {user?.role==="admin"&&<div className="mx-6 flex flex-col items-center gap-4 mb-4">
               <div className="flex gap-8 items-center w-full justify-center">
                 <div className="text-center">
                   <p className="text-darkText font-bold text-lg ">
@@ -201,7 +202,7 @@ export const SideBar: React.FC = () => {
                   onClick={() => router.push("/upload")}
                 />
               </div>
-            </div>
+            </div>}
             <div style={{ flex: 1, marginBottom: "32px" }}>
               {Items?.map((item, index) => {
                 return (
@@ -226,7 +227,7 @@ export const SideBar: React.FC = () => {
                         </Typography>
                       </div>
                     )}
-                    {item.links.map((link, index) => {
+                    {item?.links?.map((link:any, index:any) => {
                       if (!link.hasSubItems) {
                         return (
                           <Menu menuItemStyles={menuItemStyles} key={index}>
@@ -259,7 +260,7 @@ export const SideBar: React.FC = () => {
                       }
                       if (link.hasSubItems) {
                         return (
-                          <Menu menuItemStyles={menuItemStyles}  key={index} >
+                          <Menu menuItemStyles={menuItemStyles} key={index}>
                             <SubMenu
                               label={link.label}
                               icon={link.icon({ width: "24", height: "24" })}
@@ -269,7 +270,6 @@ export const SideBar: React.FC = () => {
                               //     6
                               //   </Badge>
                               // }
-                              
                             >
                               {link.subItems.length > 0 ? (
                                 link.subItems.map(

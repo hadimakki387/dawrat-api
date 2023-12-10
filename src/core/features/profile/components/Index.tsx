@@ -1,40 +1,32 @@
 "use client";
-import { useAppSelector } from "@/core/StoreWrapper";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { setName } from "../redux/profile-slice";
-import { useLoginMutation, useRegisterMutation } from "@/core/rtk-query/landingPage";
-
+import DaCard from "@/components/SVGs/DaCard";
+import MissingDataMessage from "../../HomePage/Components/MissingDataMessage";
+import ProfileStats from "./ProfileStats";
+import ProfileHeader from "./profile-header";
+import UploadedDocs from "./UploadedDocs";
+import DeleteDocumentDialog from "./DeleteDocumentDialog";
+import EditDocumentDialog from "./EditDocumentDialog";
 
 function Index() {
-  const { name } = useAppSelector((state) => state.profile);
-  const dispatch = useDispatch();
-  const [login] = useLoginMutation();
-  const [register] = useRegisterMutation();
-  return (
-    <div className="flex flex-col bg-white">
-      <div>{`this is the name ${name}`} </div>
-      <button
-        onClick={() => {
-          dispatch(setName("ja3fusta"));
-        }}
-        className="bg-white"
-      >
-        click to change name{" "}
-      </button>
 
-      <button
-        onClick={() =>
-          login({
-            data: {
-              email: "hmakki387@gmail.com",
-              password: "password1",
-            },
-          })
-        }
-      >
-        click me to post data
-      </button>
+  return (
+    <div>
+      <DeleteDocumentDialog/>
+      <EditDocumentDialog/>
+      <ProfileHeader />
+      <DaCard className="p-8">
+        <ProfileStats />
+        <UploadedDocs/>
+
+        <div className="space-y-4 mt-10">
+          <h1 className="text-darkText font-bold text-2xl tracking-wide ">
+            Courses And Books
+          </h1>
+          <div className=" my-5">
+            <MissingDataMessage message="You are not following any courses or books yet. Use the search bar to find your courses and books and follow them." />
+          </div>
+        </div>
+      </DaCard>
     </div>
   );
 }

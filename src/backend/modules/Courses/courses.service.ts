@@ -1,14 +1,17 @@
 import httpStatus from "http-status";
 import { createCourseValidation } from "./courses.validation";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Course from "./courses.model";
 import {
   returnArrayData,
   returnData,
 } from "@/backend/helper-functions/returnData";
 import MongoConnection from "@/backend/utils/db";
+import { DocumentInterface } from "../Documents/document.interface";
+import { DocumentI } from "@/services/types";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
-MongoConnection()
+MongoConnection();
 
 export const getCourses = async () => {
   const courses = await Course.find();
@@ -17,12 +20,21 @@ export const getCourses = async () => {
   });
 };
 
-export const getCourseById = async (id: string) => {
+export const getCourseById = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url)
   const course = await Course.findById(id);
   return new NextResponse(JSON.stringify(returnData(course)), {
     status: 200,
   });
 };
+
+export const getCoursesByUserId = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url)
+  const courses = await Course.find({ ownerId: id });
+  return new NextResponse(JSON.stringify(returnArrayData(courses)), {
+    status: 200,
+  });
+}
 
 export const getCoursesByDomainId = async (id: string) => {
   const courses = await Course.find({ domain: id });
@@ -62,5 +74,30 @@ export const createCourse = async (req: Request) => {
 
   //create course
   const course = await Course.create(data);
+
+  if (!course) {
+    return new NextResponse(
+      JSON.stringify("Something went wrong, course not created"),
+      { status: httpStatus.BAD_REQUEST }
+    );
+  }
+
   return new NextResponse(JSON.stringify(returnData(course)), { status: 200 });
 };
+
+export const getManyCoursesByIds = async (req: Request) => {
+  MongoConnection();
+  const ids: string[] = await req.json();
+
+  const courses = await Course.find({ _id: { $in: ids } });
+  const updatedCourses = returnArrayData(courses);
+
+  const sortedDocs = ids.map((id: string) =>
+    updatedCourses.find((doc: DocumentInterface) => doc._id.toString() === id)
+  );
+
+  return new Response(JSON.stringify(sortedDocs), {
+    status: 200,
+  });
+};
+

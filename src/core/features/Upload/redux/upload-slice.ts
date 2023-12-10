@@ -8,18 +8,36 @@ const initialState: {
   uploadedDocs: any[];
   searchCourse: string;
   selectedCourse: string;
-  searchDomain:string;
-  selectedDomain:string;
-  handleSubmit:number;
+  searchDomain: string;
+  selectedDomain: string;
+  handleSubmit: number;
+  addCourseDialog: boolean;
+  searchUniversityCreate: string;
+  selectedUniversityCreate: string;
+  searchDomainCreate: string;
+  selectedDomainCreate: string;
+  addDomainDialog: boolean;
+  searchUniversityAddDomain: string;
+  selectedUniversityAddDomain: string;
+  addUniversityDialog: boolean;
 } = {
   searchUploadUniversity: "",
   selectedUniversity: "",
   uploadedDocs: [],
   searchCourse: "",
   selectedCourse: "",
-  searchDomain:"",
-  selectedDomain:"",
-  handleSubmit:0
+  searchDomain: "",
+  selectedDomain: "",
+  handleSubmit: 0,
+  addCourseDialog: false,
+  searchUniversityCreate: "",
+  selectedUniversityCreate: "",
+  searchDomainCreate: "",
+  selectedDomainCreate: "",
+  addDomainDialog: false,
+  searchUniversityAddDomain: "",
+  selectedUniversityAddDomain: "",
+  addUniversityDialog: false,
 };
 
 const uploadSlice = createSlice({
@@ -50,6 +68,33 @@ const uploadSlice = createSlice({
     setHandleSubmit(state, action) {
       state.handleSubmit = action.payload;
     },
+    setAddCourseDialog(state, action) {
+      state.addCourseDialog = action.payload;
+    },
+    setSearchUniversityCreate(state, action) {
+      state.searchUniversityCreate = action.payload;
+    },
+    setSelectedUniversityCreate(state, action) {
+      state.selectedUniversityCreate = action.payload;
+    },
+    setSearchDomainCreate(state, action) {
+      state.searchDomainCreate = action.payload;
+    },
+    setSelectedDomainCreate(state, action) {
+      state.selectedDomainCreate = action.payload;
+    },
+    setAddDomainDialog(state, action) {
+      state.addDomainDialog = action.payload;
+    },
+    setSearchUniversityAddDomain(state, action) {
+      state.searchUniversityAddDomain = action.payload;
+    },
+    setSelectedUniversityAddDomain(state, action) {
+      state.selectedUniversityAddDomain = action.payload;
+    },
+    setAddUniverisityDialog(state,action){
+      state.addUniversityDialog = action.payload
+    }
   },
 });
 
@@ -62,6 +107,15 @@ export const {
   setSearchDomain,
   setSelectedDomain,
   setHandleSubmit,
+  setAddCourseDialog,
+  setSearchUniversityCreate,
+  setSelectedUniversityCreate,
+  setSearchDomainCreate,
+  setSelectedDomainCreate,
+  setAddDomainDialog,
+  setSearchUniversityAddDomain,
+  setSelectedUniversityAddDomain,
+  setAddUniverisityDialog
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;
