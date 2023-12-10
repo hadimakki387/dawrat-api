@@ -5,7 +5,7 @@ import {
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  return await getDomain();
+  return await getDomain(req);
 }
 
 export async function POST(req: NextRequest) {

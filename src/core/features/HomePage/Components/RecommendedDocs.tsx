@@ -1,7 +1,11 @@
 "use client";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { useGetRecommendedDocumentsInDomainQuery } from "@/core/rtk-query/documents";
+import {
+  useGetRecommendedDocumentsInDomainQuery,
+  useUpdateReviewedDocumentsMutation,
+} from "@/core/rtk-query/documents";
 import { DocumentI } from "@/services/types";
+import { useRouter } from "next/navigation";
 import ItemCard from "./ItemCard";
 import MissingDataMessage from "./MissingDataMessage";
 import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
@@ -12,6 +16,8 @@ function RecommendedDocs() {
     useGetRecommendedDocumentsInDomainQuery(user?.domain as string, {
       skip: !user,
     });
+  const [updateReviewed] = useUpdateReviewedDocumentsMutation();
+  const router = useRouter();
 
   return (
     <div className="space-y-1">
@@ -28,7 +34,19 @@ function RecommendedDocs() {
       <div className="w-full flex items-center gap-4">
         {recommendedDocuments
           ? recommendedDocuments?.map((doc: DocumentI, index: any) => {
-              return <ItemCard doc={doc} key={index} />;
+              return (
+                <ItemCard
+                  doc={doc}
+                  key={index}
+                  onClick={() => {
+                    router.push(`/pdf/${doc?.id}`);
+                    updateReviewed({
+                      id: user?.id,
+                      body: { document: doc?.id },
+                    });
+                  }}
+                />
+              );
             })
           : Array.from(new Array(4)).map((_, index) => {
               return <ItemCardLoadingSkeleton key={index} />;

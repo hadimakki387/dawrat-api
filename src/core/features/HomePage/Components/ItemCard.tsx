@@ -23,7 +23,7 @@ function ItemCard({ doc, onClick }: Props) {
               width={300}
               height={100}
               className="flex justify-center w-full "
-              url={doc?.url}
+              url={doc?.doc?.url}
             />
           </Suspense>
         </div>

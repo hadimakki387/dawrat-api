@@ -33,6 +33,8 @@ const extendedApi = mainApi.injectEndpoints({
               console.log("accessed");
               draft.firstName = updatedUser.firstName;
               draft.lastName = updatedUser.lastName;
+              draft.university = updatedUser.university;
+              draft.domain = updatedUser.domain;
             })
           );
         } catch {}

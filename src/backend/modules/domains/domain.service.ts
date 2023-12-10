@@ -9,7 +9,7 @@ import httpStatus from "http-status";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import MongoConnection from "@/backend/utils/db";
 
-MongoConnection()
+MongoConnection();
 
 export const GetDomainById = async (id: string) => {
   return new NextResponse(
@@ -18,7 +18,33 @@ export const GetDomainById = async (id: string) => {
   );
 };
 
-export const getDomain = async () => {
+export const getDomain = async (req: NextRequest) => {
+  const url = new URL(req.url);
+  const title = url.searchParams.get("title");
+  const limit = url.searchParams.get("limit");
+  if (title) {
+    if (limit) {
+      const domain = await Domain.find({
+        title: { $regex: title, $options: "i" },
+      }).limit(Number(limit));
+      return new NextResponse(JSON.stringify(returnArrayData(domain)), {
+        status: httpStatus.OK,
+      });
+    }
+    const domain = await Domain.find({
+      title: { $regex: title, $options: "i" },
+    });
+    return new NextResponse(JSON.stringify(returnArrayData(domain)), {
+      status: httpStatus.OK,
+    });
+  }
+  if (limit) {
+    const domain = await Domain.find().limit(Number(limit));
+    return new NextResponse(JSON.stringify(returnArrayData(domain)), {
+      status: httpStatus.OK,
+    });
+  }
+
   return new NextResponse(
     JSON.stringify(returnArrayData(await Domain.find())),
     { status: httpStatus.OK }

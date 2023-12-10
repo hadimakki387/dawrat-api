@@ -9,16 +9,30 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAllDomains: builder.query<
+      DomainInterface[],
+      { title: string; limit: number }
+    >({
+      query: ({ title, limit }) => ({
+        url: `/domain?&${title ? `title=${title}` : ""}&${
+          limit ? `limit=${limit}` : ""
+        }`,
+        method: "GET",
+      }),
+    }),
     createDomain: builder.mutation<
       DomainInterface,
-      {body:Omit<DomainInterface, "id">,univerisityId:string}
+      { body: Omit<DomainInterface, "id">; univerisityId: string }
     >({
-      query: ({body,univerisityId}) => ({
+      query: ({ body, univerisityId }) => ({
         url: `/domain`,
         method: "POST",
         body,
       }),
-      onQueryStarted: async ({ univerisityId }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (
+        { univerisityId },
+        { dispatch, queryFulfilled }
+      ) => {
         try {
           const { data: createdDomain } = await queryFulfilled;
 
@@ -37,5 +51,8 @@ const ExtendedApi = mainApi.injectEndpoints({
   }),
 });
 
-export const { useGetDomainsUsingUniversityIdQuery, useCreateDomainMutation } =
-  ExtendedApi;
+export const {
+  useGetDomainsUsingUniversityIdQuery,
+  useCreateDomainMutation,
+  useGetAllDomainsQuery,
+} = ExtendedApi;

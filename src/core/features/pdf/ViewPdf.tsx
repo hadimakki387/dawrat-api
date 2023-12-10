@@ -11,7 +11,7 @@ import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/legacy/build/pdf.worker.min.js',
+  "pdfjs-dist/legacy/build/pdf.worker.min.js",
   import.meta.url
 ).toString();
 
@@ -26,37 +26,45 @@ const maxWidth = 800;
 
 type PDFFile = string | File | null;
 
-function ViewPdf({url}:{url:string}) {
+function ViewPdf({
+  url,
+  LoadSuccess,
+}: {
+  url: string;
+  LoadSuccess?: (e: boolean) => any;
+}) {
   const [numPages, setNumPages] = useState<number>();
-
+  const [success, setSuccess] = useState(false);
 
   function onDocumentLoadSuccess({
     numPages: nextNumPages,
   }: PDFDocumentProxy): void {
     setNumPages(nextNumPages);
+    console.log("success")
+    if (LoadSuccess) LoadSuccess(true);
   }
-
-
 
   return (
     <div>
-     {url && <div className="Example__container">
-        <div className="Example__container__document" >
-          <Document
-            file={url}
-            onLoadSuccess={onDocumentLoadSuccess}
-            options={{ ...options }}
-          >
-            {Array.from(new Array(numPages), (el, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                className={"rounded-lg"}
-              />
-            ))}
-          </Document>
+      {url && (
+        <div className="Example__container">
+          <div className="Example__container__document">
+            <Document
+              file={url}
+              onLoadSuccess={onDocumentLoadSuccess}
+              options={{ ...options }}
+            >
+              {Array.from(new Array(numPages), (el, index) => (
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  className={"rounded-lg"}
+                />
+              ))}
+            </Document>
+          </div>
         </div>
-      </div>}
+      )}
 
       {/* <iframe src={url} width="100%" height="600px" /> */}
     </div>

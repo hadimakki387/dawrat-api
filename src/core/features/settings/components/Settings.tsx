@@ -13,6 +13,7 @@ function Settings() {
         <Account/>
         <Divider/>
         <Study/>
+
         <Divider/>
         <ChangePassword/>
     </DaCard>

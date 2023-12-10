@@ -68,7 +68,7 @@ export const getRecommendedDocumentsInDomain = async (req: NextRequest) => {
     .sort({ upvotes: -1 })
     .limit(8);
 
-  return new NextResponse(JSON.stringify(documents), { status: 200 });
+  return new NextResponse(JSON.stringify(returnArrayData(documents)), { status: 200 });
 };
 
 export const getDocumentsByCourseId = async (req: NextRequest) => {

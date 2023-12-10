@@ -7,11 +7,15 @@ const initialState: {
   selectedSettingsUniversity: string;
   firstName: string;
   lastName: string;
+  searchSettingsDomain: string;
+  selectedSettingsDomain: string;
 } = {
   searchSettingsUniversity: "",
   selectedSettingsUniversity: "",
   firstName: "",
   lastName: "",
+  searchSettingsDomain: "",
+  selectedSettingsDomain: "",
 };
 
 const settomgsSlice = createSlice({
@@ -30,6 +34,12 @@ const settomgsSlice = createSlice({
     setLastName(state, action) {
       state.lastName = action.payload;
     },
+    setSearchSettingsDomain(state, action) {
+      state.searchSettingsDomain = action.payload;
+    },
+    setSelectedSettingsDomain(state, action) {
+      state.selectedSettingsDomain = action.payload;
+    },
   },
 });
 
@@ -38,6 +48,8 @@ export const {
   setSelectedSettingsUniversity,
   setFirstName,
   setLastName,
+  setSearchSettingsDomain,
+  setSelectedSettingsDomain,
 } = settomgsSlice.actions;
 
 export default settomgsSlice.reducer;
