@@ -48,7 +48,7 @@ export const create = async (userBody: UserInterface) => {
     password: await bcrypt.hash("password1", 8),
   });
 
-  const access: string = generateToken(user._id,moment().add(3, "h"),"access");
+  const access: string = generateToken(user._id,moment().add(3, "h"),"access")
 
   
 
