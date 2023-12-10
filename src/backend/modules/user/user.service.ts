@@ -8,10 +8,11 @@ import User from "./user.model";
 import { createUserValidation } from "./user.validation";
 import University from "../universities/universities.model";
 import MongoConnection from "@/backend/utils/db";
-import { generateAuthTokens } from "@/backend/token/token.service";
+import {  generateToken } from "@/backend/token/token.service";
 import { returnData } from "@/backend/helper-functions/returnData";
 import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
+import moment from "moment";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 
@@ -47,17 +48,12 @@ export const create = async (userBody: UserInterface) => {
     password: await bcrypt.hash("password1", 8),
   });
 
-  const tokens = await generateAuthTokens({ ...user, id: user.id });
+  const access: string = generateToken(user._id,moment().add(3, "h"),"access");
+
+  
 
   return new Response(
-    JSON.stringify({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      accessToken: tokens.access.token,
-      refreshToken: tokens.refresh.token,
-      statusCode: httpStatus.CREATED,
-    }),
+    JSON.stringify({ user: returnData(user), token: access }),
     { status: httpStatus.CREATED }
   );
 };

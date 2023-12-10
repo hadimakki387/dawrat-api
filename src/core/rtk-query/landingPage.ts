@@ -27,6 +27,14 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      transformResponse: (response:{user:any,token:string}) => {
+        if ("token" in response) {
+          Cookies.set("dawratToken", response.token);
+          Cookies.set("dawratUserId", response.user.id);
+        }
+        return response.user;
+      
+      },
     }),
   }),
 });
