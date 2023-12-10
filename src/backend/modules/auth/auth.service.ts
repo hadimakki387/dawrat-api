@@ -8,11 +8,13 @@ import { loginUserValidate } from "./auth.validate";
 import Joi from "joi";
 import { generateToken } from "@/backend/token/token.service";
 import { returnData } from "@/backend/helper-functions/returnData";
+import MongoConnection from "@/backend/utils/db";
 
 export const loginUserWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
+  MongoConnection()
   const user = await getUserByEmail(email);
   const validate = loginUserValidate.body.validate({ email, password })
 

@@ -7,14 +7,14 @@ import DaSearch from "@/components/global/DaSearch/DaSearch";
 
 function Header() {
   return (
-    <div className="bg-[#38071f] w-full   flex justify-center items-center text-white flex-col text-center relative pt-[250px] pb-[50px]">
-      <div className="w-[40%] flex flex-col gap-8 ">
+    <div className="bg-[#38071f] w-full   flex justify-center items-center text-white flex-col text-center relative pt-[250px] max-sm:pt-[150px] pb-[50px]">
+      <div className="w-[40%] flex flex-col gap-8 max-lg:w-[60%] max-md:w-[80%] z-10">
         <div className="font-extrabold text-5xl">Let&apos;s Study Together</div>
         <div className="text-xl w-2/3 font-medium m-auto">
           Find top-rated study notes from students taking the same courses as
           you.
         </div>
-        <DaSearch padding="p-4" placeholder="Search for courses, books or documents"/>
+        <DaSearch padding="p-4 max-sm:p-2" placeholder="Search for courses, books or documents"/>
         <Link href={"#mostPopular"} className="relative mt-16">
           <BouncingArrow />
         </Link>

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import ItemCard from "./ItemCard";
 import MissingDataMessage from "./MissingDataMessage";
 import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
+import DaCarousel from "@/components/global/carousel/DaCarousel";
 
 function RecommendedDocs() {
   const { user } = useAppSelector((state) => state.global);
@@ -18,6 +19,7 @@ function RecommendedDocs() {
     });
   const [updateReviewed] = useUpdateReviewedDocumentsMutation();
   const router = useRouter();
+
 
   return (
     <div className="space-y-1">
@@ -31,9 +33,13 @@ function RecommendedDocs() {
         />
       )}
       {/* */}
-      <div className="w-full flex items-center gap-4">
-        {recommendedDocuments
-          ? recommendedDocuments?.map((doc: DocumentI, index: any) => {
+      <div >
+        {recommendedDocuments ? (
+          <DaCarousel
+            hasButtons={recommendedDocuments.length > 6}
+            options={{ containScroll: "trimSnaps" }}
+          >
+            {recommendedDocuments?.map((doc: DocumentI, index: any) => {
               return (
                 <ItemCard
                   doc={doc}
@@ -47,10 +53,15 @@ function RecommendedDocs() {
                   }}
                 />
               );
-            })
-          : Array.from(new Array(4)).map((_, index) => {
+            })}
+          </DaCarousel>
+        ) : (
+          <div className="flex items-center gap-3">
+            {Array.from(new Array(4)).map((_, index) => {
               return <ItemCardLoadingSkeleton key={index} />;
             })}
+          </div>
+        )}
       </div>
     </div>
   );

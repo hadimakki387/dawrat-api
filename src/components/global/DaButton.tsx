@@ -11,6 +11,7 @@ interface Props {
   id?: string;
   rest?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   style?: React.CSSProperties;
+  padding?: boolean;
 }
 
 function DaButton({
@@ -22,6 +23,7 @@ function DaButton({
   className,
   id,
   style,
+  padding,
   ...rest
 }: Props) {
   return (
@@ -29,7 +31,7 @@ function DaButton({
       id={id}
       className={`${
         fullRounded ? "rounded-full" : "rounded-md"
-      }  px-4 py-2 text-subTitleText  ${
+      }  ${!padding?"px-4 py-2":""} text-subTitleText  ${
         startIcon || endIcon
           ? "flex justify-between items-center gap-2"
           : "flex justify-center items-center"

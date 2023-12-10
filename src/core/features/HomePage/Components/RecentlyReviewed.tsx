@@ -5,6 +5,7 @@ import { Skeleton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import MissingDataMessage from "./MissingDataMessage";
 import RecentlyViewedCard from "./RecentlyViewedCard";
+import DaCarousel from "@/components/global/carousel/DaCarousel";
 
 function RecentlyReviewed() {
   const { user } = useAppSelector((state) => state.global);
@@ -45,23 +46,30 @@ function RecentlyReviewed() {
           courses and follow them."
         />
       )}
-      <div className="w-full flex items-center gap-4">
-        {RecentlyReviewed
-          ? RecentlyReviewed?.map((doc: any, index: number) => {
+      <div className="">
+        {RecentlyReviewed ? (
+          <DaCarousel
+            hasButtons={RecentlyReviewed.length > 6}
+            options={{ containScroll: "trimSnaps" }}
+          >
+            {RecentlyReviewed?.map((doc: any, index: number) => {
               return <RecentlyViewedCard key={index} doc={doc} />;
-            })
-          : Array.from(new Array(4)).map((_, index) => {
+            })}
+          </DaCarousel>
+        ) : (
+          <div className="flex items-center gap-3">
+            {Array.from(new Array(4)).map((_, index) => {
               return (
                 <div
                   key={index}
-                  className={`w-44 h-40 flex flex-col justify-between items-start hover:cursor-pointer rounded-xl mt-4 p-4 shadow-md`}
+                  className={`w-44 h-40 min-w-[176px]  flex flex-col justify-between items-start hover:cursor-pointer rounded-xl mt-4 p-4 shadow-md`}
                 >
-                  <Skeleton variant="text" width="100%" height="1.5rem" />
-                  <Skeleton variant="text" width="100%" height="1.5rem" />
                   <Skeleton variant="text" width="100%" height="1.5rem" />
                 </div>
               );
             })}
+          </div>
+        )}
       </div>
     </div>
   );

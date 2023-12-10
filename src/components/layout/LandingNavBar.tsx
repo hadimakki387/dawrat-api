@@ -51,39 +51,42 @@ function LandingNavBar() {
         Scroll.y > 0
           ? "bg-[#ffffffbe] backdrop-blur-md text-black"
           : "text-white bg-transparent"
-      } transition-all duration-500 flex justify-between items-center z-50`}
+      } transition-all duration-500 flex justify-between items-center z-50 max-sm:p-3`}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 max-sm:justify-between max-sm:w-full">
         <FontAwesomeIcon
           icon={faBars}
           onClick={() => dispatch(setSideBar(true))}
           className="w-6 h-6 hover:cursor-pointer"
         />
-        <Link href={""} className="font-medium">
+        <div className="text-xl font-bold">LOGO</div>
+        <Link href={""} className="font-medium max-sm:hidden">
           University
         </Link>
-        <Link href={""} className="font-medium">
+        <Link href={""} className="font-medium max-sm:hidden">
           Documents
         </Link>
       </div>
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-4 items-center max-sm:gap-2">
         {!id || !data && !isLoading ? (
-          <>
+          <div className="flex gap-4 items-center max-sm:gap-2  max-sm:hidden">
             <DaButton
               fullRounded
               label="Sign In"
-              className="bg-green-500 text-white"
+              className="bg-green-500 text-white max-sm:text-sm px-4 py-1"
               onClick={() => dispatch(setSignIn(true))}
+              padding
             />
             <DaButton
               fullRounded
               label="Sign Up"
-              className="bg-green-500 text-white"
+              className="bg-green-500 text-white max-sm:text-sm px-4 py-1"
               onClick={() => dispatch(setSignUp(true))}
+              padding
             />
 
-            <div>Language</div>
-          </>
+           
+          </div>
         ) : !data && isLoading ? (
           <div>
             <NavLoader />

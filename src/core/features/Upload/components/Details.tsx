@@ -139,9 +139,9 @@ function Details() {
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
-      <AddCourseDialog/>
-      <AddDomainDialog/>
-      <CreateUniversityDialog/>
+      <AddCourseDialog />
+      <AddDomainDialog />
+      <CreateUniversityDialog />
       {uploadedDocs?.length > 0
         ? uploadedDocs?.map((doc, index) => {
             return (
@@ -267,73 +267,63 @@ function Details() {
             {/* Add University */}
           </div>
         </div>
-
-        {loadingDomains ? (
-          <div className="w-full flex justify-center items-center m-auto">
-            <CircularProgress size={30} />
+        <div className="flex items-center w-full">
+          <div className="w-[15vw] flex items-center gap-4">
+            <Folder fill="var(--sub-title-text)" size={20} />
+            <p>Domain</p>
           </div>
-        ) : (
-          domains && (
-            <div className="flex items-center w-full">
-              <div className="w-[15vw] flex items-center gap-4">
-                <Folder fill="var(--sub-title-text)" size={20} />
-                <p>Domain</p>
-              </div>
-              <div className="w-full">
-                <AutoCompleteSearch
-                  data={domains}
-                  placeholder="Search for course"
-                  setSearch={setSearchDomain}
-                  setSelectedItem={setSelectedDomain}
-                  style={{ borderRadius: "0.7rem" }}
-                  className="mr-4 p-1"
-                />
-              </div>
-              <div
-                className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-                onClick={() => {
-                  dispatch(setAddDomainDialog(true));
-                }}
-              >
-                Add Domain
-              </div>
-            </div>
-          )
-        )}
-
-        {loadingCourse ? (
-          <div className="w-full flex justify-center items-center m-auto">
-            <CircularProgress size={30} />
+          <div className="w-full">
+            <AutoCompleteSearch
+              data={domains || []}
+              placeholder="Search for course"
+              setSearch={setSearchDomain}
+              setSelectedItem={setSelectedDomain}
+              style={{ borderRadius: "0.7rem" }}
+              className="mr-4 p-1"
+              disabled={!selectedUniversity}
+            />
           </div>
-        ) : (
-          courses && (
-            <div className="flex items-center w-full">
-              <div className="w-[15vw] flex items-center gap-4">
-                <Folder fill="var(--sub-title-text)" size={20} />
-                <p>Course</p>
-              </div>
-              <div className="w-full">
-                <AutoCompleteSearch
-                  data={courses}
-                  placeholder="Search for course"
-                  setSearch={setSearchCourse}
-                  setSelectedItem={setSelectedCourse}
-                  style={{ borderRadius: "0.7rem" }}
-                  className="mr-4 p-1"
-                />
-              </div>
-              <div
-                className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-                onClick={() => {
-                  dispatch(setAddCourseDialog(true));
-                }}
-              >
-                Add Course
-              </div>
-            </div>
-          )
-        )}
+          <div
+            className={`text-sm text-primary w-32 hover:cursor-pointer text-right ${
+              !selectedUniversity && "hover:cursor-not-allowed"
+            }`}
+            onClick={() => {
+              if (selectedUniversity) dispatch(setAddDomainDialog(true));
+            }}
+          >
+            Add Domain
+          </div>
+        </div>
+        <div className="flex items-center w-full">
+          <div className="w-[15vw] flex items-center gap-4">
+            <Folder fill="var(--sub-title-text)" size={20} />
+            <p>Course</p>
+          </div>
+          <div className="w-full">
+            <AutoCompleteSearch
+              data={courses || []}
+              placeholder="Search for course"
+              setSearch={setSearchCourse}
+              setSelectedItem={setSelectedCourse}
+              style={{ borderRadius: "0.7rem" }}
+              className="mr-4 p-1"
+              disabled={!selectedDomain}
+            />
+          </div>
+          <div
+            className={`text-sm text-primary w-32 hover:cursor-pointer text-right ${
+              !selectedDomain && "hover:cursor-not-allowed"
+            }`}
+            onClick={() => {
+              if (selectedDomain)
+              dispatch(setAddCourseDialog(true));
+            }}
+          >
+            Add Course
+          </div>
+        </div>
       </div>
+      
     </div>
   );
 }

@@ -4,7 +4,10 @@ import React from "react";
 function ItemCardLoadingSkeleton() {
   return (
     <div
-      className="w-44 h-72 rounded-xl  overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
+    style={{
+      width:"calc((100% - 112px) / 8)"
+    }}
+      className="h-72 min-w-[176px] max-w-[200px]  rounded-xl  overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
     >
       <div className="h-1/2 overflow-hidden p-4">
         <div className="w-[98%] m-auto overflow-hidden rounded-lg shadow-md">
