@@ -6,7 +6,7 @@ function AskAiHeader() {
   return (
     <div className="flex items-start gap-4">
       <div className="w-12 h-12 bg-[#fdebfe] flex justify-center items-center rounded-lg">
-        <AI fill="#f8b5fd" width="25px" height="25px" />
+        <AI fill="#f8b5fd" size={25} />
       </div>
       <div className="flex flex-col ">
         <h1 className="text-3xl font-semibold">Ask AI</h1>

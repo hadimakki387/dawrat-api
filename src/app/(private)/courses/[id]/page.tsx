@@ -1,9 +1,7 @@
-import React from 'react'
+import Courses from "@/core/features/courses/components/Courses";
 
 function page() {
-  return (
-    <div>page</div>
-  )
+  return <Courses/> ;
 }
 
-export default page
+export default page;

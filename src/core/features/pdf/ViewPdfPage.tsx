@@ -8,14 +8,14 @@ const ViewPdf = lazy(() => import("./ViewPdf"));
 function ViewPdfPage() {
   const param = useParams();
   const id = param?.id;
-  const { data } = useGetSingleDocumentQuery(id);
-
+  const { data } = useGetSingleDocumentQuery(id as string);
+  
 
   return (
     <div>
       {data ? (
         <Suspense fallback="loading...">
-          <ViewPdf url={data.url} />
+          <ViewPdf url={data.doc?.url} />
         </Suspense>
       ) : (
         "loading..."

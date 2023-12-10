@@ -10,7 +10,7 @@ import { setUser } from "@/core/features/global/redux/global-slice";
 
 function PrivateAuthGuard({ children }: { children: React.ReactNode }) {
   const id = Cookies.get("dawratUserId");
-  const { data, isSuccess, isLoading, isError } = useGetUserQuery(id);
+  const { data, isSuccess, isLoading, isError } = useGetUserQuery(id as string);
   const router = useRouter();
   const dispatch = useDispatch();
   useLayoutEffect(() => {

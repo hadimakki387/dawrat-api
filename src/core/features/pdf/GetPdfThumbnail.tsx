@@ -1,5 +1,7 @@
 // use react pdf to view pdf
 
+"use client"
+import { useEffect, useState } from "react";
 import { Document, Thumbnail, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -25,11 +27,13 @@ function GetPdfThumbnail({
   height,
   className,
   url = "",
+  getNumPages,
 }: {
   width: number;
   height: number;
   className?: string;
   url: string;
+  getNumPages?: (numPages: number) => any;
 }) {
   // const [numPages, setNumPages] = useState<number>();
   // const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
@@ -45,21 +49,28 @@ function GetPdfThumbnail({
 
   // useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
-  // function onDocumentLoadSuccess({
-  //   numPages: nextNumPages,
-  // }: PDFDocumentProxy): void {
+  // function onDocumentLoadSuccess({numPages: nextNumPages}: PDFDocumentProxy): void {
   //   setNumPages(nextNumPages);
   // }
 
+  const [client, setClient] = useState<any>(false);
+
+  useEffect(()=>{
+    setClient(true)
+  },[])
+  
+
   return (
     <div>
-      <div className="Example__container">
+      {url && client ?<div className="Example__container">
         <div className="Example__container__document">
           <Document
             file={url}
             options={{ ...options }}
             loading=""
-            onLoadError={(err) => console.log(err)}
+            onLoadSuccess={({ numPages: nextNumPages }) => {
+              if (getNumPages && nextNumPages) getNumPages(nextNumPages);
+            }}
           >
             {/* i want render the custom renderer as png */}
             <Thumbnail
@@ -70,7 +81,7 @@ function GetPdfThumbnail({
             />
           </Document>
         </div>
-      </div>
+      </div>:null}
 
       {/* <iframe src={url} width="100%" height="600px" /> */}
     </div>

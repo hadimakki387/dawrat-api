@@ -14,9 +14,10 @@ import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
-MongoConnection();
+
 
 export const create = async (userBody: UserInterface) => {
+  MongoConnection();
   const emailCheck = isEmail(userBody.email);
   const emailTaken = await isEmailTaken(userBody.email);
   const validate = createUserValidation.body.validate(userBody);
@@ -62,6 +63,7 @@ export const create = async (userBody: UserInterface) => {
 };
 
 export const getUserByEmail = async (email: string) => {
+  
   const user = await User.findOne({
     email: email,
   });
@@ -69,6 +71,8 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUserById = async (id: string) => {
+  MongoConnection();
+
   const foundUser = await User.findById(id);
 
   if (!foundUser) {
@@ -160,30 +164,142 @@ export const updateUniversity = async (req: NextRequest) => {
 };
 
 export const changePassword = async (req: NextRequest) => {
-  
   const id = getIdFromUrl(req.url);
-  const {oldPassword,newPassword} = await req.json();
+  const { oldPassword, newPassword } = await req.json();
 
   const user = await User.findById(id);
 
-  if(!user){
-    return new NextResponse(JSON.stringify({message:"User not found"}),{status:404})
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
   }
 
-  const isMatch = await bcrypt.compare(oldPassword,user.password);
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
 
-  if(!isMatch){
-    return new NextResponse(JSON.stringify({message:"Incorrect Password"}),{status:400})
+  if (!isMatch) {
+    return new NextResponse(JSON.stringify({ message: "Incorrect Password" }), {
+      status: 400,
+    });
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword,8);
+  const hashedPassword = await bcrypt.hash(newPassword, 8);
 
-  const updateUser = await User.findByIdAndUpdate(id,{password:hashedPassword},{new:true});
+  const updateUser = await User.findByIdAndUpdate(
+    id,
+    { password: hashedPassword },
+    { new: true }
+  );
 
-  if(!updateUser){
-    return new NextResponse(JSON.stringify({message:"User not found"}),{status:404})
+  if (!updateUser) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
   }
 
-  return new NextResponse(JSON.stringify({message:"Password Changed"}),{status:200})
+  return new NextResponse(JSON.stringify({ message: "Password Changed" }), {
+    status: 200,
+  });
+};
 
-}
+export const updateReviewedDocuments = async (req: NextRequest) => {
+
+  MongoConnection()
+
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
+  }
+
+  // //i want to check if the document is is already in the user's reviewed documents
+  // //if it is, i want to remove it from the array and then added it to the front of the array
+  // //if it is not, i want to add it to the front of the array
+
+  const isAlreadyReviewed = user.reviewedDocuments.find(
+    (doc: string) => doc === body.document
+  );
+
+  if (isAlreadyReviewed) {
+    const filteredArray = user.reviewedDocuments.filter(
+      (doc: string) => doc !== body.document
+    );
+    const updatedArray = [body.document, ...filteredArray];
+    const updateUser = await User.findByIdAndUpdate(
+      id,
+      { reviewedDocuments: updatedArray },
+      { new: true }
+    );
+    return new NextResponse(JSON.stringify(body.document), {
+      status: 200,
+    });
+  }
+
+  const updatedArray = [body.document, ...user.reviewedDocuments];
+
+  const updateUser = await User.findByIdAndUpdate(
+    id,
+    { reviewedDocuments: updatedArray },
+    { new: true }
+  );
+
+  return new NextResponse(JSON.stringify(body.document), {
+    status: 200,
+  });
+};
+
+export const updateReviewedCourses = async (req: NextRequest) => {
+  MongoConnection()
+
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
+  }
+
+  // //i want to check if the course is is already in the user's reviewed courses
+  // //if it is, i want to remove it from the array and then added it to the front of the array
+  // //if it is not, i want to add it to the front of the array
+
+  const isAlreadyReviewed = user.reviewedCourses.find(
+    (doc: string) => doc === body.course
+  );
+
+  if (isAlreadyReviewed) {
+    const filteredArray = user.reviewedCourses.filter(
+      (doc: string) => doc !== body.course
+    );
+    const updatedArray = [body.course, ...filteredArray];
+    console.log(updatedArray)
+    const updateUser = await User.findByIdAndUpdate(
+      id,
+      { reviewedCourses: updatedArray },
+      { new: true }
+    );
+    return new NextResponse(JSON.stringify(body.course), {
+      status: 200,
+    });
+  }
+
+  const updatedArray = [body.course, ...user.reviewedCourses];
+
+  const updateUser = await User.findByIdAndUpdate(
+    id,
+    { reviewedCourses: updatedArray },
+    { new: true }
+  );
+
+  return new NextResponse(JSON.stringify(body.course), {
+    status: 200,
+  });
+};

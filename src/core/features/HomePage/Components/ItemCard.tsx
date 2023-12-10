@@ -16,8 +16,8 @@ function ItemCard({ doc, onClick }: Props) {
       onClick={onClick}
       className="w-44 h-72 rounded-xl  overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
     >
-      <div className="h-1/2 overflow-hidden p-4">
-        <div className="w-[98%] m-auto overflow-hidden rounded-lg shadow-md">
+      <div className="h-1/2 rounded-xl p-2 bg-silverBg">
+        <div className="w-[98%] m-auto overflow-hidden rounded-xl h-[98%]">
           <Suspense fallback={<div>Loading...</div>}>
             <LazyGetPdfThumbnail
               width={300}

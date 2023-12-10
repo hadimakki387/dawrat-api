@@ -67,7 +67,7 @@ function QuestionCards({ question }: { question: QuestionInterface }) {
           <div>{question.university}</div>
         </div>
         <div className="flex items-center gap-2 text-darkText font-semibold text-sm">
-          <Folder width="18px" height="18px" fill="var(--sub-title-text)" />
+          <Folder size={18} fill="var(--sub-title-text)" />
           <div>{question.course}</div>
         </div>
       </div>

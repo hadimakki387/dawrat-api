@@ -4,15 +4,6 @@ import httpStatus from "http-status";
 import { createDocument } from "@/backend/modules/Documents/document.service";
 
 export async function DELETE(req: NextRequest) {
-  // const data = {
-  //   name: "14.pdf",
-  //   size: 26544,
-  //   key: "32a35f9e-d5ea-4b1c-9a2f-56bab9f49188-17n.pdf",
-  //   serverData: null,
-  //   url: "https://utfs.io/f/32a35f9e-d5ea-4b1c-9a2f-56bab9f49188-17n.pdf",
-  // };
-  // const files = await utapi.listFiles()
-  // console.log(files);
   const body = await req.json();
   const deleteFiles = await utapi.deleteFiles(body);
   console.log(deleteFiles);
@@ -32,3 +23,4 @@ export async function DELETE(req: NextRequest) {
 export async function POST(req: NextRequest) {
   return await createDocument(req);
 }
+

@@ -1,8 +1,8 @@
-import React from 'react'
+import Index from '@/core/features/profile/components/Index'
 
 function page() {
   return (
-    <div>this is the profile</div>
+    <Index />
   )
 }
 

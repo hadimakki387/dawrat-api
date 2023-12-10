@@ -22,13 +22,13 @@ interface items {
 
 export const NavItems = () => {
   const id = Cookies.get("dawratUserId");
-  const { data: user, isSuccess, isLoading, isError } = useGetUserQuery(id);
-  const { data: courses } = useGetManyCoursesQuery(user.reviewedCourses, {
+  const { data: user, isSuccess, isLoading, isError } = useGetUserQuery(id as string);
+  const { data: courses } = useGetManyCoursesQuery(user?.reviewedCourses as string[], {
     skip: !user,
   });
 
   const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
-    { body: user.reviewedDocuments, limit: 3 },
+    { body: user?.reviewedDocuments, limit: 3 },
     {
       skip: !user,
     }

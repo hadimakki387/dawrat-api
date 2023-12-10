@@ -17,6 +17,8 @@ interface Props {
   name?: string;
   formik?: any; // Add formik prop
   defaultValue?: string;
+  disabled?:boolean
+  loading?:boolean
 }
 
 export default function AutoCompleteSearch({
@@ -30,31 +32,57 @@ export default function AutoCompleteSearch({
   name,
   defaultValue,
   formik, // Assign formik prop
+  disabled,
+  loading
 }: Props) {
   const dispatch = useDispatch();
+  const [menuItems  , setMenuItems] = React.useState(data)
+
+  React.useEffect(() => {
+    setMenuItems(data)
+  }, [data])
+
+
+
+  
 
   return (
     <FormControl id="free-solo-2-demo">
       {label && <FormLabel>{label}</FormLabel>}
       <Autocomplete
+    
       defaultValue={defaultValue}
         name={name}
         placeholder={placeholder}
         type="search"
         onChange={(event, value) => {
-          const selectedItem = data.find((item) => item.title === value);
+          const selectedItem = menuItems.find((item) => item.title === value);
           if (setSelectedItem) dispatch(setSelectedItem(selectedItem.id));
           formik?.setFieldValue(name, selectedItem.id);
         }}
         freeSolo
         disableClearable
-        options={data.map((option) => option.title)}
+      
+        loading={true}
+        noOptionsText="No options found"
+        loadingText="Loading..."
+        options={menuItems.map((option) => option.title)}
         onInputChange={(event, value) => {
           if (setSearch) dispatch(setSearch(value));
           formik?.setFieldValue(name, value);
         }}
         style={style}
         className={`${className}`}
+        disabled={disabled}
+        sx={{
+          "&.Mui-disabled": {
+            backgroundColor: "var(--silver-bg)"
+          },
+       
+          width:"100%",
+ 
+        }}
+
       />
       {name && formik?.errors[name] && (
         <div className="text-sm text-error">{formik?.errors[name]}</div>

@@ -1,14 +1,10 @@
 "use client";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import MissingDataMessage from "./MissingDataMessage";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetRecentlyReviewedDataQuery } from "@/core/rtk-query/user";
-import ItemCard from "./ItemCard";
-import { useRouter } from "next/navigation";
-import RecentlyViewedCard from "./RecentlyViewedCard";
 import { Skeleton } from "@mui/material";
+import { useRouter } from "next/navigation";
+import MissingDataMessage from "./MissingDataMessage";
+import RecentlyViewedCard from "./RecentlyViewedCard";
 
 function RecentlyReviewed() {
   const { user } = useAppSelector((state) => state.global);
@@ -43,7 +39,7 @@ function RecentlyReviewed() {
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
         Recently Reviewed
       </h1>
-      {RecentlyReviewed && RecentlyReviewed.length === 0 && (
+      {RecentlyReviewed?.length === 0 && (
         <MissingDataMessage
           message="You are not following any courses yet. Use the search bar to find your
           courses and follow them."
@@ -51,7 +47,7 @@ function RecentlyReviewed() {
       )}
       <div className="w-full flex items-center gap-4">
         {RecentlyReviewed
-          ? RecentlyReviewed.map((doc: any, index: number) => {
+          ? RecentlyReviewed?.map((doc: any, index: number) => {
               return <RecentlyViewedCard key={index} doc={doc} />;
             })
           : Array.from(new Array(4)).map((_, index) => {
