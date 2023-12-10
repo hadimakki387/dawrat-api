@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import * as React from "react";
 import DaButton from "./DaButton";
+import { CircularProgress } from "@mui/material";
 
 interface DialogProps {
   open: boolean;
@@ -19,14 +20,15 @@ interface DialogProps {
   defaultButtoms?: boolean;
   children?: React.ReactNode;
   closeIcon?: boolean;
-  styling?:{
-    okButton?:{
-      className?:string
-    },
-    closeButton?:{
-      className?:string
-    }
-  }
+  styling?: {
+    okButton?: {
+      className?: string;
+    };
+    closeButton?: {
+      className?: string;
+    };
+  };
+  loading?: boolean;
 }
 
 export default function DaDialog({
@@ -42,6 +44,8 @@ export default function DaDialog({
   defaultButtoms = false,
   children,
   closeIcon = false,
+  styling,
+  loading = false,
 }: DialogProps) {
   return (
     <React.Fragment>
@@ -56,34 +60,42 @@ export default function DaDialog({
           sx: PaperProps,
         }}
       >
-        {title && (
-          <DialogTitle
-            id="alert-dialog-title"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <div>{title}</div>{" "}
-            <button>
-              {closeIcon && (
-                <FontAwesomeIcon
-                  icon={faX}
-                  onClick={onClose}
-                  className={`w-4 h-4`}
-                />
-              )}
-            </button>{" "}
-          </DialogTitle>
-        )}
+        {loading ? (
+          <div className="p-24">
+            <CircularProgress />{" "}
+          </div>
+        ) : (
+          <>
+            {title && (
+              <DialogTitle
+                id="alert-dialog-title"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>{title}</div>{" "}
+                <button>
+                  {closeIcon && (
+                    <FontAwesomeIcon
+                      icon={faX}
+                      onClick={onClose}
+                      className={`w-4 h-4`}
+                    />
+                  )}
+                </button>{" "}
+              </DialogTitle>
+            )}
 
-        <div className="p-4">{children}</div>
+            <div className="p-4">{children}</div>
 
-        {defaultButtoms && (
-          <DialogActions>
-            <DaButton onClick={onClose} label={closeText} />
-            <DaButton onClick={onConfirm} label={confirmText} />
-          </DialogActions>
+            {defaultButtoms && (
+              <DialogActions>
+                <DaButton onClick={onClose} label={closeText} />
+                <DaButton onClick={onConfirm} label={confirmText} />
+              </DialogActions>
+            )}
+          </>
         )}
       </Dialog>
     </React.Fragment>

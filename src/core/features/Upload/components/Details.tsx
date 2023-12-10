@@ -3,6 +3,9 @@ import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import { useAppSelector } from "@/core/StoreWrapper";
 import React, { useEffect, useState } from "react";
 import {
+  setAddCourseDialog,
+  setAddDomainDialog,
+  setAddUniverisityDialog,
   setSearchCourse,
   setSearchDomain,
   setSearchUploadUniversity,
@@ -35,6 +38,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
 import { setUser } from "../../global/redux/global-slice";
+import AddCourseDialog from "./AddCourseDialog";
+import AddDomainDialog from "./AddDomainDialog";
+import CreateUniversityDialog from "./CreateUniversityDialog";
 
 function Details() {
   const dispatch = useDispatch();
@@ -65,7 +71,7 @@ function Details() {
   const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
 
   useEffect(() => {
-    console.log("this is the parsed docs")
+    console.log("this is the parsed docs");
     if (parsedStoredDocs?.length > 0) {
       dispatch(setUploadedDocs(parsedStoredDocs));
     }
@@ -91,7 +97,7 @@ function Details() {
         isLoading: true,
       });
 
-      const {serverData,...actualDoc} = uploadedDocs[0]
+      const { serverData, ...actualDoc } = uploadedDocs[0];
       createDocument({
         title: values.title,
         description: values.description,
@@ -133,6 +139,9 @@ function Details() {
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
+      <AddCourseDialog/>
+      <AddDomainDialog/>
+      <CreateUniversityDialog/>
       {uploadedDocs?.length > 0
         ? uploadedDocs?.map((doc, index) => {
             return (
@@ -239,7 +248,7 @@ function Details() {
           </div>
           <div className="w-full">
             <AutoCompleteSearch
-              data={data}
+              data={data || []}
               placeholder="Search for your university"
               setSearch={setSearchUploadUniversity}
               setSelectedItem={setSelectedUniversity}
@@ -251,9 +260,11 @@ function Details() {
           </div>
           <div
             className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-            onClick={() => console.log("clicked")}
+            // onClick={() => {
+            //   dispatch(setAddUniverisityDialog(true));
+            // }}
           >
-            Add University
+            {/* Add University */}
           </div>
         </div>
 
@@ -280,7 +291,9 @@ function Details() {
               </div>
               <div
                 className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-                onClick={() => console.log("clicked")}
+                onClick={() => {
+                  dispatch(setAddDomainDialog(true));
+                }}
               >
                 Add Domain
               </div>
@@ -311,7 +324,9 @@ function Details() {
               </div>
               <div
                 className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-                onClick={() => console.log("clicked")}
+                onClick={() => {
+                  dispatch(setAddCourseDialog(true));
+                }}
               >
                 Add Course
               </div>

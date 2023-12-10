@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUniversities: builder.query({
+    getUniversities: builder.query<UniversityInterface[],any>({
       query: ({ title, limit }) => ({
         url: `university?${title ? `&title=${title}` : ``}${
           limit ? `&limit=${limit}` : ``
