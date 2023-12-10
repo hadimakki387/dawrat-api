@@ -9,6 +9,7 @@ import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import MissingDataMessage from "./MissingDataMessage";
+import DaCarousel from "@/components/global/carousel/DaCarousel";
 
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);
@@ -19,7 +20,6 @@ function MyRecentDocument() {
     }
   );
   const router = useRouter();
-
 
   return (
     <div className="space-y-1">
@@ -33,9 +33,13 @@ function MyRecentDocument() {
         />
       )}
 
-      <div className="w-full flex items-center gap-4">
-        {reviewedDocuments
-          ? reviewedDocuments.map((doc: any, index: any) => {
+      <div className="">
+        {reviewedDocuments ? (
+          <DaCarousel
+            hasButtons={reviewedDocuments.length > 6}
+            options={{ containScroll: "trimSnaps" }}
+          >
+            {reviewedDocuments.map((doc: any, index: any) => {
               return (
                 <ItemCard
                   onClick={() => router.push(`/pdf/${doc?.id}`)}
@@ -43,10 +47,15 @@ function MyRecentDocument() {
                   key={index}
                 />
               );
-            })
-          : Array.from(new Array(4)).map((_, index) => (
-              <ItemCardLoadingSkeleton key={index} />
-            ))}
+            })}
+          </DaCarousel>
+        ) : (
+          Array.from(new Array(4)).map((_, index) => (
+            <div className="flex items-center" key={index}>
+              <ItemCardLoadingSkeleton />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -47,6 +47,7 @@ function UploadPdf() {
           benifit your colleague
         </h1>
         <UploadDropzone<OurFileRouter, "pdfUploader">
+          
           endpoint="pdfUploader"
           className="ut-label:text-primary  bg-primaryBg border border-primary border-dashed py-4 hover:cursor-pointer rounded-2xl"
           appearance={{
@@ -74,6 +75,7 @@ function UploadPdf() {
           onUploadBegin={(name) => {
             console.log("Uploading: ", name);
           }}
+          config={{mode:"auto"}}
         />
       </div>
       <div className={`${uploadedDocs.length > 0 ? "" : "hidden"}`}>

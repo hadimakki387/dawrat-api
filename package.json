@@ -55,6 +55,7 @@
     "bcryptjs": "^2.4.3",
     "convert-units": "^2.3.4",
     "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.0.0-rc15",
     "eslint": "^8",
     "eslint-config-next": "14.0.0",
     "formik": "^2.4.5",

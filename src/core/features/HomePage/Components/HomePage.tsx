@@ -9,13 +9,17 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/core/StoreWrapper";
 import DaButton from "@/components/global/DaButton";
 import Link from "next/link";
+import DaCarousel from "@/components/global/carousel/DaCarousel";
+import { EmblaOptionsType } from "embla-carousel-react";
 
 function HomePage() {
   const router = useRouter();
   const { user } = useAppSelector((state) => state.global);
+
   
   return (
     <div className="flex flex-col gap-12 mb-12">
+    
       <div className="w-full">
         <DaSearch
           handleSubmit={(search) => {
