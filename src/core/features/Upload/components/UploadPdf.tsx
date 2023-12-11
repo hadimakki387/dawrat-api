@@ -42,7 +42,7 @@ function UploadPdf() {
           Share your <span className="text-primary font-bold">PDFs</span> and
           benifit your colleague
         </h1>
-        <UploadDropzone<OurFileRouter, "pdfUploader">
+        <UploadDropzone<OurFileRouter>
           endpoint="pdfUploader"
           className="ut-label:text-primary  bg-primaryBg border border-primary border-dashed py-4 hover:cursor-pointer rounded-2xl"
           appearance={{
@@ -51,7 +51,7 @@ function UploadPdf() {
             container: "text-primary",
             uploadIcon: "text-primary",
           }}
-          onClientUploadComplete={async (res) => {
+          onClientUploadComplete={async (res:any) => {
             console.log("this is the res")
             console.log(res)
             if (res) {
@@ -67,7 +67,7 @@ function UploadPdf() {
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);
           }}
-          onUploadBegin={(name) => {
+          onUploadBegin={(name:any) => {
             console.log("Uploading: ", name);
           }}
           config={{ mode: "auto" }}
