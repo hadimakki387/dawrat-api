@@ -70,8 +70,8 @@ const ExtendedApi = mainApi.injectEndpoints({
       { id: string; body: string[]; ownerId: string }
     >({
       query: ({ id, body }) => ({
-        url: `/documents/${id}`,
-        method: "DELETE",
+        url: `/documents/delete/${id}`,
+        method: "PATCH",
         body,
       }),
       onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
