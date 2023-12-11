@@ -1,22 +1,19 @@
 import { OurFileRouter } from "@/app/api/uploadthing/core";
-import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
-import { useAppSelector } from "@/core/StoreWrapper";
-import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
-import { UploadDropzone } from "@uploadthing/react";
-import {
-  setHandleSubmit,
-  setSearchUploadUniversity,
-  setSelectedUniversity,
-  setUploadedDocs,
-} from "../redux/upload-slice";
-import Details from "./Details";
 import DaCard from "@/components/SVGs/DaCard";
 import DaButton from "@/components/global/DaButton";
-import { useDispatch } from "react-redux";
-import { generateToast, updateToast } from "@/services/global-function";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import { ToastType } from "@/services/constants";
-import { useEffect } from "react";
+import { generateToast } from "@/services/global-function";
+import { UploadDropzone } from "@uploadthing/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  setHandleSubmit,
+  setUploadedDocs
+} from "../redux/upload-slice";
+import Details from "./Details";
 
 function UploadPdf() {
   const { searchUploadUniversity, selectedUniversity, uploadedDocs } =
@@ -61,15 +58,15 @@ function UploadPdf() {
           onClientUploadComplete={async (res) => {
             console.log("this is the res")
             console.log(res)
-            if (res) {
-              dispatch(setUploadedDocs(res));
-              localStorage.setItem("uploadedDocs", JSON.stringify(res));
-              generateToast({
-                message: "Upload complete",
-                toastType: ToastType.success,
-                duration: 2000,
-              });
-            }
+            // if (res) {
+            //   dispatch(setUploadedDocs(res));
+            //   localStorage.setItem("uploadedDocs", JSON.stringify(res));
+            //   generateToast({
+            //     message: "Upload complete",
+            //     toastType: ToastType.success,
+            //     duration: 2000,
+            //   });
+            // }
           }}
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);
