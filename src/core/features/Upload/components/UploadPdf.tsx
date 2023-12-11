@@ -1,19 +1,19 @@
+"use client"
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import DaCard from "@/components/SVGs/DaCard";
 import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
-import { ToastType } from "@/services/constants";
-import { generateToast } from "@/services/global-function";
 import { UploadDropzone } from "@uploadthing/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
-  setHandleSubmit,
-  setUploadedDocs
+  setHandleSubmit, setUploadedDocs
 } from "../redux/upload-slice";
 import Details from "./Details";
+import { generateToast } from "@/services/global-function";
+import { ToastType } from "@/services/constants";
 
 function UploadPdf() {
   const { searchUploadUniversity, selectedUniversity, uploadedDocs } =
@@ -52,21 +52,18 @@ function UploadPdf() {
             container: "text-primary",
             uploadIcon: "text-primary",
           }}
-          onUploadProgress={(progress) => {
-            console.log(progress);
-          }}
           onClientUploadComplete={async (res) => {
             console.log("this is the res")
             console.log(res)
-            // if (res) {
-            //   dispatch(setUploadedDocs(res));
-            //   localStorage.setItem("uploadedDocs", JSON.stringify(res));
-            //   generateToast({
-            //     message: "Upload complete",
-            //     toastType: ToastType.success,
-            //     duration: 2000,
-            //   });
-            // }
+            if (res) {
+              dispatch(setUploadedDocs(res));
+              localStorage.setItem("uploadedDocs", JSON.stringify(res));
+              generateToast({
+                message: "Upload complete",
+                toastType: ToastType.success,
+                duration: 2000,
+              });
+            }
           }}
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);
