@@ -1,10 +1,12 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Course from "../Courses/courses.model";
 import Document from "./document.model";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import { returnData } from "@/backend/helper-functions/returnData";
 import { DocumentInterface } from "./document.interface";
 import MongoConnection from "@/backend/utils/db";
+import { utapi } from "@/backend/utils/uploadThing";
+import httpStatus from "http-status";
 
 
 
@@ -55,3 +57,21 @@ export const getDocumentById = async (req: NextRequest) => {
   }
   return new Response(JSON.stringify(doc), { status: 200 });
 };
+
+
+export const deleteDocFromUploadThing = async (req:NextRequest) =>{
+  const body = await req.json();
+  const deleteFiles = await utapi.deleteFiles(body);
+  console.log(deleteFiles);
+
+  if (!deleteFiles.success) {
+    return new NextResponse(
+      JSON.stringify({ message: "Somthing Went Wrong" }),
+      { status: httpStatus.INTERNAL_SERVER_ERROR }
+    );
+  }
+
+  return new NextResponse(JSON.stringify({ message: "Deleted Successfully" }), {
+    status: httpStatus.OK,
+  });
+}
