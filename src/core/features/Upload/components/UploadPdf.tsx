@@ -27,12 +27,12 @@ function UploadPdf() {
   });
   const dispatch = useDispatch();
 
-  const {user} = useAppSelector((state) => state.global);
-  const router = useRouter()
+  const { user } = useAppSelector((state) => state.global);
+  const router = useRouter();
 
   useEffect(() => {
-    if(user && user.role !== 'admin'){
-      router.push('/')
+    if (user && user.role !== "admin") {
+      router.push("/");
     }
   }, [user, router]);
 
@@ -47,7 +47,6 @@ function UploadPdf() {
           benifit your colleague
         </h1>
         <UploadDropzone<OurFileRouter, "pdfUploader">
-          
           endpoint="pdfUploader"
           className="ut-label:text-primary  bg-primaryBg border border-primary border-dashed py-4 hover:cursor-pointer rounded-2xl"
           appearance={{
@@ -60,14 +59,17 @@ function UploadPdf() {
             console.log(progress);
           }}
           onClientUploadComplete={(res) => {
-            dispatch(setUploadedDocs(res));
-            localStorage.setItem("uploadedDocs", JSON.stringify(res));
-            generateToast({
-              message: "Upload complete",
-              toastType: ToastType.success,
-              duration: 2000,
-            });
-
+            console.log("this is the res")
+            console.log(res)
+            if (res) {
+              dispatch(setUploadedDocs(res));
+              localStorage.setItem("uploadedDocs", JSON.stringify(res));
+              generateToast({
+                message: "Upload complete",
+                toastType: ToastType.success,
+                duration: 2000,
+              });
+            }
           }}
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);
@@ -75,7 +77,7 @@ function UploadPdf() {
           onUploadBegin={(name) => {
             console.log("Uploading: ", name);
           }}
-          config={{mode:"auto"}}
+          config={{ mode: "auto" }}
         />
       </div>
       <div className={`${uploadedDocs.length > 0 ? "" : "hidden"}`}>
