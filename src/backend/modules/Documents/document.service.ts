@@ -140,7 +140,7 @@ export const DeleteDocument = async (req: NextRequest) => {
 
   const DeletedDoc = await Document.findByIdAndDelete(id);
   const body = await req.json();
-  const deleteFiles = await utapi.deleteFiles(body);
+  const deleteFiles = await utapi.deleteFiles(body.doc);
 
   if (!deleteFiles.success) {
     return new NextResponse(

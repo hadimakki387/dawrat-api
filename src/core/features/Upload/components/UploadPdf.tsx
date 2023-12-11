@@ -1,4 +1,3 @@
-"use client"
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import DaCard from "@/components/SVGs/DaCard";
 import DaButton from "@/components/global/DaButton";

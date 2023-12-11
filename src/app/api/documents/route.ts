@@ -5,7 +5,7 @@ import { createDocument } from "@/backend/modules/Documents/document.service";
 
 export async function DELETE(req: NextRequest) {
   const body = await req.json();
-  const deleteFiles = await utapi.deleteFiles(body);
+  const deleteFiles = await utapi.deleteFiles(body.doc);
   console.log(deleteFiles);
 
   if (!deleteFiles.success) {

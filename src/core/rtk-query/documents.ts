@@ -72,7 +72,7 @@ const ExtendedApi = mainApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `/documents/${id}`,
         method: "DELETE",
-        body,
+        body:{doc:body},
       }),
       onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
         try {
