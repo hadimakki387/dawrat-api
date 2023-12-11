@@ -4,7 +4,7 @@ import httpStatus from "http-status";
 import { createDocument } from "@/backend/modules/Documents/document.service";
 
 export async function DELETE(req: NextRequest) {
-  // const body = await req.json();
+  const body = await req.json();
   // const deleteFiles = await utapi.deleteFiles(body.doc);
   // console.log(deleteFiles);
 
@@ -15,7 +15,7 @@ export async function DELETE(req: NextRequest) {
   //   );
   // }
 
-  return new NextResponse(JSON.stringify({ message: "Deleted Successfully" }), {
+  return new NextResponse(JSON.stringify({ message: body }), {
     status: httpStatus.INTERNAL_SERVER_ERROR,
   });
 }
