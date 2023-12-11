@@ -171,7 +171,7 @@ function Details() {
                         toastType: ToastType.default,
                         isLoading: true,
                       });
-                      deleteUploadedPdf(doc.key)
+                      deleteUploadedPdf([doc.key])
                         .unwrap()
                         .then((res) => {
                           console.log(res);
