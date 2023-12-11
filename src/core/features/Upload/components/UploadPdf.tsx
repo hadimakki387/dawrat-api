@@ -58,8 +58,7 @@ function UploadPdf() {
           onUploadProgress={(progress) => {
             console.log(progress);
           }}
-          
-          onClientUploadComplete={(res) => {
+          onClientUploadComplete={async (res) => {
             console.log("this is the res")
             console.log(res)
             if (res) {
@@ -78,7 +77,7 @@ function UploadPdf() {
           onUploadBegin={(name) => {
             console.log("Uploading: ", name);
           }}
-          // config={{ mode: "auto" }}
+          config={{ mode: "auto" }}
         />
       </div>
       <div className={`${uploadedDocs.length > 0 ? "" : "hidden"}`}>
