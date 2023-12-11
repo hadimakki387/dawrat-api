@@ -6,7 +6,7 @@ const ExtendedApi = mainApi.injectEndpoints({
     deleteUploadedPdf: builder.mutation({
       query: ( body ) => ({
         url: `documents`,
-        method: "DELETE",
+        method: "PATCH",
         body: body,
       }),
     }),

@@ -62,7 +62,6 @@ export const getDocumentById = async (req: NextRequest) => {
 export const deleteDocFromUploadThing = async (req:NextRequest) =>{
   const body = await req.json();
   const deleteFiles = await utapi.deleteFiles(body);
-  console.log(deleteFiles);
 
   if (!deleteFiles.success) {
     return new NextResponse(
