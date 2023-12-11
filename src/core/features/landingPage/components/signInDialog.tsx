@@ -46,7 +46,7 @@ function SignInDialog() {
           dispatch(setIsAuth(true))
         })
         .catch((err) => {
-          updateToast(id, `${err.data.message}`, {
+          updateToast(id, `${err?.data?.message}`, {
             isLoading: false,
             toastType: ToastType.error,
           });

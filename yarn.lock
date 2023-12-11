@@ -1355,20 +1355,20 @@
   resolved "https://registry.yarnpkg.com/@uploadthing/mime-types/-/mime-types-0.2.2.tgz#94ec59c61729f6bef5662d8b222831e8afd59369"
   integrity sha512-ZUo1JHOPPMZDsUw1mOhhVDIvJGlsjj6T0xJ/YJtulyJwL43S9B5pxg1cHcRuTEgjaxj7B55jiqQ6r9mDrrjH9A==
 
-"@uploadthing/react@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@uploadthing/react/-/react-6.0.2.tgz#a75986f504019c9cc6e778627ebc7a78d3375fa8"
-  integrity sha512-gUJwNvSFs0bg4m0c6wlFo1Fe3uyGTmAp0BESkRZvqyN4hNhIcxMY0TxjqxCKsYkv1T0/y3dHgN/XU2BDAQQh7w==
+"@uploadthing/react@5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@uploadthing/react/-/react-5.7.0.tgz#3bae340265154a31ad4624dcbfb83de0993d823a"
+  integrity sha512-rSBzoC2eMRM2d6Mpis6RXfo1Y5JsV7oJanTmaVdltFLRxbO/4lwK1kvHM4qwDUvn01UpxBtcVayimMBXNJ0V8Q==
   dependencies:
-    "@uploadthing/shared" "^6.0.2"
+    "@uploadthing/shared" "^5.2.5"
     attr-accept "^2.2.2"
     file-selector "^0.6.0"
     tailwind-merge "^1.13.2"
 
-"@uploadthing/shared@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@uploadthing/shared/-/shared-6.0.2.tgz#8c804ee087b76254f06d76792967515bd12e6971"
-  integrity sha512-yFOhvzBG8VB2qmEGWDuW/tV/ZcfRZ4a6rX7i9/ZS3IqHA0FO7CKa8yitltAl3yRdSI9it88iMEQg7Ah/ve8D4A==
+"@uploadthing/shared@^5.2.5", "@uploadthing/shared@^5.2.7":
+  version "5.2.7"
+  resolved "https://registry.yarnpkg.com/@uploadthing/shared/-/shared-5.2.7.tgz#a08108081070db6f66d874646773c46008e6a580"
+  integrity sha512-gc+i66m0vPQpy5PC783iq1koE8Fm9lFTd3uPrJAr7kXwpNRteJs4dnu6etDkY8EilTjMFA6w4js/AhW8AUDuQg==
 
 "@wojtekmaj/react-hooks@^1.18.1":
   version "1.18.1"
@@ -5509,13 +5509,13 @@ update-browserslist-db@^1.0.13:
     escalade "^3.1.1"
     picocolors "^1.0.0"
 
-uploadthing@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/uploadthing/-/uploadthing-6.0.4.tgz#8a741be51ce1d52903379da82dbbcddadf24a970"
-  integrity sha512-5zIKiL00ONywAmqtL4Ug1OAw/fpa6DGFRae/C8Bckuqmx0I949CghjCwvMKaIo+ZCD9qBeLwfNNucZNeTsHzJA==
+uploadthing@5.7.4:
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/uploadthing/-/uploadthing-5.7.4.tgz#fe888896f4baeab352a2c503a641b9cae761787b"
+  integrity sha512-8pTPznWTUlvWRxwWME2Eo6A1VcpvjskRcxzx7aQ45yPjh1yVFZ9RUKG1sjBTNSJCArMdbeg5wlhJT5S2XGr/8Q==
   dependencies:
     "@uploadthing/mime-types" "^0.2.2"
-    "@uploadthing/shared" "^6.0.2"
+    "@uploadthing/shared" "^5.2.7"
 
 uri-js@^4.2.2:
   version "4.4.1"
