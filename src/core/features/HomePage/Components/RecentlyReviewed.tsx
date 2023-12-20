@@ -26,7 +26,6 @@ function RecentlyReviewed() {
         type: "course",
       })) || [];
 
-  console.log([...reviewedDocuments, ...reviewedCourses]);
 
   const { data: RecentlyReviewed } = useGetRecentlyReviewedDataQuery(
     [...reviewedDocuments, ...reviewedCourses],

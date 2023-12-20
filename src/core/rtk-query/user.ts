@@ -1,21 +1,22 @@
 import { UserI } from "@/services/types";
 import { mainApi } from ".";
+import { StudylistInterface } from "@/backend/modules/studylist/studylist.interface";
 
 const extendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getRecentlyReviewedData: builder.query<any[],any>({
+    getRecentlyReviewedData: builder.query<any[], any>({
       query: (body) => ({
         url: `/users/recently-reviewed`,
         method: "PATCH",
         body,
       }),
     }),
-    getUser: builder.query<UserI,string>({
+    getUser: builder.query<UserI, string>({
       query: (id) => ({
         url: `users/auth/${id}`,
         method: "GET",
       }),
-      transformResponse: (response:UserI) => {
+      transformResponse: (response: UserI) => {
         return response;
       },
     }),
@@ -30,7 +31,6 @@ const extendedApi = mainApi.injectEndpoints({
           const { data: updatedUser } = await queryFulfilled;
           dispatch(
             extendedApi.util.updateQueryData("getUser", id, (draft) => {
-              console.log("accessed");
               draft.firstName = updatedUser.firstName;
               draft.lastName = updatedUser.lastName;
               draft.university = updatedUser.university;
@@ -64,6 +64,76 @@ const extendedApi = mainApi.injectEndpoints({
         body,
       }),
     }),
+    createStudylist: builder.mutation<
+    StudylistInterface,
+      { body: Partial<Omit<StudylistInterface, "id" | "_id" | "owner">>, id: string }
+    >({
+      query: ({ body, id }) => ({
+        url: `/users/studylist/${id}`,
+        method: "POST",
+        body,
+      }),
+      onQueryStarted: async ({ id }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: createdStudyList } = await queryFulfilled;
+          dispatch(
+            extendedApi.util.updateQueryData("getStudylist", id, (draft) => {
+              console.log("accessed")
+              draft.unshift(createdStudyList)
+            })
+          );
+        } catch {}
+      },
+    }),
+    updateStudylist: builder.mutation<string[], { body: string; id: string, userId:string }>({
+      query: ({ body, id ,userId}) => ({
+        url: `/users/studylist/${id}`,
+        method: "PATCH",
+        body:{
+          document:body
+        },
+      }),
+      onQueryStarted: async ({ userId ,id}, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: createdStudyList } = await queryFulfilled;
+          dispatch(
+            extendedApi.util.updateQueryData("getStudylist", userId, (draft) => {
+              console.log("accessed")
+              const  studyList = draft.find((studylist) => studylist.id === id)
+              if(studyList){
+                studyList.documents = createdStudyList
+              }
+              console.log(JSON.parse(JSON.stringify(studyList)))
+              console.log(id)
+              console.log(createdStudyList)
+            })
+          );
+        } catch {}
+      },
+    }),
+    deleteStudylist: builder.mutation<void, { id: string,userId:string }>({
+      query: ({ id ,userId}) => ({
+        url: `/users/studylist/${id}`,
+        method: "DELETE",
+      }),
+      onQueryStarted: async ({ id ,userId}, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: createdStudyList } = await queryFulfilled;
+          dispatch(
+            extendedApi.util.updateQueryData("getStudylist", userId, (draft) => {
+              console.log("accessed")
+              const index = draft.findIndex((studylist) => studylist.id === id)
+              draft.splice(index,1)
+            })
+          );
+        } catch {}}
+    }),
+    getStudylist: builder.query<StudylistInterface[], string>({
+      query: (id) => ({
+        url: `/users/studylist/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -73,4 +143,8 @@ export const {
   useUpdateUserMutation,
   useUpdateUserUniversityMutation,
   useChangePasswordMutation,
+  useCreateStudylistMutation,
+  useUpdateStudylistMutation,
+  useDeleteStudylistMutation,
+  useGetStudylistQuery,
 } = extendedApi;

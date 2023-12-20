@@ -6,7 +6,7 @@ import Folder from "@/components/SVGs/Folder";
 import Home from "@/components/SVGs/Home";
 import Questions from "@/components/SVGs/Questions";
 import StudyList from "@/components/SVGs/StudyList";
-import { useGetUserQuery } from "@/core/rtk-query/user";
+import { useGetStudylistQuery, useGetUserQuery } from "@/core/rtk-query/user";
 import { useGetManyCoursesQuery } from "@/core/rtk-query/courses";
 import { useGetManyDocumentsByIdQuery } from "@/core/rtk-query/documents";
 import Cookies from "js-cookie";
@@ -26,6 +26,7 @@ export const NavItems = () => {
   const { data: courses } = useGetManyCoursesQuery(user?.reviewedCourses as string[], {
     skip: !user,
   });
+  const {data:studyList} = useGetStudylistQuery(id as string);
 
   const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
     { body: user?.reviewedDocuments, limit: 3 },
@@ -34,7 +35,7 @@ export const NavItems = () => {
     }
   );
 
-  if (user && courses && reviewedDocuments)
+  if (user && courses && reviewedDocuments && studyList)
     return [
       {
         title: "",
@@ -66,7 +67,7 @@ export const NavItems = () => {
             path: "/study-lists",
             icon: StudyList,
             hasSubItems: true,
-            subItems: [],
+            subItems: studyList,
           },
           {
             label: "Questions",

@@ -11,7 +11,6 @@ function ViewPdfPage() {
   const id = param?.id;
   const { data } = useGetSingleDocumentQuery(id as string);
   const [success, setSuccess] = useState(false);
-  console.log("thisi shte data", success);
 
   return (
     <div>
@@ -22,7 +21,6 @@ function ViewPdfPage() {
               <ViewPdf
                 url={data.doc?.url}
                 LoadSuccess={(e) => {
-                  console.log("this is the e", e);
                   setSuccess(e);
                 }}
               />

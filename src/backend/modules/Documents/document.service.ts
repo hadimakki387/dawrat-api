@@ -82,7 +82,6 @@ export const getDocumentsByCourseId = async (req: NextRequest) => {
     const documents = await Document.find({ course: id }).sort({
       createdAt: -1,
     });
-    console.log(documents);
     return new NextResponse(JSON.stringify(returnArrayData(documents)), {
       status: 200,
     });

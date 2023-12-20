@@ -11,6 +11,7 @@ const createUserBody: Record<keyof Omit<UserInterface,"id" | "reviewedDocuments"
     domain:Joi.string().max(50),
     currentYearOfStudying:Joi.string().max(20),
     role:Joi.string().max(10),
+    studylist:Joi.array().items(Joi.string())
 }
 
 export const createUserValidation = {

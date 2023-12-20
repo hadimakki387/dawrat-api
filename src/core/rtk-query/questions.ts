@@ -23,7 +23,7 @@ const extendedApi = mainApi.injectEndpoints({
               "getQuestionById",
               id,
               (draft) => {
-                console.log("accessed")
+
                 draft.unshift(updatedUser);
               }
             )

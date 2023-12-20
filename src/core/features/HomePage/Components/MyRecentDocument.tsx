@@ -50,11 +50,11 @@ function MyRecentDocument() {
             })}
           </DaCarousel>
         ) : (
-          Array.from(new Array(4)).map((_, index) => (
-            <div className="flex items-center" key={index}>
-              <ItemCardLoadingSkeleton />
-            </div>
-          ))
+          <div className="flex items-center gap-4">
+            {Array.from(new Array(4)).map((_, index) => (
+              <ItemCardLoadingSkeleton key={index} />
+            ))}
+          </div>
         )}
       </div>
     </div>

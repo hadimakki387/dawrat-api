@@ -50,7 +50,6 @@ export const createQuestion = async (req: NextRequest) => {
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  console.log(data);
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",

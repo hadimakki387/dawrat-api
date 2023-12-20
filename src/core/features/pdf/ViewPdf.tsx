@@ -40,7 +40,6 @@ function ViewPdf({
     numPages: nextNumPages,
   }: PDFDocumentProxy): void {
     setNumPages(nextNumPages);
-    console.log("success")
     if (LoadSuccess) LoadSuccess(true);
   }
 
