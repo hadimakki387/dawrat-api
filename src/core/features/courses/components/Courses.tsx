@@ -1,12 +1,13 @@
 "use client";
-import React from "react";
-import CourseHeader from "./CourseHeader";
+import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import TabsSwitch from "@/components/global/TabsSwitch";
-import DocCard from "./docCard";
-import DocCardSkeleton from "./DocCardSkeleton";
 import { useGetDocumentsByCourseIdQuery } from "@/core/rtk-query/documents";
 import { useParams } from "next/navigation";
-import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
+import React from "react";
+import CourseHeader from "./CourseHeader";
+import DocCardSkeleton from "./DocCardSkeleton";
+import DocCard from "./docCard";
+import SaveForStudyListDialog from "./SaveForStudyList";
 
 function Courses() {
   const [value, setValue] = React.useState(0);
@@ -21,6 +22,7 @@ function Courses() {
   return (
     <div className="mr-6">
       <CourseHeader />
+      <SaveForStudyListDialog/>
       <div className="px-40 mt-8">
         <h1 className="text-xl font-bold text-darkText">Documents</h1>
         <div>

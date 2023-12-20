@@ -66,7 +66,6 @@ function Study() {
           onClick={() => {
             setSubmitted(true);
             if (selectedSettingsUniversity) {
-              console.log("uploaded");
               const id = generateToast({
                 message: "Updating...",
                 toastType: ToastType.default,
@@ -121,7 +120,6 @@ function Study() {
           onClick={() => {
             setSubmitted(true);
             if (selectedSettingsDomain) {
-              console.log("uploaded");
               const id = generateToast({
                 message: "Updating...",
                 toastType: ToastType.default,

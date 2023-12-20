@@ -4,17 +4,32 @@ import Document from "@/components/SVGs/Document";
 import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useUpdateReviewedDocumentsMutation } from "@/core/rtk-query/documents";
+import { useGetStudylistQuery } from "@/core/rtk-query/user";
 import { faBookmark, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  setSaveCourseDialog,
+  setSelectedDocInCourse,
+} from "../redux/courses-slice";
 import GetThumbnail from "./GetThumbnail";
+import { StudylistInterface } from "@/backend/modules/studylist/studylist.interface";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
   const router = useRouter();
   const [updateReviewsDocs] = useUpdateReviewedDocumentsMutation();
   const { user } = useAppSelector((state) => state.global);
   const [numPages, setNumPages] = useState<number>(0);
+  const dispatch = useDispatch();
+  const { data: Studylist } = useGetStudylistQuery(user?.id as string);
+  //i want to check if the document is already saved in the studylist
+  const checkSaved = Studylist?.some((studylist: StudylistInterface) => {
+    return studylist.documents.includes(doc?.id);
+  });
+
+console.log("checkSaved", checkSaved)
   return (
     <div className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl">
       <div
@@ -79,17 +94,22 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
             ({doc?.upvotes + doc?.downvotes})
           </p>
         </div>
-        <div className="z-50">
-          <DaButton
-            label="Save"
-            startIcon={<FontAwesomeIcon icon={faBookmark} />}
-            fullRounded
-            className="border border-neutral-300 px-6 bg-[#f7f7f7] "
-            onClick={()=>{
-              console.log("save")
-            }}
-          />
-        </div>
+
+        <DaButton
+          label="Save"
+          startIcon={
+            <FontAwesomeIcon
+              icon={faBookmark}
+              className={`${checkSaved && checkSaved ? "text-primary" : ""}`}
+            />
+          }
+          fullRounded
+          className="border border-neutral-300 px-6 bg-[#f7f7f7]"
+          onClick={() => {
+            dispatch(setSaveCourseDialog(true));
+            dispatch(setSelectedDocInCourse(doc));
+          }}
+        />
       </div>
     </div>
   );

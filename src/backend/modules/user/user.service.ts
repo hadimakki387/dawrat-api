@@ -101,8 +101,7 @@ export const getUserById = async (id: string) => {
 export const getRecentlyViewed = async (req: NextRequest) => {
   const body = await req.json();
 
-  console.log("this is the body");
-  console.log(body);
+
 
   const docs = body.filter((doc: any) => doc.type === "doc");
   const courses = body.filter((doc: any) => doc.type === "course");
@@ -276,7 +275,6 @@ export const updateReviewedCourses = async (req: NextRequest) => {
       (doc: string) => doc !== body.course
     );
     const updatedArray = [body.course, ...filteredArray];
-    console.log(updatedArray)
     const updateUser = await User.findByIdAndUpdate(
       id,
       { reviewedCourses: updatedArray },

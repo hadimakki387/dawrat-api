@@ -1,8 +1,8 @@
 import { Schema, model, models } from "mongoose";
 import validator from "validator";
+import Studylist from "../studylist/studylist.model";
 
-
-const userSchema = new Schema<any,any>({
+const userSchema = new Schema<any, any>({
   firstName: {
     type: String,
     required: true,
@@ -55,18 +55,17 @@ const userSchema = new Schema<any,any>({
     type: Array,
     default: [],
   },
-  uploads:{
-    type:Number,
-    default:0
+  uploads: {
+    type: Number,
+    default: 0,
   },
-  createdAt:{
-    type:Date,
-    default:Date.now()
-  
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
-  updatedAt:{
-    type:Date,
-    default:Date.now()
+  updatedAt: {
+    type: Date,
+    default: Date.now(),
   },
   reviewedDocuments: {
     type: Array,
@@ -76,9 +75,14 @@ const userSchema = new Schema<any,any>({
     type: Number,
     default: 0,
   },
+  studylist: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Studylist", // use the string name of the model
+    },
+  ],
 });
 
-
-const User = models.User ||model("User", userSchema);
+const User = models.User || model("User", userSchema);
 
 export default User;

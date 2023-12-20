@@ -6,6 +6,7 @@ import askAiSlice from "./Ask Ai/redux/askAi-slice"
 import globalSlice from "./global/redux/global-slice"
 import uploadSlice from "./Upload/redux/upload-slice"
 import settingsSlice from "./settings/redux/settings-slice"
+import courseSlice from "./courses/redux/courses-slice"
 
 const reducers = combineReducers({
     profile:profileSlice,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
     global:globalSlice,
     upload:uploadSlice,
     settings:settingsSlice,
+    courses:courseSlice,
     [mainApi.reducerPath]:mainApi.reducer
 })
 

@@ -52,8 +52,6 @@ function UploadPdf() {
             uploadIcon: "text-primary",
           }}
           onClientUploadComplete={async (res:any) => {
-            console.log("this is the res")
-            console.log(res)
             if (res) {
               dispatch(setUploadedDocs(res));
               localStorage.setItem("uploadedDocs", JSON.stringify(res));

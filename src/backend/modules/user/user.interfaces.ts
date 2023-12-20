@@ -10,6 +10,7 @@ export interface UserInterface {
   currentYearOfStudying: string;
   phone?: string;
   reviewedDocuments?: string[];
+  studylist: string[];
 }
 
 export type createUserInterface = Pick<

@@ -51,7 +51,6 @@ const ExtendedApi = mainApi.injectEndpoints({
               "getManyDocumentsById",
               { limit: 3, id: id },
               (draft) => {
-                console.log("accessed");
                 draft.unshift(updatedUser);
               }
             )
@@ -83,7 +82,6 @@ const ExtendedApi = mainApi.injectEndpoints({
               "getDocumentsByOwnerId",
               ownerId,
               (draft) => {
-                console.log("accessed");
                 // i want to remove the document from the array
                 const index = draft.findIndex((doc) => doc._id === ownerId);
                 draft.splice(index, 1);
@@ -109,14 +107,11 @@ const ExtendedApi = mainApi.injectEndpoints({
       onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
         try {
           const { data: updatedUser } = await queryFulfilled;
-          console.log("this is the owner id")
-          console.log(ownerId)
           dispatch(
             ExtendedApi.util.updateQueryData(
               "getDocumentsByOwnerId",
               ownerId,
               (draft) => {
-                console.log("accessed");
                 const doc = draft.find((doc) => doc.ownerId === ownerId);
                 if (doc) {
                   doc.title = updatedUser.title;

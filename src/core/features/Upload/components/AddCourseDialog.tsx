@@ -60,7 +60,6 @@ function AddCourseDialog() {
       description: "",
     },
     onSubmit: (values) => {
-        console.log("submitted");
       const id = generateToast({
         message: "Creating...",
         isLoading: true,
@@ -171,7 +170,6 @@ function AddCourseDialog() {
             className="bg-primary text-white w-[5rem]"
             onClick={() => {
               formik.handleSubmit();
-              console.log("clicked");
             }}
           />
         </div>

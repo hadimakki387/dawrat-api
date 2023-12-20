@@ -71,7 +71,6 @@ function Details() {
   const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
 
   useEffect(() => {
-    console.log("this is the parsed docs");
     if (parsedStoredDocs?.length > 0) {
       dispatch(setUploadedDocs(parsedStoredDocs));
     }
@@ -105,11 +104,15 @@ function Details() {
         domain: selectedDomain,
         course: selectedCourse,
         ownerId: user?.id,
-        doc: actualDoc,
+        doc: {
+          name:actualDoc?.name,
+          size:actualDoc?.size,
+          key: actualDoc?.key,
+          url: actualDoc?.url,
+        },
       })
         .unwrap()
         .then((res) => {
-          console.log(res);
           updateToast(id, "Document Uploaded", {
             toastType: ToastType.success,
             isLoading: false,
@@ -121,7 +124,6 @@ function Details() {
           dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
         })
         .catch((err) => {
-          console.log(err);
           updateToast(id, `${err.data.message}`, {
             toastType: ToastType.error,
             isLoading: false,
@@ -174,7 +176,6 @@ function Details() {
                       deleteUploadedPdf([doc.key])
                         .unwrap()
                         .then((res) => {
-                          console.log(res);
                           updateToast(id, "Document Deleted", {
                             toastType: ToastType.success,
                             isLoading: false,
@@ -198,7 +199,6 @@ function Details() {
                           );
                         })
                         .catch((err) => {
-                          console.log(err);
                           updateToast(id, `${err.data.message}`, {
                             toastType: ToastType.success,
                             isLoading: false,
