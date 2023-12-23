@@ -103,3 +103,8 @@ body {
 .MuiAutocomplete-listbox{
   z-index: 1302 !important;
 }
+
+.webviewer{
+  height: 85vh !important;
+}
+

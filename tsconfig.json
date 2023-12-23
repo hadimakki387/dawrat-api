@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/core/features/questions/components/Questions.tss"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/core/features/questions/components/Questions.tss", "src/app/(private)/testing-pdf/page.jsx", "src/core/features/pdf/ViewPdf.jsx", "src/core/features/pdf/GetPdfThumbnail.jsx"],
   "exclude": ["node_modules"]
 }
