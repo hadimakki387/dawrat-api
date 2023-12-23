@@ -27,6 +27,7 @@ function ItemCard({ doc, onClick }: Props) {
               height={100}
               className="flex justify-center w-full "
               url={doc?.doc?.url}
+              getNumPages={() => {}}
             />
           </Suspense>
         </div>

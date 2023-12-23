@@ -20,7 +20,7 @@ function ViewPdfPage() {
             <Suspense>
               <ViewPdf
                 url={data.doc?.url}
-                LoadSuccess={(e) => {
+                LoadSuccess={(e:boolean) => {
                   setSuccess(e);
                 }}
               />

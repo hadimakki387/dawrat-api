@@ -19,6 +19,7 @@ function GetThumbnail({
           getNumPages={(number: number) => {
             setNumPages(number);
           }}
+          className={""}
         />
       )}
     </>
