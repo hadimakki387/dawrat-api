@@ -48,13 +48,12 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
             <GetPdfThumbnail
-              url={doc?.doc?.url}
-              width={112}
-              height={80}
+              fileUrl={doc?.doc?.url}
+              width={1500}
               getNumPages={(number: number) => {
                 setNumPages(number);
               }}
-              className={""}
+              pageIndex={1}
             />
           </div>
         </div>

@@ -108,3 +108,7 @@ body {
   height: 85vh !important;
 }
 
+.rpv-thumbnail__cover-image{
+  width: 100% !important;
+  height: 100% !important;
+}
