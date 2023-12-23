@@ -1,15 +1,11 @@
 "use client";
+import DaCarousel from "@/components/global/carousel/DaCarousel";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetManyDocumentsByIdQuery } from "@/core/rtk-query/documents";
-import ItemCard from "./ItemCard";
 import { useRouter } from "next/navigation";
-import DaLoader from "@/components/global/DaLoader";
-import { Skeleton } from "@mui/material";
-import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import ItemCard from "./ItemCard";
 import MissingDataMessage from "./MissingDataMessage";
-import DaCarousel from "@/components/global/carousel/DaCarousel";
+import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
 
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);

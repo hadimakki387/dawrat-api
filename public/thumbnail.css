@@ -1,3 +1,6 @@
-.DocumentContainer .document{
-    margin: 0 auto !important;
-  }
+.DocumentContainer .document {
+  margin: 0 auto !important;
+}
+.DocumentContainer {
+  overflow: hidden !important;
+}

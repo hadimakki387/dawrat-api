@@ -1,5 +1,6 @@
 "use client";
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
+import { StudylistInterface } from "@/backend/modules/studylist/studylist.interface";
 import Document from "@/components/SVGs/Document";
 import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
@@ -10,12 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
 import {
   setSaveCourseDialog,
   setSelectedDocInCourse,
 } from "../redux/courses-slice";
-import GetThumbnail from "./GetThumbnail";
-import { StudylistInterface } from "@/backend/modules/studylist/studylist.interface";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
   const router = useRouter();
@@ -29,7 +29,7 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
     return studylist.documents.includes(doc?.id);
   });
 
-console.log("checkSaved", checkSaved)
+  console.log("checkSaved", checkSaved);
   return (
     <div className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl">
       <div
@@ -47,7 +47,15 @@ console.log("checkSaved", checkSaved)
       >
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
-            <GetThumbnail doc={doc} setNumPages={(num) => setNumPages(num)} />
+            <GetPdfThumbnail
+              url={doc?.doc?.url}
+              width={112}
+              height={80}
+              getNumPages={(number: number) => {
+                setNumPages(number);
+              }}
+              className={""}
+            />
           </div>
         </div>
         <div className="flex flex-col justify-between">

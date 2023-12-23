@@ -1,40 +1,35 @@
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { lazy, Suspense } from "react";
+import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
 
 interface Props {
   doc: any;
   onClick?: () => any;
 }
 
-const LazyGetPdfThumbnail = lazy(() => import("../../pdf/GetPdfThumbnail"));
-
 function ItemCard({ doc, onClick }: Props) {
-
   return (
     <div
       onClick={onClick}
       style={{
-        width:"calc((100% - 112px) / 8)"
+        width: "calc((100% - 112px) / 8)",
       }}
       className=" rounded-xl h-72 min-w-[176px] max-w-[200px] overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
     >
       <div className="h-1/2 rounded-xl p-2 bg-silverBg">
         <div className="w-[98%] m-auto overflow-hidden rounded-xl h-[98%]">
-          <Suspense fallback={<div>Loading...</div>}>
-            <LazyGetPdfThumbnail
-              width={300}
-              height={100}
-              className="flex justify-center w-full "
-              url={doc?.doc?.url}
-              getNumPages={() => {}}
-            />
-          </Suspense>
+          <GetPdfThumbnail
+            width={300}
+            height={100}
+            className="flex justify-center w-full "
+            url={doc?.doc?.url}
+            getNumPages={() => {}}
+          />
         </div>
       </div>
       <div className="h-1/2  z-10 p-2 flex flex-col justify-between">
-        <p className="font-medium text-primary">{doc?.title}</p>
-        <p className="text-subTitleText text-xs font-medium">
+        <p className="font-medium text-primary hover:cursor-pointer hover:underline">{doc?.title}</p>
+        <p className="text-subTitleText text-xs font-medium ">
           {doc?.courseTitle}
         </p>
         <div className="flex justify-center items-center gap-2 bg-neutral-100 rounded-md py-1">
@@ -44,9 +39,14 @@ function ItemCard({ doc, onClick }: Props) {
               ? "0%"
               : doc?.upvotes === doc?.downvotes
               ? "100%"
-              : (((doc?.upvotes)/(doc?.upvotes+doc?.downvotes)) * 100).toFixed(2) + "%"}
+              : (
+                  (doc?.upvotes / (doc?.upvotes + doc?.downvotes)) *
+                  100
+                ).toFixed(2) + "%"}
           </p>
-          <p className="text-subTitleText text-sm">({doc?.upvotes+doc?.downvotes})</p>
+          <p className="text-subTitleText text-sm">
+            ({doc?.upvotes + doc?.downvotes})
+          </p>
         </div>
       </div>
     </div>
