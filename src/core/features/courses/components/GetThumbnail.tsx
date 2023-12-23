@@ -13,13 +13,12 @@ function GetThumbnail({
     <>
       {doc?.doc?.url && (
         <GetPdfThumbnail
-          url={doc?.doc?.url}
-          width={112}
-          height={80}
+          fileUrl={doc?.doc?.url}
+          width={1500}
           getNumPages={(number: number) => {
             setNumPages(number);
           }}
-          className={""}
+          pageIndex={1}
         />
       )}
     </>

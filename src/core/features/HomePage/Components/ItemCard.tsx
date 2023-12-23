@@ -19,16 +19,19 @@ function ItemCard({ doc, onClick }: Props) {
       <div className="h-1/2 rounded-xl p-2 bg-silverBg">
         <div className="w-[98%] m-auto overflow-hidden rounded-xl h-[98%]">
           <GetPdfThumbnail
-            width={300}
-            height={100}
-            className="flex justify-center w-full "
-            url={doc?.doc?.url}
-            getNumPages={() => {}}
+            width={1500}
+            pageIndex={1}
+            fileUrl={doc?.doc?.url}
+            getNumPages={(e) => {
+              console.log("this is the num pages of the doc", e);
+            }}
           />
         </div>
       </div>
       <div className="h-1/2  z-10 p-2 flex flex-col justify-between">
-        <p className="font-medium text-primary hover:cursor-pointer hover:underline">{doc?.title}</p>
+        <p className="font-medium text-primary hover:cursor-pointer hover:underline">
+          {doc?.title}
+        </p>
         <p className="text-subTitleText text-xs font-medium ">
           {doc?.courseTitle}
         </p>
