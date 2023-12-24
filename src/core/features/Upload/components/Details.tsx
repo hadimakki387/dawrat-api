@@ -41,6 +41,8 @@ import { setUser } from "../../global/redux/global-slice";
 import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
 import CreateUniversityDialog from "./CreateUniversityDialog";
+import { DomainInterface } from "@/backend/modules/domains/domain.interface";
+import { courseInterface } from "@/backend/modules/Courses/courses.interface";
 
 function Details() {
   const dispatch = useDispatch();
@@ -105,8 +107,8 @@ function Details() {
         course: selectedCourse,
         ownerId: user?.id,
         doc: {
-          name:actualDoc?.name,
-          size:actualDoc?.size,
+          name: actualDoc?.name,
+          size: actualDoc?.size,
           key: actualDoc?.key,
           url: actualDoc?.url,
         },
@@ -122,6 +124,12 @@ function Details() {
           dispatch(setUploadedDocs([]));
           formik.resetForm();
           dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
+          dispatch(setSelectedCourse(""));
+          dispatch(setSelectedDomain(""));
+          dispatch(setSelectedUniversity(""));
+          dispatch(setSearchCourse(""));
+          dispatch(setSearchDomain(""));
+          dispatch(setSearchUploadUniversity(""));
         })
         .catch((err) => {
           updateToast(id, `${err.data.message}`, {
@@ -138,6 +146,7 @@ function Details() {
   useEffect(() => {
     if (handleSubmit !== 0) formik.handleSubmit();
   }, [handleSubmit]);
+  console.log(selectedCourse)
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
@@ -197,6 +206,12 @@ function Details() {
                               )
                             )
                           );
+                          dispatch(setSelectedCourse(""));
+                          dispatch(setSelectedDomain(""));
+                          dispatch(setSelectedUniversity(""));
+                          dispatch(setSearchCourse(""));
+                          dispatch(setSearchDomain(""));
+                          dispatch(setSearchUploadUniversity(""));
                         })
                         .catch((err) => {
                           updateToast(id, `${err.data.message}`, {
@@ -236,8 +251,8 @@ function Details() {
             />
           </div>
         </div>
-        <div className="flex items-center w-full">
-          <div className="w-[15vw] flex items-center gap-4">
+        <div className="flex items-center w-full max-md:flex-col gap-2">
+          <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
             <Institution
               fill="var(--sub-title-text)"
               upperFill="var(--title-text)"
@@ -255,6 +270,9 @@ function Details() {
               className="mr-4 p-1"
               name="university"
               formik={formik}
+              value={
+                data?.find((item) => item.id === selectedUniversity)?.title
+              }
             />
           </div>
           <div
@@ -266,10 +284,22 @@ function Details() {
             {/* Add University */}
           </div>
         </div>
-        <div className="flex items-center w-full">
-          <div className="w-[15vw] flex items-center gap-4">
-            <Folder fill="var(--sub-title-text)" size={20} />
-            <p>Domain</p>
+        <div className="flex items-center w-full max-md:flex-col gap-2">
+          <div className="md:w-[15vw] flex items-center justify-between max-md:w-full">
+            <div className=" flex items-center gap-4 ">
+              <Folder fill="var(--sub-title-text)" size={20} />
+              <p>Domain</p>
+            </div>
+            <div
+              className={`text-sm text-primary w-32 hover:cursor-pointer text-right md:hidden ${
+                !selectedUniversity && "hover:cursor-not-allowed "
+              }`}
+              onClick={() => {
+                if (selectedUniversity) dispatch(setAddDomainDialog(true));
+              }}
+            >
+              Add Domain
+            </div>
           </div>
           <div className="w-full">
             <AutoCompleteSearch
@@ -280,11 +310,16 @@ function Details() {
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               disabled={!selectedUniversity}
+              value={
+                domains?.find(
+                  (item: DomainInterface) => item.id === selectedDomain
+                )?.title
+              }
             />
           </div>
           <div
-            className={`text-sm text-primary w-32 hover:cursor-pointer text-right ${
-              !selectedUniversity && "hover:cursor-not-allowed"
+            className={`text-sm text-primary w-32 hover:cursor-pointer text-right max-md:hidden ${
+              !selectedUniversity && "hover:cursor-not-allowed "
             }`}
             onClick={() => {
               if (selectedUniversity) dispatch(setAddDomainDialog(true));
@@ -293,10 +328,22 @@ function Details() {
             Add Domain
           </div>
         </div>
-        <div className="flex items-center w-full">
-          <div className="w-[15vw] flex items-center gap-4">
-            <Folder fill="var(--sub-title-text)" size={20} />
-            <p>Course</p>
+        <div className="flex items-center w-full max-md:flex-col gap-2">
+          <div className="md:w-[15vw] flex items-center justify-between max-md:w-full">
+            <div className=" flex items-center gap-4 ">
+              <Folder fill="var(--sub-title-text)" size={20} />
+              <p>Course</p>
+            </div>
+            <div
+              className={`text-sm text-primary w-32 hover:cursor-pointer text-right md:hidden ${
+                !selectedDomain && "hover:cursor-not-allowed "
+              }`}
+              onClick={() => {
+                if (selectedDomain) dispatch(setAddCourseDialog(true));
+              }}
+            >
+              Add Course
+            </div>
           </div>
           <div className="w-full">
             <AutoCompleteSearch
@@ -307,22 +354,25 @@ function Details() {
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               disabled={!selectedDomain}
+              value={
+                courses?.find(
+                  (item: courseInterface) => item.id === selectedCourse
+                )?.title
+              }
             />
           </div>
           <div
-            className={`text-sm text-primary w-32 hover:cursor-pointer text-right ${
-              !selectedDomain && "hover:cursor-not-allowed"
+            className={`text-sm text-primary w-32 hover:cursor-pointer text-right max-md:hidden ${
+              !selectedDomain && "hover:cursor-not-allowed "
             }`}
             onClick={() => {
-              if (selectedDomain)
-              dispatch(setAddCourseDialog(true));
+              if (selectedDomain) dispatch(setAddCourseDialog(true));
             }}
           >
             Add Course
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

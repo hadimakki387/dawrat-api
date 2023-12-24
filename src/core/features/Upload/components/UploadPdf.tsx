@@ -7,16 +7,19 @@ import { UploadDropzone } from "@uploadthing/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  setHandleSubmit, setUploadedDocs
-} from "../redux/upload-slice";
+import { setHandleSubmit, setUploadedDocs } from "../redux/upload-slice";
 import Details from "./Details";
 import { generateToast } from "@/services/global-function";
 import { ToastType } from "@/services/constants";
 
 function UploadPdf() {
-  const { searchUploadUniversity, selectedUniversity, uploadedDocs } =
-    useAppSelector((state) => state.upload);
+  const {
+    searchUploadUniversity,
+    selectedUniversity,
+    uploadedDocs,
+    selectedCourse,
+    selectedDomain,
+  } = useAppSelector((state) => state.upload);
   const { data } = useGetUniversitiesQuery({
     title: searchUploadUniversity,
     limit: 5,
@@ -34,11 +37,11 @@ function UploadPdf() {
 
   return (
     <DaCard
-      className="flex flex-col justify-center w-3/4 m-auto gap-8 p-8"
+      className="flex flex-col justify-center w-3/4 m-auto gap-8 p-8  max-md:w-full max-md:p-2"
       loading={!data}
     >
       <div className="w-full m-auto">
-        <h1 className="text-3xl font-semibold text-darkText mb-4">
+        <h1 className="text-3xl font-semibold text-darkText mb-4 max-md:text-xl">
           Share your <span className="text-primary font-bold">PDFs</span> and
           benifit your colleague
         </h1>
@@ -51,7 +54,7 @@ function UploadPdf() {
             container: "text-primary",
             uploadIcon: "text-primary",
           }}
-          onClientUploadComplete={async (res:any) => {
+          onClientUploadComplete={async (res: any) => {
             if (res) {
               dispatch(setUploadedDocs(res));
               localStorage.setItem("uploadedDocs", JSON.stringify(res));
@@ -65,7 +68,7 @@ function UploadPdf() {
           onUploadError={(error: Error) => {
             console.log(`ERROR! ${error.message}`);
           }}
-          onUploadBegin={(name:any) => {
+          onUploadBegin={(name: any) => {
             console.log("Uploading: ", name);
           }}
           config={{ mode: "auto" }}
@@ -78,7 +81,14 @@ function UploadPdf() {
       <div className="flex justify-end items-center">
         <DaButton
           label="Submit"
-          className="bg-primary text-white"
+          className={`bg-primary text-white ${
+            !selectedUniversity || !selectedCourse || !selectedDomain
+              ? "hover:cursor-not-allowed"
+              : ""
+          }`}
+          disabled={
+            !selectedUniversity || !selectedCourse || !selectedDomain
+          }
           onClick={() => dispatch(setHandleSubmit(Math.random()))}
         />
       </div>

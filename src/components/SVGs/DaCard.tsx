@@ -11,7 +11,7 @@ function DaCard({
   loading?: boolean;
 }) {
   return (
-    <div className={`p-4 bg-white rounded-xl  ${className}`}>
+    <div className={`p-4 bg-white rounded-xl max-md:p-2  ${className}`}>
       {loading ? (
         <div className="flex justify-center items-center h-32">
           <CircularProgress/>

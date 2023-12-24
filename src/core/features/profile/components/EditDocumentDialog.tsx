@@ -3,7 +3,7 @@ import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
 import { setEditDocumentDialog, setSelectedDoc } from "../redux/profile-slice";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,7 @@ function EditDocumentDialog() {
 
   const dispatch = useDispatch();
   const [updateDocument] = useUpdateDocumentMutation();
+  console.log(selectedDoc)
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -61,6 +62,12 @@ function EditDocumentDialog() {
           });
     },
   });
+  useEffect(() => {
+    formik.setValues({
+      title: selectedDoc?.title,
+      description: selectedDoc?.description,
+    });
+  }, [selectedDoc]);
   return (
     <DaDialog
       open={editDocumentDialog}

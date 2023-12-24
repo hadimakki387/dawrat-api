@@ -63,17 +63,19 @@ function HomeNavBar() {
         <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 max-sm:mt-4">
           <div className="flex gap-4 items-center">
             <div className="flex items-center gap-3">
-              {Items ? (
-                <FontAwesomeIcon
-                  icon={faBars}
-                  onClick={() => {
-                    dispatch(setToggle(true));
-                  }}
-                  className="md:hidden relative top-[1.5px]"
-                />
-              ) : (
-                <CircularProgress size={20} />
-              )}
+              <div className="md:hidden">
+                {Items ? (
+                  <FontAwesomeIcon
+                    icon={faBars}
+                    onClick={() => {
+                      dispatch(setToggle(true));
+                    }}
+                    className=" relative top-[1.5px] "
+                  />
+                ) : (
+                  <CircularProgress size={20}  className=""/>
+                )}
+              </div>
               <div
                 className={`text-xl font-bold flex items-center ${
                   path !== "/" ? "w-[13vw]" : ""
