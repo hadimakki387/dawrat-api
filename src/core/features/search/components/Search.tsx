@@ -45,7 +45,7 @@ function Search() {
             })}
         </div>
       ) : (
-        <div className="md:px-20 w-full ">
+        <div className="md:px-20 w-full">
           <SearchHeader />
           <div className="flex items-center gap-4 w-full">
             <DaCarousel
