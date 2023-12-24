@@ -207,39 +207,43 @@ function SaveForStudyListDialog({}: Props) {
           </div>
         )}
         {params.get("addStudyList") && (
-          <div className="flex items-center justify-between gap-2 w-full">
-            <div className="">
-              <FontAwesomeIcon icon={faAdd} className="text-titleText" />
+          <div className="flex items-center justify-between gap-2 w-full max-sm:flex-col">
+            <div className="w-full flex items-center gap-2 max-sm:w-full">
+              <div className="">
+                <FontAwesomeIcon icon={faAdd} className="text-titleText" />
+              </div>
+              <div className="w-full">
+                <TextFieldComponent
+                  placeholder="Enter Studylist name..."
+                  onChange={(e) => {
+                    params.set("studylistName", e.target.value);
+                    router.push(`?${params.toString()}`);
+                  }}
+                />
+              </div>
             </div>
-            <div className="w-1/2">
-              <TextFieldComponent
-                placeholder="Enter Studylist name..."
-                onChange={(e) => {
-                  params.set("studylistName", e.target.value);
-                  router.push(`?${params.toString()}`);
-                }}
-              />
-            </div>
-            <div className="w-1/4">
-              <DaButton
-                fullRounded
-                className="bg-primary text-white w-full"
-                label="Create"
-                onClick={() => {
-                  handleCreateStudyList();
-                }}
-              />
-            </div>
-            <div className="w-1/4">
-              <DaButton
-                fullRounded
-                className=" w-full"
-                label="Cancel"
-                onClick={() => {
-                  params.delete("addStudyList");
-                  router.push(`?${params.toString()}`);
-                }}
-              />
+            <div className="w-1/2 gap-2 flex items-center max-sm:justify-center  max-sm:w-full">
+              <div className="w-1/2">
+                <DaButton
+                  fullRounded
+                  className="bg-primary text-white w-full "
+                  label="Create"
+                  onClick={() => {
+                    handleCreateStudyList();
+                  }}
+                />
+              </div>
+              <div className="w-1/2">
+                <DaButton
+                  fullRounded
+                  className=" w-full"
+                  label="Cancel"
+                  onClick={() => {
+                    params.delete("addStudyList");
+                    router.push(`?${params.toString()}`);
+                  }}
+                />
+              </div>
             </div>
           </div>
         )}

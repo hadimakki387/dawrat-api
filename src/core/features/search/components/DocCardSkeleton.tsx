@@ -14,14 +14,16 @@ function DocCardSkeleton() {
           <div className="text-primary">
             <Skeleton width={100} />
           </div>
-          <div className="flex gap-3 items-center py-2">
+          <div className="flex gap-3 items-center py-2 ">
             <Skeleton width={100} />
-            <Skeleton width={100} />
+            <div className="max-sm:hidden">
+              <Skeleton width={100} />
+            </div>
           </div>
         </div>
       </div>
       <div>
-        <div className="flex justify-center items-center gap-2  rounded-md py-1">
+        <div className="flex justify-center items-center gap-2  rounded-md py-1 max-sm:hidden">
           <Skeleton width={100} />
         </div>
       </div>

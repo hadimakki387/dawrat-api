@@ -262,9 +262,9 @@ export const updateReviewedCourses = async (req: NextRequest) => {
     });
   }
 
-  // //i want to check if the course is is already in the user's reviewed courses
-  // //if it is, i want to remove it from the array and then added it to the front of the array
-  // //if it is not, i want to add it to the front of the array
+  //i want to check if the course is is already in the user's reviewed courses
+  //if it is, i want to remove it from the array and then added it to the front of the array
+  //if it is not, i want to add it to the front of the array
 
   const isAlreadyReviewed = user.reviewedCourses.find(
     (doc: string) => doc === body.course

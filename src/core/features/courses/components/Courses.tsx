@@ -20,10 +20,10 @@ function Courses() {
   });
 
   return (
-    <div className="mr-6">
+    <div className="md:mr-6">
       <CourseHeader />
       <SaveForStudyListDialog/>
-      <div className="px-40 mt-8">
+      <div className="md:px-40 mt-8">
         <h1 className="text-xl font-bold text-darkText">Documents</h1>
         <div>
           <TabsSwitch
@@ -42,6 +42,7 @@ function Courses() {
               },
             }}
           />
+         
 
           {isLoading ? (
             Array(5)

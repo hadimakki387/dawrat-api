@@ -7,7 +7,7 @@ function DocCardSkeleton() {
     <div className="flex items-center gap-4">
       <div className="p-2 bg-silverBg rounded-2xl">
         <div className="overflow-hidden rounded-2xl h-20 w-28">
-          <Skeleton variant="rectangular" width={112} height={80} />
+          <Skeleton variant="rectangular" width={"100%"} height={"100%"} />
         </div>
       </div>
       <div className="flex flex-col justify-between">
@@ -21,7 +21,7 @@ function DocCardSkeleton() {
       </div>
     </div>
     <div>
-      <div className="flex justify-center items-center gap-2  rounded-md py-1">
+      <div className="flex justify-center items-center gap-2  rounded-md py-1 max-md:hidden">
         <Skeleton width={100} />
         <Skeleton width={100} />
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 
 function CourseHeaderSkeleton() {
   return (
-    <div className="rounded-2xl bg-greenBg py-4 px-40 space-y-8 ">
+    <div className="rounded-2xl bg-greenBg py-4 md:px-40 space-y-8 w-full">
       <div className="flex items-center gap-2">
         <Skeleton width={"100px"} />
       </div>
@@ -20,7 +20,7 @@ function CourseHeaderSkeleton() {
         <div>
           <Skeleton width={"120px"} height={"4rem"} style={{borderRadius:"9999px"}} />
         </div>
-        <div className="w-[25rem]">
+        <div className="w-[25rem] max-md:hidden">
           <Skeleton width={"400px"} />
         </div>
       </div>

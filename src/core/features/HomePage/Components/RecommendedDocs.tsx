@@ -20,7 +20,6 @@ function RecommendedDocs() {
   const [updateReviewed] = useUpdateReviewedDocumentsMutation();
   const router = useRouter();
 
-
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
@@ -33,7 +32,7 @@ function RecommendedDocs() {
         />
       )}
       {/* */}
-      <div >
+      <div>
         {recommendedDocuments ? (
           <DaCarousel
             hasButtons={false}
@@ -57,9 +56,14 @@ function RecommendedDocs() {
           </DaCarousel>
         ) : (
           <div className="flex items-center gap-3">
-            {Array.from(new Array(4)).map((_, index) => {
-              return <ItemCardLoadingSkeleton key={index} />;
-            })}
+            <DaCarousel
+              hasButtons={false}
+              options={{ containScroll: "trimSnaps" }}
+            >
+              {Array.from(new Array(4)).map((_, index) => {
+                return <ItemCardLoadingSkeleton key={index} />;
+              })}
+            </DaCarousel>
           </div>
         )}
       </div>

@@ -9,13 +9,19 @@ function SearchHeader() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-  
+  const search = params.get("search");
 
   return (
     <>
       <div className="md:hidden flex gap-2 items-center mb-4">
         <div className="w-full">
-          <DaSearch padding="p-1" />
+          <DaSearch
+            defaultValue={search ? (search as string) : ""}
+            padding="p-1"
+            handleSubmit={(search) => {
+              router.push(`/search/${search}`);
+            }}
+          />
         </div>
 
         <div

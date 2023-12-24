@@ -26,7 +26,6 @@ function RecentlyReviewed() {
         type: "course",
       })) || [];
 
-
   const { data: RecentlyReviewed } = useGetRecentlyReviewedDataQuery(
     [...reviewedDocuments, ...reviewedCourses],
     { skip: !user || !reviewedDocuments || !reviewedCourses }
@@ -57,16 +56,21 @@ function RecentlyReviewed() {
           </DaCarousel>
         ) : (
           <div className="flex items-center gap-3">
-            {Array.from(new Array(4)).map((_, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`w-44 h-40 min-w-[176px]  flex flex-col justify-between items-start hover:cursor-pointer rounded-xl mt-4 p-4 shadow-md`}
-                >
-                  <Skeleton variant="text" width="100%" height="1.5rem" />
-                </div>
-              );
-            })}
+            <DaCarousel
+              hasButtons={false}
+              options={{ containScroll: "trimSnaps" }}
+            >
+              {Array.from(new Array(4)).map((_, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`w-44 h-40 min-w-[176px]  flex flex-col justify-between items-start hover:cursor-pointer rounded-xl mt-4 p-4 shadow-md`}
+                  >
+                    <Skeleton variant="text" width="100%" height="1.5rem" />
+                  </div>
+                );
+              })}
+            </DaCarousel>
           </div>
         )}
       </div>

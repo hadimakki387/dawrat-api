@@ -31,7 +31,7 @@ function CourseHeader() {
       {!data || !university ? (
         <CourseHeaderSkeleton />
       ) : (
-        <div className="rounded-2xl bg-greenBg py-4 px-40 space-y-8 ">
+        <div className="rounded-2xl bg-greenBg py-4 space-y-8 max-md:px-4 md:px-40">
           <div className="flex items-center gap-2">
             <p className="text-primary font-semibold">University</p>
             <FontAwesomeIcon

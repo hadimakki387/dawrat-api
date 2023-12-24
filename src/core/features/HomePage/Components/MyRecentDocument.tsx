@@ -47,9 +47,14 @@ function MyRecentDocument() {
           </DaCarousel>
         ) : (
           <div className="flex items-center gap-4">
-            {Array.from(new Array(4)).map((_, index) => (
-              <ItemCardLoadingSkeleton key={index} />
-            ))}
+            <DaCarousel
+              hasButtons={false}
+              options={{ containScroll: "trimSnaps" }}
+            >
+              {Array.from(new Array(4)).map((_, index) => (
+                <ItemCardLoadingSkeleton key={index} />
+              ))}
+            </DaCarousel>
           </div>
         )}
       </div>

@@ -22,14 +22,19 @@ function Search() {
     <>
       <FiltersDrawer />
       {isLoading ? (
-        <div className="px-20 w-full">
+        <div className="md:px-20  w-full">
           <SearchHeader />
-          <div className="flex items-center gap-4 w-full">
-            {Array(3)
-              .fill(3)
-              .map((_, index) => {
-                return <CourseCardSkeleton key={index} />;
-              })}
+          <div >
+            <DaCarousel
+              hasButtons={false}
+              options={{ containScroll: "trimSnaps" }}
+            >
+              {Array(3)
+                .fill(3)
+                .map((_, index) => {
+                  return <CourseCardSkeleton key={index} />;
+                })}
+            </DaCarousel>
           </div>
 
           <div className="my-4">Sort By</div>
