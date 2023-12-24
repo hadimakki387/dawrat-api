@@ -9,7 +9,7 @@ import { createUserValidation } from "./user.validation";
 import University from "../universities/universities.model";
 import MongoConnection from "@/backend/utils/db";
 import {  generateToken } from "@/backend/token/token.service";
-import { returnData } from "@/backend/helper-functions/returnData";
+import { returnArrayData, returnData } from "@/backend/helper-functions/returnData";
 import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
 import moment from "moment";
@@ -116,7 +116,7 @@ export const getRecentlyViewed = async (req: NextRequest) => {
   // i want to create a shuffled array of the two arrays
   const shuffledArray = shuffleArray([...queryDocs, ...queryCourses]);
 
-  return new NextResponse(JSON.stringify(shuffledArray), { status: 200 });
+  return new NextResponse(JSON.stringify(returnArrayData(shuffledArray)), { status: 200 });
 };
 
 export const updateUser = async (req: NextRequest) => {

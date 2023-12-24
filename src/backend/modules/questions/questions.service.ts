@@ -98,11 +98,12 @@ export const createQuestion = async (req: NextRequest) => {
       }
     );
   }
+  
 
   const updateUser = await User.findByIdAndUpdate(
     data?.userId,
     {
-      questions: user?.questionsCount + 1,
+      questionsCount: user?.questionsCount + 1,
     },
     { new: true }
   );

@@ -15,6 +15,8 @@ import { SidebarHeader } from "./components/SidebarHeader";
 import { Typography } from "./components/Typography";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { sideBarInterface } from "@/services/types";
+import { useDispatch } from "react-redux";
+import { setToggle } from "@/core/features/global/redux/global-slice";
 
 type Theme = "light" | "dark";
 
@@ -67,10 +69,9 @@ const hexToRgba = (hex: string, alpha: number) => {
 export const SideBar: React.FC = () => {
   const Items = NavItems();
   const path = usePathname();
-  const { user } = useAppSelector((state) => state.global);
+  const { user, toggle } = useAppSelector((state) => state.global);
 
   const [collapsed, setCollapsed] = React.useState(false);
-  const [toggled, setToggled] = React.useState(false);
   const [broken, setBroken] = React.useState(false);
   const [rtl, setRtl] = React.useState(false);
   const [hasImage, setHasImage] = React.useState(false);
@@ -141,6 +142,7 @@ export const SideBar: React.FC = () => {
       fontWeight: open ? 600 : undefined,
     }),
   };
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -150,13 +152,13 @@ export const SideBar: React.FC = () => {
         direction: rtl ? "rtl" : "ltr",
         position: "fixed",
       }}
-      className="mt-[10vh]"
+      className="mt-[10vh] z-20"
     >
       {Items ? (
         <Sidebar
           collapsed={collapsed}
-          toggled={toggled}
-          onBackdropClick={() => setToggled(false)}
+          toggled={toggle}
+          onBackdropClick={() => dispatch(setToggle(false))}
           onBreakPoint={setBroken}
           rtl={rtl}
           breakPoint="md"
@@ -168,6 +170,7 @@ export const SideBar: React.FC = () => {
             color: themes[theme].sidebar.color,
             width: "15vw",
             borderRight: "2px solid #e0e0e0",
+     
           }}
         >
           <div
@@ -177,32 +180,34 @@ export const SideBar: React.FC = () => {
               rtl={rtl}
               style={{ marginBottom: "24px", marginTop: "16px" }}
             />
-            {user?.role==="admin"&&<div className="mx-6 flex flex-col items-center gap-4 mb-4">
-              <div className="flex gap-8 items-center w-full justify-center">
-                <div className="text-center">
-                  <p className="text-darkText font-bold text-lg ">
-                    {user?.uploads}
-                  </p>
-                  <p className="text-titleText text-sm font-semibold">
-                    Uploads
-                  </p>
+            {user?.role === "admin" && (
+              <div className="mx-6 flex flex-col items-center gap-4 mb-4">
+                <div className="flex gap-8 items-center w-full justify-center">
+                  <div className="text-center">
+                    <p className="text-darkText font-bold text-lg ">
+                      {user?.uploads}
+                    </p>
+                    <p className="text-titleText text-sm font-semibold">
+                      Uploads
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-darkText font-bold text-lg ">0</p>
+                    <p className="text-titleText text-sm font-semibold">
+                      Upvotes
+                    </p>
+                  </div>
                 </div>
-                <div className="text-center">
-                  <p className="text-darkText font-bold text-lg ">0</p>
-                  <p className="text-titleText text-sm font-semibold">
-                    Upvotes
-                  </p>
+                <div className="w-full">
+                  <DaButton
+                    label="Upload"
+                    className="bg-primary text-white font-semibold w-full py-1"
+                    fullRounded
+                    onClick={() => router.push("/upload")}
+                  />
                 </div>
               </div>
-              <div className="w-full">
-                <DaButton
-                  label="Upload"
-                  className="bg-primary text-white font-semibold w-full py-1"
-                  fullRounded
-                  onClick={() => router.push("/upload")}
-                />
-              </div>
-            </div>}
+            )}
             <div style={{ flex: 1, marginBottom: "32px" }}>
               {Items?.map((item, index) => {
                 return (
@@ -227,7 +232,7 @@ export const SideBar: React.FC = () => {
                         </Typography>
                       </div>
                     )}
-                    {item?.links?.map((link:any, index:any) => {
+                    {item?.links?.map((link: any, index: any) => {
                       if (!link.hasSubItems) {
                         return (
                           <Menu menuItemStyles={menuItemStyles} key={index}>
@@ -325,7 +330,7 @@ export const SideBar: React.FC = () => {
             width: "15vw",
             borderRight: "2px solid #e0e0e0",
           }}
-          className=" bg-white"
+          className=" bg-white max-sm:hidden"
         >
           <CircularProgress />
         </div>

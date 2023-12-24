@@ -32,7 +32,7 @@ function MyRecentDocument() {
       <div className="">
         {reviewedDocuments ? (
           <DaCarousel
-            hasButtons={reviewedDocuments.length > 6}
+            hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
           >
             {reviewedDocuments.map((doc: any, index: any) => {

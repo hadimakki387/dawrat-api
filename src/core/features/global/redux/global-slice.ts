@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: {
   user: UserI | null;
+  toggle: boolean;
 } = {
   user: null,
+  toggle: false,
 };
 
 const globalSlice = createSlice({
@@ -14,9 +16,12 @@ const globalSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    setToggle(state,action) {
+      state.toggle = action.payload;
+    },
   },
 });
 
-export const { setUser } = globalSlice.actions;
+export const { setUser ,setToggle} = globalSlice.actions;
 
 export default globalSlice.reducer;

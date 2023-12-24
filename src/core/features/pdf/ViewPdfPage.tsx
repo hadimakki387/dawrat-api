@@ -1,6 +1,9 @@
 "use client";
 import { useGetSingleDocumentQuery } from "@/core/rtk-query/documents";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress, Skeleton } from "@mui/material";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { lazy, Suspense, useState } from "react";
 
@@ -17,10 +20,18 @@ function ViewPdfPage() {
       {data ? (
         <>
           <div className={`${success ? "" : "hidden"}`}>
+            <Link
+              href={data.doc.url}
+              passHref
+              className="flex items-center justify-end gap-4 text-primary my-4"
+            >
+              <FontAwesomeIcon icon={faDownload} />
+              Download
+            </Link>
             <Suspense>
               <ViewPdf
                 url={data.doc?.url}
-                LoadSuccess={(e:boolean) => {
+                LoadSuccess={(e: boolean) => {
                   setSuccess(e);
                 }}
               />
@@ -28,25 +39,24 @@ function ViewPdfPage() {
           </div>
           <div className={`${success ? "hidden" : ""}`}>
             <div className=" flex flex-col justify-center m-auto">
-            {Array.from(new Array(4)).map((_, index) => {
-              return (
-                <div key={index} className="flex items-center justify-center">
-                  <Skeleton
-                    variant="rectangular"
-                    width="600px"
-                    height="900px"
-                    className="rounded-lg mb-4"
-                  />
-                </div>
-              );
-            })}
+              {Array.from(new Array(4)).map((_, index) => {
+                return (
+                  <div key={index} className="flex items-center justify-center">
+                    <Skeleton
+                      variant="rectangular"
+                      width="600px"
+                      height="900px"
+                      className="rounded-lg mb-4"
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          </div>
-          
         </>
       ) : (
         <div className="h-[80vh] grid place-items-center">
-            <CircularProgress/>
+          <CircularProgress />
         </div>
       )}
     </div>

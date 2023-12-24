@@ -48,7 +48,7 @@ function RecentlyReviewed() {
       <div className="">
         {RecentlyReviewed ? (
           <DaCarousel
-            hasButtons={RecentlyReviewed.length > 6}
+            hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
           >
             {RecentlyReviewed?.map((doc: any, index: number) => {

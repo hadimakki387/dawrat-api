@@ -31,8 +31,8 @@ function QuestionInput() {
     <DaCard className="p-8 flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <ProfileAvatar className="h-10 w-8" />
-          <p className="text-titleText font-semibold">Hadi Makki</p>
+          <ProfileAvatar className="h-10 w-8" Letter={user?.firstName[0]}/>
+          <p className="text-titleText font-semibold">{`${user?.firstName} ${user?.lastName}`}</p>
         </div>
         {QuestionStep === 0 && (
           <>

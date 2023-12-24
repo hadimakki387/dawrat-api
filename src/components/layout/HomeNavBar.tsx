@@ -1,5 +1,6 @@
 import {
   faAngleDown,
+  faBars,
   faGear,
   faSignOut,
   faUser,
@@ -10,12 +11,18 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import DaPopOver from "../global/DaPopOver";
 import DaSearch from "../global/DaSearch/DaSearch";
 import ProfileAvatar from "../global/ProfileAvatar";
+import { useDispatch } from "react-redux";
+import { setToggle } from "@/core/features/global/redux/global-slice";
+import { NavItems } from "@/services/NavItems";
+import { CircularProgress } from "@mui/material";
 
 function HomeNavBar() {
   const path = usePathname();
   const router = useRouter();
   const params = useParams();
   const search = params?.search;
+  const dispatch = useDispatch();
+  const Items = NavItems();
 
   return (
     <>
@@ -24,10 +31,26 @@ function HomeNavBar() {
       </div>
       <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 ">
         <div className="flex gap-4 items-center">
-          <div
-            className={`text-xl font-bold ${path !== "/" ? "w-[13vw]" : ""}`}
-          >
-            Dawrat
+          <div className="flex items-center gap-3">
+            {Items ? (
+              <div className="md:hidden">
+                <FontAwesomeIcon
+                  icon={faBars}
+                  onClick={() => {
+                    dispatch(setToggle(true));
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="md:hidden">
+                <CircularProgress />
+              </div>
+            )}
+            <div
+              className={`text-xl font-bold ${path !== "/" ? "w-[13vw]" : ""}`}
+            >
+              Dawrat
+            </div>
           </div>
           {path !== "/" && (
             <div className="w-[20vw]">

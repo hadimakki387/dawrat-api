@@ -208,6 +208,7 @@ function Step3() {
               className="bg-primary text-white px-8"
               onClick={() => {
                 formik.handleSubmit();
+                dispatch(resetQuestionStep())
               }}
             />
             

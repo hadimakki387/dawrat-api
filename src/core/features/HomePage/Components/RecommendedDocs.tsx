@@ -36,7 +36,7 @@ function RecommendedDocs() {
       <div >
         {recommendedDocuments ? (
           <DaCarousel
-            hasButtons={recommendedDocuments.length > 6}
+            hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
           >
             {recommendedDocuments?.map((doc: DocumentI, index: any) => {

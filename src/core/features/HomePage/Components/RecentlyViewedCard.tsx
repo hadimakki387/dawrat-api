@@ -1,9 +1,18 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 
 function RecentlyViewedCard({ doc }: { doc: any }) {
+  const router = useRouter()
+  console.log(doc)
   return (
     <div
-
+      onClick={()=>{
+        if(doc?.course){
+          router.push(`/pdf/${doc?.id}`)
+        }else{
+          router.push(`/courses/${doc?.id}`)
+        }
+      }}
       className={`w-44 h-40 min-w-[176px]  flex flex-col justify-between items-start hover:cursor-pointer ${
         doc.course
           ? "bg-greenBg text-greenText hover:bg-greenHover"
