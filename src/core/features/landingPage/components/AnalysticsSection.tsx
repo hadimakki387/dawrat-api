@@ -25,7 +25,7 @@ function AnalysticsSection() {
         <div className="w-32 max-sm:w-52">
           <h1 className="text-6xl font-bold">100</h1>
           <p className="text-sm">
-            <User width="15px" height="15px" fill="var(--hint)" /> Study
+            <User size={15} fill="var(--hint)" /> Study
             Resource
           </p>
         </div>

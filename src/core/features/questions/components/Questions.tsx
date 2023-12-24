@@ -25,7 +25,7 @@ const router = useRouter()
             <div className="w-full flex justify-center items-center">
               <DaButton
                 startIcon={
-                  <CheckWithFlower innerFill="white" width={25} height={25} />
+                  <CheckWithFlower innerFill="white" size={25} />
                 }
                 label="Ask another question"
                 fullRounded

@@ -38,7 +38,7 @@ export const SidebarHeader: React.FC<SidebarHeaderProps> = ({
           <div className="flex-col gap-4">
             <div className="text-subTitleText font-semibold">{`${user?.firstName} ${user?.lastName}`}</div>
             <div className="text-primary flex items-center text-sm font-semibold gap-1 ">
-              <Institution fill="var(--primary)" width="12" height="12" />
+              <Institution fill="var(--primary)" size={12} />
               <p>{user?.university?.abr}</p>
             </div>
           </div>

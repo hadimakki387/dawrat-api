@@ -241,8 +241,7 @@ function Details() {
             <Institution
               fill="var(--sub-title-text)"
               upperFill="var(--title-text)"
-              width="20px"
-              height="20px"
+              size={20}
             />
             <p>University</p>
           </div>
