@@ -9,12 +9,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
 import { useUpdateReviewdCoursesMutation } from "@/core/rtk-query/courses";
+import { useMemo } from "react";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
   const router = useRouter();
   const [updateReviewsDocs] = useUpdateReviewedDocumentsMutation();
   const { user } = useAppSelector((state) => state.global);
   const [updateReviewdCourses] = useUpdateReviewdCoursesMutation();
+  const getPdfThumbnail = useMemo(
+    () => (
+      <GetPdfThumbnail
+        width={1500}
+        pageIndex={1}
+        fileUrl={doc?.doc?.url}
+        getNumPages={(e) => {
+          console.log("this is the num pages of the doc", e);
+        }}
+      />
+    ),
+    [doc?.doc?.url]
+  );
   return (
     <div
       onClick={() => {
@@ -32,12 +46,7 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
       <div className="flex items-center gap-4">
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
-            <GetPdfThumbnail
-              fileUrl={doc?.doc?.url}
-              width={1500}
-              getNumPages={() => {}}
-              pageIndex={1}
-            />
+            {getPdfThumbnail}
           </div>
         </div>
         <div className="flex flex-col justify-between">

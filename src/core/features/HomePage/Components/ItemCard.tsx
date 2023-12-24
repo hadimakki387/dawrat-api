@@ -1,6 +1,8 @@
+"use client";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
+import { useMemo } from "react";
 
 interface Props {
   doc: any;
@@ -8,6 +10,19 @@ interface Props {
 }
 
 function ItemCard({ doc, onClick }: Props) {
+  const getPdfThumbnail = useMemo(
+    () => (
+      <GetPdfThumbnail
+        width={1500}
+        pageIndex={1}
+        fileUrl={doc?.doc?.url}
+        getNumPages={(e) => {
+          console.log("this is the num pages of the doc", e);
+        }}
+      />
+    ),
+    [doc?.doc?.url]
+  );
   return (
     <div
       onClick={onClick}
@@ -18,14 +33,7 @@ function ItemCard({ doc, onClick }: Props) {
     >
       <div className="h-1/2 rounded-xl p-2 bg-silverBg">
         <div className="w-[98%] m-auto overflow-hidden rounded-xl h-[98%]">
-          <GetPdfThumbnail
-            width={1500}
-            pageIndex={1}
-            fileUrl={doc?.doc?.url}
-            getNumPages={(e) => {
-              console.log("this is the num pages of the doc", e);
-            }}
-          />
+          {getPdfThumbnail}
         </div>
       </div>
       <div className="h-1/2  z-10 p-2 flex flex-col justify-between">

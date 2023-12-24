@@ -9,7 +9,7 @@ import { useGetStudylistQuery } from "@/core/rtk-query/user";
 import { faBookmark, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import GetPdfThumbnail from "../../pdf/GetPdfThumbnail";
 import {
@@ -18,6 +18,19 @@ import {
 } from "../redux/courses-slice";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
+  const getPdfThumbnail = useMemo(
+    () => (
+      <GetPdfThumbnail
+        width={1500}
+        pageIndex={1}
+        fileUrl={doc?.doc?.url}
+        getNumPages={(e) => {
+          console.log("this is the num pages of the doc", e);
+        }}
+      />
+    ),
+    [doc?.doc?.url]
+  );
   const router = useRouter();
   const [updateReviewsDocs] = useUpdateReviewedDocumentsMutation();
   const { user } = useAppSelector((state) => state.global);
@@ -47,14 +60,7 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
       >
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28">
-            <GetPdfThumbnail
-              fileUrl={doc?.doc?.url}
-              width={1500}
-              getNumPages={(number: number) => {
-                setNumPages(number);
-              }}
-              pageIndex={1}
-            />
+            {getPdfThumbnail}
           </div>
         </div>
         <div className="flex flex-col justify-between">
