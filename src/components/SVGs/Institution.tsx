@@ -2,13 +2,12 @@ import React from "react";
 
 // do the same as in the User.tsx file
 interface Props {
-  width?: string;
-  height?: string;
+  size?: number;
   fill?: string;
   upperFill?: string;
 }
 
-function Institution({ width = "16px", height = "16px", fill, upperFill }: Props) {
+function Institution({ size=16, fill="#4C5966", upperFill }: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -20,8 +19,8 @@ function Institution({ width = "16px", height = "16px", fill, upperFill }: Props
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
     >
       <g className="fa-duotone-group">
         <path

@@ -174,7 +174,7 @@ function Step3() {
               Edit
             </div>
           </div>
-          <div className="w-1/4">
+          <div className="w-1/4 max-xl:w-full">
             <AutoCompleteSearch
               data={data}
               placeholder="Search for your university"
@@ -186,32 +186,35 @@ function Step3() {
               formik={formik}
             />
           </div>
-      
-              <div className="flex justify-end items-center gap-2 w-1/4">
-                <div className="w-full">
-                  <AutoCompleteSearch
-                    data={courses}
-                    placeholder={universities ? "Search for your course" : "Select a university first"}
-                    setSearch={setSearchCourse}
-                    setSelectedItem={setSelectedCourse}
-                    style={{ borderRadius: "0.7rem" ,width:"100%"}}
-                    className="mr-4 p-1 w-full"
-                    disabled={!courses}
-                  />
-                </div>
-                {loadingCourses&& <CircularProgress size={20} className="ml-2" />}
-              </div>
-      
+
+          <div className="flex justify-end items-center gap-2 w-1/4 max-xl:w-full">
+            <div className="w-full">
+              <AutoCompleteSearch
+                data={courses}
+                placeholder={
+                  universities
+                    ? "Search for your course"
+                    : "Select a university first"
+                }
+                setSearch={setSearchCourse}
+                setSelectedItem={setSelectedCourse}
+                style={{ borderRadius: "0.7rem", width: "100%" }}
+                className="mr-4 p-1 w-full"
+                disabled={!courses}
+              />
+            </div>
+            {loadingCourses && <CircularProgress size={20} className="ml-2" />}
+          </div>
+
           <div className="flex justify-end">
             <DaButton
               label="finish"
               className="bg-primary text-white px-8"
               onClick={() => {
                 formik.handleSubmit();
-                dispatch(resetQuestionStep())
+                dispatch(resetQuestionStep());
               }}
             />
-            
           </div>
         </>
       ) : (

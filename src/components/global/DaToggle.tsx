@@ -5,7 +5,7 @@ interface Props {
   hasText?: boolean;
   className?: string;
   text?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "small" | "medium";
   onClick: ()=>any;
   checked: boolean;
 }
@@ -13,7 +13,7 @@ interface Props {
 function DaToggle({
   hasText = true,
   text = "hello",
-  size = "sm",
+  size = "small",
   onClick,
   checked = true,
   ...props
@@ -28,6 +28,7 @@ function DaToggle({
           checked={checked}
           name="hello"
           onClick={onClick}
+          size={size}
         />
         {hasText && (
         <span className=" text-sm font-medium text-subTitleText ">

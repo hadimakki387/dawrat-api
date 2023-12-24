@@ -1,14 +1,13 @@
 import React from "react";
 
 interface Props {
-  width?: string;
-  height?: string;
+  size?:number;
   fill?: string;
   outerFill?: string;
     innerFill?: string;
 }
 
-function CheckWithFlower({ width = 15, height = 15 ,outerFill="var(--pink-bg)",innerFill="var(--pink)"}) {
+function CheckWithFlower({ size=16 ,outerFill="var(--pink-bg)",innerFill="var(--pink)"}) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -19,8 +18,8 @@ function CheckWithFlower({ width = 15, height = 15 ,outerFill="var(--pink-bg)",i
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
     >
       <g className="fa-duotone-group">
         <path

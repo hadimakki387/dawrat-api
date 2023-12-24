@@ -1,36 +1,40 @@
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
-import DaSearch from "@/components/global/DaSearch/DaSearch";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { Drawer } from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-function SearchHeader() {
-  const router = useRouter();
+type Props = {};
+
+function FiltersDrawer({}: Props) {
   const searchParams = useSearchParams();
+  const drawer = searchParams.get("showFilterPanel");
   const params = new URLSearchParams(searchParams.toString());
-  
-
+  const router = useRouter();
   return (
-    <>
-      <div className="md:hidden flex gap-2 items-center mb-4">
+    <Drawer
+      anchor={"right"}
+      open={drawer ? true : false}
+      onClose={() => {
+        params.delete("showFilterPanel");
+        router.push(`?${params.toString()}`);
+      }}
+    >
+        <div className="flex justify-end" style={{
+            padding:"1rem 1rem 0 1rem"
+        }}>
+          <FontAwesomeIcon
+            icon={faX}
+            className="text-titleText"
+            onClick={() => {
+              params.delete("showFilterPanel");
+              router.push(`?${params.toString()}`);
+            }}
+          />
+        </div>
+      <div className="w-full flex items-center mb-4 gap-4 flex-col p-4">
         <div className="w-full">
-          <DaSearch padding="p-1" />
-        </div>
-
-        <div
-          className="flex flex-col"
-          onClick={() => {
-            params.set("showFilterPanel", "true");
-            router.push(`?${params.toString()}`);
-          }}
-        >
-          <FontAwesomeIcon icon={faFilter} className="text-titleText" />
-          <p className="text-xs font-semibold text-titleText">Filters</p>
-        </div>
-      </div>
-      <div className="w-full flex items-center mb-4 gap-4 max-md:hidden">
-        <div className="w-1/4">
           <AutoCompleteSearch
             data={[{ title: "data", id: "fjhkjg" }]}
             placeholder="Search for your university"
@@ -43,7 +47,7 @@ function SearchHeader() {
             // formik={formik}
           />
         </div>
-        <div className="w-1/4">
+        <div className="w-full">
           <AutoCompleteSearch
             data={[{ title: "data", id: "fjhkjg" }]}
             placeholder="Search Course"
@@ -56,7 +60,7 @@ function SearchHeader() {
             // formik={formik}
           />
         </div>
-        <div className="w-1/4">
+        <div className="w-full">
           <AutoCompleteSearch
             data={[{ title: "data", id: "fjhkjg" }]}
             placeholder="Filter by category"
@@ -69,7 +73,7 @@ function SearchHeader() {
             // formik={formik}
           />
         </div>
-        <div className="w-1/4">
+        <div className="w-full">
           <AutoCompleteSearch
             data={[{ title: "data", id: "fjhkjg" }]}
             placeholder="Filter By Language"
@@ -83,8 +87,8 @@ function SearchHeader() {
           />
         </div>
       </div>
-    </>
+    </Drawer>
   );
 }
 
-export default SearchHeader;
+export default FiltersDrawer;

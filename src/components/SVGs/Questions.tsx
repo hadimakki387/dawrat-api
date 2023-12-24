@@ -2,12 +2,11 @@ import React from "react";
 
 interface Props {
   fill?: string;
-  width?: string;
-  height?: string;
+  size?: number;
   className?: string;
 }
 
-function Questions( { fill = "#4C5966", width = "16px", height = "16px", className, }: Props) {
+function Questions( { fill = "#4C5966", size=16, className, }: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -18,8 +17,8 @@ function Questions( { fill = "#4C5966", width = "16px", height = "16px", classNa
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 576 512"
-        width={width}
-        height={height}
+        width={size}
+        height={size}
         className={className}
     >
       <path

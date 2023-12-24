@@ -2,12 +2,19 @@ import {
   faAngleDown,
   faBars,
   faGear,
+  faSearch,
   faSignOut,
   faUser,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookie from "js-cookie";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import DaPopOver from "../global/DaPopOver";
 import DaSearch from "../global/DaSearch/DaSearch";
 import ProfileAvatar from "../global/ProfileAvatar";
@@ -20,101 +27,134 @@ function HomeNavBar() {
   const path = usePathname();
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const search = params?.search;
   const dispatch = useDispatch();
   const Items = NavItems();
+  const showSearch = searchParams.get("showSearch");
+  const newUrl = new URLSearchParams(searchParams.toString());
 
   return (
     <>
       <div className="w-full flex items-center justify-center bg-primary text-sm text-white font-semibold fixed to-pink-200 z-30">
         The Website Is Still Under Development
       </div>
-      <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 ">
-        <div className="flex gap-4 items-center">
-          <div className="flex items-center gap-3">
-            {Items ? (
-              <div className="md:hidden">
+      {showSearch ? (
+        <div className="p-6 flex items-center gap-2 fixed w-full">
+          <div className="w-full">
+            <DaSearch
+              defaultValue={search ? (search as string) : ""}
+              padding=""
+              handleSubmit={(search) => {
+                router.push(`/search/${search}`);
+              }}
+            />
+          </div>
+          <FontAwesomeIcon
+            icon={faX}
+            size="sm"
+            onClick={() => {
+              newUrl.delete("showSearch");
+              router.push(`?${newUrl.toString()}`);
+            }}
+          />
+        </div>
+      ) : (
+        <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 max-sm:mt-4">
+          <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-3">
+              {Items ? (
                 <FontAwesomeIcon
                   icon={faBars}
                   onClick={() => {
                     dispatch(setToggle(true));
                   }}
+                  className="md:hidden relative top-[1.5px]"
+                />
+              ) : (
+                <CircularProgress size={20} />
+              )}
+              <div
+                className={`text-xl font-bold flex items-center ${
+                  path !== "/" ? "w-[13vw]" : ""
+                }`}
+              >
+                Dawrat
+              </div>
+            </div>
+            {path !== "/" && (
+              <div className="w-[20vw] max-sm:hidden">
+                <DaSearch
+                  defaultValue={search ? (search as string) : ""}
+                  padding=""
+                  handleSubmit={(search) => {
+                    router.push(`/search/${search}`);
+                  }}
                 />
               </div>
-            ) : (
-              <div className="md:hidden">
-                <CircularProgress />
-              </div>
             )}
-            <div
-              className={`text-xl font-bold ${path !== "/" ? "w-[13vw]" : ""}`}
-            >
-              Dawrat
+            <div className="flex items-center gap-4 max-sm:hidden">
+              <p className="text-subTitleText ">Universities</p>
+              <p className="text-subTitleText ">Books</p>
+              <p className="text-primary ">AI Questions</p>
             </div>
           </div>
-          {path !== "/" && (
-            <div className="w-[20vw]">
-              <DaSearch
-                defaultValue={search ? (search as string) : ""}
-                padding=""
-                handleSubmit={(search) => {
-                  router.push(`/search/${search}`);
+          <div className="flex items-center gap-4 relative">
+            <div className="sm:hidden">
+              <FontAwesomeIcon
+                icon={faSearch}
+                onClick={() => {
+                  newUrl.set("showSearch", "true");
+                  router.push(`?${newUrl.toString()}`);
                 }}
               />
             </div>
-          )}
-          <div className="flex items-center gap-4 max-sm:hidden">
-            <p className="text-subTitleText ">Universities</p>
-            <p className="text-subTitleText ">Books</p>
-            <p className="text-primary ">AI Questions</p>
+            <DaPopOver
+              open={true}
+              menuItems={[
+                {
+                  name: "Profile",
+                  onClick: () => {
+                    router.push("/profile");
+                  },
+                  icon: (
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="text-subTitleText"
+                    />
+                  ),
+                },
+                {
+                  name: "Settings",
+                  onClick: () => router.push("/settings"),
+                  icon: (
+                    <FontAwesomeIcon
+                      icon={faGear}
+                      className="text-subTitleText"
+                    />
+                  ),
+                },
+                {
+                  name: "Logout",
+                  onClick: () => {
+                    Cookie.remove("dawratToken");
+                    window.location.reload();
+                  },
+                  icon: <FontAwesomeIcon icon={faSignOut} />,
+                },
+              ]}
+            >
+              <div className="flex items-center gap-4 relative">
+                <ProfileAvatar />
+                <FontAwesomeIcon
+                  icon={faAngleDown}
+                  className="text-subTitleText"
+                />
+              </div>
+            </DaPopOver>
           </div>
-        </div>
-        <div className="flex items-center gap-4 relative">
-          <DaPopOver
-            open={true}
-            menuItems={[
-              {
-                name: "Profile",
-                onClick: () => {
-                  router.push("/profile");
-                },
-                icon: (
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="text-subTitleText"
-                  />
-                ),
-              },
-              {
-                name: "Settings",
-                onClick: () => router.push("/settings"),
-                icon: (
-                  <FontAwesomeIcon
-                    icon={faGear}
-                    className="text-subTitleText"
-                  />
-                ),
-              },
-              {
-                name: "Logout",
-                onClick: () => {
-                  Cookie.remove("dawratToken");
-                  window.location.reload();
-                },
-                icon: <FontAwesomeIcon icon={faSignOut} />,
-              },
-            ]}
-          >
-            <div className="flex items-center gap-4 relative">
-              <ProfileAvatar />
-              <FontAwesomeIcon
-                icon={faAngleDown}
-                className="text-subTitleText"
-              />
-            </div>
-          </DaPopOver>
-        </div>
-      </nav>
+        </nav>
+      )}
     </>
   );
 }

@@ -112,3 +112,10 @@ body {
   width: 100% !important;
   height: 100% !important;
 }
+.rpv-thumbnail__cover-loader {
+  height: 100% !important;
+}
+
+.rpv-thumbnail__cover {
+  height: 100% !important;
+}

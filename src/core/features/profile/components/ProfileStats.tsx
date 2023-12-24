@@ -15,12 +15,12 @@ function ProfileStats() {
     <>
       <p className="text-slate-700 text-2xl mt-8">Statistics</p>
 
-      <div className="flex flex-row justify-between items-center w-full mt-4 pr-10">
+      <div className="flex flex-row justify-between items-center w-full mt-4 pr-10 max-lg:flex-col max-lg:gap-4 max-lg:pr-0">
         {/* Points */}
-        <div className="border border-slate-200 flex flex-col w-2/5">
+        <div className="border border-slate-200 flex flex-col w-2/5 max-lg:w-full">
           <div className="text-slate-400 m-2 flex flex-row mt-3 gap-2 text-lg">
             <span className="mt-1">
-              <Trophy fill="var(--yellow)" width="20" height="20" />
+              <Trophy fill="var(--yellow)" size={20} />
             </span>
             Points
           </div>
@@ -44,7 +44,7 @@ function ProfileStats() {
         </div>
 
         {/* Your Documents */}
-        <div className="border border-slate-200 flex flex-col w-2/5 ">
+        <div className="border border-slate-200 flex flex-col w-2/5 max-lg:w-full">
           <div className="text-slate-400 m-2 flex flex-row items-center mt-3 gap-2 text-lg">
             <Document fill="var(--secondary)" size={20} />
             <div>Your Documents</div>
@@ -71,13 +71,13 @@ function ProfileStats() {
         </div>
 
         {/* Your Documents */}
-        <div className="border border-slate-200 flex flex-col w-1/6">
+        <div className="border border-slate-200 flex flex-col w-1/6 max-lg:w-full ">
           <div className="text-slate-400 m-2 flex flex-row items-center mt-3 gap-2 text-lg">
-            <Heart fill="var(--error)" width="20" height="20" />
+            <Heart fill="var(--error)" size={20} />
             Impact
           </div>
           <div className="h-0 border-t border-slate-200 text-2xl text-center"></div>
-          <div className="flex flex-row mx-3 gap-4 items-center my-2">
+          <div className="flex flex-row mx-3 gap-4 items-center my-2 max-lg:justify-center">
             <div className="flex flex-col items-center">
               <p className="font-bold text-lg text-slate-600">0</p>
               <p className="text-slate-400 text-sm font-normal">
@@ -88,21 +88,25 @@ function ProfileStats() {
         </div>
       </div>
 
-      <div className="text-center text-sm text-slate-600 mt-10 flex flex-row justify-center gap-2">
-        <span className="mt-3">
-          <Info fill="var(--gray)" width="20" height="20" />
-        </span>
-        <p className="mt-3">
-          You have until the end of December to upload and earn points for the
-          January lottery!
-        </p>
-        <DaButton
-          label={"Upload Documents"}
-          className="text-white bg-primary font-semibold text-lg ml-2"
-          fullRounded
-          startIcon={<Upload fill="var(--white)" width="20" height="20" />}
-          onClick={() => router.push("/upload")}
-        />
+      <div className="text-center text-sm text-slate-600 mt-10 flex flex-row justify-center gap-2 max-lg:flex-col">
+        <div className="flex items-center gap-2 ">
+          <span className="mt-3">
+            <Info fill="var(--gray)" size={20} />
+          </span>
+          <p className="mt-3">
+            You have until the end of December to upload and earn points for the
+            January lottery!
+          </p>
+        </div>
+        <div className="max-lg:w-[15rem] m-auto">
+          <DaButton
+            label={"Upload Documents"}
+            className="text-white bg-primary font-semibold text-lg ml-2 w-full "
+            fullRounded
+            startIcon={<Upload fill="var(--white)" size={20} />}
+            onClick={() => router.push("/upload")}
+          />
+        </div>
       </div>
     </>
   );

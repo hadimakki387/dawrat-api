@@ -33,7 +33,7 @@ function Study() {
   const[updateUser] = useUpdateUserMutation();
 
   return (
-    <div className="space-y-6 w-[25rem]">
+    <div className="space-y-6 w-[25rem] max-md:w-full">
       <h2 className="text-xl text-titleText font-medium flex items-center gap-4">
         <div>Study</div>
         {(!user?.domain || !user?.university) && (

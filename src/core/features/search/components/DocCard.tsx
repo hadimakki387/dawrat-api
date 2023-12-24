@@ -41,17 +41,17 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
         });
         router.push(`/pdf/${doc.id}`);
       }}
-      className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl"
+      className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 max-sm:p-2 rounded-2xl max-sm:flex-col max-sm:items-start"
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 max-sm:items-start">
         <div className="p-2 bg-silverBg rounded-xl">
-          <div className="overflow-hidden rounded-xl h-20 w-28">
+          <div className="overflow-hidden rounded-xl h-20 w-28 max-sm:w-24 max-sm:h-20">
             {getPdfThumbnail}
           </div>
         </div>
         <div className="flex flex-col justify-between">
-          <div className="text-primary">{doc?.title}</div>
-          <div className="flex gap-3 items-center py-2 text-titleText">
+          <div className="text-primary max-sm:text-sm">{doc?.title}</div>
+          <div className="flex gap-3 items-center py-2 text-titleText max-sm:flex-col max-sm:items-start">
             <div
               onClick={() => {
                 updateReviewdCourses({
@@ -60,18 +60,18 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
                 });
                 router.push(`/courses/${doc?.course}`);
               }}
-              className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold"
+              className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold max-sm:text-xs"
             >
               <Folder fill="var(--title-text)" /> {doc?.courseName}
             </div>
-            <div className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold">
+            <div className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold max-sm:text-xs">
               <Institution fill="var(--title-text)" />
               {doc?.universityName}
             </div>
           </div>
         </div>
       </div>
-      <div className="flex items-start h-full">
+      <div className="flex items-start h-full max-sm:items-center max-sm:justify-center max-sm:w-full">
         <div className="flex justify-center items-center gap-2  rounded-md py-1">
           <FontAwesomeIcon icon={faThumbsUp} className="text-green-400" />
           <p className="text-titleText text-sm font-medium">

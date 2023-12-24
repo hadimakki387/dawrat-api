@@ -1,10 +1,9 @@
 interface Props {
-  width?: string;
-  height?: string;
+  size?: number;
   fill?: string;
 }
 
-function User({ width, height, fill }: Props) {
+function User({ size=16, fill }: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -16,8 +15,8 @@ function User({ width, height, fill }: Props) {
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 448 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
     >
       <g className="fa-duotone-group">
         <path

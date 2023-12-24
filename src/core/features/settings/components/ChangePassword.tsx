@@ -67,7 +67,7 @@ function ChangePassword() {
 
   const [changePassword] = useChangePasswordMutation();
   return (
-    <div className="space-y-6 w-[25rem]">
+    <div className="space-y-6 w-[25rem] max-md:w-full">
       <h2 className="text-xl text-titleText font-medium">Change Password</h2>
       <div className="mb-4">
         <p className="text-titleText mb-2">Old Password</p>

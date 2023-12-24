@@ -61,9 +61,9 @@ function Step2() {
             Edit
           </div>
         </div>
-      <div>
+      <div >
         <div className="text-xl font-bold mb-2">Select your subject</div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 max-md:flex-wrap max-md:gap-1">
           {subjects.map((item, index) => {
             return (
               <div
@@ -72,14 +72,14 @@ function Step2() {
                   dispatch(setSelectedSubject(index));
                   dispatch(setSubIndex(0));
                 }}
-                className={`w-1/6 h-28 flex justify-center items-center rounded-lg border-[2px] border-neutral-200  ${
+                className={`w-1/6 h-28 flex justify-center items-center rounded-lg border-[2px] border-neutral-200 max-md:w-[49%]  ${
                   index !== subject ? "hover:bg-neutral-50" : ""
                 } hover:cursor-pointer ${index === subject ? "bg-myPink" : ""}`}
               >
                 <p
                   className={`${
                     index === subject ? "text-white" : "text-black"
-                  } font-semibold text-xl text-center`}
+                  } font-semibold text-xl text-center max-md:text-base`}
                 >
                   {item.title}
                 </p>
@@ -90,7 +90,7 @@ function Step2() {
       </div>
       <div>
         <div className="text-xl font-bold mb-2">Select Topic</div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 max-md:flex-wrap">
           {subjects[subject].subItems.map((subItem, index) => {
             return (
               <div

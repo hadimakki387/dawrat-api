@@ -23,9 +23,9 @@ function UploadedDocs() {
   const dispatch = useDispatch();
   return (
     <div className=" bg-white rounded-sm border border-neutral-200  my-8 relative h-[20rem] overflow-hidden">
-      <div className="absolute text-darkText font-semibold top-0 w-full flex items-center p-4 px-8 pr-11 bg-white border-b border-neutral-200">
-        <div className="w-2/3">Title</div>
-        <div className="w-1/3 flex items-center">
+      <div className="absolute text-darkText font-semibold top-0 w-full flex items-center p-4 px-8 pr-11 bg-white border-b border-neutral-200 max-md:px-4 max-md:pr-11 max-md:text-sm">
+        <div className="w-2/3 max-md:w-1/2">Title</div>
+        <div className="w-1/3 flex items-center max-md:w-1/2 max-sm:hidden">
           <div className="w-1/4">Views</div>
           <div className="w-1/4">Rating</div>
           <div className="w-1/2 flex items-center">
@@ -34,18 +34,18 @@ function UploadedDocs() {
           </div>
         </div>
       </div>
-      <div className="overflow-y-auto h-full p-4 pt-16 ">
+      <div className="overflow-y-auto h-full p-4 pt-16 max-md:p-0">
         {!isLoading ? (
           data?.map((doc) => {
             return (
               <div
                 key={doc.id}
-                className="p-4 border-b border-neutral-200 w-full flex items-center text-titleText font-medium"
+                className="p-4 border-b border-neutral-200 w-full flex items-center text-titleText font-medium "
               >
-                <div className="w-2/3 text-primary hover:underline hover:cursor-pointer">
-                  {doc?.title}
+                <div className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm">
+                  {doc?.title.length>17?`${doc?.title.slice(0,17)}...`:doc?.title}
                 </div>
-                <div className="w-1/3 flex items-center">
+                <div className="w-1/3 flex items-center max-md:w-1/2 max-md:text-sm">
                   <div className="w-1/4">0</div>
                   <div className="w-1/4">{doc?.upvotes}</div>
                   <div className="w-1/2 flex items-center">

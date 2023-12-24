@@ -2,15 +2,13 @@ import React from "react";
 
 interface Props {
   fill?: string;
-  width?: string;
-  height?: string;
+  size?: number;
   className?: string;
 }
 
 function Clock({
   fill = "#4C5966",
-  width = "16px",
-  height = "16px",
+  size = 16,
   className,
 }: Props) {
   return (
@@ -23,8 +21,8 @@ function Clock({
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       className={className}
     >
       <path

@@ -7,13 +7,12 @@ import ChangePassword from './ChangePassword'
 
 function Settings() {
   return (
-    <DaCard className='m-12 space-y-4'>
+    <DaCard className='m-12 max-md:my-4 max-md:mx-0 space-y-4'>
         <div className='text-black font-bold text-2xl'>Settings</div>
         <Divider/>
         <Account/>
         <Divider/>
         <Study/>
-
         <Divider/>
         <ChangePassword/>
     </DaCard>

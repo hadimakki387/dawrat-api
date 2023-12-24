@@ -23,7 +23,7 @@ function QuestionCardSkeleton() {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 max-sm:hidden">
         <div className="text-darkText font-semibold">
          
           <Skeleton  width={100}/>

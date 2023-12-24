@@ -2,15 +2,13 @@ import React from "react";
 // here we will be createing svg icons with dynamic fill, width, height, className props
 interface Props {
   fill?: string;
-  width?: string;
-  height?: string;
+  size?:number;
   className?: string;
 }
 
 function Home({
   fill = "#4C5966",
-  width = "16px",
-  height = "16px",
+  size = 16,
   className,
 }: Props) {
   return (
@@ -23,8 +21,8 @@ function Home({
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 576 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       className={className}
     >
       <path

@@ -23,7 +23,7 @@ const GetPdfThumbnail: React.FC<DisplayThumbnailExampleProps> = ({
 }) => {
   const thumbnailPluginInstance = thumbnailPlugin({
     renderSpinner: () => (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center h-full w-full">
         <CircularProgress />
       </div>
     ),

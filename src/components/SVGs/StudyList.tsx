@@ -1,13 +1,15 @@
 import React from "react";
 interface Props {
   fill?: string;
-  width?: string;
-  height?: string;
+  size?: number;
   className?: string;
-
 }
 
-function StudyList({ fill = "#4C5966", width = "16px", height = "16px", className, }: Props) {
+function StudyList({
+  fill = "#4C5966",
+  size = 16,
+  className,
+}: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -15,13 +17,12 @@ function StudyList({ fill = "#4C5966", width = "16px", height = "16px", classNam
       focusable="false"
       data-prefix="fas"
       data-icon="folder-bookmark"
-
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-        width={width}
-        height={height}
-        className={className}
+      width={size}
+      height={size}
+      className={className}
     >
       <path
         fill={fill}

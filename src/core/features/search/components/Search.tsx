@@ -11,6 +11,8 @@ import { DocumentI } from "@/services/types";
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import CourseCardSkeleton from "./CourseCardSkeleton";
 import DocCardSkeleton from "./DocCardSkeleton";
+import FiltersDrawer from "./FiltersDrawer";
+import DaCarousel from "@/components/global/carousel/DaCarousel";
 
 function Search() {
   const param = useParams();
@@ -18,7 +20,7 @@ function Search() {
   const { data, isLoading } = useSearchDataQuery({ title: search });
   return (
     <>
-    
+      <FiltersDrawer />
       {isLoading ? (
         <div className="px-20 w-full">
           <SearchHeader />
@@ -38,15 +40,20 @@ function Search() {
             })}
         </div>
       ) : (
-        <div className="px-20 w-full ">
+        <div className="md:px-20 w-full ">
           <SearchHeader />
           <div className="flex items-center gap-4 w-full">
-            {data.map((item: any, index: number) => {
-              if (!item.course)
-                return (
-                  <CourseCard course={item as courseInterface} key={index} />
-                );
-            })}
+            <DaCarousel
+              hasButtons={false}
+              options={{ containScroll: "trimSnaps" }}
+            >
+              {data.map((item: any, index: number) => {
+                if (!item.course)
+                  return (
+                    <CourseCard course={item as courseInterface} key={index} />
+                  );
+              })}
+            </DaCarousel>
           </div>
           <div className="my-4">Sort By</div>
           {data.map((item: any, index: number) => {

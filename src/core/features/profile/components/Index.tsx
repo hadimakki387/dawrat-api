@@ -14,7 +14,7 @@ function Index() {
       <DeleteDocumentDialog/>
       <EditDocumentDialog/>
       <ProfileHeader />
-      <DaCard className="p-8">
+      <DaCard className="md:p-8">
         <ProfileStats />
         <UploadedDocs/>
 

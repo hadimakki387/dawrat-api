@@ -238,8 +238,7 @@ export const SideBar: React.FC = () => {
                           <Menu menuItemStyles={menuItemStyles} key={index}>
                             <MenuItem
                               icon={link.icon({
-                                width: "24",
-                                height: "24",
+                                size:24,
                                 fill:
                                   path === `${link.path}`
                                     ? "var(--primary)"
@@ -268,7 +267,7 @@ export const SideBar: React.FC = () => {
                           <Menu menuItemStyles={menuItemStyles} key={index}>
                             <SubMenu
                               label={link.label}
-                              icon={link.icon({ width: "24", height: "24" })}
+                              icon={link.icon({ size:24 })}
                               //this is for some notifications
                               // suffix={
                               //   <Badge variant="danger" shape="circle">
@@ -319,21 +318,17 @@ export const SideBar: React.FC = () => {
         </Sidebar>
       ) : (
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "90vh",
-            direction: rtl ? "rtl" : "ltr",
-            position: "fixed",
-            backgroundColor: "white",
-            width: "15vw",
-            borderRight: "2px solid #e0e0e0",
-          }}
-          className=" bg-white max-sm:hidden"
-        >
-          <CircularProgress />
-        </div>
+        style={{
+          height: "90vh",
+          direction: rtl ? "rtl" : "ltr",
+          backgroundColor: "white",
+          width: "15vw",
+          borderRight: "2px solid #e0e0e0",
+        }}
+        className=" bg-white fixed flex justify-center items-center max-md:hidden"
+      >
+        <CircularProgress />
+      </div>
       )}
     </div>
   );

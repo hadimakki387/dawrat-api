@@ -20,8 +20,8 @@ function QuestionCards({ question }: { question: QuestionInterface }) {
 
   return (
     <DaCard loading={!user} className="space-y-4">
-      <header className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
+      <header className="flex justify-between items-center max-sm:flex-col max-sm:items-start">
+        <div className="flex items-center gap-2 ">
           <div>
             <ProfileAvatar />
           </div>
@@ -34,14 +34,14 @@ function QuestionCards({ question }: { question: QuestionInterface }) {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="text-darkText font-semibold">
+        <div className="flex items-center gap-4 max-sm:gap-1">
+          <div className="text-darkText font-semibold max-sm:text-sm">
             <span className="text-titleText">Question</span>{" "}
             {` #${question.id.slice(0, 7).toUpperCase()}`}
           </div>
           <DaButton
             label="Open question"
-            className=" font-semibold border border-neutral-200"
+            className=" font-semibold border border-neutral-200 max-sm:text-sm"
             fullRounded
             style={{
               color: "var(--primary)",
@@ -59,8 +59,7 @@ function QuestionCards({ question }: { question: QuestionInterface }) {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-darkText font-semibold text-sm">
           <Institution
-            width="18px"
-            height="18px"
+            size={18}
             fill="var(--sub-title-text)"
             upperFill="var(--dark-text)"
           />
@@ -73,7 +72,7 @@ function QuestionCards({ question }: { question: QuestionInterface }) {
       </div>
       <div className="flex items-center gap-4 text-darkText font-semibold text-lg">
         {" "}
-        <CheckWithFlower width={40} height={40} />
+        <CheckWithFlower size={40} />
         Answer
       </div>
       <div>

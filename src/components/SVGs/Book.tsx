@@ -3,8 +3,7 @@ import React from "react";
 // lets add a className for each thing we want to style, so each path will have a className
 interface Props {
   fill?: string;
-  width?: string;
-  height?: string;
+  size?:number
   className?: string;
   path1ClassName?: string;
   path2ClassName?: string;
@@ -12,8 +11,7 @@ interface Props {
 
 function Book({
   fill = "#4C5966",
-  width = "16px",
-  height = "16px",
+  size= 16,
   className,
   path1ClassName,
   path2ClassName,
@@ -28,8 +26,8 @@ function Book({
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 448 512"
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       className={className}
     >
       <g>
