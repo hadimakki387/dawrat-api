@@ -53,7 +53,7 @@ function LandingNavBar() {
           : "text-white bg-transparent"
       } transition-all duration-500 flex justify-between items-center z-50 max-sm:p-3`}
     >
-      <div className="flex items-center gap-4 max-sm:justify-between max-sm:w-full">
+      <div className="flex items-center gap-4 max-sm:justify-between max-sm:w-full ">
         <FontAwesomeIcon
           icon={faBars}
           onClick={() => dispatch(setSideBar(true))}

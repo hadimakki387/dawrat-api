@@ -24,7 +24,7 @@ function ViewPdf({ url, LoadSuccess }) {
         docViewer.on("documentLoaded", async () => {
           LoadSuccess(true);
           console.log("document loaded");
-
+          instance.UI.setZoomLevel(1.4);
           // Load annotations from Local Storage
           try {
             const storedAnnotations = localStorage.getItem(`DawraAnnonation-${user?.id}-${DocId}`);
