@@ -81,6 +81,23 @@ const userSchema = new Schema<any, any>({
       ref: "Studylist", // use the string name of the model
     },
   ],
+  helpedStudents: {
+    type: Number,
+    default: 0,
+  },
+  likedDocuments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Document",
+    },
+  ],
+  dislikedDocuments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Document",
+    },
+  ],
+
 });
 
 const User = models.User || model("User", userSchema);

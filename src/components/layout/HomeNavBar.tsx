@@ -73,7 +73,7 @@ function HomeNavBar() {
                     className=" relative top-[1.5px] "
                   />
                 ) : (
-                  <CircularProgress size={20}  className=""/>
+                  <CircularProgress size={20} className="" />
                 )}
               </div>
               <div
@@ -96,9 +96,30 @@ function HomeNavBar() {
               </div>
             )}
             <div className="flex items-center gap-4 max-sm:hidden">
-              <p className="text-subTitleText ">Universities</p>
-              <p className="text-subTitleText ">Books</p>
-              <p className="text-primary ">AI Questions</p>
+              <p
+                className="text-subTitleText hover:cursor-pointer hover:text-primary transition-all duration-500 font-semibold"
+                onClick={() => {
+                  router.push("/universities");
+                }}
+              >
+                Universities
+              </p>
+              <p
+                className="text-subTitleText hover:cursor-pointer hover:text-primary transition-all duration-500 font-semibold"
+                onClick={() => {
+                  router.push("/courses");
+                }}
+              >
+                Courses
+              </p>
+              <p
+                className="text-subTitleText hover:cursor-pointer hover:text-primary transition-all duration-500 font-semibold"
+                onClick={() => {
+                  router.push("/questions");
+                }}
+              >
+                AI Questions
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-4 relative">

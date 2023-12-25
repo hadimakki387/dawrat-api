@@ -68,7 +68,9 @@ export const getRecommendedDocumentsInDomain = async (req: NextRequest) => {
     .sort({ upvotes: -1 })
     .limit(8);
 
-  return new NextResponse(JSON.stringify(returnArrayData(documents)), { status: 200 });
+  return new NextResponse(JSON.stringify(returnArrayData(documents)), {
+    status: 200,
+  });
 };
 
 export const getDocumentsByCourseId = async (req: NextRequest) => {
@@ -136,7 +138,6 @@ export const DeleteDocument = async (req: NextRequest) => {
     { new: true }
   );
 
-
   const DeletedDoc = await Document.findByIdAndDelete(id);
   const body = await req.json();
   const deleteFiles = await utapi.deleteFiles(body);
@@ -147,7 +148,6 @@ export const DeleteDocument = async (req: NextRequest) => {
       { status: httpStatus.INTERNAL_SERVER_ERROR }
     );
   }
-
 
   return new NextResponse(JSON.stringify({ message: "Document Deleted" }), {
     status: httpStatus.OK,
@@ -169,4 +169,247 @@ export const updateDocument = async (req: NextRequest) => {
   const updatedDoc = await Document.findByIdAndUpdate(id, body, { new: true });
 
   return new NextResponse(JSON.stringify(updatedDoc), { status: 200 });
+};
+
+export const handleUpvote = async (req: NextRequest) => {
+  MongoConnection();
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+
+  const doc = await Document.findById(id);
+
+  if (!doc) {
+    return new NextResponse(JSON.stringify({ message: "Document Not Found" }), {
+      status: httpStatus.NOT_FOUND,
+    });
+  }
+
+  const user = await User.findById(body.user);
+  console.log(user);
+  console.log(doc);
+
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User Not Found" }), {
+      status: httpStatus.NOT_FOUND,
+    });
+  }
+
+  const isAlreadyUpvoted = user.likedDocuments.find(
+    (upvote: string) => String(upvote) === id
+  );
+  const isAlreadyDownvoted = user.dislikedDocuments.find(
+    (downvote: string) => String(downvote) === id
+  );
+
+  if (isAlreadyUpvoted) {
+    const filterLikedDocs = user.likedDocuments.filter(
+      (upvote: string) => String(upvote) !== id
+    );
+
+    const updatedDoc = await Document.findByIdAndUpdate(
+      id,
+      { $inc: { upvotes: -1 } },
+      { new: true }
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      body.user,
+      {
+        likedDocuments: filterLikedDocs,
+        $inc: { helpedStudents: -1 },
+      },
+      { new: true }
+    );
+
+    return new NextResponse(
+      JSON.stringify({
+        upvotes: updatedDoc.upvotes,
+        downvotes: updatedDoc.downvotes,
+        likedDocuments: updatedUser.likedDocuments,
+        dislikedDocuments: updatedUser.dislikedDocuments,
+      }),
+      { status: 200 }
+    );
+  }
+
+  if (isAlreadyDownvoted) {
+    const filterDislikedDocs = user.dislikedDocuments.filter(
+      (downvote: string) => String(downvote) !== id
+    );
+
+    const updateLikedDocuments = [id, ...user.likedDocuments];
+
+    const updatedDoc = await Document.findByIdAndUpdate(
+      id,
+      { $inc: { upvotes: 1, downvotes: -1 } },
+      { new: true }
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      body.user,
+      {
+        dislikedDocuments: filterDislikedDocs,
+        likedDocuments: updateLikedDocuments,
+      },
+      { new: true }
+    );
+
+    return new NextResponse(
+      JSON.stringify({
+        upvotes: updatedDoc.upvotes,
+        downvotes: updatedDoc.downvotes,
+        likedDocuments: updatedUser.likedDocuments,
+        dislikedDocuments: updatedUser.dislikedDocuments,
+      }),
+      {
+        status: 200,
+      }
+    );
+  }
+
+  const updateLikedDocuments = [id, ...user.likedDocuments];
+
+  const updatedDoc = await Document.findByIdAndUpdate(
+    id,
+    { $inc: { upvotes: 1 } },
+    { new: true }
+  );
+
+  const updatedUser = await User.findByIdAndUpdate(
+    body.user,
+    { likedDocuments: updateLikedDocuments, $inc: { helpedStudents: 1 } },
+    { new: true }
+  );
+
+  return new NextResponse(
+    JSON.stringify({
+      upvotes: updatedDoc.upvotes,
+      downvotes: updatedDoc.downvotes,
+      likedDocuments: updatedUser.likedDocuments,
+        dislikedDocuments: updatedUser.dislikedDocuments,
+    }),
+    {
+      status: 200,
+    }
+  );
+};
+
+export const handleDownvote = async (req: NextRequest) => {
+  MongoConnection();
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+
+  const doc = await Document.findById(id);
+
+  if (!doc) {
+    return new NextResponse(JSON.stringify({ message: "Document Not Found" }), {
+      status: httpStatus.NOT_FOUND,
+    });
+  }
+
+  const user = await User.findById(body.user);
+
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User Not Found" }), {
+      status: httpStatus.NOT_FOUND,
+    });
+  }
+
+  const isAlreadyDownvoted = user.dislikedDocuments.find(
+    (downvote: string) => String(downvote) === id
+  );
+
+  const isAlreadyUpvoted = user.likedDocuments.find(
+    (upvote: string) => String(upvote) === id
+  );
+
+  if (isAlreadyDownvoted) {
+    const filteredArray = user.dislikedDocuments.filter(
+      (downvote: string) => String(downvote) !== id
+    );
+
+    const updatedDoc = await Document.findByIdAndUpdate(
+      id,
+      { $inc: { downvotes: -1 } },
+      { new: true }
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      body.user,
+      { dislikedDocuments: filteredArray },
+      { new: true }
+    );
+
+    return new NextResponse(
+      JSON.stringify({
+        upvotes: updatedDoc.upvotes,
+        downvotes: updatedDoc.downvotes,
+        likedDocuments: updatedUser.likedDocuments,
+        dislikedDocuments: updatedUser.dislikedDocuments,
+      }),
+      { status: 200 }
+    );
+  }
+
+  if (isAlreadyUpvoted) {
+    const filterLikedDocs = user.likedDocuments.filter(
+      (upvote: string) => String(upvote) !== id
+    );
+
+    const updateDislikedDocuments = [id, ...user.dislikedDocuments];
+
+    const updatedDoc = await Document.findByIdAndUpdate(
+      id,
+      { $inc: { downvotes: 1, upvotes: -1 } },
+      { new: true }
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      body.user,
+      {
+        likedDocuments: filterLikedDocs,
+        dislikedDocuments: updateDislikedDocuments,
+
+      },
+      { new: true }
+    );
+
+    return new NextResponse(
+      JSON.stringify({
+        upvotes: updatedDoc.upvotes,
+        downvotes: updatedDoc.downvotes,
+        likedDocuments: updatedUser.likedDocuments,
+        dislikedDocuments: updatedUser.dislikedDocuments,
+      }),
+      {
+        status: 200,
+      }
+    );
+  }
+
+  const updateDislikedDocuments = [id, ...user.dislikedDocuments];
+
+  const updatedDoc = await Document.findByIdAndUpdate(
+    id,
+    { $inc: { downvotes: 1 } },
+    { new: true }
+  );
+
+  const updatedUser = await User.findByIdAndUpdate(
+    body.user,
+    { dislikedDocuments: updateDislikedDocuments },
+    { new: true }
+  );
+
+  return new NextResponse(
+    JSON.stringify({
+      upvotes: updatedDoc.upvotes,
+      downvotes: updatedDoc.downvotes,
+      likedDocuments: updatedUser.likedDocuments,
+        dislikedDocuments: updatedUser.dislikedDocuments,
+    }),
+    {
+      status: 200,
+    }
+  );
 };

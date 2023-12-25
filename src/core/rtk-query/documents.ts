@@ -1,6 +1,8 @@
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 import { mainApi } from ".";
-import { DocumentI } from "@/services/types";
+import { DocumentI, UserI } from "@/services/types";
+import { setUser } from "../features/global/redux/global-slice";
+import { UserInterface } from "@/backend/modules/user/user.interfaces";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -104,7 +106,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      onQueryStarted: async ({ ownerId ,id}, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ ownerId, id }, { dispatch, queryFulfilled }) => {
         try {
           const { data: updatedUser } = await queryFulfilled;
           dispatch(
@@ -112,13 +114,98 @@ const ExtendedApi = mainApi.injectEndpoints({
               "getDocumentsByOwnerId",
               ownerId,
               (draft) => {
-                const doc = draft.find((doc:DocumentInterface) => doc.id === id);
+                const doc = draft.find(
+                  (doc: DocumentInterface) => doc.id === id
+                );
                 if (doc) {
                   doc.title = updatedUser.title;
                   doc.description = updatedUser.description;
                 }
               }
             )
+          );
+        } catch {}
+      },
+    }),
+    upvoteDocument: builder.mutation<
+      {
+        upvotes: number;
+        downvotes: number;
+        likedDocuments: string[];
+        dislikedDocuments: string[];
+      },
+      { id: string; user: UserI }
+    >({
+      query: ({ id, user }) => ({
+        url: `/documents/upvote/${id}`,
+        method: "PATCH",
+        body: {
+          user: user.id,
+        },
+      }),
+      onQueryStarted: async ({ id, user }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+
+          dispatch(
+            ExtendedApi.util.updateQueryData(
+              "getSingleDocument",
+              id,
+              (draft) => {
+                draft.upvotes = updatedUser.upvotes;
+                draft.downvotes = updatedUser.downvotes;
+              }
+            )
+          );
+          dispatch(
+            setUser({
+              ...user,
+              likedDocuments: updatedUser.likedDocuments,
+              dislikedDocuments: updatedUser.dislikedDocuments,
+            })
+          );
+        } catch {}
+      },
+    }),
+    downvoteDocument: builder.mutation<
+      {
+        upvotes: number;
+        downvotes: number;
+        likedDocuments: string[];
+        dislikedDocuments: string[];
+      },
+      { id: string; user: UserI }
+    >({
+      query: ({ id, user }) => ({
+        url: `/documents/downvote/${id}`,
+        method: "PATCH",
+        body: {
+          user: user?.id,
+        },
+      }),
+      onQueryStarted: async (
+        { id, user },
+        { dispatch, getState, queryFulfilled }
+      ) => {
+        try {
+          const { data: updatedUser } = await queryFulfilled;
+
+          dispatch(
+            ExtendedApi.util.updateQueryData(
+              "getSingleDocument",
+              id,
+              (draft) => {
+                draft.upvotes = updatedUser.upvotes;
+                draft.downvotes = updatedUser.downvotes;
+              }
+            )
+          );
+          dispatch(
+            setUser({
+              ...user,
+              likedDocuments: updatedUser.likedDocuments,
+              dislikedDocuments: updatedUser.dislikedDocuments,
+            })
           );
         } catch {}
       },
@@ -135,5 +222,7 @@ export const {
   useGetDocumentsByCourseIdQuery,
   useGetDocumentsByOwnerIdQuery,
   useDeleteDocumentMutation,
-  useUpdateDocumentMutation
+  useUpdateDocumentMutation,
+  useUpvoteDocumentMutation,
+  useDownvoteDocumentMutation,
 } = ExtendedApi;

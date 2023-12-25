@@ -28,7 +28,9 @@ export interface DropdownValue {
     reviewedDocuments: string[];
     reviewedCourses: string[];
     questionsCount: number;
-    studylist:string[]
+    studylist:string[];
+    likedDocuments:string[];
+    dislikedDocuments:string[];
   }
 
   export interface MenuItemType {

@@ -55,7 +55,7 @@ export const getDocumentById = async (req: NextRequest) => {
       status: 404,
     });
   }
-  return new Response(JSON.stringify(doc), { status: 200 });
+  return new Response(JSON.stringify(returnData(doc)), { status: 200 });
 };
 
 
