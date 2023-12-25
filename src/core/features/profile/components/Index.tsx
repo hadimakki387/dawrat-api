@@ -6,17 +6,19 @@ import ProfileHeader from "./profile-header";
 import UploadedDocs from "./UploadedDocs";
 import DeleteDocumentDialog from "./DeleteDocumentDialog";
 import EditDocumentDialog from "./EditDocumentDialog";
+import { useAppSelector } from "@/core/StoreWrapper";
 
 function Index() {
+  const { user } = useAppSelector((state) => state.global);
 
   return (
     <div>
-      <DeleteDocumentDialog/>
-      <EditDocumentDialog/>
+      <DeleteDocumentDialog />
+      <EditDocumentDialog />
       <ProfileHeader />
       <DaCard className="md:p-8">
         <ProfileStats />
-        <UploadedDocs/>
+        {user?.role === "admin" && <UploadedDocs />}
 
         <div className="space-y-4 mt-10">
           <h1 className="text-darkText font-bold text-2xl tracking-wide ">

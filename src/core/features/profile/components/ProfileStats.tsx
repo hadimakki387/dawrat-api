@@ -88,26 +88,28 @@ function ProfileStats() {
         </div>
       </div>
 
-      <div className="text-center text-sm text-slate-600 mt-10 flex flex-row justify-center gap-2 max-lg:flex-col">
-        <div className="flex items-center gap-2 ">
-          <span className="mt-3">
-            <Info fill="var(--gray)" size={20} />
-          </span>
-          <p className="mt-3">
-            You have until the end of December to upload and earn points for the
-            January lottery!
-          </p>
+      {user?.role === "admin" && (
+        <div className="text-center text-sm text-slate-600 mt-10 flex flex-row justify-center gap-2 max-lg:flex-col">
+          <div className="flex items-center gap-2 ">
+            <span className="mt-3">
+              <Info fill="var(--gray)" size={20} />
+            </span>
+            <p className="mt-3">
+              You have until the end of December to upload and earn points for
+              the January lottery!
+            </p>
+          </div>
+          <div className="max-lg:w-[15rem] m-auto">
+            <DaButton
+              label={"Upload Documents"}
+              className="text-white bg-primary font-semibold text-lg ml-2 w-full "
+              fullRounded
+              startIcon={<Upload fill="var(--white)" size={20} />}
+              onClick={() => router.push("/upload")}
+            />
+          </div>
         </div>
-        <div className="max-lg:w-[15rem] m-auto">
-          <DaButton
-            label={"Upload Documents"}
-            className="text-white bg-primary font-semibold text-lg ml-2 w-full "
-            fullRounded
-            startIcon={<Upload fill="var(--white)" size={20} />}
-            onClick={() => router.push("/upload")}
-          />
-        </div>
-      </div>
+      )}
     </>
   );
 }
