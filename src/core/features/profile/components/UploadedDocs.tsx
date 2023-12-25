@@ -42,8 +42,11 @@ function UploadedDocs() {
                 key={doc.id}
                 className="p-4 border-b border-neutral-200 w-full flex items-center text-titleText font-medium "
               >
-                <div className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm">
+                <div className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm md:hidden">
                   {doc?.title.length>17?`${doc?.title.slice(0,17)}...`:doc?.title}
+                </div>
+                <div className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm">
+                  {doc?.title}
                 </div>
                 <div className="w-1/3 flex items-center max-md:w-1/2 max-md:text-sm">
                   <div className="w-1/4">0</div>

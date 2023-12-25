@@ -104,7 +104,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ ownerId ,id}, { dispatch, queryFulfilled }) => {
         try {
           const { data: updatedUser } = await queryFulfilled;
           dispatch(
@@ -112,7 +112,7 @@ const ExtendedApi = mainApi.injectEndpoints({
               "getDocumentsByOwnerId",
               ownerId,
               (draft) => {
-                const doc = draft.find((doc) => doc.ownerId === ownerId);
+                const doc = draft.find((doc:DocumentInterface) => doc.id === id);
                 if (doc) {
                   doc.title = updatedUser.title;
                   doc.description = updatedUser.description;
