@@ -16,7 +16,7 @@ function UniversitiesSearch({}: Props) {
   });
   return (
     <div className="h-[80vh] flex items-center justify-center">
-      <div className="w-1/3 flex items-center flex-col gap-8">
+      <div className="lg:w-1/3 flex items-center flex-col gap-8 max-lg:text-center">
         <div className="text-titleText text-3xl font-semibold">
           At Whitch University You Study?
         </div>

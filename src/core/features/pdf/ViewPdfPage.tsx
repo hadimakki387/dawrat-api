@@ -145,17 +145,17 @@ function ViewPdfPage() {
         <>
           <SaveForStudyListDialog />
           <div className={`${success ? "" : "hidden"}`}>
-            <div className="flex items-center gap-4 justify-between">
+            <div className="flex items-center gap-4 justify-between max-md:flex-col">
               <DaButton
                 fullRounded
-                className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold"
+                className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold max-md:min-w-full"
                 onClick={() => handleDownload()}
                 label="Download"
                 startIcon={
                   <FontAwesomeIcon icon={faDownload} className="text-white" />
                 }
               />
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 max-md:justify-between max-md:w-full">
                 <DaButton
                   label="Save"
                   startIcon={
