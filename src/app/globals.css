@@ -105,8 +105,15 @@ body {
 }
 
 .webviewer{
-  height: 85vh !important;
+  height: 79.5vh !important;
 }
+
+@media (max-width: 768px) {
+  .webviewer{
+    height: 63vh !important;
+  }
+}
+
 
 .rpv-thumbnail__cover-image{
   width: 100% !important;

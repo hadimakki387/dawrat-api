@@ -145,7 +145,7 @@ function ViewPdfPage() {
         <>
           <SaveForStudyListDialog />
           <div className={`${success ? "" : "hidden"}`}>
-            <div className="flex items-center gap-4 justify-between max-md:flex-col">
+            <div className="flex items-center gap-4 justify-between max-md:flex-col max-md:gap-2">
               <DaButton
                 fullRounded
                 className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold max-md:min-w-full"
