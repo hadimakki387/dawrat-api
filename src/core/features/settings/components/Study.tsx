@@ -12,7 +12,10 @@ import { useAppSelector } from "@/core/StoreWrapper";
 import DaButton from "@/components/global/DaButton";
 import { generateToast, updateToast } from "@/services/global-function";
 import { ToastType } from "@/services/constants";
-import { useUpdateUserMutation, useUpdateUserUniversityMutation } from "@/core/rtk-query/user";
+import {
+  useUpdateUserMutation,
+  useUpdateUserUniversityMutation,
+} from "@/core/rtk-query/user";
 import { useGetAllDomainsQuery } from "@/core/rtk-query/domain";
 
 function Study() {
@@ -27,10 +30,13 @@ function Study() {
     title: searchSettingsUniversity,
     limit: 5,
   });
-  const {data:domains} = useGetAllDomainsQuery({title: searchSettingsDomain, limit: 5})
+  const { data: domains } = useGetAllDomainsQuery({
+    title: searchSettingsDomain,
+    limit: 5,
+  });
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
-  const[updateUser] = useUpdateUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   return (
     <div className="space-y-6 w-[25rem] max-md:w-full">
@@ -48,8 +54,10 @@ function Study() {
               defaultValue={user?.university?.title}
               data={data || []}
               placeholder="Search for your university"
-              setSearch={setSearchSettingsUniversity}
-              setSelectedItem={setSelectedSettingsUniversity}
+              setSearch={(search) => setSearchSettingsUniversity(search)}
+              setSelectedItem={(selectedItem) => {
+                setSelectedSettingsUniversity(selectedItem);
+              }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"
@@ -102,8 +110,10 @@ function Study() {
               defaultValue={user?.university?.title}
               data={domains || []}
               placeholder="Search for your Domain"
-              setSearch={setSearchSettingsDomain}
-              setSelectedItem={setSelectedSettingsDomain}
+              setSearch={(search) => setSearchSettingsDomain(search)}
+              setSelectedItem={(selectedItem) => {
+                setSelectedSettingsDomain(selectedItem);
+              }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"

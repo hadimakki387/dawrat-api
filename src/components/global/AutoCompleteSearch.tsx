@@ -37,7 +37,7 @@ export default function AutoCompleteSearch({
   loading,
   value,
 }: Props) {
-  const dispatch = useDispatch();
+
   const [menuItems, setMenuItems] = React.useState(data);
 
   React.useEffect(() => {
@@ -54,7 +54,7 @@ export default function AutoCompleteSearch({
         type="search"
         onChange={(event, value) => {
           const selectedItem = menuItems.find((item) => item.title === value);
-          if (setSelectedItem) dispatch(setSelectedItem(selectedItem.id));
+          if (setSelectedItem) setSelectedItem(selectedItem.id);
           formik?.setFieldValue(name, selectedItem.id);
         }}
         freeSolo
@@ -64,7 +64,7 @@ export default function AutoCompleteSearch({
         loadingText="Loading..."
         options={menuItems.map((option) => option.title)}
         onInputChange={(event, value) => {
-          if (setSearch) dispatch(setSearch(value));
+          if (setSearch) setSearch(value);
           formik?.setFieldValue(name, value);
         }}
         value={value && value}

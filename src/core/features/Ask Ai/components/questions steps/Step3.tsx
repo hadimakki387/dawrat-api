@@ -178,8 +178,10 @@ function Step3() {
             <AutoCompleteSearch
               data={data}
               placeholder="Search for your university"
-              setSearch={setSearchUniversity}
-              setSelectedItem={setSelectedUniversity}
+              setSearch={(search) => dispatch(setSearchUniversity(search))}
+              setSelectedItem={(selectedItem) =>{
+                dispatch(setSelectedUniversity(selectedItem));
+              }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"
@@ -196,8 +198,10 @@ function Step3() {
                     ? "Search for your course"
                     : "Select a university first"
                 }
-                setSearch={setSearchCourse}
-                setSelectedItem={setSelectedCourse}
+                setSearch={(search) => dispatch(setSearchCourse(search))}
+                setSelectedItem={(selectedItem) =>{
+                  dispatch(setSelectedCourse(selectedItem));
+                }}
                 style={{ borderRadius: "0.7rem", width: "100%" }}
                 className="mr-4 p-1 w-full"
                 disabled={!courses}

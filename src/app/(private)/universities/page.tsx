@@ -1,11 +1,11 @@
-import React from 'react'
+import UniversitiesSearch from '@/core/features/universities/components/UniversitiesSearch'
 
 type Props = {}
 
-function page({}: Props) {
+function Universities({}: Props) {
   return (
-    <div>This is the univerisities page</div>
+    <UniversitiesSearch/>
   )
 }
 
-export default page
+export default Universities

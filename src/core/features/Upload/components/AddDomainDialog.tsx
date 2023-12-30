@@ -83,8 +83,10 @@ function AddDomainDialog() {
         <AutoCompleteSearch
           data={data || []}
           placeholder="Search for your university"
-          setSearch={setSearchUniversityAddDomain}
-          setSelectedItem={setSelectedUniversityAddDomain}
+          setSearch={(search) => dispatch(setSearchUniversityAddDomain(search))}
+          setSelectedItem={(selectedItem) => {
+            dispatch(setSelectedUniversityAddDomain(selectedItem));
+          }}
           style={{ borderRadius: "0.7rem" }}
           className="mr-4 p-1"
           loading={true}

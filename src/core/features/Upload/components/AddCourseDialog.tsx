@@ -64,7 +64,7 @@ function AddCourseDialog() {
         message: "Creating...",
         isLoading: true,
       });
-      
+
       const selectedUniveristy = data?.find(
         (university: UniversityInterface) =>
           university.id === selectedUniversityCreate
@@ -130,8 +130,10 @@ function AddCourseDialog() {
         <AutoCompleteSearch
           data={data || []}
           placeholder="Search for your university"
-          setSearch={setSearchUniversityCreate}
-          setSelectedItem={setSelectedUniversityCreate}
+          setSearch={(search) => dispatch(setSearchUniversityCreate(search))}
+          setSelectedItem={(selectedItem) => {
+            dispatch(setSelectedUniversityCreate(selectedItem));
+          }}
           style={{ borderRadius: "0.7rem" }}
           className="mr-4 p-1"
           loading={true}
@@ -146,8 +148,10 @@ function AddCourseDialog() {
             <AutoCompleteSearch
               data={domains}
               placeholder="Search for Domain"
-              setSearch={setSearchDomainCreate}
-              setSelectedItem={setSelectedDomainCreate}
+              setSearch={(search) => dispatch(setSearchDomainCreate(search))}
+              setSelectedItem={(selectedItem) => {
+                dispatch(setSelectedDomainCreate(selectedItem));
+              }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
             />

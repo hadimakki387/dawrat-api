@@ -264,8 +264,8 @@ function Details() {
             <AutoCompleteSearch
               data={data || []}
               placeholder="Search for your university"
-              setSearch={setSearchUploadUniversity}
-              setSelectedItem={setSelectedUniversity}
+              setSearch={(search) => dispatch(setSearchUploadUniversity(search))}
+              setSelectedItem={(id) => dispatch(setSelectedUniversity(id))}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"
@@ -305,8 +305,8 @@ function Details() {
             <AutoCompleteSearch
               data={domains || []}
               placeholder="Search for course"
-              setSearch={setSearchDomain}
-              setSelectedItem={setSelectedDomain}
+              setSearch={(search) => dispatch(setSearchDomain(search))}
+              setSelectedItem={(id) => dispatch(setSelectedDomain(id))}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               disabled={!selectedUniversity}
@@ -349,8 +349,8 @@ function Details() {
             <AutoCompleteSearch
               data={courses || []}
               placeholder="Search for course"
-              setSearch={setSearchCourse}
-              setSelectedItem={setSelectedCourse}
+              setSearch={(search) => dispatch(setSearchCourse(search))}
+              setSelectedItem={(id) => dispatch(setSelectedCourse(id))}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               disabled={!selectedDomain}

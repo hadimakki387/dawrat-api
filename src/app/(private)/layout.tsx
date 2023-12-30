@@ -1,15 +1,10 @@
 "use client";
 
+import PhoneNavBar from "@/components/layout/PhoneNavBar";
+import { SideBar } from "@/components/reactsideBar/SideBar.tsx";
 import StoreWrapper from "@/core/StoreWrapper";
 import HomeNavBar from "../../components/layout/HomeNavBar";
 import PrivateAuthGuard from "./PrivateAuthGuard";
-import { SideBar } from "@/components/reactsideBar/SideBar.tsx";
-import Home from "@/components/SVGs/Home";
-import AI from "@/components/SVGs/AI";
-import Questions from "@/components/SVGs/Questions";
-import Folder from "@/components/SVGs/Folder";
-import Institution from "@/components/SVGs/Institution";
-import PhoneNavBar from "@/components/layout/PhoneNavBar";
 
 export default function RootLayout({
   children,
