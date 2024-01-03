@@ -39,83 +39,79 @@ body {
   --sidebar: rgba(236, 236, 239, 1);
   --sidebar-color: #003f6d;
   --gray: #808080;
-  --pink:#f064fc;
-  --pink-bg:#f9c1fe;
-  --transparent-pink:#fde9ff;
-  --icon-bg:#acd3fd;
-  --green-bg:#cff5b7;
-  --green-text:#259f02;
-  --hover-green:#b1fa84;
-  --purple-bg:#e7defe;
-  --purple-text:#967fd6;
-  --hover-purple:#d6c5fd;
-  --dark-text:#2f3e4e;
-  --silver-bg:#e6ebef;
+  --pink: #f064fc;
+  --pink-bg: #f9c1fe;
+  --transparent-pink: #fde9ff;
+  --icon-bg: #acd3fd;
+  --green-bg: #cff5b7;
+  --green-text: #259f02;
+  --hover-green: #b1fa84;
+  --purple-bg: #e7defe;
+  --purple-text: #967fd6;
+  --hover-purple: #d6c5fd;
+  --dark-text: #2f3e4e;
+  --silver-bg: #e6ebef;
 }
 
 /* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: auto;
-    scrollbar-color: #757575 #ffffff;
-  }
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #757575 #ffffff;
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 10px;
-  }
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
 
-  *::-webkit-scrollbar-track {
-    background: #ffffff;
-  }
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
 
-  *::-webkit-scrollbar-thumb {
-    background-color: #757575;
-    border-radius: 10px;
-    border: 3px solid #ffffff;
-  }
+*::-webkit-scrollbar-thumb {
+  background-color: #757575;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
 
-.MuiAutocomplete-listbox{
+.MuiAutocomplete-listbox {
   max-height: 15rem !important;
   font-size: 14px !important;
 }
 
-.ps-submenu-content::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
-	border-radius: 10px !important;
-	background-color: #F5F5F5 !important;
+.ps-submenu-content::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+  border-radius: 10px !important;
+  background-color: #f5f5f5 !important;
 }
 
-#scrollBar::-webkit-scrollbar
-{
-	width: 12px !important;
-	background-color: #F5F5F5 !important;
+#scrollBar::-webkit-scrollbar {
+  width: 12px !important;
+  background-color: #f5f5f5 !important;
 }
 
-.ps-submenu-content::-webkit-scrollbar-thumb
-{
-	border-radius: 10px !important;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
-	background-color: #555 !important;
+.ps-submenu-content::-webkit-scrollbar-thumb {
+  border-radius: 10px !important;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+  background-color: #555 !important;
 }
 
-.MuiAutocomplete-listbox{
+.MuiAutocomplete-listbox {
   z-index: 1302 !important;
 }
 
-.webviewer{
+.webviewer {
   height: 79.5vh !important;
 }
 
 @media (max-width: 768px) {
-  .webviewer{
+  .webviewer {
     height: 63vh !important;
   }
 }
 
-
-.rpv-thumbnail__cover-image{
+.rpv-thumbnail__cover-image {
   width: 100% !important;
   height: 100% !important;
 }
@@ -125,4 +121,30 @@ body {
 
 .rpv-thumbnail__cover {
   height: 100% !important;
+}
+
+.UniversityHeader::before {
+  background-image: url(https://d20ohkaloyme4g.cloudfront.net/build/webpack/web/es7/img/img/universityPageHeaderDesign/extra_large_desktop/bg.avif);
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 20rem;
+  z-index: -2;
+}
+
+
+.UniversityHeader::after{
+  background: rgba(0,0,0,.5);
+  mix-blend-mode: normal;
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 20rem;
+  z-index: -2;
 }

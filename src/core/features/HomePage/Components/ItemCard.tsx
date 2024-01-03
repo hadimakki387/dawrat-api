@@ -41,7 +41,7 @@ function ItemCard({ doc, onClick }: Props) {
           {doc?.title}
         </p>
         <p className="text-subTitleText text-xs font-medium ">
-          {doc?.courseTitle}
+          {doc?.courseTitle || doc?.courseName}
         </p>
         <div className="flex justify-center items-center gap-2 bg-neutral-100 rounded-md py-1">
           <FontAwesomeIcon icon={faThumbsUp} className="text-green-400" />

@@ -20,4 +20,5 @@ export interface DocumentInterface {
   upvotes:number;
   downvotes:number;
   universityName:string;
+  courseTitle:string;
 }

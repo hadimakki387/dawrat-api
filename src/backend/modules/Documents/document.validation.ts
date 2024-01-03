@@ -20,7 +20,8 @@ const createDocument: Record<keyof Omit<DocumentInterface,"id"| "_id">, any> = {
     courseName:Joi.string(),
     upvotes:Joi.number(),
     downvotes:Joi.number(),
-    universityName:Joi.string()
+    universityName:Joi.string(),
+    courseTitle:Joi.string(),
 }
 
 
