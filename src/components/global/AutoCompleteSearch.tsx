@@ -47,11 +47,7 @@ export default function AutoCompleteSearch({
   }, [data]);
 
   return (
-    <FormControl id="free-solo-2-demo" onSubmit={(e)=>{
-      e.preventDefault()
-      if(handleSubmit) handleSubmit(e)
-      if(formik) formik.handleSubmit(e)
-    }}>
+    <FormControl id="free-solo-2-demo" >
       {label && <FormLabel>{label}</FormLabel>}
       <Autocomplete
         defaultValue={defaultValue}

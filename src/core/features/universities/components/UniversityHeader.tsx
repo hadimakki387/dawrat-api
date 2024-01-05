@@ -29,13 +29,7 @@ function UniversityHeader({
         <div className="text-3xl font-bold">{University?.title}</div>
         <div className="text-3xl font-bold">{University?.abr}</div>
         <div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (handleSubmit) handleSubmit();
-            }}
-            className="w-full flex items-center gap-2"
-          >
+          <div className="w-full flex items-center gap-2">
             <div className="w-full">
               <AutoCompleteSearch
                 placeholder="Search For Course Or Document in this University..."
@@ -55,9 +49,14 @@ function UniversityHeader({
               />
             </div>
             <button>
-              <FontAwesomeIcon icon={faSearch} />
+              <FontAwesomeIcon
+                icon={faSearch}
+                onClick={() => {
+                  if (handleSubmit) handleSubmit();
+                }}
+              />
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

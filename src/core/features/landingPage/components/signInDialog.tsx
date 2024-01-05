@@ -93,7 +93,7 @@ function SignInDialog() {
           formik={formik}
         />
 
-            <p >Password</p>
+        <p>Password</p>
         <div className="flex items-center gap-2">
           <div className="w-full">
             <TextFieldComponent
@@ -103,14 +103,14 @@ function SignInDialog() {
               formik={formik}
             />
           </div>
-          <button
+
+          <FontAwesomeIcon
+            icon={faEye}
             onClick={() => {
               setShowPassword(!showPassword);
             }}
-            className="flex items-center"
-          >
-            <FontAwesomeIcon icon={faEye} />
-          </button>
+            className="hover:cursor-pointer"
+          />
         </div>
         <div className="flex items-center justify-end text-primary font-semibold">
           <button
