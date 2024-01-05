@@ -5,6 +5,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import e from "express";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 type Props = {};
 
@@ -12,8 +13,10 @@ function UniversitiesSearch({}: Props) {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const router = useRouter();
+  const [search, setSearch] = useState("");
+  const [selectedUniversity, setSelectedUniversity] = useState("");
   const { data } = useGetUniversitiesQuery({
-    title: params.get("search") as string,
+    title: search,
     limit: 5,
   });
   return (
@@ -29,7 +32,7 @@ function UniversitiesSearch({}: Props) {
           className="w-full flex items-center gap-2"
           onSubmit={(e) => {
             e.preventDefault();
-            router.push(`/universities/${params.get("selectedUniversity")}`);
+            router.push(`/universities/${selectedUniversity}`);
           }}
         >
           <div className="w-full">
@@ -37,22 +40,10 @@ function UniversitiesSearch({}: Props) {
               data={data || []}
               placeholder="Search University"
               setSearch={(search) => {
-                if (search === "") {
-                  params.delete("search");
-                  router.push(`?${params.toString()}`);
-                } else {
-                  params.set("search", search);
-                  router.push(`?${params.toString()}`);
-                }
+                setSearch(search);
               }}
               setSelectedItem={(selectedItem) => {
-                if (selectedItem === "") {
-                  params.delete("selectedUniversity");
-                  router.push(`?${params.toString()}`);
-                } else {
-                  params.set("selectedUniversity", selectedItem);
-                  router.push(`?${params.toString()}`);
-                }
+                setSelectedUniversity(selectedItem);
               }}
               style={{
                 borderRadius: 999999,
