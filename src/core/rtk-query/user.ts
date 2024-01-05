@@ -65,8 +65,11 @@ const extendedApi = mainApi.injectEndpoints({
       }),
     }),
     createStudylist: builder.mutation<
-    StudylistInterface,
-      { body: Partial<Omit<StudylistInterface, "id" | "_id" | "owner">>, id: string }
+      StudylistInterface,
+      {
+        body: Partial<Omit<StudylistInterface, "id" | "_id" | "owner">>;
+        id: string;
+      }
     >({
       query: ({ body, id }) => ({
         url: `/users/studylist/${id}`,
@@ -78,60 +81,99 @@ const extendedApi = mainApi.injectEndpoints({
           const { data: createdStudyList } = await queryFulfilled;
           dispatch(
             extendedApi.util.updateQueryData("getStudylist", id, (draft) => {
-              console.log("accessed")
-              draft.unshift(createdStudyList)
+              console.log("accessed");
+              draft.unshift(createdStudyList);
             })
           );
         } catch {}
       },
     }),
-    updateStudylist: builder.mutation<string[], { body: string; id: string, userId:string }>({
-      query: ({ body, id ,userId}) => ({
+    updateStudylist: builder.mutation<
+      string[],
+      { body: string; id: string; userId: string }
+    >({
+      query: ({ body, id, userId }) => ({
         url: `/users/studylist/${id}`,
         method: "PATCH",
-        body:{
-          document:body
+        body: {
+          document: body,
         },
       }),
-      onQueryStarted: async ({ userId ,id}, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ userId, id }, { dispatch, queryFulfilled }) => {
         try {
           const { data: createdStudyList } = await queryFulfilled;
           dispatch(
-            extendedApi.util.updateQueryData("getStudylist", userId, (draft) => {
-              console.log("accessed")
-              const  studyList = draft.find((studylist) => studylist.id === id)
-              if(studyList){
-                studyList.documents = createdStudyList
+            extendedApi.util.updateQueryData(
+              "getStudylist",
+              userId,
+              (draft) => {
+                console.log("accessed");
+                const studyList = draft.find(
+                  (studylist) => studylist.id === id
+                );
+                if (studyList) {
+                  studyList.documents = createdStudyList;
+                }
+                console.log(JSON.parse(JSON.stringify(studyList)));
+                console.log(id);
+                console.log(createdStudyList);
               }
-              console.log(JSON.parse(JSON.stringify(studyList)))
-              console.log(id)
-              console.log(createdStudyList)
-            })
+            )
           );
         } catch {}
       },
     }),
-    deleteStudylist: builder.mutation<void, { id: string,userId:string }>({
-      query: ({ id ,userId}) => ({
+    deleteStudylist: builder.mutation<void, { id: string; userId: string }>({
+      query: ({ id, userId }) => ({
         url: `/users/studylist/${id}`,
         method: "DELETE",
       }),
-      onQueryStarted: async ({ id ,userId}, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ id, userId }, { dispatch, queryFulfilled }) => {
         try {
           const { data: createdStudyList } = await queryFulfilled;
           dispatch(
-            extendedApi.util.updateQueryData("getStudylist", userId, (draft) => {
-              console.log("accessed")
-              const index = draft.findIndex((studylist) => studylist.id === id)
-              draft.splice(index,1)
-            })
+            extendedApi.util.updateQueryData(
+              "getStudylist",
+              userId,
+              (draft) => {
+                console.log("accessed");
+                const index = draft.findIndex(
+                  (studylist) => studylist.id === id
+                );
+                draft.splice(index, 1);
+              }
+            )
           );
-        } catch {}}
+        } catch {}
+      },
     }),
     getStudylist: builder.query<StudylistInterface[], string>({
       query: (id) => ({
         url: `/users/studylist/${id}`,
         method: "GET",
+      }),
+    }),
+    generateOtp: builder.mutation<void, { email: string }>({
+      query: ({ email }) => ({
+        url: `/reset-password/generate-otp`,
+        method: "PATCH",
+        body: {
+          email: email,
+        },
+      }),
+    }),
+    verifyOtpAndChangePassword: builder.mutation<
+      void,
+      { email: string; otp: number; password: string }
+    >({
+      query: ({ email, otp, password }) => ({
+        url: `/reset-password`,
+        method: "POST",
+        body: {
+          email: email,
+          otp: otp,
+          password: password,
+        },
       }),
     }),
   }),
@@ -147,4 +189,6 @@ export const {
   useUpdateStudylistMutation,
   useDeleteStudylistMutation,
   useGetStudylistQuery,
+  useGenerateOtpMutation,
+  useVerifyOtpAndChangePasswordMutation,
 } = extendedApi;

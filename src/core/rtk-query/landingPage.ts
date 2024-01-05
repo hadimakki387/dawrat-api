@@ -16,6 +16,8 @@ const ExtendedApi = mainApi.injectEndpoints({
         if ("token" in response) {
           Cookies.set("dawratToken", response.token);
           Cookies.set("dawratUserId", response.user.id);
+          localStorage.setItem("dawratToken", response.token);
+          localStorage.setItem("dawratUserId", response.user.id);
         }
         return response.user;
       
@@ -31,6 +33,8 @@ const ExtendedApi = mainApi.injectEndpoints({
         if ("token" in response) {
           Cookies.set("dawratToken", response.token);
           Cookies.set("dawratUserId", response.user.id);
+          localStorage.setItem("dawratToken", response.token);
+          localStorage.setItem("dawratUserId", response.user.id);
         }
         return response.user;
       

@@ -7,17 +7,23 @@ import { ToastType } from "@/services/constants";
 import { generateToast, updateToast } from "@/services/global-function";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { setIsAuth, setSignIn } from "../redux/homePage-slice";
+import {
+  setIsAuth,
+  setResetPassword,
+  setSignIn,
+} from "../redux/homePage-slice";
 import "./index.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 function SignInDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);
   const dispatch = useDispatch();
   const [login, { isSuccess }] = useLoginMutation();
-  const router = useRouter()
+  const router = useRouter();
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -41,27 +47,27 @@ function SignInDialog() {
             isLoading: false,
             toastType: ToastType.success,
           });
-          dispatch(setSignIn(false))
-          formik.resetForm()
-          dispatch(setIsAuth(true))
+          dispatch(setSignIn(false));
+          formik.resetForm();
+          dispatch(setIsAuth(true));
         })
         .catch((err) => {
           updateToast(id, `${err?.data?.message}`, {
             isLoading: false,
             toastType: ToastType.error,
           });
-          dispatch(setSignIn(false))
-          formik.resetForm()
+          dispatch(setSignIn(false));
+          formik.resetForm();
         });
-       
     },
   });
 
-  useEffect(()=>{
-    if(isSuccess){
-      window.location.reload()
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.reload();
     }
-  },[isSuccess])
+  }, [isSuccess]);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <DaDialog
@@ -73,7 +79,13 @@ function SignInDialog() {
       PaperProps={{ borderRadius: "1rem" }}
       closeIcon
     >
-      <div className="flex flex-col gap-4">
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          formik.handleSubmit();
+        }}
+      >
         <TextFieldComponent
           leadingText="Email"
           label="Enter Email"
@@ -81,20 +93,42 @@ function SignInDialog() {
           formik={formik}
         />
 
-        <TextFieldComponent
-          type="password"
-          leadingText="Password"
-          label="Password"
-          name="password"
-          formik={formik}
-        />
+            <p >Password</p>
+        <div className="flex items-center gap-2">
+          <div className="w-full">
+            <TextFieldComponent
+              type={showPassword ? "text" : "password"}
+              label="Password"
+              name="password"
+              formik={formik}
+            />
+          </div>
+          <button
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+            className="flex items-center"
+          >
+            <FontAwesomeIcon icon={faEye} />
+          </button>
+        </div>
+        <div className="flex items-center justify-end text-primary font-semibold">
+          <button
+            onClick={() => {
+              dispatch(setSignIn(false));
+              dispatch(setResetPassword(true));
+            }}
+          >
+            Forget Password?
+          </button>
+        </div>
         <DaButton
           label="signIn"
           className="w-full bg-primary font-medium text-white"
           fullRounded
           onClick={formik.handleSubmit}
         />
-      </div>
+      </form>
     </DaDialog>
   );
 }

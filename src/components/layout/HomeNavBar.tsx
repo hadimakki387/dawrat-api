@@ -153,6 +153,9 @@ function HomeNavBar() {
                   name: "Logout",
                   onClick: () => {
                     Cookie.remove("dawratToken");
+                    localStorage.setItem("dawratToken","");
+                    Cookie.remove("dawratUserId");
+                    localStorage.setItem("dawratUserId","");
                     window.location.reload();
                   },
                   icon: <FontAwesomeIcon icon={faSignOut} />,

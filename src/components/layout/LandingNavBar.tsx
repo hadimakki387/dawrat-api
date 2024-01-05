@@ -19,7 +19,7 @@ function LandingNavBar() {
   const Scroll = useScroll();
   console.log(`this is the scroll ${Scroll.y}`);
   const dispatch = useDispatch();
-  const id = Cookies.get("dawratUserId");
+  const id = Cookies.get("dawratUserId") || localStorage.getItem("dawratUserId");
   const { data, isLoading } = useGetUserQuery(id as string);
 
   const CssTextField = styled(TextField)({
