@@ -21,7 +21,7 @@ function CourseCard({ course }: { course: courseInterface }) {
         });
         router.push(`/courses/${course.id}`);
       }}
-      className="min-w-1/3 h-44  rounded-2xl border border-neutral-300 p-4 flex flex-col justify-between hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 max-sm:h-36"
+      className=" min-w-[60%] lg:min-w-[25%]  h-44  rounded-2xl border border-neutral-300 p-4 flex flex-col justify-between hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 max-sm:h-36"
     >
       <div className="flex flex-col gap-3">
         <div className="flex gap-2 text-sm text-subTitleText">

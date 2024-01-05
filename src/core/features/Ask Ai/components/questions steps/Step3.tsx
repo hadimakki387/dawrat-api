@@ -56,9 +56,12 @@ function Step3() {
     limit: 5,
   });
   const { data: courses, isLoading: loadingCourses } =
-    useGetCoursesByUniversityIdQuery(selectedUniversity, {
-      skip: !selectedUniversity ? true : false,
-    });
+    useGetCoursesByUniversityIdQuery(
+      { id: selectedUniversity as string},
+      {
+        skip: !selectedUniversity ? true : false,
+      }
+    );
 
   const [createQuestion] = useCreateQuestionMutation();
   const editor = useEditor({
@@ -179,7 +182,7 @@ function Step3() {
               data={data}
               placeholder="Search for your university"
               setSearch={(search) => dispatch(setSearchUniversity(search))}
-              setSelectedItem={(selectedItem) =>{
+              setSelectedItem={(selectedItem) => {
                 dispatch(setSelectedUniversity(selectedItem));
               }}
               style={{ borderRadius: "0.7rem" }}
@@ -192,14 +195,14 @@ function Step3() {
           <div className="flex justify-end items-center gap-2 w-1/4 max-xl:w-full">
             <div className="w-full">
               <AutoCompleteSearch
-                data={courses}
+                data={courses || []}
                 placeholder={
                   universities
                     ? "Search for your course"
                     : "Select a university first"
                 }
                 setSearch={(search) => dispatch(setSearchCourse(search))}
-                setSelectedItem={(selectedItem) =>{
+                setSelectedItem={(selectedItem) => {
                   dispatch(setSelectedCourse(selectedItem));
                 }}
                 style={{ borderRadius: "0.7rem", width: "100%" }}

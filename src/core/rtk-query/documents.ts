@@ -210,6 +210,37 @@ const ExtendedApi = mainApi.injectEndpoints({
         } catch {}
       },
     }),
+    getDocumentByUniversityId: builder.query<
+      DocumentInterface[],
+      { id: string; limit?: number }
+    >({
+      query: ({ id, limit }) => ({
+        url: `/university/documents/${id}&${limit ? `limit=${limit}` : ""}`,
+        method: "GET",
+      }),
+    }),
+    getPopularDocumentsInUniversity: builder.query<
+      DocumentInterface[],
+      { id: string; limit?: number }
+    >({
+      query: ({ id, limit }) => ({
+        url: `/university/documents/popular/${id}&${
+          limit ? `limit=${limit}` : ""
+        }`,
+        method: "GET",
+      }),
+    }),
+    getRecentDocumentsInUniversity: builder.query<
+      DocumentInterface[],
+      { id: string; limit?: number }
+    >({
+      query: ({ id, limit }) => ({
+        url: `/university/documents/recent/${id}&${
+          limit ? `limit=${limit}` : ""
+        }`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -225,4 +256,7 @@ export const {
   useUpdateDocumentMutation,
   useUpvoteDocumentMutation,
   useDownvoteDocumentMutation,
+  useGetDocumentByUniversityIdQuery,
+  useGetPopularDocumentsInUniversityQuery,
+  useGetRecentDocumentsInUniversityQuery,
 } = ExtendedApi;

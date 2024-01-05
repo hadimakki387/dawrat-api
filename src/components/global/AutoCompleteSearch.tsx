@@ -20,6 +20,7 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   value?: string;
+  handleSubmit?: (e: any) => any;
 }
 
 export default function AutoCompleteSearch({
@@ -36,6 +37,7 @@ export default function AutoCompleteSearch({
   disabled,
   loading,
   value,
+  handleSubmit,
 }: Props) {
 
   const [menuItems, setMenuItems] = React.useState(data);
@@ -45,7 +47,11 @@ export default function AutoCompleteSearch({
   }, [data]);
 
   return (
-    <FormControl id="free-solo-2-demo">
+    <FormControl id="free-solo-2-demo" onSubmit={(e)=>{
+      e.preventDefault()
+      if(handleSubmit) handleSubmit(e)
+      if(formik) formik.handleSubmit(e)
+    }}>
       {label && <FormLabel>{label}</FormLabel>}
       <Autocomplete
         defaultValue={defaultValue}

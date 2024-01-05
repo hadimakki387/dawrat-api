@@ -13,32 +13,21 @@ import { checkUniversityTitle } from "./document.helperFunction";
 MongoConnection();
 
 export const getUniversities = async (req: NextRequest) => {
- 
   const params = new URL(req.url as string);
   const title = params.searchParams.get("title");
   const limit = params.searchParams.get("limit");
-
-  if (title) {
-    const regex = new RegExp(title, "i");
-    const result = await University.find({ title: regex });
-    if (limit)
-      return new NextResponse(
-        JSON.stringify(returnArrayData(result.slice(0, +limit)))
-      );
-    return new NextResponse(JSON.stringify(returnArrayData(result)));
-  }
-  const result = await University.find();
-
-  if (limit)
-    return new NextResponse(
-      JSON.stringify(returnArrayData(result.slice(0, +limit)))
-    );
-
+  let filters: any = {};
+  if (title) filters.title = new RegExp(title, "i");
+  console.log(filters);
+  let result;
+  if (limit) result = await University.find(filters).limit(+limit);
+  else result = await University.find(filters);
+  console.log(result)
+  console.log(filters)
   return new NextResponse(JSON.stringify(returnArrayData(result)));
 };
 
 export const getUnversityById = async (req: NextRequest) => {
-
   const id = getIdFromUrl(req.url);
   const result = await University.findById(id);
   if (!result)
@@ -51,7 +40,6 @@ export const getUnversityById = async (req: NextRequest) => {
 };
 
 export const createUniversity = async (req: NextRequest) => {
-
   const data = await req.json();
   const validateData = createUniversityValidation.body.validate(data);
   const checkTitle = await checkUniversityTitle(data.title);

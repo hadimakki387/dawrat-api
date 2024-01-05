@@ -1,48 +1,43 @@
 "use client";
+import { courseInterface } from "@/backend/modules/Courses/courses.interface";
+import { DomainInterface } from "@/backend/modules/domains/domain.interface";
+import Document from "@/components/SVGs/Document";
+import Folder from "@/components/SVGs/Folder";
+import Institution from "@/components/SVGs/Institution";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
+import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import React, { useEffect, useState } from "react";
+import {
+  useGetCoursesByDomainIdQuery
+} from "@/core/rtk-query/courses";
+import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
+import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
+import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
+import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
+import { ToastType } from "@/services/constants";
+import { generateToast, updateToast } from "@/services/global-function";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Convert from "convert-units";
+import { useFormik } from "formik";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import { setUser } from "../../global/redux/global-slice";
 import {
   setAddCourseDialog,
   setAddDomainDialog,
-  setAddUniverisityDialog,
   setSearchCourse,
   setSearchDomain,
   setSearchUploadUniversity,
   setSelectedCourse,
   setSelectedDomain,
   setSelectedUniversity,
-  setUploadedDocs,
+  setUploadedDocs
 } from "../redux/upload-slice";
-import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
-import Institution from "@/components/SVGs/Institution";
-import DaCard from "@/components/SVGs/DaCard";
-import Document from "@/components/SVGs/Document";
-import Convert from "convert-units";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
-import { useDispatch } from "react-redux";
-import { set } from "mongoose";
-import {
-  useGetCoursesByDomainIdQuery,
-  useGetCoursesByUniversityIdQuery,
-} from "@/core/rtk-query/courses";
-import Folder from "@/components/SVGs/Folder";
-import { CircularProgress } from "@mui/material";
-import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
-import TextFieldComponent from "@/components/global/TextFieldComponent";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
-import { setUser } from "../../global/redux/global-slice";
 import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
 import CreateUniversityDialog from "./CreateUniversityDialog";
-import { DomainInterface } from "@/backend/modules/domains/domain.interface";
-import { courseInterface } from "@/backend/modules/Courses/courses.interface";
 
 function Details() {
   const dispatch = useDispatch();

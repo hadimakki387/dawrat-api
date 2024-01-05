@@ -18,19 +18,7 @@ import {
 } from "../redux/courses-slice";
 
 function DocCard({ doc }: { doc: DocumentInterface }) {
-  const getPdfThumbnail = useMemo(
-    () => (
-      <GetPdfThumbnail
-        width={1500}
-        pageIndex={1}
-        fileUrl={doc?.doc?.url}
-        getNumPages={(e) => {
-          console.log("this is the num pages of the doc", e);
-        }}
-      />
-    ),
-    [doc?.doc?.url]
-  );
+
   const router = useRouter();
   const [updateReviewsDocs] = useUpdateReviewedDocumentsMutation();
   const { user } = useAppSelector((state) => state.global);
@@ -41,6 +29,19 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
   const checkSaved = Studylist?.some((studylist: StudylistInterface) => {
     return studylist.documents.includes(doc?.id);
   });
+  const getPdfThumbnail = useMemo(
+    () => (
+      <GetPdfThumbnail
+        width={1500}
+        pageIndex={1}
+        fileUrl={doc?.doc?.url}
+        getNumPages={(e) => {
+          setNumPages(e);
+        }}
+      />
+    ),
+    [doc?.doc?.url]
+  );
 
   console.log("checkSaved", checkSaved);
   return (

@@ -18,8 +18,8 @@ const initialState: {
   selectedSettingsDomain: "",
 };
 
-const settomgsSlice = createSlice({
-  name: "settomgsSlice",
+const settingsSlice = createSlice({
+  name: "settingsSlice",
   initialState,
   reducers: {
     setSearchSettingsUniversity(state, action) {
@@ -50,6 +50,6 @@ export const {
   setLastName,
   setSearchSettingsDomain,
   setSelectedSettingsDomain,
-} = settomgsSlice.actions;
+} = settingsSlice.actions;
 
-export default settomgsSlice.reducer;
+export default settingsSlice.reducer;

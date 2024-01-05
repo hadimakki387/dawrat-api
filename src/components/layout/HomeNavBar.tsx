@@ -107,14 +107,6 @@ function HomeNavBar() {
               <p
                 className="text-subTitleText hover:cursor-pointer hover:text-primary transition-all duration-500 font-semibold"
                 onClick={() => {
-                  router.push("/courses");
-                }}
-              >
-                Courses
-              </p>
-              <p
-                className="text-subTitleText hover:cursor-pointer hover:text-primary transition-all duration-500 font-semibold"
-                onClick={() => {
                   router.push("/questions");
                 }}
               >

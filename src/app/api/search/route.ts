@@ -4,40 +4,39 @@ import Document from "@/backend/modules/Documents/document.model";
 import MongoConnection from "@/backend/utils/db";
 import { NextRequest } from "next/server";
 
-MongoConnection()
+MongoConnection();
 
 export async function GET(req: NextRequest) {
   const param = new URL(req.url);
   const title = param.searchParams.get("title");
+  const university = param.searchParams.get("university");
+  const course = param.searchParams.get("course");
+  let filters: any = {};
 
-  if (!title) {
-    const courses = await Course.find().limit(3);
-    const documents = await Document.find().limit(15);
-    return new Response(
-      JSON.stringify([
-        ...returnArrayData(courses),
-        ...returnArrayData(documents),
-      ]),
-      {
-        status: 400,
-      }
-    );
+  if (title)
+    filters.$or = [
+      { title: { $regex: new RegExp(title, "i") } },
+      { description: { $regex: new RegExp(title, "i") } },
+    ];
+  if (university) filters.university = university;
+  if (course) filters.course = course;
+
+  let courses;
+  if (course) {
+    console.log(course)
+    const getCourse = await Course.findById(course);
+    courses = [getCourse]
+  } else {
+    const {course:CourseID,...restFilters} = filters
+    courses = await Course.find(restFilters);
   }
 
-  const titleRegex = new RegExp(title, "i");
-  const courses = await Course.find({
-    $or: [{ title: { $regex: titleRegex } }, { description: { $regex: titleRegex } }],
-  }).limit(3);
-
-  const documents = await Document.find({
-    $or: [{ title: { $regex: titleRegex } }, { description: { $regex: titleRegex } }],
-  }).limit(15);
+  const documents = await Document.find(filters).limit(15);
 
   return new Response(
     JSON.stringify([
       ...returnArrayData(courses),
       ...returnArrayData(documents),
-
     ]),
     {
       status: 200,

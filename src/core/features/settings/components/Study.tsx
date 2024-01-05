@@ -2,12 +2,6 @@
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import React, { useState } from "react";
-import {
-  setSearchSettingsDomain,
-  setSearchSettingsUniversity,
-  setSelectedSettingsDomain,
-  setSelectedSettingsUniversity,
-} from "../redux/settings-slice";
 import { useAppSelector } from "@/core/StoreWrapper";
 import DaButton from "@/components/global/DaButton";
 import { generateToast, updateToast } from "@/services/global-function";
@@ -19,24 +13,27 @@ import {
 import { useGetAllDomainsQuery } from "@/core/rtk-query/domain";
 
 function Study() {
-  const {
-    searchSettingsUniversity,
-    selectedSettingsUniversity,
-    searchSettingsDomain,
-    selectedSettingsDomain,
-  } = useAppSelector((state) => state.settings);
+
+  const [university, setUniversity] = useState("");
+  const [domain, setDomain] = useState("");
+  const [selectedUniversity, setSelectedUniversity] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("");
+
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
-    title: searchSettingsUniversity,
+    title: university,
     limit: 5,
   });
   const { data: domains } = useGetAllDomainsQuery({
-    title: searchSettingsDomain,
+    title: domain,
     limit: 5,
   });
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
   const [updateUser] = useUpdateUserMutation();
+
+  console.log("this is  the university")
+  console.log(university)
 
   return (
     <div className="space-y-6 w-[25rem] max-md:w-full">
@@ -54,15 +51,19 @@ function Study() {
               defaultValue={user?.university?.title}
               data={data || []}
               placeholder="Search for your university"
-              setSearch={(search) => setSearchSettingsUniversity(search)}
+              setSearch={(search) => {
+                console.log("this is the main search")
+                console.log(search)
+                setUniversity(search)
+              }}
               setSelectedItem={(selectedItem) => {
-                setSelectedSettingsUniversity(selectedItem);
+                setSelectedUniversity(selectedItem);
               }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"
             />
-            {submitted && !selectedSettingsUniversity && (
+            {submitted && !selectedUniversity && (
               <div className="text-sm text-error">university is required</div>
             )}
           </div>
@@ -73,7 +74,7 @@ function Study() {
           fullRounded
           onClick={() => {
             setSubmitted(true);
-            if (selectedSettingsUniversity) {
+            if (selectedUniversity) {
               const id = generateToast({
                 message: "Updating...",
                 toastType: ToastType.default,
@@ -81,7 +82,7 @@ function Study() {
               });
               updateUniversity({
                 id: user?.id,
-                body: { university: selectedSettingsUniversity },
+                body: { university: selectedUniversity },
               })
                 .unwrap()
                 .then((res) => {
@@ -109,16 +110,17 @@ function Study() {
             <AutoCompleteSearch
               defaultValue={user?.university?.title}
               data={domains || []}
+              disabled={!selectedUniversity}
               placeholder="Search for your Domain"
-              setSearch={(search) => setSearchSettingsDomain(search)}
+              setSearch={(search) => setDomain(search)}
               setSelectedItem={(selectedItem) => {
-                setSelectedSettingsDomain(selectedItem);
+                setSelectedDomain(selectedItem);
               }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"
             />
-            {submitted && !selectedSettingsDomain && (
+            {submitted && !selectedDomain && (
               <div className="text-sm text-error">Domain is required</div>
             )}
           </div>
@@ -129,7 +131,7 @@ function Study() {
           fullRounded
           onClick={() => {
             setSubmitted(true);
-            if (selectedSettingsDomain) {
+            if (selectedDomain) {
               const id = generateToast({
                 message: "Updating...",
                 toastType: ToastType.default,
@@ -137,7 +139,7 @@ function Study() {
               });
               updateUser({
                 id: user?.id,
-                body: { domain: selectedSettingsDomain },
+                body: { domain: selectedDomain },
               })
                 .unwrap()
                 .then((res) => {

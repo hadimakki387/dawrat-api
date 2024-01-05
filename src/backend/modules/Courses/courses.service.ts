@@ -13,9 +13,22 @@ import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 MongoConnection();
 
-export const getCourses = async () => {
-  const courses = await Course.find();
-  return new NextResponse(JSON.stringify(returnArrayData(courses)), {
+export const getCourses = async (req:NextRequest) => {
+  MongoConnection();
+  const params = new URL(req.url as string);
+  const title = params.searchParams.get("title");
+  const limit = params.searchParams.get("limit");
+  let filters: any = {};
+  if (title) filters.title = new RegExp(title, "i");
+
+  let course;
+  if (limit) {
+    course = await Course.find(filters).limit(parseInt(limit));
+  } else {
+    course = await Course.find(filters);
+  }
+  return new Response(JSON.stringify(course), {
+    statusText: "hello",
     status: 200,
   });
 };

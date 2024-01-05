@@ -4,10 +4,12 @@ import React from "react";
 
 type Props = {
     Courses:courseInterface[]
+    onClick?: (id: string) => any;
 };
 
 function UniversityCourse({
-    Courses
+    Courses,
+    onClick
 }: Props) {
   return (
     <div>
@@ -19,6 +21,9 @@ function UniversityCourse({
             <div
               className="col-span-2 md:col-span-1 p-6 hover:bg-primaryBg hover:cursor-pointer rounded-md transition-all duration-300 flex items-center gap-4"
               key={index}
+              onClick={() => {
+                if (onClick) onClick(course?.id);
+              }}
             >
               <Folder fill="var(--green-text)" size={20} />{" "}
               <span className="text-primary hover:underline font-medium ">

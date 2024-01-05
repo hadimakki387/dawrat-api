@@ -4,9 +4,14 @@ import { DomainInterface } from "@/backend/modules/domains/domain.interface";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllCourses: builder.query({
-      query: () => ({
-        url: `courses`,
+    getAllCourses: builder.query<
+      courseInterface[],
+      { title?: string; limit?: number }
+    >({
+      query: ({ title, limit }) => ({
+        url: `courses?${title ? `&title=${title}` : ``}${
+          limit ? `&limit=${limit}` : ``
+        }`,
         method: "GET",
       }),
     }),
@@ -16,8 +21,14 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getCoursesByUserId: builder.query<courseInterface[], string>({
-      query: (id) => ({
+    getCoursesByUserId: builder.query<
+      courseInterface[],
+      {
+        id: string;
+        limit?: number;
+      }
+    >({
+      query: ({ id, limit }) => ({
         url: `users/courses/${id}`,
         method: "GET",
       }),
@@ -29,8 +40,14 @@ const ExtendedApi = mainApi.injectEndpoints({
         body: ids,
       }),
     }),
-    getCoursesByUniversityId: builder.query({
-      query: (id: string) => ({
+    getCoursesByUniversityId: builder.query<
+      courseInterface[],
+      {
+        id: string;
+        limit?: number;
+      }
+    >({
+      query: ({ id, limit }) => ({
         url: `university/courses/${id}`,
         method: "GET",
       }),
