@@ -8,7 +8,7 @@ import { generateToast, updateToast } from "@/services/global-function";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { setIsAuth, setSignUp } from "../redux/homePage-slice";
+import { setIsAuth, setSignIn, setSignUp } from "../redux/homePage-slice";
 import { useRouter } from "next/navigation";
 
 function SignUpDialog() {
@@ -102,6 +102,18 @@ function SignUpDialog() {
           fullRounded
           onClick={formik.handleSubmit}
         />
+        <div className="flex max-sm:justify-between sm:gap-4">
+          Already have an account?
+          <span
+            className="text-primary font-semibold cursor-pointer hover:underline"
+            onClick={() => {
+              dispatch(setSignUp(false));
+              dispatch(setSignIn(true));
+            }}
+          >
+            Sign In
+          </span>
+        </div>
       </div>
     </DaDialog>
   );

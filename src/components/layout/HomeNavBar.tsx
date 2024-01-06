@@ -36,9 +36,6 @@ function HomeNavBar() {
 
   return (
     <>
-      <div className="w-full flex items-center justify-center bg-primary text-sm text-white font-semibold fixed to-pink-200 z-30">
-        The Website Is Still Under Development
-      </div>
       {showSearch ? (
         <div className="p-6 flex items-center gap-2 fixed w-full">
           <div className="w-full">
@@ -60,7 +57,7 @@ function HomeNavBar() {
           />
         </div>
       ) : (
-        <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 max-sm:mt-4">
+        <nav className="flex items-center justify-between border-b-2 border-neutral-300  h-[10vh] bg-white fixed w-full px-6 z-20 ">
           <div className="flex gap-4 items-center">
             <div className="flex items-center gap-3">
               <div className="md:hidden">

@@ -14,7 +14,8 @@ function Header() {
           Find top-rated study notes from students taking the same courses as
           you.
         </div>
-        <DaSearch padding="p-4 max-sm:p-2" placeholder="Search for courses, books or documents"/>
+        {/* <DaSearch padding="p-4 max-sm:p-2" placeholder="Search for courses, books or documents " /> */}
+        <div className="p-4 max-sm:p-2"/>
         <Link href={"#mostPopular"} className="relative mt-16">
           <BouncingArrow />
         </Link>

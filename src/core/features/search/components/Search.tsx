@@ -19,6 +19,7 @@ import {
   useGetCoursesByUniversityIdQuery,
   useGetCoursesByUserIdQuery,
 } from "@/core/rtk-query/courses";
+import MissingDataMessage from "../../HomePage/Components/MissingDataMessage";
 
 function Search() {
   const param = useParams();
@@ -76,6 +77,12 @@ function Search() {
               return <DocCardSkeleton key={index} />;
             })}
         </div>
+      ) : !isLoading && data.length === 0 && data ? (
+        
+          <div className="w-full mt-16">
+            <MissingDataMessage message="No results found" />
+          </div>
+        
       ) : (
         <>
           <FiltersDrawer

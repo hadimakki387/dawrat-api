@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import CourseHeaderSkeleton from "./CourseHeaderSkeleton";
+import DaSearch from "@/components/global/DaSearch/DaSearch";
 
 function CourseHeader() {
   const following = false;
@@ -77,7 +78,7 @@ function CourseHeader() {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between max-md:gap-2">
             <div>
               <DaButton
                 startIcon={
@@ -87,12 +88,14 @@ function CourseHeader() {
                 fullRounded
                 className={`${
                   following ? "bg-white" : "bg-primary text-white"
-                } font-medium`}
+                } font-medium max-md:h-full`}
                 onClick={() => console.log("clicked")}
               />
             </div>
             <div className="w-[25rem]">
-              <SearchInput placeholder="Find in Algebra" />
+              <DaSearch placeholder="Find in Algebra" padding="max-md:p-0" handleSubmit={(e)=>{
+                router.push(`/search/${e}?searchCourse=${data?.title}&selectedCourse=${data?.id}`)
+              }}/>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
+import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
 import { mainApi } from ".";
 import Cookies from "js-cookie";
-
-
+import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,8 +11,8 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      transformResponse: (response:{user:any,token:string}) => {
-        console.log(response)
+      transformResponse: (response: { user: any; token: string }) => {
+        console.log(response);
         if ("token" in response) {
           Cookies.set("dawratToken", response.token);
           Cookies.set("dawratUserId", response.user.id);
@@ -20,7 +20,6 @@ const ExtendedApi = mainApi.injectEndpoints({
           localStorage.setItem("dawratUserId", response.user.id);
         }
         return response.user;
-      
       },
     }),
     register: builder.mutation({
@@ -29,7 +28,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      transformResponse: (response:{user:any,token:string}) => {
+      transformResponse: (response: { user: any; token: string }) => {
         if ("token" in response) {
           Cookies.set("dawratToken", response.token);
           Cookies.set("dawratUserId", response.user.id);
@@ -37,10 +36,21 @@ const ExtendedApi = mainApi.injectEndpoints({
           localStorage.setItem("dawratUserId", response.user.id);
         }
         return response.user;
-      
       },
+    }),
+    getItems: builder.query<
+      {
+        universities: UniversityInterface[];
+        documents: DocumentInterface[];
+        usersCount:number;
+        documentsCount:number;
+      },
+      void
+    >({
+      query: () => `/landing`,
     }),
   }),
 });
 
-export const { useLoginMutation ,useRegisterMutation} = ExtendedApi;
+export const { useLoginMutation, useRegisterMutation, useGetItemsQuery } =
+  ExtendedApi;

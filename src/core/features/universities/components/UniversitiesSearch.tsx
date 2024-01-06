@@ -51,7 +51,7 @@ function UniversitiesSearch({}: Props) {
             />
           </div>
           <button>
-            <FontAwesomeIcon icon={faSearch} />
+            <FontAwesomeIcon icon={faSearch} className="text-titleText text-xl" />
           </button>
         </form>
       </div>

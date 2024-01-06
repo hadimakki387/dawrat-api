@@ -20,7 +20,7 @@ function MyRecentDocument() {
 
   return (
     <div className="space-y-1">
-      <h1 className="text-darkText font-bold text-2xl tracking-wide ">
+      <h1 className="text-darkText font-bold text-xl md:text-2xl tracking-wide mb-2">
         Continue Reading
       </h1>
       {reviewedDocuments && reviewedDocuments.length === 0 && !loadingDocuments && (

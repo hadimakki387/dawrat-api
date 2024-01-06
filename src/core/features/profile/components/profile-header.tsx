@@ -18,8 +18,15 @@ function ProfileHeader() {
               {user?.firstName} {user?.lastName}
             </p>
             <div className="flex flex-row  text-sm gap-2 items-center text-center">
-              <Institution fill="var(--primary)" size={16}/>
-              <p className="text-primary text-lg max-sm:text-base"> {user?.university.title}</p>
+              <Institution fill="var(--primary)" size={16} />
+              <p
+                className="text-primary text-lg max-sm:text-base hover:pointer hover:underline"
+                onClick={() => {
+                  router.push(`/universities/${user?.university.id}`);
+                }}
+              >
+                {user?.university.title}
+              </p>
             </div>
             <div className="flex flex-row gap-4 justify-start mt-2 max-sm:text-sm">
               <div className="flex flex-col items-center">
@@ -56,8 +63,6 @@ function ProfileHeader() {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 }

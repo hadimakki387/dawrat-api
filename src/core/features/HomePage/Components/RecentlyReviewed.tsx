@@ -36,7 +36,7 @@ function RecentlyReviewed() {
 
   return (
     <div className="space-y-1">
-      <h1 className="text-darkText font-bold text-2xl tracking-wide ">
+      <h1 className="text-darkText font-bold text-xl md:text-2xl tracking-wide ">
         Recently Reviewed
       </h1>
 

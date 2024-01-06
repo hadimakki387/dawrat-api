@@ -4,12 +4,23 @@ import DaButton from "@/components/global/DaButton";
 import TabsSwitch from "@/components/global/TabsSwitch";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useDispatch } from "react-redux";
-import { setTabs } from "../redux/homePage-slice";
+import { setSignIn, setTabs } from "../redux/homePage-slice";
+import { useGetItemsQuery } from "@/core/rtk-query/landingPage";
+import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
+import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
 
-function ItemsSection() {
+function ItemsSection({
+  universities,
+  documents,
+}:{
+  universities: UniversityInterface[];
+  documents: DocumentInterface[];
+}) {
   const { tabs } = useAppSelector((state) => state.homePage);
+  const { user } = useAppSelector((state) => state.global);
   const dispatch = useDispatch();
-  const data = Array(10).fill(0);
+
+  
 
   return (
     <div className="flex flex-col justify-center text-center mt-12 w-1/2 m-auto gap-8 p-16 max-sm:w-full max-sm:p-4" >
@@ -27,25 +38,35 @@ function ItemsSection() {
           tabSx={{justifyContent:'center'}}
         />
         {tabs === 0 && (
-          <div className="flex flex-wrap gap-2">
-            {data.map((_, i) => (
+          <div className="flex flex-wrap gap-2 max-md:flex-col max-md:flex-auto max-md:items-center ">
+            {universities.map((university, i) => (
               <DaButton
-                label={`University ${i}`}
+                label={`${university?.title}`}
                 key={i}
                 fullRounded
-                className="border border-neutral-300 p-2 font-medium text-lg"
+                className="border border-neutral-300 p-2 font-medium text-lg max-md:text-[15px]"
+                onClick={()=>{
+                  if(!user){
+                    dispatch(setSignIn(true))
+                  }
+                }}
               />
             ))}
           </div>
         )}
         {tabs === 1 && (
-          <div className="flex flex-wrap gap-2">
-            {data.map((_, i) => (
+          <div className="flex flex-wrap gap-2 max-md:flex-col max-md:flex-auto max-md:items-center ">
+            {documents.map((document, i) => (
               <DaButton
-                label={`Document ${i}`}
+                label={`${document?.title}`}
                 key={i}
                 fullRounded
-                className="border border-neutral-300 p-2 font-medium text-lg"
+                className="border border-neutral-300 p-2 font-medium text-lg max-md:text-[15px]"
+                onClick={()=>{
+                  if(!user){
+                    dispatch(setSignIn(true))
+                  }
+                }}
               />
             ))}
           </div>

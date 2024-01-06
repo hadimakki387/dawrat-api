@@ -29,7 +29,7 @@ function ItemCard({ doc, onClick }: Props) {
       style={{
         width: "calc((100% - 112px) / 8)",
       }}
-      className="select-none rounded-xl h-72 min-w-[176px] max-w-[200px] overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
+      className="select-none rounded-xl h-72 max-md:min-w-[130px] max-md:h-60 min-w-[176px] max-w-[200px] overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
     >
       <div className="h-1/2 rounded-xl p-2 bg-silverBg">
         <div className="w-[98%] m-auto overflow-hidden rounded-xl h-[98%]">
@@ -37,7 +37,7 @@ function ItemCard({ doc, onClick }: Props) {
         </div>
       </div>
       <div className="h-1/2  z-10 p-2 flex flex-col justify-between">
-        <p className="font-medium text-primary hover:cursor-pointer hover:underline">
+        <p className="font-medium text-primary hover:cursor-pointer hover:underline max-md:text-sm">
           {doc?.title}
         </p>
         <p className="text-subTitleText text-xs font-medium ">

@@ -14,6 +14,7 @@ import {
   setIsAuth,
   setResetPassword,
   setSignIn,
+  setSignUp,
 } from "../redux/homePage-slice";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -113,7 +114,7 @@ function SignInDialog() {
           />
         </div>
         <div className="flex items-center justify-end text-primary font-semibold">
-          <div
+          {/* <div
             onClick={() => {
               dispatch(setSignIn(false));
               dispatch(setResetPassword(true));
@@ -121,6 +122,16 @@ function SignInDialog() {
             className="hover:cursor-pointer"
           >
             Forget Password?
+          </div> */}
+          <div>
+            <DaButton
+              label="Sign Up"
+              className="bg-white text-primary font-semibold"
+              onClick={() => {
+                dispatch(setSignIn(false));
+                dispatch(setSignUp(true));
+              }}
+            />
           </div>
         </div>
         <DaButton

@@ -20,17 +20,17 @@ function AiQuestions() {
     useGetQuestionsByUserIdQuery(user?.id as string, { skip: !user });
   const router = useRouter();
   return (
-    <div className="space-y-1">
-      <h1 className="text-darkText font-bold text-2xl tracking-wide ">
+    <div className="space-y-1 w-full">
+      <h1 className="text-darkText font-bold text-xl mb-2 md:text-2xl tracking-wide ">
         AI Questions
       </h1>
       {questions && questions.length > 0 && !loadingQuestions ? (
-        <>
+        <div className="w-full">
           <DaCarousel hasButtons={false}>
             {questions.map((question) => {
               return (
                 <DaCard
-                  className="min-w-[33.3333%] shadow-md shadow-neutral-200 hover:cursor-pointer hover:shadow-lg transition-all duration-300"
+                  className="max-md:min-w-[90%] md:min-w-[33.3333%] shadow-md shadow-neutral-200 hover:cursor-pointer hover:shadow-lg transition-all duration-300 "
                   key={question?.id}
                 >
                   <div
@@ -57,39 +57,40 @@ function AiQuestions() {
               );
             })}
           </DaCarousel>
-        </>
+        </div>
       ) : questions && questions.length === 0 && !loadingQuestions ? (
         <MissingDataMessage message="You did ask any question yet." />
       ) : (
-        <DaCarousel hasButtons={false}>
-          {Array.from(new Array(3)).map((_, index) => {
-            return (
-              <DaCard
-                key={index}
-                className="min-w-[33.3333%] shadow-md shadow-neutral-200 hover:cursor-pointer hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex flex-col justify-between gap-2 h-full">
-                  <div className="flex items-center justify-between text-xs text-subTitleText ">
-                    <div className="flex items-center gap-2">
-                      <Skeleton variant="circular" width={16} height={16} />
+        <div className="w-full">
+          <DaCarousel hasButtons={false}>
+            {Array.from(new Array(3)).map((_, index) => {
+              return (
+                <DaCard
+                  key={index}
+                  className="max-md:min-w-[75%] md:min-w-[33.3333%] shadow-md shadow-neutral-200 hover:cursor-pointer hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="flex flex-col justify-between gap-2 h-full">
+                    <div className="flex items-center justify-between text-xs text-subTitleText ">
+                      <div className="flex items-center gap-2">
+                        <Skeleton variant="circular" width={16} height={16} />
+                        <p>
+                          <Skeleton variant="text" width={50} />
+                        </p>
+                      </div>
                       <p>
                         <Skeleton variant="text" width={50} />
                       </p>
                     </div>
-                    <p>
-                      <Skeleton variant="text" width={50} />
-                    </p>
+                    <Skeleton variant="text" width={200} />
+                    <div className="text-titleText font-medium">
+                      <Skeleton variant="text" width={100} />
+                    </div>
                   </div>
-
-                  <Skeleton variant="text" width={200} />
-                  <div className="text-titleText font-medium">
-                    <Skeleton variant="text" width={100} />
-                  </div>
-                </div>
-              </DaCard>
-            );
-          })}
-        </DaCarousel>
+                </DaCard>
+              );
+            })}
+          </DaCarousel>
+        </div>
       )}
     </div>
   );
