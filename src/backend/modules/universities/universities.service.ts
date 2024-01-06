@@ -18,12 +18,9 @@ export const getUniversities = async (req: NextRequest) => {
   const limit = params.searchParams.get("limit");
   let filters: any = {};
   if (title) filters.title = new RegExp(title, "i");
-  console.log(filters);
   let result;
   if (limit) result = await University.find(filters).limit(+limit);
   else result = await University.find(filters);
-  console.log(result)
-  console.log(filters)
   return new NextResponse(JSON.stringify(returnArrayData(result)));
 };
 

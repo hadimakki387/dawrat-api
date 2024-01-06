@@ -13,7 +13,6 @@ type Props = {};
 function PhoneNavBar({}: Props) {
   const path = usePathname();
   const router = useRouter();
-  console.log(path)
   return (
     <div className="w-full fixed flex justify-between items-center md:hidden bottom-0 bg-white z-50 p-4">
       <div

@@ -43,9 +43,8 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
     [doc?.doc?.url]
   );
 
-  console.log("checkSaved", checkSaved);
   return (
-    <div className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl max-md:flex-col max-md:w-full">
+    <div className="select-none flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 rounded-2xl max-md:flex-col max-md:w-full">
       <div
         className="flex items-center gap-4 max-md:w-full"
         onClick={() => {

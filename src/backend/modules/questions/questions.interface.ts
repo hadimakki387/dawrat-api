@@ -1,5 +1,6 @@
 export interface QuestionInterface {
   id: string;
+  _id: string;
   subject: string;
   question: string;
   answer: string;
@@ -9,6 +10,6 @@ export interface QuestionInterface {
   topic: string;
   ownerName: string;
   createdAt: string;
-    updatedAt: string;
-    public:boolean;
+  updatedAt: string;
+  public: boolean;
 }

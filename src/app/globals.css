@@ -51,6 +51,9 @@ body {
   --hover-purple: #d6c5fd;
   --dark-text: #2f3e4e;
   --silver-bg: #e6ebef;
+  --orange-bg: #fde1d2;
+  --orange-text: #f36a1c;
+  --hover-orange:#f9b189 ;
 }
 
 /* ===== Scrollbar CSS ===== */
@@ -135,9 +138,8 @@ body {
   z-index: -2;
 }
 
-
-.UniversityHeader::after{
-  background: rgba(0,0,0,.5);
+.UniversityHeader::after {
+  background: rgba(0, 0, 0, 0.5);
   mix-blend-mode: normal;
   bottom: 0;
   content: "";

@@ -132,7 +132,6 @@ function ViewPdfPage() {
           });
         });
   };
-  console.log(user);
   const { data: Studylist } = useGetStudylistQuery(user?.id as string);
   //i want to check if the document is already saved in the studylist
   const checkSaved = Studylist?.some((studylist: StudylistInterface) => {

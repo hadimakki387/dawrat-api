@@ -36,8 +36,6 @@ function Study() {
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
   const [updateUser] = useUpdateUserMutation();
-  console.log("this is the user");
-  console.log(user);
 
   return (
     <div className="space-y-6 w-[25rem] max-md:w-full">
@@ -56,8 +54,6 @@ function Study() {
               data={data || []}
               placeholder="Search for your university"
               setSearch={(search) => {
-                console.log("this is the main search");
-                console.log(search);
                 setUniversity(search);
               }}
               setSelectedItem={(selectedItem) => {

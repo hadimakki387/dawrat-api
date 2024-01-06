@@ -23,14 +23,12 @@ function ViewPdf({ url, LoadSuccess }) {
         var docViewer = instance.Core.documentViewer;
         docViewer.on("documentLoaded", async () => {
           LoadSuccess(true);
-          console.log("document loaded");
           instance.UI.setZoomLevel(1.4);
           // Load annotations from Local Storage
           try {
             const storedAnnotations = localStorage.getItem(`DawraAnnonation-${user?.id}-${DocId}`);
             const parsedAnnotations = JSON.parse(storedAnnotations);
             if (storedAnnotations && parsedAnnotations.userId === user?.id && parsedAnnotations.DocId === DocId) {
-              console.log("accesed")
               await annotationManager.importAnnotations(parsedAnnotations.annonations);
             }
           } catch (error) {

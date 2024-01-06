@@ -21,8 +21,6 @@ function TestFetch({}: Props) {
     setData(data);
   }
 
-  console.log(data);
-
   return (
     <div>
       <div>this is the title from other domain:{data?.title}</div>

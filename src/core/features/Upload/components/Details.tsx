@@ -141,7 +141,6 @@ function Details() {
   useEffect(() => {
     if (handleSubmit !== 0) formik.handleSubmit();
   }, [handleSubmit]);
-  console.log(selectedCourse)
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
@@ -232,8 +231,7 @@ function Details() {
               name="title"
               formik={formik}
               onChange={(e) => {
-                console.log("input");
-                console.log(e.target.value);
+            
               }}
             />
           </div>

@@ -1,7 +1,10 @@
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
-import { returnArrayData } from "@/backend/helper-functions/returnData";
+import {
+  returnArrayData,
+  returnData,
+} from "@/backend/helper-functions/returnData";
 import httpStatus from "http-status";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import Question from "./questions.model";
 import User from "../user/user.model";
@@ -30,6 +33,22 @@ export const getQuestionsByUserId = async (req: NextRequest) => {
   });
 };
 
+export const getSingleQuestionById = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url);
+  const question = await Question.findById(id);
+  if (!question) {
+    return new NextResponse(
+      JSON.stringify({
+        message: "Question not found",
+      }),
+      {
+        status: httpStatus.NOT_FOUND,
+      }
+    );
+  }
+  return new NextResponse(JSON.stringify(returnData(question)));
+};
+
 export const createQuestion = async (req: NextRequest) => {
   const data = await req.json();
 
@@ -49,7 +68,6 @@ export const createQuestion = async (req: NextRequest) => {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
-
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
@@ -98,7 +116,6 @@ export const createQuestion = async (req: NextRequest) => {
       }
     );
   }
-  
 
   const updateUser = await User.findByIdAndUpdate(
     data?.userId,
@@ -108,7 +125,7 @@ export const createQuestion = async (req: NextRequest) => {
     { new: true }
   );
 
-  return new Response(JSON.stringify(savedQuestion), {
+  return new Response(JSON.stringify(returnData(savedQuestion)), {
     status: httpStatus.CREATED,
   });
 };

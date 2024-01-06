@@ -10,14 +10,13 @@ import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);
   const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
-    { body: user?.reviewedDocuments },
+    { body: user?.reviewedDocuments as string[] },
     {
       skip: !user,
     }
   );
   const router = useRouter();
-  console.log("this is the reviewd Docs")
-  console.log(reviewedDocuments)
+
 
   return (
     <div className="space-y-1">

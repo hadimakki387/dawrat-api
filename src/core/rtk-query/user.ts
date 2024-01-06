@@ -81,7 +81,6 @@ const extendedApi = mainApi.injectEndpoints({
           const { data: createdStudyList } = await queryFulfilled;
           dispatch(
             extendedApi.util.updateQueryData("getStudylist", id, (draft) => {
-              console.log("accessed");
               draft.unshift(createdStudyList);
             })
           );
@@ -107,16 +106,12 @@ const extendedApi = mainApi.injectEndpoints({
               "getStudylist",
               userId,
               (draft) => {
-                console.log("accessed");
                 const studyList = draft.find(
                   (studylist) => studylist.id === id
                 );
                 if (studyList) {
                   studyList.documents = createdStudyList;
                 }
-                console.log(JSON.parse(JSON.stringify(studyList)));
-                console.log(id);
-                console.log(createdStudyList);
               }
             )
           );
@@ -136,7 +131,6 @@ const extendedApi = mainApi.injectEndpoints({
               "getStudylist",
               userId,
               (draft) => {
-                console.log("accessed");
                 const index = draft.findIndex(
                   (studylist) => studylist.id === id
                 );
@@ -146,6 +140,12 @@ const extendedApi = mainApi.injectEndpoints({
           );
         } catch {}
       },
+    }),
+    getSingleStudylist: builder.query<StudylistInterface, string>({
+      query: (id) => ({
+        url: `/users/studylist/single/${id}`,
+        method: "GET",
+      }),
     }),
     getStudylist: builder.query<StudylistInterface[], string>({
       query: (id) => ({
@@ -191,4 +191,5 @@ export const {
   useGetStudylistQuery,
   useGenerateOtpMutation,
   useVerifyOtpAndChangePasswordMutation,
+  useGetSingleStudylistQuery,
 } = extendedApi;

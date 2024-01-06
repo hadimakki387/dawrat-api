@@ -29,7 +29,7 @@ export const NavItems = () => {
   const {data:studyList} = useGetStudylistQuery(id as string);
 
   const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
-    { body: user?.reviewedDocuments, limit: 3 },
+    { body: user?.reviewedDocuments as string[], limit: 3 },
     {
       skip: !user,
     }

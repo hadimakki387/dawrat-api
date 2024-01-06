@@ -17,7 +17,7 @@ function ItemCard({ doc, onClick }: Props) {
         pageIndex={1}
         fileUrl={doc?.doc?.url}
         getNumPages={(e) => {
-          console.log("this is the num pages of the doc", e);
+          
         }}
       />
     ),

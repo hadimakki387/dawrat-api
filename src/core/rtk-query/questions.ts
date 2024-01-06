@@ -6,7 +6,7 @@ const extendedApi = mainApi.injectEndpoints({
     getQuestions: build.query<QuestionInterface[], void>({
       query: () => "questions",
     }),
-    getQuestionById: build.query<QuestionInterface[], string>({
+    getQuestionById: build.query<QuestionInterface, string>({
       query: (id) => `questions/${id}`,
     }),
     createQuestion: build.mutation<QuestionInterface, any>({
@@ -20,10 +20,9 @@ const extendedApi = mainApi.injectEndpoints({
           const { data: updatedUser } = await queryFulfilled;
           dispatch(
             extendedApi.util.updateQueryData(
-              "getQuestionById",
+              "getQuestionsByUserId",
               id,
               (draft) => {
-
                 draft.unshift(updatedUser);
               }
             )
@@ -31,7 +30,10 @@ const extendedApi = mainApi.injectEndpoints({
         } catch {}
       },
     }),
+    getQuestionsByUserId: build.query<QuestionInterface[],string>({
+      query: (id) => `users/questions/${id}`
+    })
   }),
 });
 
-export const { useGetQuestionsQuery, useGetQuestionByIdQuery,useCreateQuestionMutation } = extendedApi;
+export const { useGetQuestionsQuery, useGetQuestionByIdQuery,useCreateQuestionMutation,useGetQuestionsByUserIdQuery } = extendedApi;

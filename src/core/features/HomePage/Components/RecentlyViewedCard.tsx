@@ -3,7 +3,6 @@ import React from "react";
 
 function RecentlyViewedCard({ doc }: { doc: any }) {
   const router = useRouter()
-  console.log(doc)
   return (
     <div
       onClick={()=>{

@@ -185,8 +185,6 @@ export const handleUpvote = async (req: NextRequest) => {
   }
 
   const user = await User.findById(body.user);
-  console.log(user);
-  console.log(doc);
 
   if (!user) {
     return new NextResponse(JSON.stringify({ message: "User Not Found" }), {
