@@ -32,7 +32,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getRecommendedDocumentsInDomain: builder.query({
+    getRecommendedDocumentsInDomain: builder.query<any,string>({
       query: (id) => ({
         url: `/domain/courses/recommended/${id}`,
         method: "GET",

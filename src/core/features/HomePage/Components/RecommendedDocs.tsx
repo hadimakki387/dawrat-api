@@ -14,7 +14,7 @@ import DaCarousel from "@/components/global/carousel/DaCarousel";
 function RecommendedDocs() {
   const { user } = useAppSelector((state) => state.global);
   const { data: recommendedDocuments } =
-    useGetRecommendedDocumentsInDomainQuery(user?.domain as string, {
+    useGetRecommendedDocumentsInDomainQuery(user?.domain?.id as string, {
       skip: !user,
     });
   const [updateReviewed] = useUpdateReviewedDocumentsMutation();
