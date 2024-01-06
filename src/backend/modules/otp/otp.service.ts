@@ -38,7 +38,7 @@ export const handleOtpGeneration = async (req: NextRequest) => {
     service: "gmail",
     host: "smtp.gmail.com",
     port: 587,
-    secure: false,
+    secure: true,
     auth: {
       user: process.env.MY_EMAIL,
       pass: process.env.MY_PASS,
