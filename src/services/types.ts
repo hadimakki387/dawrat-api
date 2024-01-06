@@ -21,7 +21,11 @@ export interface DropdownValue {
       title:string;
       abr:string;
     };
-    domain: string;
+    domain: {
+      id:string;
+      title:string;
+      university:string;
+    };
     currentYearOfStudying: string;
     phone: string;
     uploads: number;

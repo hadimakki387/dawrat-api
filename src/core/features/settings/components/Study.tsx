@@ -1,6 +1,9 @@
 "use client";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
-import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
+import {
+  useGetUniversitiesQuery,
+  useGetUniversityByIdQuery,
+} from "@/core/rtk-query/universities";
 import React, { useState } from "react";
 import { useAppSelector } from "@/core/StoreWrapper";
 import DaButton from "@/components/global/DaButton";
@@ -10,10 +13,12 @@ import {
   useUpdateUserMutation,
   useUpdateUserUniversityMutation,
 } from "@/core/rtk-query/user";
-import { useGetAllDomainsQuery } from "@/core/rtk-query/domain";
+import {
+  useGetAllDomainsQuery,
+  useGetDomainByIdQuery,
+} from "@/core/rtk-query/domain";
 
 function Study() {
-
   const [university, setUniversity] = useState("");
   const [domain, setDomain] = useState("");
   const [selectedUniversity, setSelectedUniversity] = useState("");
@@ -31,9 +36,8 @@ function Study() {
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
   const [updateUser] = useUpdateUserMutation();
-
-  console.log("this is  the university")
-  console.log(university)
+  console.log("this is the user");
+  console.log(user);
 
   return (
     <div className="space-y-6 w-[25rem] max-md:w-full">
@@ -52,9 +56,9 @@ function Study() {
               data={data || []}
               placeholder="Search for your university"
               setSearch={(search) => {
-                console.log("this is the main search")
-                console.log(search)
-                setUniversity(search)
+                console.log("this is the main search");
+                console.log(search);
+                setUniversity(search);
               }}
               setSelectedItem={(selectedItem) => {
                 setSelectedUniversity(selectedItem);
@@ -108,9 +112,9 @@ function Study() {
           <div>
             <p className="text-titleText mb-2">Selet Domain</p>
             <AutoCompleteSearch
-              defaultValue={user?.university?.title}
+              defaultValue={user?.domain?.title}
               data={domains || []}
-              disabled={!selectedUniversity}
+              disabled={!user?.domain?.title||!user?.university?.title}
               placeholder="Search for your Domain"
               setSearch={(search) => setDomain(search)}
               setSelectedItem={(selectedItem) => {

@@ -32,7 +32,7 @@ function DaButton({
     <button
       id={id}
       className={`${fullRounded ? "rounded-full" : "rounded-md"}  ${
-        !padding ? "px-4 py-2" : ""
+        !padding ? "px-3 py-1 md:px-4 md:py-2" : ""
       } text-subTitleText  ${
         startIcon || endIcon
           ? "flex justify-between items-center gap-2"

@@ -14,6 +14,7 @@ import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
 import moment from "moment";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
+import Domain from "../domains/domain.model";
 
 
 
@@ -83,14 +84,16 @@ export const getUserById = async (id: string) => {
 
   if (foundUser) {
     const uni = await University.findById(foundUser.university);
-    const { password, ...userWithoutPassword } = foundUser.toObject();
+    const domain = await Domain.findById(foundUser.domain);
+    const { password,university,domain:domainId, ...userWithoutPassword } = foundUser.toObject();
 
     return new Response(
       JSON.stringify({
         ...userWithoutPassword,
         id: userWithoutPassword._id,
         statusCode: httpStatus.OK,
-        university: uni,
+        university: returnData(uni),
+        domain: returnData(domain),
       }),
       { status: httpStatus.OK }
     );

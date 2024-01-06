@@ -13,7 +13,7 @@ function RecentlyViewedCard({ doc }: { doc: any }) {
           router.push(`/courses/${doc?.id}`)
         }
       }}
-      className={`w-44 h-40 min-w-[176px]  flex flex-col justify-between items-start hover:cursor-pointer ${
+      className={`select-none w-44 h-40 min-w-[176px]  flex flex-col justify-between items-start hover:cursor-pointer ${
         doc.course
           ? "bg-greenBg text-greenText hover:bg-greenHover"
           : "bg-purpleBg text-purpleText hover:bg-purpleHover"

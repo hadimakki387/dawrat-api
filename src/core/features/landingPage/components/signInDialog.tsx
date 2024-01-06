@@ -113,14 +113,15 @@ function SignInDialog() {
           />
         </div>
         <div className="flex items-center justify-end text-primary font-semibold">
-          <button
+          <div
             onClick={() => {
               dispatch(setSignIn(false));
               dispatch(setResetPassword(true));
             }}
+            className="hover:cursor-pointer"
           >
             Forget Password?
-          </button>
+          </div>
         </div>
         <DaButton
           label="signIn"

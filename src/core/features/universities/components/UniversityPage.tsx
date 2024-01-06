@@ -80,7 +80,12 @@ function UniversityPage({}: Props) {
           />
           <div className=" lg:px-40 space-y-8">
             <p className="font-medium flex items-center gap-2">
-              <span className="text-primary hover:underline hover:cursor-pointer">
+              <span
+                className="text-primary hover:underline hover:cursor-pointer"
+                onClick={() => {
+                  router.push(`/universities`);
+                }}
+              >
                 University
               </span>
               <FontAwesomeIcon

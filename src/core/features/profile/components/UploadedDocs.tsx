@@ -6,7 +6,7 @@ import {
   useGetDocumentsByOwnerIdQuery,
   useGetManyDocumentsByIdQuery,
 } from "@/core/rtk-query/documents";
-import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faEye, faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress } from "@mui/material";
 import React from "react";
@@ -23,7 +23,7 @@ function UploadedDocs() {
   const { user } = useAppSelector((state) => state.global);
   const { data, isLoading } = useGetDocumentsByOwnerIdQuery(user?.id as string);
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <div className=" bg-white rounded-sm border border-neutral-200  my-8 relative h-[20rem] overflow-hidden">
       <div className="absolute text-darkText font-semibold top-0 w-full flex items-center p-4 px-8 pr-11 bg-white border-b border-neutral-200 max-md:px-4 max-md:pr-11 max-md:text-sm">
@@ -36,22 +36,36 @@ function UploadedDocs() {
             <div className="w-1/2">Edit</div>
           </div>
         </div>
+        <div className="w-1/3 flex items-center max-md:w-1/2 sm:hidden ml-3">
+          <div className="w-1/4 mr-2">
+            <FontAwesomeIcon icon={faEye} className="text-xs text-titleText" />
+          </div>
+          <div className="w-1/4"><FontAwesomeIcon icon={faChartLine} className="text-xs text-titleText" /></div>
+          <div className="w-1/2 flex items-center">
+            <div className="w-1/2"></div>
+            <div className="w-1/2"></div>
+          </div>
+        </div>
       </div>
-      <div className="overflow-y-auto h-full p-4 pt-16 max-md:p-0">
+      <div className="overflow-y-auto h-full p-4 pt-16 max-md:p-0 max-md:pt-14">
         {!isLoading ? (
-          data?.map((doc:DocumentInterface) => {
+          data?.map((doc: DocumentInterface) => {
             return (
               <div
                 key={doc.id}
                 className="p-4 border-b border-neutral-200 w-full flex items-center text-titleText font-medium "
-               
               >
                 <div className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm md:hidden">
-                  {doc?.title.length>17?`${doc?.title.slice(0,17)}...`:doc?.title}
+                  {doc?.title.length > 17
+                    ? `${doc?.title.slice(0, 17)}...`
+                    : doc?.title}
                 </div>
-                <div className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm" onClick={()=>{
-                  router.push(`/pdf/${doc?.id}`)
-                }}>
+                <div
+                  className="w-2/3 text-primary hover:underline hover:cursor-pointer max-md:w-1/2 max-md:text-sm max-md:hidden"
+                  onClick={() => {
+                    router.push(`/pdf/${doc?.id}`);
+                  }}
+                >
                   {doc?.title}
                 </div>
                 <div className="w-1/3 flex items-center max-md:w-1/2 max-md:text-sm">

@@ -21,13 +21,13 @@ function CourseCard({ course }: { course: courseInterface }) {
         });
         router.push(`/courses/${course.id}`);
       }}
-      className=" min-w-[60%] lg:min-w-[25%]  h-44  rounded-2xl border border-neutral-300 p-4 flex flex-col justify-between hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 max-sm:h-36"
+      className="select-none min-w-[60%] lg:min-w-[25%]  h-44  rounded-2xl border border-neutral-300 p-4 flex flex-col justify-between hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 max-sm:h-36"
     >
       <div className="flex flex-col gap-3">
         <div className="flex gap-2 text-sm text-subTitleText">
           <Folder fill="green" size={20} /> Course
         </div>
-        <div className="text-primary text-2xl max-sm:text-lg"> {course.title} </div>
+        <div className="text-primary text-2xl max-sm:text-lg hover:underline"> {course.title} </div>
       </div>
       <div className="text-subTitleText max-sm:text-sm">{course.universityName}</div>
     </div>

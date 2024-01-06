@@ -9,6 +9,12 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getDomainById: builder.query<DomainInterface, string>({
+      query: (id) => ({
+        url: `/domain/single/${id}`,
+        method: "GET",
+      }),
+    }),
     getAllDomains: builder.query<
       DomainInterface[],
       { title: string; limit: number }
@@ -55,4 +61,5 @@ export const {
   useGetDomainsUsingUniversityIdQuery,
   useCreateDomainMutation,
   useGetAllDomainsQuery,
+  useGetDomainByIdQuery,
 } = ExtendedApi;

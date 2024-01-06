@@ -11,7 +11,7 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import CourseHeaderSkeleton from "./CourseHeaderSkeleton";
 
@@ -25,6 +25,7 @@ function CourseHeader() {
     { id: data?.university as string },
     { skip: !data?.university }
   );
+  const router = useRouter();
 
   return (
     <>
@@ -33,12 +34,26 @@ function CourseHeader() {
       ) : (
         <div className="rounded-2xl bg-greenBg py-4 space-y-8 max-md:px-4 md:px-40">
           <div className="flex items-center gap-2">
-            <p className="text-primary font-semibold">University</p>
+            <p
+              className="text-primary font-semibold hover:underline hover:cursor-pointer"
+              onClick={() => {
+                router.push(`/universities`);
+              }}
+            >
+              University
+            </p>
             <FontAwesomeIcon
               icon={faAngleRight}
               className="text-sm font-light text-subTitleText"
             />
-            <p className="text-primary font-semibold">{university?.abr}</p>
+            <p
+              className="text-primary font-semibold hover:underline hover:cursor-pointer"
+              onClick={() => {
+                router.push(`/universities/${university?.id}`);
+              }}
+            >
+              {university?.abr}
+            </p>
             <FontAwesomeIcon
               icon={faAngleRight}
               className="text-sm font-light text-subTitleText"
@@ -63,15 +78,17 @@ function CourseHeader() {
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <div >
+            <div>
               <DaButton
-                startIcon={following?<FontAwesomeIcon icon={faCheck} />:null}
+                startIcon={
+                  following ? <FontAwesomeIcon icon={faCheck} /> : null
+                }
                 label={following ? "Following" : "Follow"}
                 fullRounded
                 className={`${
                   following ? "bg-white" : "bg-primary text-white"
                 } font-medium`}
-                onClick={()=>console.log("clicked")}
+                onClick={() => console.log("clicked")}
               />
             </div>
             <div className="w-[25rem]">

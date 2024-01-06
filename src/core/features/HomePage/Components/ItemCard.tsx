@@ -29,7 +29,7 @@ function ItemCard({ doc, onClick }: Props) {
       style={{
         width: "calc((100% - 112px) / 8)",
       }}
-      className=" rounded-xl h-72 min-w-[176px] max-w-[200px] overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
+      className="select-none rounded-xl h-72 min-w-[176px] max-w-[200px] overflow-hidden hover:bg-primaryBg transition-all duration-200 shadow-md hover:cursor-pointer"
     >
       <div className="h-1/2 rounded-xl p-2 bg-silverBg">
         <div className="w-[98%] m-auto overflow-hidden rounded-xl h-[98%]">

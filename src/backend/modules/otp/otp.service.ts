@@ -36,6 +36,9 @@ export const handleOtpGeneration = async (req: NextRequest) => {
 
   var transporter = nodemailer.createTransport({
     service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.MY_EMAIL,
       pass: process.env.MY_PASS,

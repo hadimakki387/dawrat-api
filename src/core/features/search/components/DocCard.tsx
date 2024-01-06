@@ -22,27 +22,13 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
         width={1500}
         pageIndex={1}
         fileUrl={doc?.doc?.url}
-        getNumPages={(e) => {
-          
-        }}
+        getNumPages={(e) => {}}
       />
     ),
     [doc?.doc?.url]
   );
   return (
-    <div
-      onClick={() => {
-        updateReviewsDocs({
-          id: user?.id,
-          body: {
-            document: doc.id,
-          },
-          limit: 3,
-        });
-        router.push(`/pdf/${doc.id}`);
-      }}
-      className="flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 max-sm:p-2 rounded-2xl max-sm:flex-col max-sm:items-start"
-    >
+    <div className="select-none flex justify-between items-center hover:bg-primaryBg hover:cursor-pointer transition-all duration-200 p-4 max-sm:p-2 rounded-2xl max-sm:flex-col max-sm:items-start">
       <div className="flex items-center gap-4 max-sm:items-start">
         <div className="p-2 bg-silverBg rounded-xl">
           <div className="overflow-hidden rounded-xl h-20 w-28 max-sm:w-24 max-sm:h-20">
@@ -50,7 +36,21 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
           </div>
         </div>
         <div className="flex flex-col justify-between">
-          <div className="text-primary max-sm:text-sm">{doc?.title}</div>
+          <div
+            className="text-primary max-sm:text-sm hover:underline transition-all duration-200"
+            onClick={() => {
+              updateReviewsDocs({
+                id: user?.id,
+                body: {
+                  document: doc.id,
+                },
+                limit: 3,
+              });
+              router.push(`/pdf/${doc.id}`);
+            }}
+          >
+            {doc?.title}
+          </div>
           <div className="flex gap-3 items-center py-2 text-titleText max-sm:flex-col max-sm:items-start">
             <div
               onClick={() => {
@@ -64,7 +64,12 @@ function DocCard({ doc }: { doc: DocumentInterface }) {
             >
               <Folder fill="var(--title-text)" /> {doc?.courseName}
             </div>
-            <div className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold max-sm:text-xs">
+            <div
+              className="flex items-center gap-2 text-sm hover:text-primary hover:underline transition-all duration-200 font-semibold max-sm:text-xs"
+              onClick={() => {
+                router.push(`/universities/${doc?.university}`);
+              }}
+            >
               <Institution fill="var(--title-text)" />
               {doc?.universityName}
             </div>

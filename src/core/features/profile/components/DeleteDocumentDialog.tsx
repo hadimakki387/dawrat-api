@@ -27,7 +27,7 @@ function DeleteDocumentDialog() {
       }}
     >
       <div className="space-y-8">
-        <div className="text-xl text-titleText font-medium">
+        <div className="md:text-xl text-titleText font-medium">
           Are You Sure You Want To Delete This Document?
         </div>
         <div className="flex justify-end items-center gap-4">
