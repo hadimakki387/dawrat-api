@@ -11,7 +11,7 @@ type Props = {
   universities?: UniversityInterface[];
   setSearch?: (value: string) => any;
   setSelectedUniversity?: (value: string) => any;
-  handleSubmit?: () => any;
+  handleSubmit?: (e:string) => any;
   value?: string;
 };
 
@@ -31,31 +31,14 @@ function UniversityHeader({
         <div>
           <div className="w-full flex items-center gap-2">
             <div className="w-full">
-              <AutoCompleteSearch
+              <DaSearch
+              
+                handleSubmit={(e) => {
+                  if (handleSubmit) handleSubmit(e);
+                }}
                 placeholder="Search For Course Or Document in this University..."
-                className="rounded-full"
-                data={universities || []}
-                style={{
-                  borderRadius: 99999999,
-                  padding: "1rem",
-                }}
-                setSearch={(e) => {
-                  if (setSearch) setSearch(e);
-                }}
-                setSelectedItem={(e) => {
-                  if (setSelectedUniversity) setSelectedUniversity(e);
-                }}
-                value={value}
               />
             </div>
-            <button>
-              <FontAwesomeIcon
-                icon={faSearch}
-                onClick={() => {
-                  if (handleSubmit) handleSubmit();
-                }}
-              />
-            </button>
           </div>
         </div>
       </div>

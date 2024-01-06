@@ -24,20 +24,20 @@ function SearchHeader({ universities, courses }: Props) {
   )?.title;
   const CourseTitle = courses?.find(
     (course: courseInterface) =>
-      course?.id === searchParams.get("selectedUniversity")
+      course?.id === searchParams.get("selectedCourse")
   )?.title;
 
   return (
     <>
       <div
         className={` flex ${
-          searchParams.get("selectedUniversity")
+          searchParams.get("selectedUniversity") || searchParams.get("selectedCourse") || searchParams.get("category")
             ? "justify-between"
             : "justify-end"
         } gap-2 items-center mb-4 font-semibold text-titleText`}
       >
         <div className="flex items-center gap-4 max-sm:max-w-[70%] max-sm:flex-wrap">
-          {searchParams.get("selectedUniversity") && UniTitle && (
+          { UniTitle && (
             <DaButton
               label={UniTitle || ""}
               endIcon={<FontAwesomeIcon icon={faX} className="text-xs" />}
@@ -50,7 +50,7 @@ function SearchHeader({ universities, courses }: Props) {
               }}
             />
           )}
-          {searchParams.get("selectedCourse") && CourseTitle && (
+          { CourseTitle && (
             <DaButton
               label={CourseTitle || ""}
               endIcon={<FontAwesomeIcon icon={faX} className="text-xs" />}
@@ -73,6 +73,7 @@ function SearchHeader({ universities, courses }: Props) {
                 params.delete("category");
                 router.push(`?${params.toString()}`);
               }}
+              
             />
           )}
         </div>

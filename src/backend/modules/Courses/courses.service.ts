@@ -13,7 +13,7 @@ import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 
 MongoConnection();
 
-export const getCourses = async (req:NextRequest) => {
+export const getCourses = async (req: NextRequest) => {
   MongoConnection();
   const params = new URL(req.url as string);
   const title = params.searchParams.get("title");
@@ -27,14 +27,13 @@ export const getCourses = async (req:NextRequest) => {
   } else {
     course = await Course.find(filters);
   }
-  return new Response(JSON.stringify(course), {
-    statusText: "hello",
+  return new Response(JSON.stringify(returnArrayData(course)), {
     status: 200,
   });
 };
 
 export const getCourseById = async (req: NextRequest) => {
-  const id = getIdFromUrl(req.url)
+  const id = getIdFromUrl(req.url);
   const course = await Course.findById(id);
   return new NextResponse(JSON.stringify(returnData(course)), {
     status: 200,
@@ -42,12 +41,12 @@ export const getCourseById = async (req: NextRequest) => {
 };
 
 export const getCoursesByUserId = async (req: NextRequest) => {
-  const id = getIdFromUrl(req.url)
+  const id = getIdFromUrl(req.url);
   const courses = await Course.find({ ownerId: id });
   return new NextResponse(JSON.stringify(returnArrayData(courses)), {
     status: 200,
   });
-}
+};
 
 export const getCoursesByDomainId = async (id: string) => {
   const courses = await Course.find({ domain: id });
@@ -113,4 +112,3 @@ export const getManyCoursesByIds = async (req: Request) => {
     status: 200,
   });
 };
-

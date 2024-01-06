@@ -83,7 +83,10 @@ function Search() {
             courses={UniversityCourses || courses}
           />
           <div className="md:px-20 w-full">
-            <SearchHeader universities={Universities} />
+            <SearchHeader
+              universities={Universities}
+              courses={UniversityCourses || courses}
+            />
             {(!category || category === "courses") && (
               <div className="flex items-center gap-4 w-full">
                 <DaCarousel

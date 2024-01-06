@@ -19,6 +19,7 @@ function FiltersDrawer({ universities, courses }: Props) {
   const drawer = searchParams.get("showFilterPanel");
   const params = new URLSearchParams(searchParams.toString());
   const router = useRouter();
+  
   return (
     <Drawer
       anchor={"right"}
@@ -109,6 +110,7 @@ function FiltersDrawer({ universities, courses }: Props) {
                 params.set("category", e.target.value);
                 router.push(`?${params.toString()}`);
               }}
+              value={params.get("category") || ""}
             />
           </div>
         </div>

@@ -3,15 +3,12 @@ import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import e from "express";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = {};
 
 function UniversitiesSearch({}: Props) {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedUniversity, setSelectedUniversity] = useState("");

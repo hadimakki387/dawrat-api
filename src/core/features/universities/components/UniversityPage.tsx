@@ -42,7 +42,6 @@ function UniversityPage({}: Props) {
   });
   const router = useRouter();
   const title = params.get("search");
-  const selectedUniversity = params.get("selectedUniversity");
   const { data: universities } = useGetUniversitiesQuery({
     limit: 5,
     title: title as string,
@@ -67,9 +66,9 @@ function UniversityPage({}: Props) {
               params.set("selectedUniversity", e);
               router.push(`?${params.toString()}`);
             }}
-            handleSubmit={() => {
+            handleSubmit={(e) => {
               router.push(
-                `/search?selectedUniversity=${selectedUniversity}&searchUniversity=${title}`
+                `/search/${e}?selectedUniversity=${id}&searchUniversity=${university?.title}`
               );
             }}
             value={
