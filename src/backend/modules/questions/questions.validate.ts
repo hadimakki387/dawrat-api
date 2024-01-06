@@ -7,7 +7,7 @@ import Joi from "joi";
 import { QuestionInterface } from "./questions.interface";
 
 const createQuestionBody: Record<
-  keyof Omit<QuestionInterface, "id" | "ownerName">,
+  keyof Omit<QuestionInterface, "id" | "ownerName"|"_id">,
   any
 > = {
   subject: Joi.string().required(),
