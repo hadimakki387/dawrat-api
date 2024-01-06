@@ -9,7 +9,7 @@ import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
 
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);
-  const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
+  const { data: reviewedDocuments, isLoading:loadingDocuments } = useGetManyDocumentsByIdQuery(
     { body: user?.reviewedDocuments as string[] },
     {
       skip: !user,
@@ -23,7 +23,7 @@ function MyRecentDocument() {
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
         Continue Reading
       </h1>
-      {reviewedDocuments && reviewedDocuments.length === 0 && (
+      {reviewedDocuments && reviewedDocuments.length === 0 && !loadingDocuments && (
         <MissingDataMessage
           message="You are not following any courses yet. Use the search bar to find
         your courses and follow them."
@@ -31,7 +31,7 @@ function MyRecentDocument() {
       )}
 
       <div className="">
-        {reviewedDocuments ? (
+        {reviewedDocuments && reviewedDocuments.length>0 && !loadingDocuments ? (
           <DaCarousel
             hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
@@ -52,7 +52,7 @@ function MyRecentDocument() {
               hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
-              {Array.from(new Array(4)).map((_, index) => (
+              {Array.from(new Array(10)).map((_, index) => (
                 <ItemCardLoadingSkeleton key={index} />
               ))}
             </DaCarousel>

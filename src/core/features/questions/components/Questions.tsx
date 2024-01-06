@@ -1,15 +1,14 @@
 "use client";
-import React, { Fragment } from "react";
-import QuestionCards from "./QuestionCards";
+import CheckWithFlower from "@/components/SVGs/CheckWithFlower";
+import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import {
-  useGetQuestionByIdQuery,
-  useGetQuestionsByUserIdQuery,
+  useGetQuestionsByUserIdQuery
 } from "@/core/rtk-query/questions";
-import DaButton from "@/components/global/DaButton";
-import CheckWithFlower from "@/components/SVGs/CheckWithFlower";
-import QuestionCardSkeleton from "./QuestionCardSkeleton";
 import { useRouter } from "next/navigation";
+import { Fragment } from "react";
+import QuestionCardSkeleton from "./QuestionCardSkeleton";
+import QuestionCards from "./QuestionCards";
 
 function Questions() {
   const { user } = useAppSelector((state) => state.global);

@@ -13,7 +13,7 @@ import DaCarousel from "@/components/global/carousel/DaCarousel";
 
 function RecommendedDocs() {
   const { user } = useAppSelector((state) => state.global);
-  const { data: recommendedDocuments } =
+  const { data: recommendedDocuments, isLoading: loadingDocuments } =
     useGetRecommendedDocumentsInDomainQuery(user?.domain?.id as string, {
       skip: !user,
     });
@@ -25,15 +25,11 @@ function RecommendedDocs() {
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
         Recommended Documents For You
       </h1>
-      {recommendedDocuments && recommendedDocuments.length === 0 && (
-        <MissingDataMessage
-          message="You are not following any courses yet. Use the search bar to find
-        your courses and follow them."
-        />
-      )}
-      {/* */}
+
       <div>
-        {recommendedDocuments ? (
+        {recommendedDocuments &&
+        recommendedDocuments.length > 0 &&
+        !loadingDocuments ? (
           <DaCarousel
             hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
@@ -54,13 +50,17 @@ function RecommendedDocs() {
               );
             })}
           </DaCarousel>
+        ) : recommendedDocuments &&
+          recommendedDocuments.length === 0 &&
+          !loadingDocuments ? (
+          <MissingDataMessage message="You are not following any courses yet. Use the search bar to find your courses and follow them." />
         ) : (
           <div className="flex items-center gap-3">
             <DaCarousel
               hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
-              {Array.from(new Array(4)).map((_, index) => {
+              {Array.from(new Array(10)).map((_, index) => {
                 return <ItemCardLoadingSkeleton key={index} />;
               })}
             </DaCarousel>

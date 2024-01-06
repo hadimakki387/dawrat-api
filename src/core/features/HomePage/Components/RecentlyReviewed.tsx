@@ -26,10 +26,11 @@ function RecentlyReviewed() {
         type: "course",
       })) || [];
 
-  const { data: RecentlyReviewed } = useGetRecentlyReviewedDataQuery(
-    [...reviewedDocuments, ...reviewedCourses],
-    { skip: !user || !reviewedDocuments || !reviewedCourses }
-  );
+  const { data: RecentlyReviewed, isLoading: loadingDocuments } =
+    useGetRecentlyReviewedDataQuery(
+      [...reviewedDocuments, ...reviewedCourses],
+      { skip: !user || !reviewedDocuments || !reviewedCourses }
+    );
 
   const router = useRouter();
 
@@ -38,14 +39,9 @@ function RecentlyReviewed() {
       <h1 className="text-darkText font-bold text-2xl tracking-wide ">
         Recently Reviewed
       </h1>
-      {RecentlyReviewed?.length === 0 && (
-        <MissingDataMessage
-          message="You are not following any courses yet. Use the search bar to find your
-          courses and follow them."
-        />
-      )}
+
       <div className="">
-        {RecentlyReviewed ? (
+        {RecentlyReviewed && RecentlyReviewed.length > 0 ? (
           <DaCarousel
             hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
@@ -54,13 +50,20 @@ function RecentlyReviewed() {
               return <RecentlyViewedCard key={index} doc={doc} />;
             })}
           </DaCarousel>
+        ) : RecentlyReviewed &&
+          !loadingDocuments &&
+          RecentlyReviewed.length === 0 ? (
+          <MissingDataMessage
+            message="You are not following any courses yet. Use the search bar to find your
+          courses and follow them."
+          />
         ) : (
           <div className="flex items-center gap-3">
             <DaCarousel
               hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
-              {Array.from(new Array(4)).map((_, index) => {
+              {Array.from(new Array(10)).map((_, index) => {
                 return (
                   <div
                     key={index}
