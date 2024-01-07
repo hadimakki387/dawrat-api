@@ -13,15 +13,6 @@ import {
 import User from "../user/user.model";
 import { UserInterface } from "../user/user.interfaces";
 import { StudylistInterface } from "./studylist.interface";
-import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
-import { Redis } from "@upstash/redis"; // see below for cloudflare and fastly adapters
-
-const saveToStudyList = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(2, "1 m"),
-  analytics: true,
-  prefix: "@upstash/ratelimit",
-});
 
 export const getStudyListForUser = async (req: Request) => {
   const id = getIdFromUrl(req.url);
@@ -35,12 +26,7 @@ export const getStudyListForUser = async (req: Request) => {
 export const CreateStudylist = async (req: Request) => {
   const data = await req.json();
   const id = getIdFromUrl(req.url);
-  const {success,remaining} = await saveToStudyList.limit(id);
-  if(!success){
-    return new NextResponse(JSON.stringify({message:`Too Many Requests!`}), {
-      status: httpStatus.BAD_REQUEST,
-    });
-  }
+
   const validate = createStudylistValidation.body.validate(data);
   if (validate.error) {
     return new NextResponse(validate.error.message, {
@@ -83,12 +69,6 @@ export const UpdateStudylist = async (req: Request) => {
   }
   const { document,userId } = data;
   const studyList = await Studylist.findById(id);
-  const {success,remaining} = await saveToStudyList.limit(userId);
-  if(!success){
-    return new NextResponse(JSON.stringify({message:`Too Many Requests!`}), {
-      status: httpStatus.BAD_REQUEST,
-    });
-  }
 
   if (!studyList) {
     return new NextResponse("Study List Not Found", {

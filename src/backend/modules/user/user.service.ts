@@ -1,26 +1,24 @@
-import * as bcrypt from "bcryptjs";
-import httpStatus from "http-status";
-import { NextRequest, NextResponse } from "next/server";
-import isEmail from "validator/lib/isEmail";
-import { isEmailTaken, shuffleArray } from "./user.helperFunctions";
-import { UserInterface } from "./user.interfaces";
-import User from "./user.model";
-import { createUserValidation } from "./user.validation";
-import University from "../universities/universities.model";
-import MongoConnection from "@/backend/utils/db";
-import { generateToken } from "@/backend/token/token.service";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import {
   returnArrayData,
   returnData,
 } from "@/backend/helper-functions/returnData";
-import Document from "../Documents/document.model";
-import Course from "../Courses/courses.model";
-import moment from "moment";
-import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
-import Domain from "../domains/domain.model";
+import { generateToken } from "@/backend/token/token.service";
+import MongoConnection from "@/backend/utils/db";
+import * as bcrypt from "bcryptjs";
 import dayjs from "dayjs";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
+import httpStatus from "http-status";
+import moment from "moment";
+import { NextRequest, NextResponse } from "next/server";
+import isEmail from "validator/lib/isEmail";
+import Course from "../Courses/courses.model";
+import Document from "../Documents/document.model";
+import Domain from "../domains/domain.model";
+import University from "../universities/universities.model";
+import { isEmailTaken, shuffleArray } from "./user.helperFunctions";
+import { UserInterface } from "./user.interfaces";
+import User from "./user.model";
+import { createUserValidation } from "./user.validation";
 
 export const create = async (userBody: UserInterface) => {
   MongoConnection();
@@ -323,23 +321,12 @@ export const updateReviewedCourses = async (req: NextRequest) => {
   });
 };
 
-const followLimiter = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(2, "1 s"),
-  analytics: true,
-  prefix: "@upstash/ratelimit",
-});
+
 
 export const handleFollowCourse = async (req: NextRequest) => {
   const id = getIdFromUrl(req.url);
   const body = await req.json();
-  const { success, remaining } = await followLimiter.limit(id);
-  if (!success) {
-    return new NextResponse(
-      JSON.stringify({ message: "Too Many Requests" }),
-      { status: 429 }
-    );
-  }
+
   const user = await User.findById(id);
   if (!user) {
     return new NextResponse(JSON.stringify({ message: "User not found" }), {
