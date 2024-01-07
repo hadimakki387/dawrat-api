@@ -19,11 +19,12 @@ import DaPopOver from "../global/DaPopOver";
 import DaSearch from "../global/DaSearch/DaSearch";
 import ProfileAvatar from "../global/ProfileAvatar";
 import { useDispatch } from "react-redux";
-import { setToggle } from "@/core/features/global/redux/global-slice";
+import { setToggle, setUser } from "@/core/features/global/redux/global-slice";
 import { NavItems } from "@/services/NavItems";
 import { CircularProgress } from "@mui/material";
 import { useLogoutMutation } from "@/core/rtk-query/user";
 import { toast } from "sonner";
+import Image from "next/image";
 
 function HomeNavBar() {
   const path = usePathname();
@@ -81,7 +82,16 @@ function HomeNavBar() {
                   path !== "/" ? "w-[13vw]" : ""
                 }`}
               >
-                Dawrat
+                <Image
+                  src={`/logo/primary.png`}
+                  alt="dawrat-logo"
+                  width={500}
+                  height={500}
+                  className="w-14"
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                />
               </div>
             </div>
             {path !== "/" && (
@@ -153,17 +163,18 @@ function HomeNavBar() {
                   name: "Logout",
                   onClick: () => {
                     Cookie.remove("dawratUserId");
-                    const id = toast.loading("Logging you out...")
+                    const id = toast.loading("Logging you out...");
                     logout()
                       .unwrap()
                       .then(() => {
-                        toast.dismiss(id)
-                        toast.success("See you soon!")
-                        router.push("/home")
+                        toast.dismiss(id);
+                        toast.success("See you soon!");
+                        dispatch(setUser(null));
+                        router.push("/home");
                       })
                       .catch((e) => {
-                        toast.dismiss(id)
-                        toast.error("OOPS! something went wrong.")
+                        toast.dismiss(id);
+                        toast.error("OOPS! something went wrong.");
                       });
                   },
                   icon: <FontAwesomeIcon icon={faSignOut} />,

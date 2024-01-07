@@ -10,7 +10,6 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <LandingNavBar />
       <StoreWrapper>
         <PublicAuthGuard>{children}</PublicAuthGuard>
       </StoreWrapper>

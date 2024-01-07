@@ -36,10 +36,27 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/api/domain/:path*",
+    "/api/openai/:path*",
+    "/api/posts/:path*",
+    "/api/questions/:path*",
+    "/api/search/:path*",
+    "/api/send-email/:path*",
+    "/api/profile/:path*",
     "/api/profile/:path*",
     "/api/documents/:path*",
     "/api/university/:path*",
     "/api/courses/:path*",
     "/api/users/auth/:path*",
+    "/api/users/[id]/:path*",
+    "/api/users/change-password/:path*",
+    "/api/users/courses/:path*",
+    "/api/users/documents/:path*",
+    "/api/users/questions/:path*",
+    "/api/users/recently-reviewed/:path*",
+    "/api/users/studylist/:path*",
+    "/api/users/university/:path*",
+    "/api/users/update-reviewed-courses/:path*",
+    "/api/users/update-reviewed-docs/:path*",
   ],
 };

@@ -155,7 +155,11 @@ export const updateUser = async (req: NextRequest) => {
     });
   }
 
-  const { password, ...userWithoutPassword } = update.toObject();
+  let { password, ...userWithoutPassword } = update.toObject();
+  const getUniversity = await University.findById(userWithoutPassword.university);
+  const getDomain = await Domain.findById(userWithoutPassword.domain);
+  userWithoutPassword.university =getUniversity? returnData(getUniversity):undefined;
+  userWithoutPassword.domain = getDomain? returnData(getDomain):undefined;
 
   return new NextResponse(
     JSON.stringify({ ...userWithoutPassword, id: userWithoutPassword._id }),

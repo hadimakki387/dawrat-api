@@ -39,10 +39,12 @@ const userSchema = new Schema<any, any>({
     private: true,
   },
   domain: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Domain",
   },
   university: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "University",
   },
   currentYearOfStudying: {
     type: String,

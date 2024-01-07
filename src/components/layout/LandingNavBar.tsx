@@ -14,11 +14,12 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import DaButton from "../global/DaButton";
+import Image from "next/image";
 
 function LandingNavBar() {
   const Scroll = useScroll();
   const dispatch = useDispatch();
-  const id = Cookies.get("dawratUserId") ;
+  const id = Cookies.get("dawratUserId");
   const { data, isLoading } = useGetUserQuery(id as string);
 
   const CssTextField = styled(TextField)({
@@ -42,8 +43,6 @@ function LandingNavBar() {
     },
   });
 
-
-
   return (
     <div
       className={` w-full fixed top-0 left-0 p-5  ${
@@ -56,9 +55,21 @@ function LandingNavBar() {
         <FontAwesomeIcon
           icon={faBars}
           onClick={() => dispatch(setSideBar(true))}
-          className="w-6 h-6 hover:cursor-pointer"
+          className="w-6 h-6 hover:cursor-pointer md:hidden"
         />
-        <div className="text-xl font-bold">LOGO</div>
+        <div className="text-xl font-bold">
+          <Image
+            src={`${
+              Scroll.y > 0
+                ? "/logo/black-no-text.png"
+                : "/logo/white-no-text.png"
+            }`}
+            alt="dawrat-logo"
+            width={500}
+            height={500}
+            className="w-10"
+          />
+        </div>
         <Link href={""} className="font-medium max-sm:hidden">
           University
         </Link>
@@ -67,7 +78,7 @@ function LandingNavBar() {
         </Link>
       </div>
       <div className="flex gap-4 items-center max-sm:gap-2">
-        {!id || !data && !isLoading ? (
+        {!id || (!data && !isLoading) ? (
           <div className="flex gap-4 items-center max-sm:gap-2  max-sm:hidden">
             <DaButton
               fullRounded
@@ -83,14 +94,12 @@ function LandingNavBar() {
               onClick={() => dispatch(setSignUp(true))}
               padding
             />
-
-           
           </div>
         ) : !data && isLoading ? (
           <div>
             <NavLoader />
           </div>
-        ):null}
+        ) : null}
       </div>
     </div>
   );

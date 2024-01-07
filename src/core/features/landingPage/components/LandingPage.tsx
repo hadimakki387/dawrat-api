@@ -7,6 +7,7 @@ import ItemsSection from "./ItemsSection";
 import SignUpDialog from "./SignUpDialog";
 import SignInDialog from "./signInDialog";
 import LoadingScreen from "@/components/global/loading screen/LoadingScreen";
+import LandingNavBar from "@/components/layout/LandingNavBar";
 
 function LandingPage() {
   const { data, isSuccess } = useGetItemsQuery();
@@ -14,20 +15,23 @@ function LandingPage() {
   return (
     <>
       {isSuccess ? (
-        <div className="overflow-hidden">
-          <SignInDialog />
-          <SignUpDialog />
-          <ForgetPasswordDialog />
-          <Header />
-          <AnalysticsSection
-            documentsCount={data?.documentsCount}
-            usersCount={data?.usersCount}
-          />
-          <ItemsSection
-            universities={data?.universities}
-            documents={data?.documents}
-          />
-        </div>
+        <>
+          <LandingNavBar />
+          <div className="overflow-hidden">
+            <SignInDialog />
+            <SignUpDialog />
+            <ForgetPasswordDialog />
+            <Header />
+            <AnalysticsSection
+              documentsCount={data?.documentsCount}
+              usersCount={data?.usersCount}
+            />
+            <ItemsSection
+              universities={data?.universities}
+              documents={data?.documents}
+            />
+          </div>
+        </>
       ) : (
         <LoadingScreen />
       )}
