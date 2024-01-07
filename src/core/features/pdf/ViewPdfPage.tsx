@@ -37,6 +37,7 @@ function ViewPdfPage() {
   const [downvote] = useDownvoteDocumentMutation();
   const { user } = useAppSelector((state) => state.global);
   const dispatch = useDispatch();
+  const [voting, setVoting] = useState(false);
 
   const handleDownload = () => {
     // Fetch the PDF file
@@ -84,10 +85,12 @@ function ViewPdfPage() {
         .then((res) => {
           toast.dismiss(id);
           toast.success("Upvoted");
+          setVoting(false);
         })
         .catch((err) => {
           toast.dismiss(id);
           toast.error(`${err?.data?.message}`);
+          setVoting(false);
         });
   };
   const handleDownvote = () => {
@@ -98,10 +101,12 @@ function ViewPdfPage() {
         .then((res) => {
           toast.dismiss(id);
           toast.success("Downvoted");
+          setVoting(false);
         })
         .catch((err) => {
           toast.dismiss(id);
           toast.error(`${err?.data?.message}`);
+          setVoting(false);
         });
   };
   const { data: Studylist } = useGetStudylistQuery(user?.id as string);
@@ -146,14 +151,17 @@ function ViewPdfPage() {
                 />
                 <DaButton
                   onClick={() => {
-                    handleUpvote();
+                    setVoting(true);
+                    if (!voting) handleUpvote();
                   }}
                   className={`${
                     user?.likedDocuments?.includes(data?.id as string)
                       ? "text-primary"
                       : "text-titleText"
                   } bg-white border ${
-                    user?.likedDocuments?.includes(data?.id as string)
+                    voting
+                      ? "border-subTitleText"
+                      : user?.likedDocuments?.includes(data?.id as string)
                       ? "border-success"
                       : "border-neutral-200"
                   } w-24 `}
@@ -163,21 +171,26 @@ function ViewPdfPage() {
                   startIcon={
                     <FontAwesomeIcon
                       icon={faThumbsUp}
-                      className="text-success"
+                      className={`${
+                        voting ? "text-subTborder-subTitleText" : "text-success"
+                      }`}
                     />
                   }
                 />
 
                 <DaButton
                   onClick={() => {
-                    handleDownvote();
+                    setVoting(true);
+                    if (!voting) handleDownvote();
                   }}
                   className={`${
                     user?.dislikedDocuments?.includes(data?.id as string)
                       ? "text-primary"
                       : "text-titleText"
                   } bg-white border ${
-                    user?.dislikedDocuments?.includes(data?.id as string)
+                    voting
+                      ? "border-subTitleText"
+                      : user?.dislikedDocuments?.includes(data?.id as string)
                       ? "border-error"
                       : "border-neutral-200"
                   } w-24 `}
@@ -187,7 +200,9 @@ function ViewPdfPage() {
                   startIcon={
                     <FontAwesomeIcon
                       icon={faThumbsDown}
-                      className="text-error"
+                      className={`${
+                        voting ? "text-subTborder-subTitleText" : "text-error"
+                      }`}
                     />
                   }
                 />

@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { setSaveCourseDialog } from "../redux/courses-slice";
+import { useState } from "react";
 
 type Props = {};
 
@@ -34,13 +35,17 @@ function SaveForStudyListDialog({}: Props) {
       skip: !saveCourseDialog,
     }
   );
+  const [saving, setSaving] = useState(false);
+  const [creating, setCreating] = useState(false);
 
   const [updateStudyList] = useUpdateStudylistMutation();
   const [createStudyList] = useCreateStudylistMutation();
   const [deleteStudyList] = useDeleteStudylistMutation();
 
   const handleCreateStudyList = () => {
+    setCreating(true);
     const id = toast.loading("Creating Studylist...");
+    if(!creating)
     createStudyList({
       body: {
         title: params.get("studylistName") as string,
@@ -54,10 +59,12 @@ function SaveForStudyListDialog({}: Props) {
         params.delete("addStudyList");
         params.delete("studylistName");
         router.push(`?${params.toString()}`);
+        setCreating(false);
       })
       .catch((err) => {
         toast.dismiss(id);
         toast.error(`${err?.data?.message}`);
+        setCreating(false);
       });
   };
   const handleUpdateStudyList = (item: StudylistInterface) => {
@@ -71,27 +78,31 @@ function SaveForStudyListDialog({}: Props) {
       .then((res) => {
         toast.dismiss(id);
         toast.success("Changes Saved");
+        setSaving(false);
       })
       .catch((err) => {
         toast.dismiss(id);
         toast.error(`${err?.data?.message}`);
+        setSaving(false);
       });
   };
   const handleDeleteStudyList = (item: StudylistInterface) => {
+    setSaving(true);
     const id = toast.loading("Deleting Studylist...");
-    deleteStudyList({
-      userId: user?.id as string,
-      id: item.id,
-    })
-      .unwrap()
-      .then((res) => {
-        toast.dismiss(id);
-        toast.success("Studylist Deleted");
+    if (!saving)
+      deleteStudyList({
+        userId: user?.id as string,
+        id: item.id,
       })
-      .catch((err) => {
-        toast.dismiss(id);
-        toast.error(`${err?.data?.message}`);
-      });
+        .unwrap()
+        .then((res) => {
+          toast.dismiss(id);
+          toast.success("Studylist Deleted");
+        })
+        .catch((err) => {
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
+        });
   };
 
   return (
@@ -141,8 +152,12 @@ function SaveForStudyListDialog({}: Props) {
                         checked={isExist}
                       />
                     </div>
-                    <p className="text-lg font-medium hover:cursor-pointer hover:underline hover:text-primary transition-all duration-300"
-                      onClick={()=>{router.push(`/study-lists/${item?.id}`);dispatch(setSaveCourseDialog(false))}}
+                    <p
+                      className="text-lg font-medium hover:cursor-pointer hover:underline hover:text-primary transition-all duration-300"
+                      onClick={() => {
+                        router.push(`/study-lists/${item?.id}`);
+                        dispatch(setSaveCourseDialog(false));
+                      }}
                     >
                       {item?.title}
                     </p>

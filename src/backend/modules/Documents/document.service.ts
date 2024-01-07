@@ -14,12 +14,29 @@ import { returnArrayData } from "@/backend/helper-functions/returnData";
 import httpStatus from "http-status";
 import { utapi } from "@/backend/utils/uploadThing";
 import User from "../user/user.model";
+import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
+import { Redis } from "@upstash/redis"; // see below for cloudflare and fastly adapters
+
+// Create a new ratelimiter, that allows 10 requests per 10 seconds
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  analytics: true,
+  prefix: "@upstash/ratelimit",
+});
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
   const userBody = await req.json();
   const verifyData = createDocumentValidation.body.validate(userBody);
   const checkTitle = await checkDocumentTitle(userBody.title);
+  const { remaining, reset,success } = await ratelimit.limit(userBody.ownerId);
+  if (!success) {
+    return new NextResponse(
+      JSON.stringify({ message: "Too many requests" }),
+      { status: 429 }
+    );
+  }
 
   if (verifyData.error) {
     return new NextResponse(
@@ -171,10 +188,24 @@ export const updateDocument = async (req: NextRequest) => {
   return new NextResponse(JSON.stringify(updatedDoc), { status: 200 });
 };
 
+const voteLimiter = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(2, "1 s"),
+    analytics: true,
+    prefix: "@upstash/ratelimit",
+  });
 export const handleUpvote = async (req: NextRequest) => {
+  
   MongoConnection();
   const id = getIdFromUrl(req.url);
   const body = await req.json();
+  const { remaining, reset,success } = await voteLimiter.limit(body.user);
+  if (!success) {
+    return new NextResponse(
+      JSON.stringify({ message: "Too many requests" }),
+      { status: 429 }
+    );
+  }
 
   const doc = await Document.findById(id);
 
@@ -296,6 +327,13 @@ export const handleDownvote = async (req: NextRequest) => {
   MongoConnection();
   const id = getIdFromUrl(req.url);
   const body = await req.json();
+  const { remaining, reset,success } = await voteLimiter.limit(body.user);
+  if (!success) {
+    return new NextResponse(
+      JSON.stringify({ message: "Too many requests" }),
+      { status: 429 }
+    );
+  }
 
   const doc = await Document.findById(id);
 

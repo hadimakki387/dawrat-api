@@ -53,6 +53,8 @@
     "@types/winston": "^2.4.4",
     "@types/yup": "^0.32.0",
     "@uploadthing/react": "5.7.0",
+    "@upstash/ratelimit": "^1.0.0",
+    "@upstash/redis": "^1.28.0",
     "@wojtekmaj/react-hooks": "^1.18.1",
     "autoprefixer": "^10",
     "bcrypt": "^5.1.1",

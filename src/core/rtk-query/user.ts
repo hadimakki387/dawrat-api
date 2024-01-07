@@ -96,6 +96,7 @@ const extendedApi = mainApi.injectEndpoints({
         method: "PATCH",
         body: {
           document: body,
+          userId:userId,
         },
       }),
       onQueryStarted: async ({ userId, id }, { dispatch, queryFulfilled }) => {

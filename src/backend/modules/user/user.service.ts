@@ -19,6 +19,8 @@ import moment from "moment";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import Domain from "../domains/domain.model";
 import dayjs from "dayjs";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 export const create = async (userBody: UserInterface) => {
   MongoConnection();
@@ -321,9 +323,23 @@ export const updateReviewedCourses = async (req: NextRequest) => {
   });
 };
 
+const followLimiter = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(2, "1 s"),
+  analytics: true,
+  prefix: "@upstash/ratelimit",
+});
+
 export const handleFollowCourse = async (req: NextRequest) => {
   const id = getIdFromUrl(req.url);
   const body = await req.json();
+  const { success, remaining } = await followLimiter.limit(id);
+  if (!success) {
+    return new NextResponse(
+      JSON.stringify({ message: "Too Many Requests" }),
+      { status: 429 }
+    );
+  }
   const user = await User.findById(id);
   if (!user) {
     return new NextResponse(JSON.stringify({ message: "User not found" }), {

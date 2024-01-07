@@ -12,10 +12,11 @@ const createStudylist: Record<
 };
 
 const updateStudylist: Record<
-  keyof {document:string},
+  keyof {document:string,userId:string},
   any
 > = {
   document: Joi.string().required(),
+  userId: Joi.string().required(),
 };
 
 export const createStudylistValidation = {
