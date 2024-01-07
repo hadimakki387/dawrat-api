@@ -141,7 +141,11 @@ function SaveForStudyListDialog({}: Props) {
                         checked={isExist}
                       />
                     </div>
-                    <p className="text-lg font-medium">{item?.title}</p>
+                    <p className="text-lg font-medium hover:cursor-pointer hover:underline hover:text-primary transition-all duration-300"
+                      onClick={()=>{router.push(`/study-lists/${item?.id}`);dispatch(setSaveCourseDialog(false))}}
+                    >
+                      {item?.title}
+                    </p>
                   </div>
                   <div>
                     <FontAwesomeIcon

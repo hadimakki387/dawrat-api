@@ -87,7 +87,7 @@ function HomeNavBar() {
                   alt="dawrat-logo"
                   width={500}
                   height={500}
-                  className="w-14"
+                  className="w-14 hover:cursor-pointer"
                   onClick={() => {
                     router.push("/");
                   }}

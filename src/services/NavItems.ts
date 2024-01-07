@@ -28,17 +28,18 @@ export const NavItems = () => {
     isLoading,
     isError,
   } = useGetUserQuery(id as string);
-  const { data: courses, isLoading: loadingCourses } = useGetManyCoursesQuery(
-    user?.reviewedCourses as string[],
-    {
-      skip: !user,
-    }
-  );
+  const {
+    data: courses,
+    isLoading: loadingCourses,
+    isSuccess: successCourses,
+  } = useGetManyCoursesQuery(user?.reviewedCourses as string[], {
+    skip: !user,
+  });
   const {
     data: studyList,
     isLoading: loadingStudyList,
     isSuccess: successStudyList,
-  } = useGetStudylistQuery(id as string, { skip: !courses });
+  } = useGetStudylistQuery(id as string);
 
   const {
     data: reviewedDocuments,
@@ -47,11 +48,11 @@ export const NavItems = () => {
   } = useGetManyDocumentsByIdQuery(
     { body: user?.reviewedDocuments as string[], limit: 3 },
     {
-      skip: !user || !studyList,
+      skip: !user ,
     }
   );
 
-  if (user && courses)
+  if (user)
     return [
       {
         title: "",
@@ -76,7 +77,11 @@ export const NavItems = () => {
             path: "/courses",
             icon: Folder,
             hasSubItems: true,
-            subItems: courses || [],
+            subItems: successCourses
+              ? courses
+              : loadingCourses
+              ? "loading"
+              : [],
           },
           {
             label: "Studylists",

@@ -39,7 +39,9 @@ function StudyListHeader({
                 },
                 {
                   name: "Delete",
-                  onClick: () => {},
+                  onClick: () => {
+                    
+                  },
                   icon: (
                     <FontAwesomeIcon
                       icon={faTrashCan}
