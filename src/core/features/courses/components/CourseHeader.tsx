@@ -15,11 +15,15 @@ import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import CourseHeaderSkeleton from "./CourseHeaderSkeleton";
 import DaSearch from "@/components/global/DaSearch/DaSearch";
+import { useFollowCourseMutation } from "@/core/rtk-query/user";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { toast } from "sonner";
 
 function CourseHeader() {
-  const following = false;
   const params = useParams();
   const id = params?.id;
+  const { user } = useAppSelector((state) => state.global);
+  const following = user?.followedCourses?.includes(id as string);
 
   const { data } = useGetCourseByIdQuery(id as string);
   const { data: university } = useGetUniversityByIdQuery(
@@ -27,6 +31,7 @@ function CourseHeader() {
     { skip: !data?.university }
   );
   const router = useRouter();
+  const [followCourse] = useFollowCourseMutation();
 
   return (
     <>
@@ -89,13 +94,34 @@ function CourseHeader() {
                 className={`${
                   following ? "bg-white" : "bg-primary text-white"
                 } font-medium max-md:h-full`}
-                onClick={() => console.log("clicked")}
+                onClick={() => {
+                  const toastId = toast.loading("Following...");
+                  followCourse({
+                    course: id as string,
+                    userId: user?.id as string,
+                  })
+                    .unwrap()
+                    .then((res) => {
+                      toast.dismiss(toastId)
+                      toast.success("Followed")
+                    })
+                    .catch((err) => {
+                      toast.dismiss(toastId)
+                      toast.error(`${err?.data?.message}`)
+                    });
+                }}
               />
             </div>
             <div className="w-[25rem]">
-              <DaSearch placeholder="Find in Algebra" padding="max-md:p-0" handleSubmit={(e)=>{
-                router.push(`/search/${e}?searchCourse=${data?.title}&selectedCourse=${data?.id}`)
-              }}/>
+              <DaSearch
+                placeholder="Find in Algebra"
+                padding="max-md:p-0"
+                handleSubmit={(e) => {
+                  router.push(
+                    `/search/${e}?searchCourse=${data?.title}&selectedCourse=${data?.id}`
+                  );
+                }}
+              />
             </div>
           </div>
         </div>

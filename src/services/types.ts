@@ -35,6 +35,7 @@ export interface DropdownValue {
     studylist:string[];
     likedDocuments:string[];
     dislikedDocuments:string[];
+    followedCourses:string[];
   }
 
   export interface MenuItemType {

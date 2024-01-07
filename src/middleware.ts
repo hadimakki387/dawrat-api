@@ -5,7 +5,6 @@ import { verifyToken } from "./backend/lib/auth";
 export async function middleware(request: NextRequest) {
   const cookies = request.cookies;
   const bereer = cookies.get("serverDawratToken")?.value
-  console.log("this is the token in the middleware", bereer)
 
   if (!bereer) {
     const error = new NextResponse(

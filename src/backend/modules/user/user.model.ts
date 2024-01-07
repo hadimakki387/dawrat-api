@@ -99,6 +99,10 @@ const userSchema = new Schema<any, any>({
       ref: "Document",
     },
   ],
+  followedCourses:{
+    type:Array,
+    default:[]
+  }
 
 });
 

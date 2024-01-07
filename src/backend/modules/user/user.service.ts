@@ -156,10 +156,14 @@ export const updateUser = async (req: NextRequest) => {
   }
 
   let { password, ...userWithoutPassword } = update.toObject();
-  const getUniversity = await University.findById(userWithoutPassword.university);
+  const getUniversity = await University.findById(
+    userWithoutPassword.university
+  );
   const getDomain = await Domain.findById(userWithoutPassword.domain);
-  userWithoutPassword.university =getUniversity? returnData(getUniversity):undefined;
-  userWithoutPassword.domain = getDomain? returnData(getDomain):undefined;
+  userWithoutPassword.university = getUniversity
+    ? returnData(getUniversity)
+    : undefined;
+  userWithoutPassword.domain = getDomain ? returnData(getDomain) : undefined;
 
   return new NextResponse(
     JSON.stringify({ ...userWithoutPassword, id: userWithoutPassword._id }),
@@ -239,10 +243,6 @@ export const updateReviewedDocuments = async (req: NextRequest) => {
     });
   }
 
-  // //i want to check if the document is is already in the user's reviewed documents
-  // //if it is, i want to remove it from the array and then added it to the front of the array
-  // //if it is not, i want to add it to the front of the array
-
   const isAlreadyReviewed = user.reviewedDocuments.find(
     (doc: string) => doc === body.document
   );
@@ -289,10 +289,6 @@ export const updateReviewedCourses = async (req: NextRequest) => {
     });
   }
 
-  //i want to check if the course is is already in the user's reviewed courses
-  //if it is, i want to remove it from the array and then added it to the front of the array
-  //if it is not, i want to add it to the front of the array
-
   const isAlreadyReviewed = user.reviewedCourses.find(
     (doc: string) => doc === body.course
   );
@@ -323,4 +319,53 @@ export const updateReviewedCourses = async (req: NextRequest) => {
   return new NextResponse(JSON.stringify(body.course), {
     status: 200,
   });
+};
+
+export const handleFollowCourse = async (req: NextRequest) => {
+  const id = getIdFromUrl(req.url);
+  const body = await req.json();
+  const user = await User.findById(id);
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User not found" }), {
+      status: 404,
+    });
+  }
+  const isAlreadyFollowed = user.followedCourses.find(
+    (course: string) => course === body.course
+  );
+  if (!isAlreadyFollowed) {
+    const filteredArray = user.followedCourses.filter(
+      (course: string) => course !== body.course
+    );
+    const updatedArray = [body.course, ...filteredArray];
+    const updateUser = await User.findByIdAndUpdate(
+      id,
+      { followedCourses: updatedArray },
+      { new: true }
+    );
+    if (!updateUser) {
+      return new NextResponse(
+        JSON.stringify({ message: "Somthing Went Wrong" }),
+        { status: 404 }
+      );
+    }
+    return new NextResponse(JSON.stringify(updatedArray), { status: 200 });
+  }
+  const filteredArray = user.followedCourses.filter(
+    (course: string) => course !== body.course
+  );
+
+  const updateUser = await User.findByIdAndUpdate(
+    id,
+    { followedCourses: filteredArray },
+    { new: true }
+  );
+  if (!updateUser) {
+    return new NextResponse(
+      JSON.stringify({ message: "Somthing Went Wrong" }),
+      { status: 404 }
+    );
+  }
+
+  return new NextResponse(JSON.stringify(filteredArray), { status: 200 });
 };

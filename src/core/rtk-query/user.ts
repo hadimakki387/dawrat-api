@@ -182,6 +182,27 @@ const extendedApi = mainApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    followCourse: builder.mutation<string[], { userId: string,course:string }>({
+      query: ({ userId,course }) => ({
+        url: `/users/follow/${userId}`,
+        method: "POST",
+        body:{course}
+      }),
+      onQueryStarted: async ({ userId }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: createdStudyList } = await queryFulfilled;
+          dispatch(
+            extendedApi.util.updateQueryData(
+              "getUser",
+              userId,
+              (draft) => {
+                draft.followedCourses = createdStudyList;
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
@@ -199,4 +220,5 @@ export const {
   useVerifyOtpAndChangePasswordMutation,
   useGetSingleStudylistQuery,
   useLogoutMutation,
+  useFollowCourseMutation
 } = extendedApi;
