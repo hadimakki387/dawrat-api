@@ -22,6 +22,8 @@ import { useDispatch } from "react-redux";
 import { setToggle } from "@/core/features/global/redux/global-slice";
 import { NavItems } from "@/services/NavItems";
 import { CircularProgress } from "@mui/material";
+import { useLogoutMutation } from "@/core/rtk-query/user";
+import { toast } from "sonner";
 
 function HomeNavBar() {
   const path = usePathname();
@@ -33,6 +35,7 @@ function HomeNavBar() {
   const Items = NavItems();
   const showSearch = searchParams.get("showSearch");
   const newUrl = new URLSearchParams(searchParams.toString());
+  const [logout] = useLogoutMutation();
 
   return (
     <>
@@ -149,11 +152,19 @@ function HomeNavBar() {
                 {
                   name: "Logout",
                   onClick: () => {
-                    Cookie.remove("dawratToken");
-                    localStorage.setItem("dawratToken","");
                     Cookie.remove("dawratUserId");
-                    localStorage.setItem("dawratUserId","");
-                    window.location.reload();
+                    const id = toast.loading("Logging you out...")
+                    logout()
+                      .unwrap()
+                      .then(() => {
+                        toast.dismiss(id)
+                        toast.success("See you soon!")
+                        router.push("/home")
+                      })
+                      .catch((e) => {
+                        toast.dismiss(id)
+                        toast.error("OOPS! something went wrong.")
+                      });
                   },
                   icon: <FontAwesomeIcon icon={faSignOut} />,
                 },

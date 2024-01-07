@@ -9,7 +9,7 @@ import { setUser } from "@/core/features/global/redux/global-slice";
 // i want to disable eslint in the useEffect hook so i dont get the warning
 
 function PrivateAuthGuard({ children }: { children: React.ReactNode }) {
-  const id = Cookies.get("dawratUserId") || localStorage.getItem("dawratUserId");
+  const id = Cookies.get("dawratUserId");
   const { data, isSuccess, isLoading, isError } = useGetUserQuery(id as string);
   const router = useRouter();
   const dispatch = useDispatch();

@@ -1,24 +1,22 @@
-
+import { returnData } from "@/backend/helper-functions/returnData";
+import { generateToken } from "@/backend/token/token.service";
+import MongoConnection from "@/backend/utils/db";
+import dayjs from "dayjs";
 import httpStatus from "http-status";
 import moment from "moment";
 import { NextResponse } from "next/server";
 import { verifyPass } from "../user/user.helperFunctions";
 import { getUserByEmail } from "../user/user.service";
 import { loginUserValidate } from "./auth.validate";
-import Joi from "joi";
-import { generateToken } from "@/backend/token/token.service";
-import { returnData } from "@/backend/helper-functions/returnData";
-import MongoConnection from "@/backend/utils/db";
+import { redirect } from "next/navigation";
 
 export const loginUserWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-  MongoConnection()
+  MongoConnection();
   const user = await getUserByEmail(email);
-  const validate = loginUserValidate.body.validate({ email, password })
-
-
+  const validate = loginUserValidate.body.validate({ email, password });
 
   if (validate.error) {
     return new NextResponse(
@@ -37,10 +35,21 @@ export const loginUserWithEmailAndPassword = async (
   if (user) {
     const isMatch = await verifyPass(password, user.password);
     if (isMatch) {
-      const access: string = generateToken(user._id,moment().add(3, "h"),"access");
+      const access: string = generateToken(
+        user._id,
+        moment().add(3, "h"),
+        "access"
+      );
+
       return new NextResponse(
         JSON.stringify({ user: returnData(user), token: access }),
-        
+        {
+          headers: {
+            "Set-Cookie": `serverDawratToken=${access}; path=/; HttpOnly; Secure; SameSite=Strict;expires=${dayjs()
+              .add(7, "day")
+              .toDate()}`,
+          },
+        }
       );
     } else {
       return new NextResponse(
@@ -49,8 +58,7 @@ export const loginUserWithEmailAndPassword = async (
       );
     }
   }
-  return new NextResponse(
-    JSON.stringify({ message: "somthing went wrong" }),
-    { status: httpStatus.BAD_REQUEST }
-  );
+  return new NextResponse(JSON.stringify({ message: "somthing went wrong" }), {
+    status: httpStatus.BAD_REQUEST,
+  });
 };

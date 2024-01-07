@@ -9,29 +9,32 @@ import ItemCardLoadingSkeleton from "./skeletons/ItemCardLoadingSkeleton";
 
 function MyRecentDocument() {
   const { user } = useAppSelector((state) => state.global);
-  const { data: reviewedDocuments, isLoading:loadingDocuments } = useGetManyDocumentsByIdQuery(
-    { body: user?.reviewedDocuments as string[] },
-    {
-      skip: !user,
-    }
-  );
+  const { data: reviewedDocuments, isLoading: loadingDocuments } =
+    useGetManyDocumentsByIdQuery(
+      { body: user?.reviewedDocuments as string[] },
+      {
+        skip: !user,
+      }
+    );
   const router = useRouter();
-
 
   return (
     <div className="space-y-1">
       <h1 className="text-darkText font-bold text-xl md:text-2xl tracking-wide mb-2">
         Continue Reading
       </h1>
-      {reviewedDocuments && reviewedDocuments.length === 0 && !loadingDocuments && (
-        <MissingDataMessage
-          message="You are not following any courses yet. Use the search bar to find
-        your courses and follow them."
-        />
-      )}
 
       <div className="">
-        {reviewedDocuments && reviewedDocuments.length>0 && !loadingDocuments ? (
+        {reviewedDocuments &&
+        reviewedDocuments.length === 0 &&
+        !loadingDocuments ? (
+          <MissingDataMessage
+            message="You are not following any courses yet. Use the search bar to find
+        your courses and follow them."
+          />
+        ) : reviewedDocuments &&
+          reviewedDocuments.length > 0 &&
+          !loadingDocuments ? (
           <DaCarousel
             hasButtons={false}
             options={{ containScroll: "trimSnaps" }}

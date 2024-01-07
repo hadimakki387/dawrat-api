@@ -18,7 +18,7 @@ import DaButton from "../global/DaButton";
 function LandingNavBar() {
   const Scroll = useScroll();
   const dispatch = useDispatch();
-  const id = Cookies.get("dawratUserId") || localStorage.getItem("dawratUserId");
+  const id = Cookies.get("dawratUserId") ;
   const { data, isLoading } = useGetUserQuery(id as string);
 
   const CssTextField = styled(TextField)({

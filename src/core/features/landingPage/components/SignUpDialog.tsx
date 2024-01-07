@@ -35,7 +35,7 @@ function SignUpDialog() {
           toast.success("You Are Signed In",{id})
           dispatch(setSignUp(false))
           formik.resetForm()
-          window.location.reload()
+          router.push("/")
         })
         .catch((err) => {
           toast.error(`${err?.data?.message}`,{id})

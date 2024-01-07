@@ -27,7 +27,7 @@ function HomePage() {
           }}
         />
       </div>
-      {!user?.university || !user.domain ? (
+      {!user?.university?.id || !user.domain?.id ? (
         <div className="w-full mt-24 flex justify-center items-center">
           <div className="flex flex-col items-center gap-8">
             <div className="text-3xl font-medium">Please Complete Your Profile</div>

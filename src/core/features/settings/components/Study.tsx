@@ -34,11 +34,13 @@ function Study() {
   const [updateUniversity] = useUpdateUserUniversityMutation();
   const [updateUser] = useUpdateUserMutation();
 
+  console.log(user?.university?.id)
+
   return (
     <div className="space-y-6 w-[25rem] max-md:w-full">
       <h2 className="text-xl text-titleText font-medium flex items-center gap-4">
         <div>Study</div>
-        {(!user?.domain || !user?.university) && (
+        {(!user?.domain?.id || !user?.university?.id) && (
           <div className="w-2 h-2 bg-error rounded-full"></div>
         )}
       </h2>
@@ -47,7 +49,6 @@ function Study() {
           <div>
             <p className="text-titleText mb-2">Selet University</p>
             <AutoCompleteSearch
-              defaultValue={user?.university?.title}
               data={data || []}
               placeholder="Search for your university"
               setSearch={(search) => {
@@ -59,6 +60,9 @@ function Study() {
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"
               name="university"
+              value={
+                user?.university?.title
+              }
             />
             {submitted && !selectedUniversity && (
               <div className="text-sm text-error">university is required</div>
@@ -97,7 +101,7 @@ function Study() {
             <AutoCompleteSearch
               defaultValue={user?.domain?.title}
               data={domains || []}
-              disabled={!user?.domain?.title||!user?.university?.title}
+              disabled={!user?.university?.id }
               placeholder="Search for your Domain"
               setSearch={(search) => setDomain(search)}
               setSelectedItem={(selectedItem) => {

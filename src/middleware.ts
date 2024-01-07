@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import httpStatus from "http-status";
 import { verifyToken } from "./backend/lib/auth";
 
-export async function middleware(request: Request) {
-  const bereer = request.headers.get("Authorization");
+export async function middleware(request: NextRequest) {
+  const cookies = request.cookies;
+  const bereer = cookies.get("serverDawratToken")?.value
+  console.log("this is the token in the middleware", bereer)
 
   if (!bereer) {
     const error = new NextResponse(

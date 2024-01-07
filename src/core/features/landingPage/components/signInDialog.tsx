@@ -43,6 +43,10 @@ function SignInDialog() {
           dispatch(setSignIn(false));
           formik.resetForm();
           dispatch(setIsAuth(true));
+          setTimeout(()=>{
+
+            router.push("/")
+          },200)
         })
         .catch((err) => {
           toast.dismiss(id);
@@ -53,11 +57,6 @@ function SignInDialog() {
     },
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      window.location.reload();
-    }
-  }, [isSuccess]);
   const [showPassword, setShowPassword] = useState(false);
 
   return (

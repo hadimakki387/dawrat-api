@@ -8,15 +8,17 @@ import User from "./user.model";
 import { createUserValidation } from "./user.validation";
 import University from "../universities/universities.model";
 import MongoConnection from "@/backend/utils/db";
-import {  generateToken } from "@/backend/token/token.service";
-import { returnArrayData, returnData } from "@/backend/helper-functions/returnData";
+import { generateToken } from "@/backend/token/token.service";
+import {
+  returnArrayData,
+  returnData,
+} from "@/backend/helper-functions/returnData";
 import Document from "../Documents/document.model";
 import Course from "../Courses/courses.model";
 import moment from "moment";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import Domain from "../domains/domain.model";
-
-
+import dayjs from "dayjs";
 
 export const create = async (userBody: UserInterface) => {
   MongoConnection();
@@ -49,18 +51,32 @@ export const create = async (userBody: UserInterface) => {
     password: await bcrypt.hash(userBody?.password, 8),
   });
 
-  const access: string = generateToken(user._id,moment().add(3, "h"),"access");
+  if (!user) {
+    return new NextResponse(JSON.stringify({ message: "User not created" }), {
+      status: httpStatus.BAD_REQUEST,
+    });
+  }
 
-  
+  const access: string = generateToken(
+    user._id,
+    moment().add(3, "h"),
+    "access"
+  );
 
   return new Response(
     JSON.stringify({ user: returnData(user), token: access }),
-    { status: httpStatus.CREATED }
+    {
+      status: httpStatus.CREATED,
+      headers: {
+        "Set-Cookie": `serverDawratToken=${access}; HttpOnly; Path=/; Max-Age=${
+          dayjs().add(7, "day").unix() - dayjs().unix()
+        }; SameSite=Strict;expires=${dayjs().add(7, "day").toDate()}`,
+      },
+    }
   );
 };
 
 export const getUserByEmail = async (email: string) => {
-  
   const user = await User.findOne({
     email: email,
   });
@@ -85,15 +101,20 @@ export const getUserById = async (id: string) => {
   if (foundUser) {
     const uni = await University.findById(foundUser.university);
     const domain = await Domain.findById(foundUser.domain);
-    const { password,university,domain:domainId, ...userWithoutPassword } = foundUser.toObject();
+    const {
+      password,
+      university,
+      domain: domainId,
+      ...userWithoutPassword
+    } = foundUser.toObject();
 
     return new Response(
       JSON.stringify({
         ...userWithoutPassword,
         id: userWithoutPassword._id,
         statusCode: httpStatus.OK,
-        university: returnData(uni),
-        domain: returnData(domain),
+        university: uni ? returnData(uni) : undefined,
+        domain: domain ? returnData(domain) : undefined,
       }),
       { status: httpStatus.OK }
     );
@@ -103,8 +124,6 @@ export const getUserById = async (id: string) => {
 
 export const getRecentlyViewed = async (req: NextRequest) => {
   const body = await req.json();
-
-
 
   const docs = body.filter((doc: any) => doc.type === "doc");
   const courses = body.filter((doc: any) => doc.type === "course");
@@ -119,7 +138,9 @@ export const getRecentlyViewed = async (req: NextRequest) => {
   // i want to create a shuffled array of the two arrays
   const shuffledArray = shuffleArray([...queryDocs, ...queryCourses]);
 
-  return new NextResponse(JSON.stringify(returnArrayData(shuffledArray)), { status: 200 });
+  return new NextResponse(JSON.stringify(returnArrayData(shuffledArray)), {
+    status: 200,
+  });
 };
 
 export const updateUser = async (req: NextRequest) => {
@@ -201,8 +222,7 @@ export const changePassword = async (req: NextRequest) => {
 };
 
 export const updateReviewedDocuments = async (req: NextRequest) => {
-
-  MongoConnection()
+  MongoConnection();
 
   const id = getIdFromUrl(req.url);
   const body = await req.json();
@@ -252,7 +272,7 @@ export const updateReviewedDocuments = async (req: NextRequest) => {
 };
 
 export const updateReviewedCourses = async (req: NextRequest) => {
-  MongoConnection()
+  MongoConnection();
 
   const id = getIdFromUrl(req.url);
   const body = await req.json();

@@ -176,6 +176,12 @@ const extendedApi = mainApi.injectEndpoints({
         },
       }),
     }),
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: `/users/auth`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -192,4 +198,5 @@ export const {
   useGenerateOtpMutation,
   useVerifyOtpAndChangePasswordMutation,
   useGetSingleStudylistQuery,
+  useLogoutMutation,
 } = extendedApi;
