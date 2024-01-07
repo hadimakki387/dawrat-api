@@ -2,14 +2,13 @@ import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
+import { useUpdateDocumentMutation } from "@/core/rtk-query/documents";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Yup from "yup";
 import { setEditDocumentDialog, setSelectedDoc } from "../redux/profile-slice";
-import { useDispatch } from "react-redux";
-import { useUpdateDocumentMutation } from "@/core/rtk-query/documents";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
 
 function EditDocumentDialog() {
   const { editDocumentDialog, selectedDoc } = useAppSelector(
@@ -30,10 +29,7 @@ function EditDocumentDialog() {
       description: selectedDoc?.description,
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Updating...",
-        isLoading: true,
-      });
+      const id = toast.loading("Updating Document...");
       if (selectedDoc?.id)
         updateDocument({
           id: selectedDoc?.id,
@@ -47,18 +43,12 @@ function EditDocumentDialog() {
           .then((res) => {
             dispatch(setEditDocumentDialog(false));
             dispatch(setSelectedDoc(null));
-            updateToast(id, "Document Updated", {
-              toastType: ToastType.success,
-              isLoading: false,
-              duration: 2000,
-            });
+            toast.dismiss(id);
+            toast.success("Document Updated");
           })
           .catch((err) => {
-            updateToast(id, `${err?.data?.message}`, {
-              toastType: ToastType.error,
-              isLoading: false,
-              duration: 2000,
-            });
+            toast.dismiss(id);
+            toast.error(`${err?.data?.message}`);
           });
     },
   });

@@ -1,7 +1,15 @@
+import { courseInterface } from "@/backend/modules/Courses/courses.interface";
+import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
+import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import DaButton from "@/components/global/DaButton";
+import DaLoader from "@/components/global/DaLoader";
 import { useAppSelector } from "@/core/StoreWrapper";
+import { setUser } from "@/core/features/global/redux/global-slice";
+import { useGetCoursesByUniversityIdQuery } from "@/core/rtk-query/courses";
+import { useCreateQuestionMutation } from "@/core/rtk-query/questions";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
-import { ToastType, subjects, universities } from "@/services/constants";
+import { subjects, universities } from "@/services/constants";
+import { CircularProgress } from "@mui/material";
 import CharacterCount from "@tiptap/extension-character-count";
 import Collaboration from "@tiptap/extension-collaboration";
 import Highlight from "@tiptap/extension-highlight";
@@ -11,7 +19,9 @@ import TaskList from "@tiptap/extension-task-list";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Y from "yjs";
 import * as Yup from "yup";
 import {
@@ -23,16 +33,6 @@ import {
   setSelectedCourse,
   setSelectedUniversity,
 } from "../../redux/askAi-slice";
-import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
-import DaLoader from "@/components/global/DaLoader";
-import { useGetCoursesByUniversityIdQuery } from "@/core/rtk-query/courses";
-import { CircularProgress } from "@mui/material";
-import { useCreateQuestionMutation } from "@/core/rtk-query/questions";
-import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
-import { courseInterface } from "@/backend/modules/Courses/courses.interface";
-import { useRouter } from "next/navigation";
-import { generateToast, updateToast } from "@/services/global-function";
-import { setUser } from "@/core/features/global/redux/global-slice";
 
 const ydoc = new Y.Doc();
 
@@ -96,10 +96,7 @@ function Step3() {
       university: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Genearating answer...",
-        isLoading: true,
-      });
+      const id = toast("Genearating answer...")
       createQuestion({
         body: {
           question: content,
@@ -119,11 +116,8 @@ function Step3() {
       })
         .unwrap()
         .then(() => {
-          updateToast(id, "Answer generated successfully", {
-            isLoading: false,
-            toastType: ToastType.success,
-            duration: 2000,
-          });
+          toast.dismiss(id)
+          toast.success("Answer generated successfully")
           dispatch(
             setUser({
               ...user,
@@ -135,11 +129,8 @@ function Step3() {
           router.push("/questions");
         })
         .catch((err) => {
-          updateToast(id, `${err.data.message}`, {
-            isLoading: false,
-            toastType: ToastType.error,
-            duration: 2000,
-          });
+          toast.dismiss(id)
+          toast.success("Answer generated successfully")
           dispatch(resetQuestionStep());
         });
     },

@@ -1,23 +1,21 @@
-import DaDialog from "@/components/global/DaDialog";
-import { useAppSelector } from "@/core/StoreWrapper";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { setSaveCourseDialog } from "../redux/courses-slice";
-import { Checkbox } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faTrashCan, faX } from "@fortawesome/free-solid-svg-icons";
-import { useRouter, useSearchParams } from "next/navigation";
-import TextFieldComponent from "@/components/global/TextFieldComponent";
+import { StudylistInterface } from "@/backend/modules/studylist/studylist.interface";
 import DaButton from "@/components/global/DaButton";
+import DaDialog from "@/components/global/DaDialog";
+import TextFieldComponent from "@/components/global/TextFieldComponent";
+import { useAppSelector } from "@/core/StoreWrapper";
 import {
   useCreateStudylistMutation,
   useDeleteStudylistMutation,
   useGetStudylistQuery,
   useUpdateStudylistMutation,
 } from "@/core/rtk-query/user";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
-import { StudylistInterface } from "@/backend/modules/studylist/studylist.interface";
+import { faAdd, faTrashCan, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Checkbox } from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { setSaveCourseDialog } from "../redux/courses-slice";
 
 type Props = {};
 
@@ -42,11 +40,7 @@ function SaveForStudyListDialog({}: Props) {
   const [deleteStudyList] = useDeleteStudylistMutation();
 
   const handleCreateStudyList = () => {
-    const id = generateToast({
-      message: "Creating Studylist...",
-      toastType: ToastType.default,
-      isLoading: true,
-    });
+    const id = toast.loading("Creating Studylist...");
     createStudyList({
       body: {
         title: params.get("studylistName") as string,
@@ -55,29 +49,19 @@ function SaveForStudyListDialog({}: Props) {
     })
       .unwrap()
       .then((res) => {
-        updateToast(id, "Studylist Created", {
-          toastType: ToastType.success,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.success("Studylist Created");
         params.delete("addStudyList");
         params.delete("studylistName");
         router.push(`?${params.toString()}`);
       })
       .catch((err) => {
-        updateToast(id, `${err?.data?.message}`, {
-          toastType: ToastType.error,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.error(`${err?.data?.message}`);
       });
   };
   const handleUpdateStudyList = (item: StudylistInterface) => {
-    const id = generateToast({
-      message: "Saving Changes...",
-      toastType: ToastType.default,
-      isLoading: true,
-    });
+    const id = toast.loading("Saving Changes...");
     updateStudyList({
       body: selectedDocInCourse?._id as string,
       id: item?.id as string,
@@ -85,47 +69,30 @@ function SaveForStudyListDialog({}: Props) {
     })
       .unwrap()
       .then((res) => {
-        updateToast(id, "Changes Saved", {
-          toastType: ToastType.success,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.success("Changes Saved");
       })
       .catch((err) => {
-        updateToast(id, `${err?.data?.message}`, {
-          toastType: ToastType.error,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.error(`${err?.data?.message}`);
       });
   };
   const handleDeleteStudyList = (item: StudylistInterface) => {
-    const id = generateToast({
-      message: "Deleting Studylist...",
-      toastType: ToastType.default,
-      isLoading: true,
-    });
+    const id = toast.loading("Deleting Studylist...");
     deleteStudyList({
       userId: user?.id as string,
       id: item.id,
     })
       .unwrap()
       .then((res) => {
-        updateToast(id, "Studylist Deleted", {
-          toastType: ToastType.success,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.success("Studylist Deleted");
       })
       .catch((err) => {
-        updateToast(id, `${err?.data?.message}`, {
-          toastType: ToastType.error,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.error(`${err?.data?.message}`);
       });
   };
-
 
   return (
     <DaDialog

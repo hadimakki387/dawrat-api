@@ -10,7 +10,6 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-import { ToastContainer } from "react-toastify";
 import ToastWrapper from "./ToastWrapper";
 
 const store = configureStore({

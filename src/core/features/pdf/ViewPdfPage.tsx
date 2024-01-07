@@ -8,8 +8,6 @@ import {
   useUpvoteDocumentMutation,
 } from "@/core/rtk-query/documents";
 import { useGetStudylistQuery } from "@/core/rtk-query/user";
-import { ToastType } from "@/services/constants";
-import { generateToast, updateToast } from "@/services/global-function";
 import {
   faBookmark,
   faDownload,
@@ -21,6 +19,7 @@ import { CircularProgress, Skeleton } from "@mui/material";
 import { useParams } from "next/navigation";
 import { Suspense, lazy, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import SaveForStudyListDialog from "../courses/components/SaveForStudyList";
 import {
   setSaveCourseDialog,
@@ -42,10 +41,7 @@ function ViewPdfPage() {
   const handleDownload = () => {
     // Fetch the PDF file
     if (!data?.doc?.url) return;
-    const id = generateToast({
-      message: "Downloading...",
-      isLoading: true,
-    });
+    const id = toast.loading("Downloading...");
     fetch(data?.doc?.url as string)
       .then((response) => response.blob())
       .then((blob) => {
@@ -70,66 +66,42 @@ function ViewPdfPage() {
 
         // Revoke the Blob URL to free up resources
         URL.revokeObjectURL(blobUrl);
-        updateToast(id, "Downloaded", {
-          toastType: ToastType.success,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.success("Downloaded");
       })
       .catch((error) => {
         console.error("Error downloading PDF:", error);
-        updateToast(id, `${error}`, {
-          toastType: ToastType.error,
-          isLoading: false,
-          duration: 2000,
-        });
+        toast.dismiss(id);
+        toast.error("Error Downloading");
       });
   };
 
   const handleUpvote = () => {
-    const id = generateToast({
-      message: "Upvoting...",
-      isLoading: true,
-    });
+    const id = toast.loading("Upvoting...");
     if (user)
       upvote({ id: data?.id as string, user: user })
         .unwrap()
         .then((res) => {
-          updateToast(id, "Upvoted", {
-            toastType: ToastType.success,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.dismiss(id);
+          toast.success("Upvoted");
         })
         .catch((err) => {
-          updateToast(id, `${err?.data?.message}`, {
-            toastType: ToastType.error,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
         });
   };
   const handleDownvote = () => {
-    const id = generateToast({
-      message: "Downvoting...",
-      isLoading: true,
-    });
+    const id = toast.loading("Downvoting...");
     if (user)
       downvote({ id: data?.id as string, user: user })
         .unwrap()
         .then((res) => {
-          updateToast(id, "Downvoted", {
-            toastType: ToastType.success,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.dismiss(id);
+          toast.success("Downvoted");
         })
         .catch((err) => {
-          updateToast(id, `${err?.data?.message}`, {
-            toastType: ToastType.error,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
         });
   };
   const { data: Studylist } = useGetStudylistQuery(user?.id as string);

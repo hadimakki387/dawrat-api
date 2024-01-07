@@ -7,10 +7,9 @@ import { UploadDropzone } from "@uploadthing/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import { setHandleSubmit, setUploadedDocs } from "../redux/upload-slice";
 import Details from "./Details";
-import { generateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
 
 function UploadPdf() {
   const {
@@ -58,11 +57,7 @@ function UploadPdf() {
             if (res) {
               dispatch(setUploadedDocs(res));
               localStorage.setItem("uploadedDocs", JSON.stringify(res));
-              generateToast({
-                message: "Upload complete",
-                toastType: ToastType.success,
-                duration: 2000,
-              });
+              toast.success("File Uploaded Successfully");
             }
           }}
           onUploadError={(error: Error) => {

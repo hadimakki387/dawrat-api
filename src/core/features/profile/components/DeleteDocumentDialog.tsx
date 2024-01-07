@@ -2,14 +2,11 @@
 import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import { useAppSelector } from "@/core/StoreWrapper";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { setDeleteDocumentDialog } from "../redux/profile-slice";
-import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
 import { useDeleteDocumentMutation } from "@/core/rtk-query/documents";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import { setUser } from "../../global/redux/global-slice";
+import { setDeleteDocumentDialog } from "../redux/profile-slice";
 
 function DeleteDocumentDialog() {
   const { deleteDocumentDialog, selectedDoc } = useAppSelector(
@@ -46,11 +43,7 @@ function DeleteDocumentDialog() {
             className="bg-error text-white"
             onClick={() => {
               if (selectedDoc?.id && selectedDoc?.doc?.url) {
-                const id = generateToast({
-                  message: "Deleting...",
-                  toastType: ToastType.default,
-                  isLoading: true,
-                });
+                const id = toast.loading("Deleting Document...");
                 deleteDocument({
                   id: selectedDoc?.id,
                   body: [selectedDoc?.doc?.key],
@@ -58,10 +51,8 @@ function DeleteDocumentDialog() {
                 })
                   .unwrap()
                   .then((res) => {
-                    updateToast(id, "Deleted", {
-                      toastType: ToastType.success,
-                      isLoading: false,
-                    });
+                    toast.dismiss(id);
+                    toast.success("Document Deleted");
                     dispatch(setDeleteDocumentDialog(false));
                     dispatch(
                       setUser({
@@ -71,18 +62,12 @@ function DeleteDocumentDialog() {
                     );
                   })
                   .catch((err) => {
-                    updateToast(id, err.data?.message, {
-                      toastType: ToastType.error,
-                      isLoading: false,
-                    });
+                    toast.dismiss(id);
+                    toast.error(`${err?.data?.message}`);
                     dispatch(setDeleteDocumentDialog(false));
                   });
               } else {
-                generateToast({
-                  message: "No Selected Document",
-                  toastType: ToastType.error,
-                  isLoading: false,
-                });
+                toast.error("Something went wrong");
               }
             }}
           />

@@ -10,14 +10,6 @@ export enum ChipType {
   medium = "medium",
 }
 
-export enum ToastType {
-  success = "success",
-  error = "error",
-  info = "info",
-  warning = "warning",
-  default = "default",
-}
-
 export  const subjects = [
   {
     title: "science",

@@ -4,12 +4,11 @@ import DaButton from "@/components/global/DaButton";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useChangePasswordMutation } from "@/core/rtk-query/user";
-import { ToastType } from "@/services/constants";
-import { generateToast, updateToast } from "@/services/global-function";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
 import React from "react";
+import { toast } from "sonner";
 import * as Yup from "yup";
 
 function ChangePassword() {
@@ -31,11 +30,7 @@ function ChangePassword() {
       confirmNewPassword: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Updating...",
-        isLoading: true,
-        toastType:ToastType.default
-      });
+      const id = toast.loading("Updating Password...");
       changePassword({
         id: user?.id,
         body: {
@@ -45,18 +40,12 @@ function ChangePassword() {
       })
         .unwrap()
         .then((res) => {
-          updateToast(id, "Updated Successfully", {
-            isLoading: false,
-            duration: 2000,
-            toastType:ToastType.success
-          });
+          toast.dismiss(id);
+          toast.success("Password Updated");
         })
         .catch((err) => {
-          updateToast(id, `${err.data.message}`, {
-            isLoading: false,
-            duration: 2000,
-            toastType:ToastType.error
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
         });
     },
   });

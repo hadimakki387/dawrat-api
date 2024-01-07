@@ -1,22 +1,19 @@
 "use client";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
-import {
-  useGetUniversitiesQuery,
-  useGetUniversityByIdQuery,
-} from "@/core/rtk-query/universities";
-import React, { useState } from "react";
-import { useAppSelector } from "@/core/StoreWrapper";
 import DaButton from "@/components/global/DaButton";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
+import { useAppSelector } from "@/core/StoreWrapper";
+import {
+  useGetAllDomainsQuery
+} from "@/core/rtk-query/domain";
+import {
+  useGetUniversitiesQuery
+} from "@/core/rtk-query/universities";
 import {
   useUpdateUserMutation,
   useUpdateUserUniversityMutation,
 } from "@/core/rtk-query/user";
-import {
-  useGetAllDomainsQuery,
-  useGetDomainByIdQuery,
-} from "@/core/rtk-query/domain";
+import { useState } from "react";
+import { toast } from "sonner";
 
 function Study() {
   const [university, setUniversity] = useState("");
@@ -75,29 +72,19 @@ function Study() {
           onClick={() => {
             setSubmitted(true);
             if (selectedUniversity) {
-              const id = generateToast({
-                message: "Updating...",
-                toastType: ToastType.default,
-                isLoading: true,
-              });
+              const id = toast.loading("Updating...");
               updateUniversity({
                 id: user?.id,
                 body: { university: selectedUniversity },
               })
                 .unwrap()
                 .then((res) => {
-                  updateToast(id, "Updated Successfully", {
-                    toastType: ToastType.success,
-                    isLoading: false,
-                    duration: 2000,
-                  });
+                  toast.dismiss(id);
+                  toast.success("Updated Successfully");
                 })
                 .catch((err) => {
-                  updateToast(id, `${err.data.message}`, {
-                    toastType: ToastType.error,
-                    isLoading: false,
-                    duration: 2000,
-                  });
+                  toast.dismiss(id);
+                  toast.error(`${err.data.message}`);
                 });
             }
           }}
@@ -132,29 +119,19 @@ function Study() {
           onClick={() => {
             setSubmitted(true);
             if (selectedDomain) {
-              const id = generateToast({
-                message: "Updating...",
-                toastType: ToastType.default,
-                isLoading: true,
-              });
+              const id = toast.loading("Updating...");
               updateUser({
                 id: user?.id,
                 body: { domain: selectedDomain },
               })
                 .unwrap()
                 .then((res) => {
-                  updateToast(id, "Updated Successfully", {
-                    toastType: ToastType.success,
-                    isLoading: false,
-                    duration: 2000,
-                  });
+                  toast.dismiss(id);
+                  toast.success("Updated Successfully");
                 })
                 .catch((err) => {
-                  updateToast(id, `${err.data.message}`, {
-                    toastType: ToastType.error,
-                    isLoading: false,
-                    duration: 2000,
-                  });
+                  toast.dismiss(id);
+                  toast.error(`${err.data.message}`);
                 });
             }
           }}

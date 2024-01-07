@@ -1,21 +1,20 @@
 "use client";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
+import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useCreateDomainMutation } from "@/core/rtk-query/domain";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Yup from "yup";
 import {
   setAddDomainDialog,
   setSearchUniversityAddDomain,
   setSelectedUniversityAddDomain,
 } from "../redux/upload-slice";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
-import { useDispatch } from "react-redux";
-import DaButton from "@/components/global/DaButton";
 
 function AddDomainDialog() {
   const {
@@ -38,10 +37,7 @@ function AddDomainDialog() {
     },
     onSubmit: (values) => {
       if (selectedUniversityAddDomain) {
-        const id = generateToast({
-          message: "Creating...",
-          isLoading: true,
-        });
+        const id = toast.loading("Creating Domain...");
         createDomain({
           body: {
             title: values.title,
@@ -51,26 +47,16 @@ function AddDomainDialog() {
         })
           .unwrap()
           .then((res) => {
-            updateToast(id, "Domain Created", {
-              toastType: ToastType.success,
-              isLoading: false,
-              duration: 2000,
-            });
+            toast.dismiss(id);
+            toast.success("Domain Created");
             dispatch(setAddDomainDialog(false));
           })
           .catch((err) => {
-            updateToast(id, `${err?.data?.message}`, {
-              toastType: ToastType.error,
-              isLoading: false,
-              duration: 2000,
-            });
+            toast.dismiss(id);
+            toast.error(`${err?.data?.message}`);
           });
       } else {
-        generateToast({
-          message: "Please select a university",
-          toastType: ToastType.error,
-          duration: 2000,
-        });
+        toast.error("Select University");
       }
     },
   });

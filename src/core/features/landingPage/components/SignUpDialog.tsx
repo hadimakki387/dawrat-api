@@ -3,13 +3,12 @@ import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useRegisterMutation } from "@/core/rtk-query/landingPage";
-import { ToastType } from "@/services/constants";
-import { generateToast, updateToast } from "@/services/global-function";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Yup from "yup";
 import { setIsAuth, setSignIn, setSignUp } from "../redux/homePage-slice";
-import { useRouter } from "next/navigation";
 
 function SignUpDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);
@@ -29,27 +28,17 @@ function SignUpDialog() {
       password: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Creating Your Account",
-        isLoading: true,
-        toastType: ToastType.default,
-      });
+      const id = toast.loading("Signing you In")
       register(values)
         .unwrap()
         .then(() => {
-          updateToast(id, "Your Account has been created", {
-            isLoading: false,
-            toastType: ToastType.success,
-          });
+          toast.success("You Are Signed In",{id})
           dispatch(setSignUp(false))
           formik.resetForm()
           window.location.reload()
         })
         .catch((err) => {
-          updateToast(id, `${err.data.message}`, {
-            isLoading: false,
-            toastType: ToastType.error,
-          });
+          toast.error(`${err?.data?.message}`,{id})
           dispatch(setSignUp(false))
           formik.resetForm()
           dispatch(setIsAuth(true))

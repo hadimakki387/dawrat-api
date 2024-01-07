@@ -14,14 +14,13 @@ import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
 import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
-import { ToastType } from "@/services/constants";
-import { generateToast, updateToast } from "@/services/global-function";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Convert from "convert-units";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Yup from "yup";
 import { setUser } from "../../global/redux/global-slice";
 import {
@@ -87,11 +86,7 @@ function Details() {
       university: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Uploading Document",
-        toastType: ToastType.default,
-        isLoading: true,
-      });
+      const id = toast.loading("Uploading Document");
 
       const { serverData, ...actualDoc } = uploadedDocs[0];
       createDocument({
@@ -110,11 +105,8 @@ function Details() {
       })
         .unwrap()
         .then((res) => {
-          updateToast(id, "Document Uploaded", {
-            toastType: ToastType.success,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.dismiss(id);
+          toast.success("Document Uploaded");
           localStorage.setItem("uploadedDocs", "");
           dispatch(setUploadedDocs([]));
           formik.resetForm();
@@ -127,11 +119,8 @@ function Details() {
           dispatch(setSearchUploadUniversity(""));
         })
         .catch((err) => {
-          updateToast(id, `${err.data.message}`, {
-            toastType: ToastType.error,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
         });
     },
   });
@@ -171,19 +160,12 @@ function Details() {
                     icon={faTrashCan}
                     className="text-primary w-12 hover:cursor-pointer"
                     onClick={() => {
-                      const id = generateToast({
-                        message: "Deleting Document",
-                        toastType: ToastType.default,
-                        isLoading: true,
-                      });
+                      const id = toast.loading("Deleting Document");
                       deleteUploadedPdf([doc.key])
                         .unwrap()
                         .then((res) => {
-                          updateToast(id, "Document Deleted", {
-                            toastType: ToastType.success,
-                            isLoading: false,
-                            duration: 2000,
-                          });
+                          toast.dismiss(id);
+                          toast.success("Document Deleted");
 
                           dispatch(
                             setUploadedDocs(
@@ -208,11 +190,8 @@ function Details() {
                           dispatch(setSearchUploadUniversity(""));
                         })
                         .catch((err) => {
-                          updateToast(id, `${err.data.message}`, {
-                            toastType: ToastType.success,
-                            isLoading: false,
-                            duration: 2000,
-                          });
+                          toast.dismiss(id);
+                          toast.error(`${err?.data?.message}`);
                         });
                     }}
                   />

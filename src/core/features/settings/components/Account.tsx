@@ -2,14 +2,13 @@
 import DaButton from "@/components/global/DaButton";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setFirstName, setLastName } from "../redux/settings-slice";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useUpdateUserMutation } from "@/core/rtk-query/user";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
+import { useFormik } from "formik";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+
+import { toast } from "sonner";
 
 function Account() {
   const { user } = useAppSelector((state) => state.global);
@@ -25,27 +24,16 @@ function Account() {
       lastName: user?.firstName,
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Updating...",
-        toastType: ToastType.default,
-        isLoading: true,
-      });
+      const id = toast.loading("Updating...")
       updateUser({ id: user?.id, body: values })
         .unwrap()
         .then((res) => {
-          updateToast(id, "Updated Successfully", {
-            toastType: ToastType.success,
-            isLoading: false,
-            duration: 2000,
-          });
-          
+          toast.success("Updated Successfully")
+          toast.dismiss(id)
         })
         .catch((err) => {
-          updateToast(id, `${err.data.message}`, {
-            toastType: ToastType.error,
-            isLoading: false,
-            duration: 2000,
-          });
+          toast.error(`${err?.data?.message}`)
+          toast.dismiss(id)
         });
 
     },

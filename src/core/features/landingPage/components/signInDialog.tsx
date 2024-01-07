@@ -3,22 +3,20 @@ import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useLoginMutation } from "@/core/rtk-query/landingPage";
-import { ToastType } from "@/services/constants";
-import { generateToast, updateToast } from "@/services/global-function";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Yup from "yup";
 import {
   setIsAuth,
-  setResetPassword,
   setSignIn,
-  setSignUp,
+  setSignUp
 } from "../redux/homePage-slice";
 import "./index.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 function SignInDialog() {
   const { signIn, signUp } = useAppSelector((state) => state.homePage);
@@ -36,27 +34,19 @@ function SignInDialog() {
       password: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Signing You In",
-        isLoading: true,
-        toastType: ToastType.default,
-      });
+      const id = toast.loading("Signing In...");
       login(values)
         .unwrap()
         .then(() => {
-          updateToast(id, "Your Signed In", {
-            isLoading: false,
-            toastType: ToastType.success,
-          });
+          toast.dismiss(id);
+          toast.success("Signed In");
           dispatch(setSignIn(false));
           formik.resetForm();
           dispatch(setIsAuth(true));
         })
         .catch((err) => {
-          updateToast(id, `${err?.data?.message}`, {
-            isLoading: false,
-            toastType: ToastType.error,
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
           dispatch(setSignIn(false));
           formik.resetForm();
         });

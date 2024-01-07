@@ -1,31 +1,26 @@
+import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
+import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
+import { useCreateCourseMutation } from "@/core/rtk-query/courses";
 import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
+import { CircularProgress } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import * as Yup from "yup";
 import {
   setAddCourseDialog,
-  setSearchDomain,
   setSearchDomainCreate,
   setSearchUniversityCreate,
   setSearchUploadUniversity,
-  setSelectedDomain,
   setSelectedDomainCreate,
   setSelectedUniversity,
-  setSelectedUniversityCreate,
+  setSelectedUniversityCreate
 } from "../redux/upload-slice";
-import DaButton from "@/components/global/DaButton";
-import { useDispatch } from "react-redux";
-import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
-import { useCreateCourseMutation } from "@/core/rtk-query/courses";
-import { generateToast, updateToast } from "@/services/global-function";
-import { ToastType } from "@/services/constants";
-import { CircularProgress } from "@mui/material";
-import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
 
 function AddCourseDialog() {
   const {
@@ -60,10 +55,7 @@ function AddCourseDialog() {
       description: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Creating...",
-        isLoading: true,
-      });
+      const id = toast.loading("Creating Course...");
 
       const selectedUniveristy = data?.find(
         (university: UniversityInterface) =>
@@ -87,28 +79,19 @@ function AddCourseDialog() {
         })
           .unwrap()
           .then((res) => {
-            updateToast(id, "Course Created", {
-              toastType: ToastType.success,
-              isLoading: false,
-              duration: 2000,
-            });
+            toast.dismiss(id);
+            toast.success("Course Created");
             dispatch(setAddCourseDialog(false));
             dispatch(setSearchUploadUniversity(""));
             dispatch(setSelectedUniversity(null));
           })
           .catch((err) => {
-            updateToast(id, `${err?.data?.message}`, {
-              toastType: ToastType.error,
-              isLoading: false,
-              duration: 2000,
-            });
+            toast.dismiss(id);
+            toast.error(`${err?.data?.message}`);
           });
       } else {
-        generateToast({
-          message: "Data Missing",
-          toastType: ToastType.error,
-          isLoading: false,
-        });
+        toast.dismiss(id);
+        toast.error("Please Select University and Domain");
       }
     },
   });

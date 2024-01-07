@@ -3,17 +3,15 @@ import DaButton from "@/components/global/DaButton";
 import DaDialog from "@/components/global/DaDialog";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { useFormik } from "formik";
-import React from "react";
-import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import { setOtpSent, setResetPassword } from "../redux/homePage-slice";
-import { generateToast, updateToast } from "@/services/global-function";
 import {
   useGenerateOtpMutation,
   useVerifyOtpAndChangePasswordMutation,
 } from "@/core/rtk-query/user";
-import { ToastType } from "@/services/constants";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import * as Yup from "yup";
+import { setOtpSent, setResetPassword } from "../redux/homePage-slice";
 
 type Props = {};
 
@@ -30,25 +28,17 @@ function ForgetPasswordDialog({}: Props) {
       email: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Sending OTP",
-        isLoading: true,
-        toastType: ToastType.default,
-      });
+      const id = toast.loading("Sending OTP...");
       generateOtp(values)
         .unwrap()
         .then(() => {
-          updateToast(id, "OTP Sent", {
-            isLoading: false,
-            toastType: ToastType.success,
-          });
+          toast.dismiss(id);
+          toast.success("OTP Sent");
           dispatch(setOtpSent(true));
         })
         .catch((err) => {
-          updateToast(id, `${err?.data?.message}`, {
-            isLoading: false,
-            toastType: ToastType.error,
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
         });
     },
   });
@@ -62,31 +52,23 @@ function ForgetPasswordDialog({}: Props) {
       password: "",
     },
     onSubmit: (values) => {
-      const id = generateToast({
-        message: "Resetting Password",
-        isLoading: true,
-        toastType: ToastType.default,
-      });
+      const id = toast.loading("Resetting Password...");
       verifyOtpAndChangePassword({
         email: preOtpFormik.values.email,
         ...values,
       })
         .unwrap()
         .then(() => {
-          updateToast(id, "Password Reset", {
-            isLoading: false,
-            toastType: ToastType.success,
-          });
+          toast.dismiss(id);
+          toast.success("Password Reset");
           preOtpFormik.resetForm();
           otpFormik.resetForm();
           dispatch(setOtpSent(false));
           dispatch(setResetPassword(false));
         })
         .catch((err) => {
-          updateToast(id, `${err?.data?.message}`, {
-            isLoading: false,
-            toastType: ToastType.error,
-          });
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
         });
     },
   });
