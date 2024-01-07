@@ -170,7 +170,6 @@ export const SideBar: React.FC = () => {
             color: themes[theme].sidebar.color,
             width: "15vw",
             borderRight: "2px solid #e0e0e0",
-     
           }}
         >
           <div
@@ -238,7 +237,7 @@ export const SideBar: React.FC = () => {
                           <Menu menuItemStyles={menuItemStyles} key={index}>
                             <MenuItem
                               icon={link.icon({
-                                size:24,
+                                size: 24,
                                 fill:
                                   path === `${link.path}`
                                     ? "var(--primary)"
@@ -267,7 +266,7 @@ export const SideBar: React.FC = () => {
                           <Menu menuItemStyles={menuItemStyles} key={index}>
                             <SubMenu
                               label={link.label}
-                              icon={link.icon({ size:24 })}
+                              icon={link.icon({ size: 24 })}
                               //this is for some notifications
                               // suffix={
                               //   <Badge variant="danger" shape="circle">
@@ -275,7 +274,13 @@ export const SideBar: React.FC = () => {
                               //   </Badge>
                               // }
                             >
-                              {link.subItems.length > 0 ? (
+                              {link.subItems === "loading" ? (
+                                <MenuItem>
+                                  <div className="flex items-center justify-center w-full">
+                                    <CircularProgress size={20}/>
+                                  </div>
+                                </MenuItem>
+                              ) : link.subItems.length > 0 ? (
                                 link.subItems.map(
                                   (subItem: any, index: any) => (
                                     <MenuItem
@@ -318,17 +323,17 @@ export const SideBar: React.FC = () => {
         </Sidebar>
       ) : (
         <div
-        style={{
-          height: "90vh",
-          direction: rtl ? "rtl" : "ltr",
-          backgroundColor: "white",
-          width: "15vw",
-          borderRight: "2px solid #e0e0e0",
-        }}
-        className=" bg-white fixed flex justify-center items-center max-md:hidden"
-      >
-        <CircularProgress />
-      </div>
+          style={{
+            height: "90vh",
+            direction: rtl ? "rtl" : "ltr",
+            backgroundColor: "white",
+            width: "15vw",
+            borderRight: "2px solid #e0e0e0",
+          }}
+          className=" bg-white fixed flex justify-center items-center max-md:hidden"
+        >
+          <CircularProgress />
+        </div>
       )}
     </div>
   );

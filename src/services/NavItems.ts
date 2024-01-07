@@ -22,20 +22,36 @@ interface items {
 
 export const NavItems = () => {
   const id = Cookies.get("dawratUserId");
-  const { data: user, isSuccess, isLoading, isError } = useGetUserQuery(id as string);
-  const { data: courses } = useGetManyCoursesQuery(user?.reviewedCourses as string[], {
-    skip: !user,
-  });
-  const {data:studyList} = useGetStudylistQuery(id as string);
-
-  const { data: reviewedDocuments } = useGetManyDocumentsByIdQuery(
-    { body: user?.reviewedDocuments as string[], limit: 3 },
+  const {
+    data: user,
+    isSuccess,
+    isLoading,
+    isError,
+  } = useGetUserQuery(id as string);
+  const { data: courses, isLoading: loadingCourses } = useGetManyCoursesQuery(
+    user?.reviewedCourses as string[],
     {
       skip: !user,
     }
   );
+  const {
+    data: studyList,
+    isLoading: loadingStudyList,
+    isSuccess: successStudyList,
+  } = useGetStudylistQuery(id as string, { skip: !courses });
 
-  if (user && courses && reviewedDocuments && studyList)
+  const {
+    data: reviewedDocuments,
+    isLoading: loadingDocuments,
+    isSuccess: successDocuments,
+  } = useGetManyDocumentsByIdQuery(
+    { body: user?.reviewedDocuments as string[], limit: 3 },
+    {
+      skip: !user || !studyList,
+    }
+  );
+
+  if (user && courses)
     return [
       {
         title: "",
@@ -60,14 +76,18 @@ export const NavItems = () => {
             path: "/courses",
             icon: Folder,
             hasSubItems: true,
-            subItems: courses,
+            subItems: courses || [],
           },
           {
             label: "Studylists",
             path: "/study-lists",
             icon: StudyList,
             hasSubItems: true,
-            subItems: studyList,
+            subItems: successStudyList
+              ? studyList
+              : loadingStudyList
+              ? "loading"
+              : [],
           },
           {
             label: "Questions",
@@ -79,7 +99,11 @@ export const NavItems = () => {
             path: "/pdf",
             icon: Clock,
             hasSubItems: true,
-            subItems: reviewedDocuments,
+            subItems: successDocuments
+              ? reviewedDocuments
+              : loadingDocuments
+              ? "loading"
+              : [],
           },
         ],
       },
