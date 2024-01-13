@@ -78,6 +78,7 @@ function Details() {
           dispatch(setUploadedDocs([]));
           dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
           formik.resetForm();
+          
         })
         .catch((err) => {
           toast.dismiss(id);
