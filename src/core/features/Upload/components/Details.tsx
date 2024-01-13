@@ -117,6 +117,7 @@ function Details() {
           dispatch(setSearchCourse(""));
           dispatch(setSearchDomain(""));
           dispatch(setSearchUploadUniversity(""));
+          window.location.reload();
         })
         .catch((err) => {
           toast.dismiss(id);
@@ -188,6 +189,7 @@ function Details() {
                           dispatch(setSearchCourse(""));
                           dispatch(setSearchDomain(""));
                           dispatch(setSearchUploadUniversity(""));
+                          window.location.reload();
                         })
                         .catch((err) => {
                           toast.dismiss(id);

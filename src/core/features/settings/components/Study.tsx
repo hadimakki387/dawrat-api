@@ -16,13 +16,12 @@ function Study() {
   const [domain, setDomain] = useState("");
   const [selectedUniversity, setSelectedUniversity] = useState("");
   const [selectedDomain, setSelectedDomain] = useState("");
-  const [editUni,setEditUni] = useState(false)
-  const [editDomain,setEditDomain] = useState(false)
+  const [editUni, setEditUni] = useState(false);
+  const [editDomain, setEditDomain] = useState(false);
 
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
     title: university,
-    limit: 5,
   });
   const { data: domains } = useGetAllDomainsQuery({
     title: domain,
@@ -31,8 +30,6 @@ function Study() {
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
   const [updateUser] = useUpdateUserMutation();
-
-  console.log(user?.university?.id);
 
   return (
     <div className="space-y-6 w-[25rem] max-md:w-full">
@@ -70,6 +67,7 @@ function Study() {
                 </p>
               )}
             </div>
+            
           </div>
           <DaButton
             label="Submit"
@@ -97,7 +95,10 @@ function Study() {
           />
         </div>
       ) : (
-        <div onClick={()=>setEditUni(true)} className="hover:cursor-pointer flex flex-col">
+        <div
+          onClick={() => setEditUni(true)}
+          className="hover:cursor-pointer flex flex-col"
+        >
           <div>{user?.university?.title}</div>
           <div className="text-primary text-sm font-semibold">Edit</div>
         </div>
@@ -156,7 +157,10 @@ function Study() {
           />
         </div>
       ) : (
-        <div onClick={()=>setEditDomain(true)} className="hover:cursor-pointer flex flex-col">
+        <div
+          onClick={() => setEditDomain(true)}
+          className="hover:cursor-pointer flex flex-col"
+        >
           <div>{user?.domain?.title}</div>
           <div className="text-primary text-sm font-semibold">Edit</div>
         </div>
