@@ -33,6 +33,7 @@ import {
   setSelectedCourse,
   setSelectedUniversity,
 } from "../../redux/askAi-slice";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
 
 const ydoc = new Y.Doc();
 
@@ -55,9 +56,10 @@ function Step3() {
     title: searchUniversity,
     limit: 5,
   });
+
   const { data: courses, isLoading: loadingCourses } =
     useGetCoursesByUniversityIdQuery(
-      { id: selectedUniversity as string},
+      { id: selectedUniversity?.value as string },
       {
         skip: !selectedUniversity ? true : false,
       }
@@ -96,15 +98,15 @@ function Step3() {
       university: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      const id = toast("Genearating answer...")
+      const id = toast("Genearating answer...");
       createQuestion({
         body: {
           question: content,
           university: data?.find(
-            (item: UniversityInterface) => item.id === selectedUniversity
+            (item: UniversityInterface) => item.id === selectedUniversity?.value
           )?.title,
           course: courses?.find(
-            (item: courseInterface) => item.id === selectedCourse
+            (item: courseInterface) => item.id === selectedCourse?.value
           )?.title,
           public: !isPrivate,
           subject: subjects[subject].title,
@@ -116,8 +118,8 @@ function Step3() {
       })
         .unwrap()
         .then(() => {
-          toast.dismiss(id)
-          toast.success("Answer generated successfully")
+          toast.dismiss(id);
+          toast.success("Answer generated successfully");
           dispatch(
             setUser({
               ...user,
@@ -129,8 +131,8 @@ function Step3() {
           router.push("/questions");
         })
         .catch((err) => {
-          toast.dismiss(id)
-          toast.success("Answer generated successfully")
+          toast.dismiss(id);
+          toast.success("Answer generated successfully");
           dispatch(resetQuestionStep());
         });
     },
@@ -169,32 +171,58 @@ function Step3() {
             </div>
           </div>
           <div className="w-1/4 max-xl:w-full">
-            <AutoCompleteSearch
-              data={data}
+            <DaAutocomplete
+              options={
+                data?.map((item) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
+              getOptionDisabled={() =>
+                data && data?.length > 0 ? false : true
+              }
               placeholder="Search for your university"
-              setSearch={(search) => dispatch(setSearchUniversity(search))}
-              setSelectedItem={(selectedItem) => {
-                dispatch(setSelectedUniversity(selectedItem));
+              onChange={(e) => {
+                dispatch(setSelectedUniversity(e));
+              }}
+              onInputChange={(e) => {
+                dispatch(setSearchUniversity(e));
               }}
               style={{ borderRadius: "0.7rem" }}
-              className="mr-4 p-1"
+              className=" p-1"
               name="university"
-              formik={formik}
             />
           </div>
 
           <div className="flex justify-end items-center gap-2 w-1/4 max-xl:w-full">
             <div className="w-full">
-              <AutoCompleteSearch
-                data={courses || []}
+              <DaAutocomplete
+                options={
+                  courses?.map((item) => ({
+                    label: item?.title,
+                    value: item?.id,
+                  })) || [
+                    {
+                      label: "loading...",
+                      value: "",
+                    },
+                  ]
+                }
                 placeholder={
                   universities
                     ? "Search for your course"
                     : "Select a university first"
                 }
-                setSearch={(search) => dispatch(setSearchCourse(search))}
-                setSelectedItem={(selectedItem) => {
-                  dispatch(setSelectedCourse(selectedItem));
+                getOptionDisabled={() =>
+                  courses && courses?.length > 0 ? false : true
+                }
+                onChange={(e) => {
+                  dispatch(setSelectedCourse(e));
                 }}
                 style={{ borderRadius: "0.7rem", width: "100%" }}
                 className="mr-4 p-1 w-full"

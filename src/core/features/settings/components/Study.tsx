@@ -15,17 +15,19 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { setAddDomainDialog } from "../../Upload/redux/upload-slice";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
+import { DropdownValue } from "@/services/types";
+import { DomainInterface } from "@/backend/modules/domains/domain.interface";
 
 function Study() {
   const [university, setUniversity] = useState("");
   const [domain, setDomain] = useState("");
-  const [selectedUniversity, setSelectedUniversity] = useState("");
-  const [selectedDomain, setSelectedDomain] = useState("");
+  const [selectedUniversity, setSelectedUniversity] = useState<DropdownValue | null>(null);
+  const [selectedDomain, setSelectedDomain] = useState<DropdownValue | null>(null);
   const [editUni, setEditUni] = useState(false);
   const [editDomain, setEditDomain] = useState(false);
   const dispatch = useDispatch();
   const { addDomainDialog } = useAppSelector((state) => state.upload);
-  console.log("this is the add domain dialog", addDomainDialog);
 
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
@@ -36,7 +38,7 @@ function Study() {
     limit: 5,
   });
   const { data: newDomains } = useGetDomainsUsingUniversityIdQuery(
-    selectedUniversity || (user?.university?.id as string)
+    selectedUniversity?.value || (user?.university?.id as string)
   );
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
@@ -56,19 +58,28 @@ function Study() {
             <div>
               <p className="text-titleText mb-2">Select University</p>
 
-              <AutoCompleteSearch
-                data={data || []}
+              <DaAutocomplete
+                options={data?.map((item) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    value: "",
+                    label: "loading...",
+                  },
+                ]
+              }
                 placeholder="Search for your university"
-                setSearch={(search) => {
-                  setUniversity(search);
+                onInputChange={(e)=>{
+                  setUniversity(e)
                 }}
-                setSelectedItem={(selectedItem) => {
-                  setSelectedUniversity(selectedItem);
+                onChange={(e) => {
+                  setSelectedUniversity(e as DropdownValue)
                 }}
                 style={{ borderRadius: "0.7rem" }}
                 className="mr-4 p-1"
                 name="university"
-                value={user?.university?.title}
+                value={selectedUniversity}
               />
               {submitted && !selectedUniversity && (
                 <div className="text-sm text-error">university is required</div>
@@ -90,16 +101,19 @@ function Study() {
                 const id = toast.loading("Updating...");
                 updateUniversity({
                   id: user?.id,
-                  body: { university: selectedUniversity },
+                  body: { university: selectedUniversity?.value },
                 })
                   .unwrap()
                   .then((res) => {
                     toast.dismiss(id);
                     toast.success("Updated Successfully");
+                    setEditUni(false);
+                    setSelectedUniversity(null);
+                    setUniversity("");
                   })
                   .catch((err) => {
                     toast.dismiss(id);
-                    toast.error(`${err.data.message}`);
+                    toast.error(`${err?.data?.message}`);
                   });
               }
             }}
@@ -131,18 +145,27 @@ function Study() {
                   </p>
                 </div>
               )}
-              <AutoCompleteSearch
-                defaultValue={user?.domain?.title}
-                data={newDomains || []}
+              <DaAutocomplete
+                options={newDomains?.map((item:DomainInterface) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    value: "",
+                    label: "loading...",
+                  },
+                ]
+              }
                 disabled={!user?.university?.id}
                 placeholder="Search for your Domain"
-                setSearch={(search) => setDomain(search)}
-                setSelectedItem={(selectedItem) => {
-                  setSelectedDomain(selectedItem);
+                onInputChange={(search) => setDomain(search)}
+                onChange={(selectedItem) => {
+                  setSelectedDomain(selectedItem as DropdownValue);
                 }}
                 style={{ borderRadius: "0.7rem" }}
                 className="mr-4 p-1"
                 name="university"
+                value={selectedDomain}
               />
               {submitted && !selectedDomain && (
                 <div className="text-sm text-error">Domain is required</div>
@@ -164,16 +187,19 @@ function Study() {
                 const id = toast.loading("Updating...");
                 updateUser({
                   id: user?.id,
-                  body: { domain: selectedDomain },
+                  body: { domain: selectedDomain?.value },
                 })
                   .unwrap()
                   .then((res) => {
                     toast.dismiss(id);
                     toast.success("Updated Successfully");
+                    setEditDomain(false);
+                    setSelectedDomain(null);
+                    setDomain("");
                   })
                   .catch((err) => {
                     toast.dismiss(id);
-                    toast.error(`${err.data.message}`);
+                    toast.error(`${err?.data?.message}`);
                   });
               }
             }}

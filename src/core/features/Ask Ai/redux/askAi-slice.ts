@@ -1,3 +1,4 @@
+import { DropdownValue } from "@/services/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: {
@@ -9,9 +10,9 @@ const initialState: {
   subIndex: number;
   university: string;
   searchUniversity: string;
-  selectedUniversity: string;
+  selectedUniversity: DropdownValue | null;
   searchCourse: string;
-  selectedCourse: string;
+  selectedCourse: DropdownValue | null;
 } = {
   isPrivate: true,
   QuestionStep: 0,
@@ -21,9 +22,9 @@ const initialState: {
   subIndex: 0,
   university: "",
   searchUniversity: "",
-  selectedUniversity: "",
+  selectedUniversity: null,
   searchCourse: "",
-  selectedCourse: "",
+  selectedCourse: null,
 };
 
 const AskAiSlice = createSlice({

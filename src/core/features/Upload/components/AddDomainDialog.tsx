@@ -15,6 +15,7 @@ import {
   setSearchUniversityAddDomain,
   setSelectedUniversityAddDomain,
 } from "../redux/upload-slice";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
 
 function AddDomainDialog() {
   const {
@@ -41,9 +42,9 @@ function AddDomainDialog() {
         createDomain({
           body: {
             title: values.title,
-            university: selectedUniversityAddDomain,
+            university: selectedUniversityAddDomain?.value,
           },
-          univerisityId: selectedUniversityAddDomain,
+          univerisityId: selectedUniversityAddDomain?.value,
         })
           .unwrap()
           .then((res) => {
@@ -66,16 +67,27 @@ function AddDomainDialog() {
         <div>Create Domain</div>
 
         <TextFieldComponent label="Domain Name" name="title" formik={formik} />
-        <AutoCompleteSearch
-          data={data || []}
+        <DaAutocomplete
+          options={
+            data?.map((item) => ({
+              label: item?.title,
+              value: item?.id,
+            })) || [
+              {
+                value: "",
+                label: "loading...",
+              },
+            ]
+          }
           placeholder="Search for your university"
-          setSearch={(search) => dispatch(setSearchUniversityAddDomain(search))}
-          setSelectedItem={(selectedItem) => {
+          onInputChange={(search) =>
+            dispatch(setSearchUniversityAddDomain(search))
+          }
+          onChange={(selectedItem) => {
             dispatch(setSelectedUniversityAddDomain(selectedItem));
           }}
           style={{ borderRadius: "0.7rem" }}
           className="mr-4 p-1"
-          loading={true}
         />
         <div className="flex items-center justify-end gap-2">
           <DaButton

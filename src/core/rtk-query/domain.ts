@@ -3,7 +3,7 @@ import { mainApi } from ".";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getDomainsUsingUniversityId: builder.query({
+    getDomainsUsingUniversityId: builder.query<DomainInterface[],string>({
       query: (id: string) => ({
         url: `university/domains/${id}`,
         method: "GET",

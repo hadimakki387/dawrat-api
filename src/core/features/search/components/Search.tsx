@@ -20,38 +20,45 @@ import {
   useGetCoursesByUserIdQuery,
 } from "@/core/rtk-query/courses";
 import MissingDataMessage from "../../HomePage/Components/MissingDataMessage";
+import { useAppSelector } from "@/core/StoreWrapper";
 
 function Search() {
   const param = useParams();
   const search = param?.search;
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams.toString());
+
+  const {
+    selectedCourse,
+    selectedUniversity,
+    category,
+    searchCourse,
+    searchUniversity,
+  } = useAppSelector((state) => state.search);
+
   const { data, isLoading } = useSearchDataQuery({
     title: search as string,
-    university: params.get("selectedUniversity") as string,
-    course: params.get("selectedCourse") as string,
+    university: selectedUniversity?.value,
+    course: selectedCourse?.value,
   });
   const { data: Universities, isLoading: loadingUniversities } =
     useGetUniversitiesQuery({
       limit: 5,
-      title: params.get("searchUniversity") as string,
+      title: searchUniversity,
     });
   const { data: courses } = useGetAllCoursesQuery(
-    { limit: 5, title: params.get("searchCourse") as string },
+    { limit: 5, title: searchCourse },
     {
-      skip: !!params.get("selectedUniversity"),
+      skip: !!selectedUniversity,
     }
   );
   const { data: UniversityCourses } = useGetCoursesByUniversityIdQuery(
     {
-      id: params.get("selectedUniversity") as string,
+      id: selectedUniversity?.value,
       limit: 5,
     },
     {
-      skip: !params.get("selectedUniversity"),
+      skip: !selectedUniversity,
     }
   );
-  const category = params.get("category");
   return (
     <>
       {isLoading || loadingUniversities ? (
@@ -78,11 +85,9 @@ function Search() {
             })}
         </div>
       ) : !isLoading && data.length === 0 && data ? (
-        
-          <div className="w-full mt-16">
-            <MissingDataMessage message="No results found" />
-          </div>
-        
+        <div className="w-full mt-16">
+          <MissingDataMessage message="No results found" />
+        </div>
       ) : (
         <>
           <FiltersDrawer

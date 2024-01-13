@@ -21,6 +21,8 @@ import {
   setSelectedUniversity,
   setSelectedUniversityCreate
 } from "../redux/upload-slice";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
+import { DropdownValue } from "@/services/types";
 
 function AddCourseDialog() {
   const {
@@ -36,8 +38,8 @@ function AddCourseDialog() {
   });
 
   const { data: domains, isLoading: loadingDomains } =
-    useGetDomainsUsingUniversityIdQuery(selectedUniversityCreate, {
-      skip: !selectedUniversityCreate ? true : false,
+    useGetDomainsUsingUniversityIdQuery(selectedUniversityCreate?.value, {
+      skip: !selectedUniversityCreate?.value,
     });
   const { user } = useAppSelector((state) => state.global);
 
@@ -59,20 +61,20 @@ function AddCourseDialog() {
 
       const selectedUniveristy = data?.find(
         (university: UniversityInterface) =>
-          university.id === selectedUniversityCreate
+          university.id === selectedUniversityCreate?.value
       );
       if (
-        selectedUniveristy &&
-        selectedDomainCreate &&
-        selectedUniversityCreate
+        selectedUniveristy?.id &&
+        selectedDomainCreate?.value &&
+        selectedUniversityCreate?.value
       ) {
         createCourse({
-          domainId: selectedDomainCreate,
+          domainId: selectedDomainCreate?.value,
           body: {
             title: values?.title,
             description: values?.description,
             university: selectedUniveristy?.id,
-            domain: selectedDomainCreate,
+            domain: selectedDomainCreate?.value,
             ownerId: user?.id as string,
             universityName: selectedUniveristy?.title,
           },
@@ -95,6 +97,8 @@ function AddCourseDialog() {
       }
     },
   });
+  console.log("these are the universities")
+  console.log(data)
 
   return (
     <DaDialog open={addCourseDialog}>
@@ -110,12 +114,21 @@ function AddCourseDialog() {
           name="description"
           placeholder="Enter The Description"
         />
-        <AutoCompleteSearch
-          data={data || []}
+        <DaAutocomplete
+          options={data?.map((item) => ({
+            label: item?.title,
+            value: item?.id,
+          })) || [
+            {
+              value: "",
+              label: "loading...",
+            },
+          ]
+        }
           placeholder="Search for your university"
-          setSearch={(search) => dispatch(setSearchUniversityCreate(search))}
-          setSelectedItem={(selectedItem) => {
-            dispatch(setSelectedUniversityCreate(selectedItem));
+          onInputChange={(search) => dispatch(setSearchUniversityCreate(search))}
+          onChange={(selectedItem) => {
+            dispatch(setSelectedUniversityCreate(selectedItem as DropdownValue));
           }}
           style={{ borderRadius: "0.7rem" }}
           className="mr-4 p-1"
@@ -128,12 +141,21 @@ function AddCourseDialog() {
           </div>
         ) : (
           domains && (
-            <AutoCompleteSearch
-              data={domains}
+            <DaAutocomplete
+              options={domains?.map((item) => ({
+                label: item?.title,
+                value: item?.id,
+              })) || [
+                {
+                  value: "",
+                  label: "loading...",
+                },
+              ]
+            }
               placeholder="Search for Domain"
-              setSearch={(search) => dispatch(setSearchDomainCreate(search))}
-              setSelectedItem={(selectedItem) => {
-                dispatch(setSelectedDomainCreate(selectedItem));
+              onInputChange={(search) => dispatch(setSearchDomainCreate(search))}
+              onChange={(selectedItem) => {
+                dispatch(setSelectedDomainCreate(selectedItem as DropdownValue));
               }}
               style={{ borderRadius: "0.7rem" }}
               className="mr-4 p-1"

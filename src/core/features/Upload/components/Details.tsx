@@ -1,15 +1,12 @@
 "use client";
 import { courseInterface } from "@/backend/modules/Courses/courses.interface";
-import { DomainInterface } from "@/backend/modules/domains/domain.interface";
 import Document from "@/components/SVGs/Document";
 import Folder from "@/components/SVGs/Folder";
 import Institution from "@/components/SVGs/Institution";
-import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import {
-  useGetCoursesByDomainIdQuery
-} from "@/core/rtk-query/courses";
+import { useGetCoursesByDomainIdQuery } from "@/core/rtk-query/courses";
 import { useCreateDocumentMutation } from "@/core/rtk-query/documents";
 import { useGetDomainsUsingUniversityIdQuery } from "@/core/rtk-query/domain";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
@@ -26,9 +23,6 @@ import { setUser } from "../../global/redux/global-slice";
 import {
   setAddCourseDialog,
   setAddDomainDialog,
-  setSearchCourse,
-  setSearchDomain,
-  setSearchUploadUniversity,
   setSelectedCourse,
   setSelectedDomain,
   setSelectedUniversity,
@@ -37,53 +31,26 @@ import {
 import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
 import CreateUniversityDialog from "./CreateUniversityDialog";
+import { CircularProgress } from "@mui/material";
 
 function Details() {
   const dispatch = useDispatch();
-
-  const {
-    searchUploadUniversity,
-    selectedUniversity,
-    uploadedDocs,
-    selectedCourse,
-    selectedDomain,
-    handleSubmit,
-  } = useAppSelector((state) => state.upload);
-  const { user } = useAppSelector((state) => state.global);
-  const { data } = useGetUniversitiesQuery({
-    title: searchUploadUniversity,
-    limit: 5,
-  });
-  const { data: domains, isLoading: loadingDomains } =
-    useGetDomainsUsingUniversityIdQuery(selectedUniversity, {
-      skip: !selectedUniversity ? true : false,
-    });
-  const { data: courses, isLoading: loadingCourse } =
-    useGetCoursesByDomainIdQuery(selectedDomain, {
-      skip: !selectedDomain ? true : false,
-    });
-
-  const storedDocs = localStorage.getItem("uploadedDocs");
-  const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
-
-  useEffect(() => {
-    if (parsedStoredDocs?.length > 0) {
-      dispatch(setUploadedDocs(parsedStoredDocs));
-    }
-  }, []);
-
-  const [createDocument] = useCreateDocumentMutation();
-
   const formik = useFormik({
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
       description: Yup.string().required("Description is required"),
-      university: Yup.string().required("University is required"),
     }),
     initialValues: {
       title: "",
       description: "",
-      university: "",
+      university: {
+        label: "",
+        value: "",
+      },
+      domain: {
+        label: "",
+        value: "",
+      },
     },
     onSubmit: (values) => {
       const id = toast.loading("Uploading Document");
@@ -92,9 +59,9 @@ function Details() {
       createDocument({
         title: values.title,
         description: values.description,
-        university: selectedUniversity,
-        domain: selectedDomain,
-        course: selectedCourse,
+        university: selectedUniversity?.value,
+        domain: selectedDomain?.value,
+        course: selectedCourse?.value,
         ownerId: user?.id,
         doc: {
           name: actualDoc?.name,
@@ -109,15 +76,8 @@ function Details() {
           toast.success("Document Uploaded");
           localStorage.setItem("uploadedDocs", "");
           dispatch(setUploadedDocs([]));
-          formik.resetForm();
           dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
-          dispatch(setSelectedCourse(""));
-          dispatch(setSelectedDomain(""));
-          dispatch(setSelectedUniversity(""));
-          dispatch(setSearchCourse(""));
-          dispatch(setSearchDomain(""));
-          dispatch(setSearchUploadUniversity(""));
-          window.location.reload();
+          formik.resetForm();
         })
         .catch((err) => {
           toast.dismiss(id);
@@ -126,11 +86,64 @@ function Details() {
     },
   });
 
+  const {
+    searchUploadUniversity,
+    selectedUniversity,
+    uploadedDocs,
+    selectedCourse,
+    selectedDomain,
+    handleSubmit,
+  } = useAppSelector((state) => state.upload);
+  const { user } = useAppSelector((state) => state.global);
+  const { data } = useGetUniversitiesQuery({
+    title: searchUploadUniversity,
+  });
+  const { data: domains, isLoading: loadingDomains } =
+    useGetDomainsUsingUniversityIdQuery(selectedUniversity?.value as string, {
+      skip: !selectedUniversity?.value ? true : false,
+    });
+  const { data: courses, isLoading: loadingCourse } =
+    useGetCoursesByDomainIdQuery(selectedDomain?.value as string, {
+      skip: !selectedDomain?.value ? true : false,
+    });
+
+  const storedDocs = localStorage.getItem("uploadedDocs");
+  const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
+
+  useEffect(() => {
+    if (parsedStoredDocs?.length > 0) {
+      dispatch(setUploadedDocs(parsedStoredDocs));
+    }
+  }, []);
+
+  const [createDocument] = useCreateDocumentMutation();
+
   const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
 
   useEffect(() => {
     if (handleSubmit !== 0) formik.handleSubmit();
   }, [handleSubmit]);
+
+  useEffect(() => {
+    if (parsedStoredDocs)
+      formik.setFieldValue("title", parsedStoredDocs?.name as string);
+    if (uploadedDocs.length > 0)
+      formik.setFieldValue("title", uploadedDocs[0]?.name);
+  }, [uploadedDocs]);
+
+  useEffect(() => {
+    if (!selectedUniversity?.value) {
+      dispatch(setSelectedCourse(null));
+      dispatch(setSelectedDomain(null));
+    }
+  }, [selectedUniversity]);
+  useEffect(() => {
+    if (!selectedCourse?.value) {
+      dispatch(setSelectedDomain(null));
+    }
+  }, [selectedCourse]);
+  console.log("this is loading University");
+  console.log(loadingDomains);
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
@@ -183,13 +196,7 @@ function Details() {
                               )
                             )
                           );
-                          dispatch(setSelectedCourse(""));
-                          dispatch(setSelectedDomain(""));
-                          dispatch(setSelectedUniversity(""));
-                          dispatch(setSearchCourse(""));
-                          dispatch(setSearchDomain(""));
-                          dispatch(setSearchUploadUniversity(""));
-                          window.location.reload();
+                          formik.resetForm();
                         })
                         .catch((err) => {
                           toast.dismiss(id);
@@ -211,9 +218,6 @@ function Details() {
               placeholder="Title"
               name="title"
               formik={formik}
-              onChange={(e) => {
-            
-              }}
             />
           </div>
           <p>Enter Document Description</p>
@@ -235,18 +239,24 @@ function Details() {
             <p>University</p>
           </div>
           <div className="w-full">
-            <AutoCompleteSearch
-              data={data || []}
-              placeholder="Search for your university"
-              setSearch={(search) => dispatch(setSearchUploadUniversity(search))}
-              setSelectedItem={(id) => dispatch(setSelectedUniversity(id))}
-              style={{ borderRadius: "0.7rem" }}
-              className="mr-4 p-1"
+            <DaAutocomplete
+              options={data?.map((item) => ({
+                value: item?.id,
+                label: item?.title,
+              })) || [{
+                label:"loading...",
+                value:""
+              }]}
+             
+              getOptionDisabled={()=>data && data.length>0?false:true}
+              label="Search for your university"
+              onChange={(e) => {
+                dispatch(setSelectedUniversity(e));
+              }}
               name="university"
-              formik={formik}
-              value={
-                data?.find((item) => item.id === selectedUniversity)?.title
-              }
+              onInputChange={(e)=>{
+                console.log(e)
+              }}
             />
           </div>
           <div
@@ -275,21 +285,25 @@ function Details() {
               Add Domain
             </div>
           </div>
-          <div className="w-full">
-            <AutoCompleteSearch
-              data={domains || []}
-              placeholder="Search for course"
-              setSearch={(search) => dispatch(setSearchDomain(search))}
-              setSelectedItem={(id) => dispatch(setSelectedDomain(id))}
-              style={{ borderRadius: "0.7rem" }}
-              className="mr-4 p-1"
-              disabled={!selectedUniversity}
-              value={
-                domains?.find(
-                  (item: DomainInterface) => item.id === selectedDomain
-                )?.title
-              }
+          <div className={`w-full `}>
+            <DaAutocomplete
+              options={domains?.map((item) => ({
+                value: item?.id,
+                label: item?.title,
+              })) || [{
+                label:"loading...",
+                value:""
+              }]}
+              getOptionDisabled={()=>domains && domains.length>0?false:true}
+              label="Search for your domain"
+              onChange={(e) => {
+                dispatch(setSelectedDomain(e));
+              }}
+              name="domain"
+              disabled={!selectedUniversity?.value}
+             
             />
+   
           </div>
           <div
             className={`text-sm text-primary w-32 hover:cursor-pointer text-right max-md:hidden ${
@@ -320,19 +334,21 @@ function Details() {
             </div>
           </div>
           <div className="w-full">
-            <AutoCompleteSearch
-              data={courses || []}
-              placeholder="Search for course"
-              setSearch={(search) => dispatch(setSearchCourse(search))}
-              setSelectedItem={(id) => dispatch(setSelectedCourse(id))}
-              style={{ borderRadius: "0.7rem" }}
-              className="mr-4 p-1"
-              disabled={!selectedDomain}
-              value={
-                courses?.find(
-                  (item: courseInterface) => item.id === selectedCourse
-                )?.title
-              }
+            <DaAutocomplete
+              options={courses?.map((item:courseInterface) => ({
+                value: item?.id,
+                label: item?.title,
+              }))|| [{
+                label:"loading...",
+                value:""
+              }]}
+              getOptionDisabled={()=>courses && courses.length>0?false:true}
+              label="Search for your Course"
+              onChange={(e) => {
+                dispatch(setSelectedCourse(e));
+              }}
+              name="course"
+              disabled={!selectedDomain?.value}
             />
           </div>
           <div

@@ -1,42 +1,52 @@
 // let generate UploadSlice in this file
 
+import { DropdownValue } from "@/services/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: {
   searchUploadUniversity: string;
-  selectedUniversity: string;
+  selectedUniversity: DropdownValue | null;
   uploadedDocs: any[];
   searchCourse: string;
-  selectedCourse: string;
+  selectedCourse: DropdownValue | null;
   searchDomain: string;
-  selectedDomain: string;
+  selectedDomain: DropdownValue | null;
   handleSubmit: number;
   addCourseDialog: boolean;
   searchUniversityCreate: string;
-  selectedUniversityCreate: string;
+  selectedUniversityCreate: DropdownValue | null;
   searchDomainCreate: string;
-  selectedDomainCreate: string;
+  selectedDomainCreate: DropdownValue | null;
   addDomainDialog: boolean;
   searchUniversityAddDomain: string;
-  selectedUniversityAddDomain: string;
+  selectedUniversityAddDomain: DropdownValue | null;
   addUniversityDialog: boolean;
 } = {
   searchUploadUniversity: "",
-  selectedUniversity: "",
+  selectedUniversity: {
+    label: "",
+    value: "",
+  },
   uploadedDocs: [],
   searchCourse: "",
-  selectedCourse: "",
+  selectedCourse: {
+    label: "",
+    value: "",
+  },
   searchDomain: "",
-  selectedDomain: "",
+  selectedDomain: {
+    label: "",
+    value: "",
+  },
   handleSubmit: 0,
   addCourseDialog: false,
   searchUniversityCreate: "",
-  selectedUniversityCreate: "",
+  selectedUniversityCreate: null,
   searchDomainCreate: "",
-  selectedDomainCreate: "",
+  selectedDomainCreate: null,
   addDomainDialog: false,
   searchUniversityAddDomain: "",
-  selectedUniversityAddDomain: "",
+  selectedUniversityAddDomain: null,
   addUniversityDialog: false,
 };
 
@@ -92,9 +102,9 @@ const uploadSlice = createSlice({
     setSelectedUniversityAddDomain(state, action) {
       state.selectedUniversityAddDomain = action.payload;
     },
-    setAddUniverisityDialog(state,action){
-      state.addUniversityDialog = action.payload
-    }
+    setAddUniverisityDialog(state, action) {
+      state.addUniversityDialog = action.payload;
+    },
   },
 });
 
@@ -115,7 +125,7 @@ export const {
   setAddDomainDialog,
   setSearchUniversityAddDomain,
   setSelectedUniversityAddDomain,
-  setAddUniverisityDialog
+  setAddUniverisityDialog,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

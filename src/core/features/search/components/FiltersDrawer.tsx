@@ -1,13 +1,25 @@
 import { courseInterface } from "@/backend/modules/Courses/courses.interface";
 import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
 import DaButton from "@/components/global/DaButton";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { DropdownValue } from "@/services/types";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Drawer } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  setCategory,
+  setDrawer,
+  setSearchCourse,
+  setSearchUniversity,
+  setSelectedCourse,
+  setSelectedUniversity,
+} from "../redux/search-slice";
 
 type Props = {
   universities?: UniversityInterface[];
@@ -15,21 +27,20 @@ type Props = {
 };
 
 function FiltersDrawer({ universities, courses }: Props) {
-  const searchParams = useSearchParams();
-  const drawer = searchParams.get("showFilterPanel");
-  const params = new URLSearchParams(searchParams.toString());
-  const router = useRouter();
-  
+  const dispatch = useDispatch();
+  const { drawer, selectedCourse, selectedUniversity,category } = useAppSelector(
+    (state) => state.search
+  );
+
   return (
     <Drawer
       anchor={"right"}
-      open={drawer ? true : false}
+      open={drawer}
       onClose={() => {
-        params.delete("showFilterPanel");
-        router.push(`?${params.toString()}`);
+        dispatch(setDrawer(false));
       }}
     >
-      <div className="md:w-[25vw]">
+      <div className="md:w-[25vw] w-[75vw]">
         <div
           className="flex justify-end"
           style={{
@@ -40,59 +51,65 @@ function FiltersDrawer({ universities, courses }: Props) {
             icon={faX}
             className="text-titleText"
             onClick={() => {
-              params.delete("showFilterPanel");
-              router.push(`?${params.toString()}`);
+              dispatch(setDrawer(false));
             }}
           />
         </div>
         <div className="w-full flex items-center mb-4 gap-4 flex-col p-4">
           <div className="w-full">
-            <AutoCompleteSearch
-              data={universities || []}
+            <DaAutocomplete
+              options={
+                universities?.map((item) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    value: "",
+                    label: "loading...",
+                  },
+                ]
+              }
               placeholder="Search for your university"
-              setSearch={(e: string) => {
+              onInputChange={(e: string) => {
                 if (e) {
-                  params.set("searchUniversity", e);
-                  router.push(`?${params.toString()}`);
+                  dispatch(setSearchUniversity(e));
                 }
               }}
-              setSelectedItem={(e: string) => {
-                params.set("selectedUniversity", e);
-                router.push(`?${params.toString()}`);
+              onChange={(e) => {
+                dispatch(setSelectedUniversity(e));
               }}
               style={{ borderRadius: "0.7rem" }}
-              className="mr-4 p-1"
+              className=" p-1"
               name="university"
               label="University filter"
-              value={
-                universities?.find(
-                  (item) =>
-                    item.id === (params.get("selectedUniversity") as string)
-                )?.title
-              }
+              value={selectedUniversity}
             />
           </div>
           <div className="w-full">
-            <AutoCompleteSearch
-              data={courses || []}
+            <DaAutocomplete
+              options={
+                courses?.map((item) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    value: "",
+                    label: "loading...",
+                  },
+                ]
+              }
               placeholder="Search Course"
-              setSearch={(e) => {
-                params.set("searchCourse", e);
-                router.push(`?${params.toString()}`);
+              onInputChange={(e) => {
+                dispatch(setSearchCourse(e));
               }}
-              setSelectedItem={(e) => {
-                params.set("selectedCourse", e);
-                router.push(`?${params.toString()}`);
+              onChange={(e) => {
+                dispatch(setSelectedCourse(e));
               }}
               style={{ borderRadius: "0.7rem" }}
-              className="mr-4 p-1"
+              className=" p-1"
               name="university"
               label="Course filter"
-              value={
-                courses?.find(
-                  (item) => item.id === (params.get("selectedCourse") as string)
-                )?.title
-              }
+              value={selectedCourse}
             />
           </div>
           <div className="w-full">
@@ -107,10 +124,9 @@ function FiltersDrawer({ universities, courses }: Props) {
                 { label: "Documents", value: "documents" },
               ]}
               onChange={(e) => {
-                params.set("category", e.target.value);
-                router.push(`?${params.toString()}`);
+                dispatch(setCategory(e.target.value));
               }}
-              value={params.get("category") || ""}
+              value={category}
             />
           </div>
         </div>
@@ -119,12 +135,11 @@ function FiltersDrawer({ universities, courses }: Props) {
             label="Clear Filters"
             className="bg-primary text-white font-semibold"
             onClick={() => {
-              params.delete("selectedCourse");
-              params.delete("selectedUniversity");
-              params.delete("searchCourse");
-              params.delete("searchUniversity");
-              params.delete("category");
-              router.push(`?${params.toString()}`);
+              dispatch(setSelectedCourse(""));
+              dispatch(setSelectedUniversity(""));
+              dispatch(setCategory(""));
+              dispatch(setSearchCourse(""));
+              dispatch(setSearchUniversity(""));
             }}
           />
         </div>

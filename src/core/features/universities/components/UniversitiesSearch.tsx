@@ -1,6 +1,8 @@
 "use client";
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
+import DaAutocomplete from "@/components/global/DaAutoComplete";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
+import { DropdownValue } from "@/services/types";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
@@ -11,7 +13,7 @@ type Props = {};
 function UniversitiesSearch({}: Props) {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [selectedUniversity, setSelectedUniversity] = useState("");
+  const [selectedUniversity, setSelectedUniversity] = useState<DropdownValue | null>(null);
   const { data } = useGetUniversitiesQuery({
     title: search,
     limit: 5,
@@ -29,25 +31,35 @@ function UniversitiesSearch({}: Props) {
           className="w-full flex items-center gap-2"
           onSubmit={(e) => {
             e.preventDefault();
-            router.push(`/universities/${selectedUniversity}`);
+            router.push(`/universities/${selectedUniversity?.value}`);
           }}
         >
           <div className="w-full">
-            <AutoCompleteSearch
-              data={data || []}
+            <DaAutocomplete
+              options={data?.map((item) => ({
+                label: item?.title,
+                value: item?.id,
+              })) || [
+                {
+                  value: "",
+                  label: "loading...",
+                },
+              ]
+            }
               placeholder="Search University"
-              setSearch={(search) => {
+              onInputChange={(search) => {
                 setSearch(search);
               }}
-              setSelectedItem={(selectedItem) => {
-                setSelectedUniversity(selectedItem);
+              onChange={(selectedItem) => {
+                setSelectedUniversity(selectedItem as DropdownValue);
               }}
               style={{
                 borderRadius: 999999,
                 padding: "0.75rem",
               }}
-              className="mr-4 p-1"
+              className=" p-1"
               name="university"
+              value={selectedUniversity}
             />
           </div>
           <button>
