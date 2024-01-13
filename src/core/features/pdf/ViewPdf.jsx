@@ -4,11 +4,13 @@ import WebViewer from "@pdftron/pdfjs-express";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useParams } from "next/navigation";
 
-function ViewPdf({ url, LoadSuccess }) {
+function ViewPdf({ url, LoadSuccess,outerStyle }) {
   const viewer = useRef(null);
   const { user } = useAppSelector((state) => state.global);
   const params = useParams()
   const DocId = params?.id
+  console.log("this is the outer style")
+  console.log(outerStyle)
 
   useEffect(() => {
     if (viewer.current && viewer.current.innerHTML === "" && url) {
@@ -65,7 +67,7 @@ function ViewPdf({ url, LoadSuccess }) {
     }
   }, [url]);
 
-  return <div className="webviewer" ref={viewer}></div>;
+  return <div className="webviewer" ref={viewer} style={outerStyle}></div>;
 }
 
 export default ViewPdf;

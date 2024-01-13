@@ -75,7 +75,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      onQueryStarted: async ({ ownerId }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ ownerId,id }, { dispatch, queryFulfilled }) => {
         try {
           const { data: updatedUser } = await queryFulfilled;
 
@@ -85,7 +85,10 @@ const ExtendedApi = mainApi.injectEndpoints({
               ownerId,
               (draft) => {
                 // i want to remove the document from the array
-                const index = draft.findIndex((doc) => doc._id === ownerId);
+                const index = draft.findIndex((doc) => doc._id === id);
+                console.log(index)
+                console.log(ownerId)
+                if(index !== -1)
                 draft.splice(index, 1);
               }
             )

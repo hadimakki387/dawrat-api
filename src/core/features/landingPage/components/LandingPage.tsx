@@ -8,6 +8,7 @@ import SignUpDialog from "./SignUpDialog";
 import SignInDialog from "./signInDialog";
 import LoadingScreen from "@/components/global/loading screen/LoadingScreen";
 import LandingNavBar from "@/components/layout/LandingNavBar";
+import SideBar from "./SideBar";
 
 function LandingPage() {
   const { data, isSuccess } = useGetItemsQuery();
@@ -18,9 +19,6 @@ function LandingPage() {
         <>
           <LandingNavBar />
           <div className="overflow-hidden">
-            <SignInDialog />
-            <SignUpDialog />
-            <ForgetPasswordDialog />
             <Header />
             <AnalysticsSection
               documentsCount={data?.documentsCount}

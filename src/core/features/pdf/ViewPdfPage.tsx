@@ -11,6 +11,7 @@ import { useGetStudylistQuery } from "@/core/rtk-query/user";
 import {
   faBookmark,
   faDownload,
+  faShare,
   faThumbsDown,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
@@ -122,15 +123,37 @@ function ViewPdfPage() {
           <SaveForStudyListDialog />
           <div className={`${success ? "" : "hidden"}`}>
             <div className="flex items-center gap-4 justify-between max-md:flex-col max-md:gap-2">
-              <DaButton
-                fullRounded
-                className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold max-md:min-w-full"
-                onClick={() => handleDownload()}
-                label="Download"
-                startIcon={
-                  <FontAwesomeIcon icon={faDownload} className="text-white" />
-                }
-              />
+              <div className="flex items-center gap-4 max-md:w-full">
+                <div className="max-md:w-1/2">
+                  <DaButton
+                    fullRounded
+                    className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold  w-full"
+                    onClick={() => handleDownload()}
+                    label="Download"
+                    startIcon={
+                      <FontAwesomeIcon icon={faDownload} className="text-white" />
+                    }
+                  />
+                </div>
+                <div className="max-md:w-1/2">
+                  <DaButton
+                    label="Share"
+                    startIcon={
+                      <FontAwesomeIcon icon={faShare} className="text-primary text-lg"  />
+                    }
+                    fullRounded
+                    className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                    onClick={() => {
+                      //i want to copy the link to the clipboard
+                      navigator.clipboard.writeText(
+                        `${window.location.origin}/public/pdf/${id}`
+                      );
+                      toast.success("Link Copied");
+                    }}
+                  />
+                </div>
+                
+              </div>
               <div className="flex items-center gap-4 max-md:justify-between max-md:w-full">
                 <DaButton
                   label="Save"
@@ -214,6 +237,7 @@ function ViewPdfPage() {
                 LoadSuccess={(e: boolean) => {
                   setSuccess(e);
                 }}
+                outerStyle={{}}
               />
             </Suspense>
           </div>

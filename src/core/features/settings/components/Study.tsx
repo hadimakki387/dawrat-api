@@ -2,14 +2,19 @@
 import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { useGetAllDomainsQuery } from "@/core/rtk-query/domain";
+import {
+  useGetAllDomainsQuery,
+  useGetDomainsUsingUniversityIdQuery,
+} from "@/core/rtk-query/domain";
 import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
 import {
   useUpdateUserMutation,
   useUpdateUserUniversityMutation,
 } from "@/core/rtk-query/user";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { setAddDomainDialog } from "../../Upload/redux/upload-slice";
 
 function Study() {
   const [university, setUniversity] = useState("");
@@ -18,6 +23,9 @@ function Study() {
   const [selectedDomain, setSelectedDomain] = useState("");
   const [editUni, setEditUni] = useState(false);
   const [editDomain, setEditDomain] = useState(false);
+  const dispatch = useDispatch();
+  const { addDomainDialog } = useAppSelector((state) => state.upload);
+  console.log("this is the add domain dialog", addDomainDialog);
 
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
@@ -27,6 +35,9 @@ function Study() {
     title: domain,
     limit: 5,
   });
+  const { data: newDomains } = useGetDomainsUsingUniversityIdQuery(
+    selectedUniversity || (user?.university?.id as string)
+  );
   const [submitted, setSubmitted] = useState(false);
   const [updateUniversity] = useUpdateUserUniversityMutation();
   const [updateUser] = useUpdateUserMutation();
@@ -44,6 +55,7 @@ function Study() {
           <div className="mb-4">
             <div>
               <p className="text-titleText mb-2">Select University</p>
+
               <AutoCompleteSearch
                 data={data || []}
                 placeholder="Search for your university"
@@ -67,7 +79,6 @@ function Study() {
                 </p>
               )}
             </div>
-            
           </div>
           <DaButton
             label="Submit"
@@ -107,10 +118,22 @@ function Study() {
         <div>
           <div className="mb-4">
             <div>
-              <p className="text-titleText mb-2">Select Domain</p>
+              {user?.role === "admin" && (
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="text-titleText ">Select Domain</p>
+                  <p
+                    className="text-primary font-bold text-xs hover:cursor-pointer "
+                    onClick={() => {
+                      dispatch(setAddDomainDialog(true));
+                    }}
+                  >
+                    Add Domain
+                  </p>
+                </div>
+              )}
               <AutoCompleteSearch
                 defaultValue={user?.domain?.title}
-                data={domains || []}
+                data={newDomains || []}
                 disabled={!user?.university?.id}
                 placeholder="Search for your Domain"
                 setSearch={(search) => setDomain(search)}

@@ -1,9 +1,6 @@
-import SearchInput from "@/components/global/SearchInput";
 import BouncingArrow from "@/components/global/bouncing arrow/BouncingArrow";
-import SideBar from "./SideBar";
 import Image from "next/image";
 import Link from "next/link";
-import DaSearch from "@/components/global/DaSearch/DaSearch";
 
 function Header() {
   return (
@@ -21,7 +18,6 @@ function Header() {
         </Link>
       </div>
 
-      <SideBar />
       <Image
         alt="shape1"
         src={"/shape1.png"}
