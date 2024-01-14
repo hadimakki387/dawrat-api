@@ -22,6 +22,7 @@ const createDocument: Record<keyof Omit<DocumentInterface,"id"| "_id">, any> = {
     downvotes:Joi.number(),
     universityName:Joi.string(),
     courseTitle:Joi.string(),
+    solution:Joi.string(),
 }
 
 

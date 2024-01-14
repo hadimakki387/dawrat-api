@@ -8,6 +8,7 @@ import uploadSlice from "./Upload/redux/upload-slice"
 import courseSlice from "./courses/redux/courses-slice"
 import settingsSlice from "./settings/redux/settings-slice"
 import searchSlice from "./search/redux/search-slice"
+import solutionsSlice from "./solutions/redux/solutions-slice"
 
 const reducers = combineReducers({
     profile:profileSlice,
@@ -18,6 +19,7 @@ const reducers = combineReducers({
     settings:settingsSlice,
     courses:courseSlice,
     search:searchSlice,
+    solutions:solutionsSlice,
     [mainApi.reducerPath]:mainApi.reducer
 })
 

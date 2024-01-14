@@ -31,7 +31,6 @@ import {
 import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
 import CreateUniversityDialog from "./CreateUniversityDialog";
-import { CircularProgress } from "@mui/material";
 
 function Details() {
   const dispatch = useDispatch();

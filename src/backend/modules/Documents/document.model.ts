@@ -73,6 +73,10 @@ const documentSchema = new Schema<any, any>({
       required: true,
     },
   },
+  solution: {
+    type: String,
+    required:false,
+  },
 });
 
 const Document = models.Document || model("Document", documentSchema);

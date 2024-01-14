@@ -9,9 +9,6 @@ function ViewPdf({ url, LoadSuccess,outerStyle }) {
   const { user } = useAppSelector((state) => state.global);
   const params = useParams()
   const DocId = params?.id
-  console.log("this is the outer style")
-  console.log(outerStyle)
-
   useEffect(() => {
     if (viewer.current && viewer.current.innerHTML === "" && url) {
       WebViewer(

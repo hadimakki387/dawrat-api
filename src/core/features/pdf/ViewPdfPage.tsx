@@ -4,6 +4,7 @@ import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import {
   useDownvoteDocumentMutation,
+  useGetDocumentsByOwnerIdQuery,
   useGetSingleDocumentQuery,
   useUpvoteDocumentMutation,
 } from "@/core/rtk-query/documents";
@@ -11,13 +12,15 @@ import { useGetStudylistQuery } from "@/core/rtk-query/user";
 import {
   faBookmark,
   faDownload,
+  faPen,
   faShare,
   faThumbsDown,
   faThumbsUp,
+  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress, Skeleton } from "@mui/material";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Suspense, lazy, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -39,6 +42,7 @@ function ViewPdfPage() {
   const { user } = useAppSelector((state) => state.global);
   const dispatch = useDispatch();
   const [voting, setVoting] = useState(false);
+  const router = useRouter();
 
   const handleDownload = () => {
     // Fetch the PDF file
@@ -115,6 +119,7 @@ function ViewPdfPage() {
   const checkSaved = Studylist?.some((studylist: StudylistInterface) => {
     if (data) return studylist.documents.includes(data?.id);
   });
+  const isOwner = data?.ownerId === user?.id;
 
   return (
     <div>
@@ -131,7 +136,10 @@ function ViewPdfPage() {
                     onClick={() => handleDownload()}
                     label="Download"
                     startIcon={
-                      <FontAwesomeIcon icon={faDownload} className="text-white" />
+                      <FontAwesomeIcon
+                        icon={faDownload}
+                        className="text-white"
+                      />
                     }
                   />
                 </div>
@@ -139,7 +147,10 @@ function ViewPdfPage() {
                   <DaButton
                     label="Share"
                     startIcon={
-                      <FontAwesomeIcon icon={faShare} className="text-primary text-lg"  />
+                      <FontAwesomeIcon
+                        icon={faShare}
+                        className="text-primary text-lg"
+                      />
                     }
                     fullRounded
                     className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
@@ -152,7 +163,42 @@ function ViewPdfPage() {
                     }}
                   />
                 </div>
-                
+                {isOwner && !data?.solution && (
+                  <div className="max-md:w-1/2">
+                    <DaButton
+                      label="Upload Solution"
+                      startIcon={
+                        <FontAwesomeIcon
+                          icon={faUpload}
+                          className="text-primary text-lg"
+                        />
+                      }
+                      fullRounded
+                      className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                      onClick={() => {
+                        router.push(`/solutions/create/${id}`);
+                      }}
+                    />
+                  </div>
+                )}
+                {data?.solution && (
+                  <div className="max-md:w-1/2">
+                    <DaButton
+                      label="Check Solution"
+                      // startIcon={
+                      //   <FontAwesomeIcon
+                      //     icon={faUpload}
+                      //     className="text-primary text-lg"
+                      //   />
+                      // }
+                      fullRounded
+                      className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                      onClick={() => {
+                        router.push(`/solutions/${data?.solution}`);
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-4 max-md:justify-between max-md:w-full">
                 <DaButton
