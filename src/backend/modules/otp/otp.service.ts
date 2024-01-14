@@ -34,16 +34,17 @@ export const handleOtpGeneration = async (req: NextRequest) => {
 
   const otp = Math.floor(100000 + Math.random() * 900000);
   const createOtp = await Otp.create({ email: email, otp: otp });
-  console.log("this is the created otp")
-  console.log(createOtp)
+
 
   try {
     const sendEmail = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
-      to: [email],
+      to: email,
       subject: "OTP for password reset",
       react: EmailTemplate({ username: "Hadi makki", otp: otp }),
     });
+    console.log("sendEmail")
+    console.log(sendEmail)
 
     return new NextResponse(
       JSON.stringify({
