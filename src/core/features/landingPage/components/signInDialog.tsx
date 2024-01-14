@@ -6,16 +6,12 @@ import { useLoginMutation } from "@/core/rtk-query/landingPage";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import * as Yup from "yup";
-import {
-  setIsAuth,
-  setSignIn,
-  setSignUp
-} from "../redux/homePage-slice";
+import { setIsAuth, setSignIn, setSignUp } from "../redux/homePage-slice";
 import "./index.css";
 
 function SignInDialog() {
@@ -23,6 +19,8 @@ function SignInDialog() {
   const dispatch = useDispatch();
   const [login, { isSuccess }] = useLoginMutation();
   const router = useRouter();
+  const params = useParams();
+  const PdfId = params?.id;
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -43,10 +41,13 @@ function SignInDialog() {
           dispatch(setSignIn(false));
           formik.resetForm();
           dispatch(setIsAuth(true));
-          setTimeout(()=>{
-
-            router.push("/")
-          },200)
+          setTimeout(() => {
+            if (id) {
+              router.push(`/pdf/${PdfId}`);
+            } else {
+              router.push("/");
+            }
+          }, 200);
         })
         .catch((err) => {
           toast.dismiss(id);
@@ -120,6 +121,7 @@ function SignInDialog() {
                 dispatch(setSignIn(false));
                 dispatch(setSignUp(true));
               }}
+              type="button"
             />
           </div>
         </div>

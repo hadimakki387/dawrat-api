@@ -61,7 +61,7 @@ function UploadPdf() {
             }
           }}
           onUploadError={(error: Error) => {
-            console.log(`ERROR! ${error.message}`);
+            toast.error(`${error?.message}`)
           }}
           onUploadBegin={(name: any) => {
             console.log("Uploading: ", name);

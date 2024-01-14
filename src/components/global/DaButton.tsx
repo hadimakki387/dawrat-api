@@ -13,6 +13,7 @@ interface Props {
   style?: React.CSSProperties;
   padding?: boolean;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 function DaButton({
@@ -26,10 +27,12 @@ function DaButton({
   style,
   padding,
   disabled,
+  type="submit",
   ...rest
 }: Props) {
   return (
     <button
+    type={type}
       id={id}
       className={`${fullRounded ? "rounded-full" : "rounded-md"}  ${
         !padding ? "px-3 py-1 md:px-4 md:py-2" : ""
