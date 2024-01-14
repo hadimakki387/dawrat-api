@@ -26,7 +26,7 @@ function AiQuestions() {
       </h1>
       {questions && questions.length > 0 && !loadingQuestions ? (
         <div className="w-full">
-          <DaCarousel hasButtons={false}>
+          <DaCarousel >
             {questions.map((question) => {
               return (
                 <DaCard
@@ -62,7 +62,7 @@ function AiQuestions() {
         <MissingDataMessage message="You did ask any question yet." />
       ) : (
         <div className="w-full">
-          <DaCarousel hasButtons={false}>
+          <DaCarousel >
             {Array.from(new Array(3)).map((_, index) => {
               return (
                 <DaCard

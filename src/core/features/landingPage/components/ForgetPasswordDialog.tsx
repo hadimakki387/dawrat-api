@@ -113,10 +113,12 @@ function ForgetPasswordDialog({}: Props) {
         <div className="space-y-4">
           <div>
             <div className="text-lg text-titleText">
-              You will recieve a code on your email
+              You will recieve a code on your email, You will recieve an email
+              from Acme {"<onboarding@resend.dev>"} please Copy and paste the
+              code sent
             </div>
             <div className="text-error ">
-              Note: This code will expire in 5 minutes.
+              Note: This code will expire in 15 minutes.
             </div>
           </div>
           <div>

@@ -1,14 +1,10 @@
 "use client";
-import { useGetItemsQuery } from "@/core/rtk-query/landingPage";
-import AnalysticsSection from "./AnalysticsSection";
-import ForgetPasswordDialog from "./ForgetPasswordDialog";
-import Header from "./Header";
-import ItemsSection from "./ItemsSection";
-import SignUpDialog from "./SignUpDialog";
-import SignInDialog from "./signInDialog";
 import LoadingScreen from "@/components/global/loading screen/LoadingScreen";
 import LandingNavBar from "@/components/layout/LandingNavBar";
-import SideBar from "./SideBar";
+import { useGetItemsQuery } from "@/core/rtk-query/landingPage";
+import AnalysticsSection from "./AnalysticsSection";
+import Header from "./Header";
+import ItemsSection from "./ItemsSection";
 
 function LandingPage() {
   const { data, isSuccess } = useGetItemsQuery();

@@ -1,12 +1,13 @@
+import EmailTemplate from "@/backend/utils/EmailTemplate";
+import MongoConnection from "@/backend/utils/db";
+import * as bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 import User from "../user/user.model";
 import Otp from "./otp.model";
-import MongoConnection from "@/backend/utils/db";
-import nodemailer from "nodemailer";
-import { MailOptions } from "nodemailer/lib/json-transport";
-import { emailTemplate } from "@/backend/utils/emailTemplate";
 import { generateOtpValidation, verifyOtpValidation } from "./otp.validation";
-import * as bcrypt from "bcryptjs";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const handleOtpGeneration = async (req: NextRequest) => {
   MongoConnection();
@@ -33,48 +34,36 @@ export const handleOtpGeneration = async (req: NextRequest) => {
 
   const otp = Math.floor(100000 + Math.random() * 900000);
   const createOtp = await Otp.create({ email: email, otp: otp });
+  console.log("this is the created otp")
+  console.log(createOtp)
 
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    host: "smtp.gmail.com",
-    
-    port: 587,
-    secure: true,
-    auth: {
-      user: process.env.MY_EMAIL,
-      pass: process.env.MY_PASS,
-    },
-  });
-  //generate otp with 6 digits
-  var mailOptions: MailOptions = {
-    from: "hmakki387@gmail.com",
-    to: `${email}`,
-    subject: "OTP for your account",
-    text: emailTemplate(otp, "Hadi Makki"),
-  };
+  try {
+    const sendEmail = await resend.emails.send({
+      from: "Acme <onboarding@resend.dev>",
+      to: [email],
+      subject: "OTP for password reset",
+      react: EmailTemplate({ username: "Hadi makki", otp: otp }),
+    });
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      return new NextResponse(
-        JSON.stringify({
-          message: error.message,
-        }),
-        {
-          status: 500,
-        }
-      );
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-  return new NextResponse(
-    JSON.stringify({
-      message: "OTP has been sent to your email",
-    }),
-    {
-      status: 200,
-    }
-  );
+    return new NextResponse(
+      JSON.stringify({
+        message: "OTP has been sent to your email",
+        data: sendEmail,
+      }),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        message: error,
+      }),
+      {
+        status: 400,
+      }
+    );
+  }
 };
 
 export const checkOtpAndChangePass = async (req: NextRequest) => {

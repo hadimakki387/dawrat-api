@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import * as Yup from "yup";
-import { setIsAuth, setSignIn, setSignUp } from "../redux/homePage-slice";
+import { setIsAuth, setResetPassword, setSignIn, setSignUp } from "../redux/homePage-slice";
 import "./index.css";
 
 function SignInDialog() {
@@ -104,7 +104,7 @@ function SignInDialog() {
           />
         </div>
         <div className="flex items-center justify-end text-primary font-semibold">
-          {/* <div
+          <div
             onClick={() => {
               dispatch(setSignIn(false));
               dispatch(setResetPassword(true));
@@ -112,7 +112,7 @@ function SignInDialog() {
             className="hover:cursor-pointer"
           >
             Forget Password?
-          </div> */}
+          </div>
           <div>
             <DaButton
               label="Sign Up"

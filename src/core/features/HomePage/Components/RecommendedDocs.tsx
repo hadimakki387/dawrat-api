@@ -31,7 +31,6 @@ function RecommendedDocs() {
         recommendedDocuments.length > 0 &&
         !loadingDocuments ? (
           <DaCarousel
-            hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
           >
             {recommendedDocuments?.map((doc: DocumentI, index: any) => {
@@ -57,7 +56,6 @@ function RecommendedDocs() {
         ) : (
           <div className="flex items-center gap-3">
             <DaCarousel
-              hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
               {Array.from(new Array(10)).map((_, index) => {

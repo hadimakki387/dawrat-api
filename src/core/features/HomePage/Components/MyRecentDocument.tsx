@@ -36,7 +36,7 @@ function MyRecentDocument() {
           reviewedDocuments.length > 0 &&
           !loadingDocuments ? (
           <DaCarousel
-            hasButtons={false}
+            
             options={{ containScroll: "trimSnaps" }}
           >
             {reviewedDocuments.map((doc: any, index: any) => {
@@ -52,7 +52,6 @@ function MyRecentDocument() {
         ) : (
           <div className="flex items-center gap-4">
             <DaCarousel
-              hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
               {Array.from(new Array(10)).map((_, index) => (

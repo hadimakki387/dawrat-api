@@ -43,7 +43,6 @@ function RecentlyReviewed() {
       <div className="">
         {RecentlyReviewed && RecentlyReviewed.length > 0 ? (
           <DaCarousel
-            hasButtons={false}
             options={{ containScroll: "trimSnaps" }}
           >
             {RecentlyReviewed?.map((doc: any, index: number) => {
@@ -60,7 +59,6 @@ function RecentlyReviewed() {
         ) : (
           <div className="flex items-center gap-3">
             <DaCarousel
-              hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
               {Array.from(new Array(10)).map((_, index) => {

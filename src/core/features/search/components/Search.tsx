@@ -66,7 +66,6 @@ function Search() {
           <SearchHeader />
           <div>
             <DaCarousel
-              hasButtons={false}
               options={{ containScroll: "trimSnaps" }}
             >
               {Array(3)
@@ -102,7 +101,6 @@ function Search() {
             {(!category || category === "courses") && (
               <div className="flex items-center gap-4 w-full">
                 <DaCarousel
-                  hasButtons={false}
                   options={{ containScroll: "trimSnaps" }}
                 >
                   {data?.map((item: any, index: number) => {

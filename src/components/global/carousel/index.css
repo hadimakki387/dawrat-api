@@ -79,6 +79,11 @@
     width: 100%;
     padding: 0 1rem;
   }
+  @media (max-width: 500px) {
+    .embla__buttons{
+      padding: 0 0.5rem;
+    }
+  }
   .embla__button {
     z-index: 1;
     color: var(--background-site);
