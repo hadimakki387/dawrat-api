@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import * as Yup from "yup";
 import { setUploadedSolutions } from "../redux/solutions-slice";
+import { useGetSingleDocumentQuery } from "@/core/rtk-query/documents";
 
 
 
@@ -81,6 +82,13 @@ function CreateSolutionDetails() {
   useEffect(() => {
     if (handleSolutionSubmit !== 0) formik.handleSubmit();
   }, [handleSolutionSubmit]);
+  const {data:document} = useGetSingleDocumentQuery(docId as string)
+
+  useEffect(() => {
+    if(document && document?.solution){
+      router.push(`/solutions/${document?.solution}`)
+    }
+  }, [document]);
 
   useEffect(() => {
     if (parsedStoredDocs)
