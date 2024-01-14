@@ -42,7 +42,7 @@ function SignInDialog() {
           formik.resetForm();
           dispatch(setIsAuth(true));
           setTimeout(() => {
-            if (id) {
+            if (PdfId) {
               router.push(`/pdf/${PdfId}`);
             } else {
               router.push("/");
