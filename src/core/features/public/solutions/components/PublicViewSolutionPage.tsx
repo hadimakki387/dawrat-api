@@ -2,11 +2,15 @@
 import DaButton from "@/components/global/DaButton";
 import LandingNavBar from "@/components/layout/LandingNavBar";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { useGetPublicDocumentsByIdQuery } from "@/core/rtk-query/public";
+import { useGetPublicSolutionsByIdQuery } from "@/core/rtk-query/public";
+import { useGetSingleSolutionQuery } from "@/core/rtk-query/solutions";
 import { useGetStudylistQuery } from "@/core/rtk-query/user";
 import {
-    faDownload,
-    faShare
+  faAngleRight,
+  faDownload,
+  faPen,
+  faShare,
+  faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress, Skeleton } from "@mui/material";
@@ -14,19 +18,15 @@ import { useParams, useRouter } from "next/navigation";
 import { Suspense, lazy, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import "./index.css";
-
 const ViewPdf = lazy(() => import("@/core/features/pdf/ViewPdf"));
 
-function PublicPdfViewPage() {
+function PublicViewSolutionPage() {
   const param = useParams();
   const id = param?.id;
-  const { data } = useGetPublicDocumentsByIdQuery(id as string);
+  const { data } = useGetPublicSolutionsByIdQuery(id as string);
   const [success, setSuccess] = useState(false);
-
   const { user } = useAppSelector((state) => state.global);
   const dispatch = useDispatch();
-
   const router = useRouter();
 
   const handleDownload = () => {
@@ -66,8 +66,7 @@ function PublicPdfViewPage() {
         toast.error("Error Downloading");
       });
   };
-
-
+  const isOwner = data?.userId === user?.id;
   return (
     <div className="bg-[#38071f]">
       <div className="h-[10vh]">
@@ -76,9 +75,23 @@ function PublicPdfViewPage() {
       {data ? (
         <>
           <div className={`${success ? "" : "hidden"}  h-screen px-2`}>
+            <div>
+              <div className="flex items-center gap-2">
+                <p className="text-primary hover:cursor-pointer hover:underline" onClick={()=>{
+                  router.push(`/pdf/${data?.document}`)
+                }}>
+                  {data?.documentName}
+                </p>
+                <FontAwesomeIcon icon={faAngleRight}  className="text-titleText"/>
+                <p className="text-titleText">solution</p>
+              </div>
+              <h1 className="text-titleText text-lg my-4">
+                {data?.title}
+              </h1>
+            </div>
             <div className="flex items-center gap-4 justify-between max-md:flex-col max-md:gap-2">
               <div className="flex items-center gap-4 max-md:w-full">
-                <div className="max-md:hidden">
+                <div className="max-md:w-1/2">
                   <DaButton
                     fullRounded
                     className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold  w-full"
@@ -92,21 +105,7 @@ function PublicPdfViewPage() {
                     }
                   />
                 </div>
-                <div className="md:hidden">
-                  <DaButton
-                    fullRounded
-                    className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold  w-full"
-                    onClick={() => handleDownload()}
-                    label=""
-                    startIcon={
-                      <FontAwesomeIcon
-                        icon={faDownload}
-                        className="text-white"
-                      />
-                    }
-                  />
-                </div>
-                <div className="max-md:hidden">
+                <div className="max-md:w-1/2">
                   <DaButton
                     label="Share"
                     startIcon={
@@ -120,43 +119,14 @@ function PublicPdfViewPage() {
                     onClick={() => {
                       //i want to copy the link to the clipboard
                       navigator.clipboard.writeText(
-                        `${window.location.origin}/public/pdf/${id}`
+                        `${window.location.origin}/public/solution/${id}`
                       );
                       toast.success("Link Copied");
                     }}
                   />
                 </div>
-                <div className="md:hidden">
-                  <DaButton
-                    label=""
-                    startIcon={
-                      <FontAwesomeIcon
-                        icon={faShare}
-                        className="text-primary text-lg"
-                      />
-                    }
-                    fullRounded
-                    className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
-                    onClick={() => {
-                      //i want to copy the link to the clipboard
-                      navigator.clipboard.writeText(
-                        `${window.location.origin}/public/pdf/${id}`
-                      );
-                      toast.success("Link Copied");
-                    }}
-                  />
-                </div>
-                {data.solution && <div className="">
-                  <DaButton
-                    label="Check Solution"
-                    fullRounded
-                    className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
-                    onClick={() => {
-                      router.push(`/public/solutions/${id}`);
-                    }}
-                  />
-                </div>}
               </div>
+              
             </div>
             <Suspense>
               <ViewPdf
@@ -164,9 +134,7 @@ function PublicPdfViewPage() {
                 LoadSuccess={(e: boolean) => {
                   setSuccess(e);
                 }}
-                outerStyle={{
-                  height: "100% !important",
-                }}
+                outerStyle={{}}
               />
             </Suspense>
           </div>
@@ -196,4 +164,4 @@ function PublicPdfViewPage() {
   );
 }
 
-export default PublicPdfViewPage;
+export default PublicViewSolutionPage;

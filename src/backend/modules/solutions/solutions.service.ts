@@ -12,8 +12,10 @@ import {
 import Document from "../Documents/document.model";
 import { utapi } from "@/backend/utils/uploadThing";
 import { SolutionInterface } from "./solutions.interface";
+import MongoConnection from "@/backend/utils/db";
 
 export const createSolution = async (req: NextRequest) => {
+  MongoConnection()
   const body = await req.json();
   const validateData = createSolutionValidation.body.validate(body);
   if (validateData.error) {
@@ -44,6 +46,7 @@ export const createSolution = async (req: NextRequest) => {
 };
 
 export const getSolutions = async (req: NextRequest) => {
+  MongoConnection()
   const params = new URL(req.url).searchParams;
   const limit = params.get("limit");
   const title = new RegExp(params.get("title") || "", "i");
@@ -60,6 +63,7 @@ export const getSolutions = async (req: NextRequest) => {
 };
 
 export const getSolutionById = async (req: NextRequest) => {
+  MongoConnection()
   const id = getIdFromUrl(req.url);
   const solution = await Solution.findById(id);
   if (!solution) return NextResponse.json({ message: "Solution not found" });
@@ -69,6 +73,7 @@ export const getSolutionById = async (req: NextRequest) => {
 };
 
 export const updateSolution = async (req: NextRequest) => {
+  MongoConnection()
   const body = await req.json();
   const validateData = updateSolutionValidation.body.validate(body);
   if (validateData.error) {
@@ -90,6 +95,7 @@ export const updateSolution = async (req: NextRequest) => {
 };
 
 export const deleteSolution = async (req: NextRequest) => {
+  MongoConnection()
   const id = getIdFromUrl(req.url);
   if (!id)
     return NextResponse.json({ message: "Id is required" }, { status: 400 });
