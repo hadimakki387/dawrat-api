@@ -45,6 +45,10 @@ const solutionSchema = new Schema<SolutionInterface>({
       required: true,
     },
   },
+  documentName:{
+    type:String,
+    required:true,
+  }
 });
 
 const Solution = models.Solution || model("Solution", solutionSchema);

@@ -16,4 +16,5 @@ export interface SolutionInterface {
   course: string;
   domain: string;
   document: string;
+  documentName:string
 }

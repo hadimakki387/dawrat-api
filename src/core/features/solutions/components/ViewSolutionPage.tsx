@@ -3,7 +3,13 @@ import DaButton from "@/components/global/DaButton";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetSingleSolutionQuery } from "@/core/rtk-query/solutions";
 import { useGetStudylistQuery } from "@/core/rtk-query/user";
-import { faAngleRight, faDownload, faPen, faShare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faDownload,
+  faPen,
+  faShare,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress, Skeleton } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
@@ -11,7 +17,8 @@ import { Suspense, lazy, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import EditSolutionDialog from "./EditSolutionDialog";
-import { setEditSolution } from "../redux/solutions-slice";
+import { setDeleteSolution, setEditSolution } from "../redux/solutions-slice";
+import DeleteSolutionDialog from "./DeleteSolutionDialog";
 
 const ViewPdf = lazy(() => import("@/core/features/pdf/ViewPdf"));
 
@@ -66,12 +73,22 @@ function ViewSolutionPage() {
     <div>
       {data ? (
         <>
-          <EditSolutionDialog solution={data}/>
+          <EditSolutionDialog solution={data} />
+          <DeleteSolutionDialog solution={data} />
           <div className={`${success ? "" : "hidden"}`}>
-            <div className="flex items-center gap-2">
-                <p>document</p><FontAwesomeIcon icon={faAngleRight} />
-                <p>this</p><FontAwesomeIcon icon={faAngleRight} />
-                <p>that</p>
+            <div>
+              <div className="flex items-center gap-2">
+                <p className="text-primary hover:cursor-pointer hover:underline" onClick={()=>{
+                  router.push(`/pdf/${data?.document}`)
+                }}>
+                  {data?.documentName}
+                </p>
+                <FontAwesomeIcon icon={faAngleRight}  className="text-titleText"/>
+                <p className="text-titleText">solution</p>
+              </div>
+              <h1 className="text-titleText text-lg my-4">
+                {data?.title}
+              </h1>
             </div>
             <div className="flex items-center gap-4 justify-between max-md:flex-col max-md:gap-2">
               <div className="flex items-center gap-4 max-md:w-full">
@@ -110,22 +127,42 @@ function ViewSolutionPage() {
                   />
                 </div>
               </div>
-              <div className="max-md:w-1/2">
-                <DaButton
-                  label="Edit Solution"
-                  startIcon={
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      className="text-primary text-lg"
+              {isOwner && (
+                <div className="flex items-center gap-2">
+                  <div>
+                    <DaButton
+                      label="Edit Solution"
+                      startIcon={
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          className="text-primary text-lg"
+                        />
+                      }
+                      fullRounded
+                      className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                      onClick={() => {
+                        dispatch(setEditSolution(true));
+                      }}
                     />
-                  }
-                  fullRounded
-                  className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
-                  onClick={() => {
-                    dispatch(setEditSolution(true))
-                  }}
-                />
-              </div>
+                  </div>
+                  <div>
+                    <DaButton
+                      label="Delete Solution"
+                      startIcon={
+                        <FontAwesomeIcon
+                          icon={faTrashCan}
+                          className="text-error text-lg"
+                        />
+                      }
+                      fullRounded
+                      className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                      onClick={() => {
+                        dispatch(setDeleteSolution(true));
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <Suspense>
               <ViewPdf

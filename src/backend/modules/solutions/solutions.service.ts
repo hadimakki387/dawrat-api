@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSolutionValidation, updateSolutionValidation } from "./solutions.validation";
+import {
+  createSolutionValidation,
+  updateSolutionValidation,
+} from "./solutions.validation";
 import Solution from "./solutions.mode";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import {
@@ -7,6 +10,8 @@ import {
   returnData,
 } from "@/backend/helper-functions/returnData";
 import Document from "../Documents/document.model";
+import { utapi } from "@/backend/utils/uploadThing";
+import { SolutionInterface } from "./solutions.interface";
 
 export const createSolution = async (req: NextRequest) => {
   const body = await req.json();
@@ -20,10 +25,10 @@ export const createSolution = async (req: NextRequest) => {
   const document = await Document.findById(body.document);
   if (!document) return NextResponse.json({ message: "Document not found" });
 
-
   const solution = await Solution.create({
     ...body,
-    userId:document.ownerId
+    userId: document.ownerId,
+    documentName: document.title,
   });
 
   //set the solution id to the solution in document
@@ -31,7 +36,7 @@ export const createSolution = async (req: NextRequest) => {
     solution.document,
     { solution: solution._id },
     { new: true }
-  )
+  );
 
   return NextResponse.json(returnData(solution), {
     status: 201,
@@ -57,7 +62,7 @@ export const getSolutions = async (req: NextRequest) => {
 export const getSolutionById = async (req: NextRequest) => {
   const id = getIdFromUrl(req.url);
   const solution = await Solution.findById(id);
-    if (!solution) return NextResponse.json({ message: "Solution not found" });
+  if (!solution) return NextResponse.json({ message: "Solution not found" });
   return NextResponse.json(returnData(solution), {
     status: 200,
   });
@@ -67,9 +72,12 @@ export const updateSolution = async (req: NextRequest) => {
   const body = await req.json();
   const validateData = updateSolutionValidation.body.validate(body);
   if (validateData.error) {
-    return NextResponse.json({message:validateData.error.message}, {
-      status: 400,
-    });
+    return NextResponse.json(
+      { message: validateData.error.message },
+      {
+        status: 400,
+      }
+    );
   }
   const id = getIdFromUrl(req.url);
   const solution = await Solution.findByIdAndUpdate(id, body, {
@@ -86,9 +94,23 @@ export const deleteSolution = async (req: NextRequest) => {
   if (!id)
     return NextResponse.json({ message: "Id is required" }, { status: 400 });
 
-  const solution = await Solution.findByIdAndDelete(id);
+  const solution: SolutionInterface | null = await Solution.findById(id);
   if (!solution) return NextResponse.json({ message: "Solution not found" });
-  return NextResponse.json(returnData(solution), {
-    status: 200,
-  });
+  await Document.findByIdAndUpdate(solution.document, { solution: "" }, { new: true });
+  
+  try {
+    await utapi.deleteFiles([solution.doc.key]);
+  } catch (error:any) {
+    return NextResponse.json({ message: error?.code }, { status: 400 });
+  }
+  const deleteSolution = await Solution.findByIdAndDelete(id);
+  if (!solution) return NextResponse.json({ message: "Solution not found" });
+  return NextResponse.json(
+    {
+      message: "Solution deleted successfully",
+    },
+    {
+      status: 200,
+    }
+  );
 };

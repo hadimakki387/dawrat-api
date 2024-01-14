@@ -128,8 +128,8 @@ function ViewPdfPage() {
           <SaveForStudyListDialog />
           <div className={`${success ? "" : "hidden"}`}>
             <div className="flex items-center gap-4 justify-between max-md:flex-col max-md:gap-2">
-              <div className="flex items-center gap-4 max-md:w-full">
-                <div className="max-md:w-1/2">
+              <div className="flex items-center gap-4 max-md:w-full ">
+                <div className="max-md:hidden">
                   <DaButton
                     fullRounded
                     className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold  w-full"
@@ -143,7 +143,21 @@ function ViewPdfPage() {
                     }
                   />
                 </div>
-                <div className="max-md:w-1/2">
+                <div className="md:hidden">
+                  <DaButton
+                    fullRounded
+                    className="flex items-center justify-end gap-4 text-white my-4 hover:cursor-pointer bg-green-500 font-semibold  w-full"
+                    onClick={() => handleDownload()}
+                    label=""
+                    startIcon={
+                      <FontAwesomeIcon
+                        icon={faDownload}
+                        className="text-white"
+                      />
+                    }
+                  />
+                </div>
+                <div className="max-md:hidden">
                   <DaButton
                     label="Share"
                     startIcon={
@@ -163,8 +177,28 @@ function ViewPdfPage() {
                     }}
                   />
                 </div>
+                <div className="md:hidden">
+                  <DaButton
+                    label=""
+                    startIcon={
+                      <FontAwesomeIcon
+                        icon={faShare}
+                        className="text-primary text-lg"
+                      />
+                    }
+                    fullRounded
+                    className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                    onClick={() => {
+                      //i want to copy the link to the clipboard
+                      navigator.clipboard.writeText(
+                        `${window.location.origin}/public/pdf/${id}`
+                      );
+                      toast.success("Link Copied");
+                    }}
+                  />
+                </div>
                 {isOwner && !data?.solution && (
-                  <div className="max-md:w-1/2">
+                  <div className="">
                     <DaButton
                       label="Upload Solution"
                       startIcon={

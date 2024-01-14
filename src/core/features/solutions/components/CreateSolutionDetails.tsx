@@ -8,7 +8,7 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Convert from "convert-units";
 import { useFormik } from "formik";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ function CreateSolutionDetails() {
   const [createSolution] = useCreateSolutionMutation()
   const params = useParams()
   const docId = params?.id
+  const router = useRouter()
   const formik = useFormik({
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
@@ -54,6 +55,7 @@ function CreateSolutionDetails() {
           localStorage.setItem("uploadedDocs", "");
           dispatch(setUploadedSolutions([]));
           formik.resetForm();
+          router.push(`/solutions/${res?.id}`)
         })
         .catch((err) => {
           toast.dismiss(id);
