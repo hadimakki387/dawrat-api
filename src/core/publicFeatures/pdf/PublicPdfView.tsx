@@ -152,7 +152,7 @@ function PublicPdfViewPage() {
                     fullRounded
                     className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
                     onClick={() => {
-                      router.push(`/public/solutions/${id}`);
+                      router.push(`/public/solutions/${data?.solution}`);
                     }}
                   />
                 </div>}

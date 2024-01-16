@@ -3,6 +3,7 @@ import { mainApi } from ".";
 import { DocumentI, UserI } from "@/services/types";
 import { setUser } from "../features/global/redux/global-slice";
 import { UserInterface } from "@/backend/modules/user/user.interfaces";
+import { SolutionInterface } from "@/backend/modules/solutions/solutions.interface";
 
 const ExtendedApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -32,7 +33,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getRecommendedDocumentsInDomain: builder.query<any,string>({
+    getRecommendedDocumentsInDomain: builder.query<any, string>({
       query: (id) => ({
         url: `/domain/courses/recommended/${id}`,
         method: "GET",
@@ -75,7 +76,7 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      onQueryStarted: async ({ ownerId,id }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ ownerId, id }, { dispatch, queryFulfilled }) => {
         try {
           const { data: updatedUser } = await queryFulfilled;
 
@@ -86,10 +87,9 @@ const ExtendedApi = mainApi.injectEndpoints({
               (draft) => {
                 // i want to remove the document from the array
                 const index = draft.findIndex((doc) => doc._id === id);
-                console.log(index)
-                console.log(ownerId)
-                if(index !== -1)
-                draft.splice(index, 1);
+                console.log(index);
+                console.log(ownerId);
+                if (index !== -1) draft.splice(index, 1);
               }
             )
           );
@@ -244,6 +244,40 @@ const ExtendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    createSolution: builder.mutation<
+      SolutionInterface,
+      {
+        title: string;
+        description: string;
+        doc: {
+          name: string;
+          size: number;
+          key: string;
+          url: string;
+        };
+        document: string;
+      }
+    >({
+      query: (data) => ({
+        url: "solutions",
+        method: "POST",
+        body: data,
+      }),
+      onQueryStarted: async ({ document }, { dispatch, queryFulfilled }) => {
+        try {
+          const { data: solution } = await queryFulfilled;
+          dispatch(
+            ExtendedApi.util.updateQueryData(
+              "getSingleDocument",
+              document,
+              (draft) => {
+                draft.solution = solution._id;
+              }
+            )
+          );
+        } catch {}
+      },
+    }),
   }),
 });
 
@@ -262,4 +296,5 @@ export const {
   useGetDocumentByUniversityIdQuery,
   useGetPopularDocumentsInUniversityQuery,
   useGetRecentDocumentsInUniversityQuery,
+  useCreateSolutionMutation,
 } = ExtendedApi;

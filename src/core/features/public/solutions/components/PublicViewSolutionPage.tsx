@@ -78,14 +78,14 @@ function PublicViewSolutionPage() {
             <div>
               <div className="flex items-center gap-2">
                 <p className="text-primary hover:cursor-pointer hover:underline" onClick={()=>{
-                  router.push(`/pdf/${data?.document}`)
+                  router.push(`/public/pdf/${data?.document}`)
                 }}>
                   {data?.documentName}
                 </p>
-                <FontAwesomeIcon icon={faAngleRight}  className="text-titleText"/>
-                <p className="text-titleText">solution</p>
+                <FontAwesomeIcon icon={faAngleRight}  className="text-white"/>
+                <p className="text-white">solution</p>
               </div>
-              <h1 className="text-titleText text-lg my-4">
+              <h1 className="text-white text-lg my-4">
                 {data?.title}
               </h1>
             </div>

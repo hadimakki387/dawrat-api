@@ -14,7 +14,8 @@ import { returnArrayData } from "@/backend/helper-functions/returnData";
 import httpStatus from "http-status";
 import { utapi } from "@/backend/utils/uploadThing";
 import User from "../user/user.model";
-
+import { SolutionInterface } from "../solutions/solutions.interface";
+import Solution from "../solutions/solutions.mode";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -138,9 +139,26 @@ export const DeleteDocument = async (req: NextRequest) => {
     { reviewedDocuments: filteredArray },
     { new: true }
   );
+  const body = await req.json();
+
+  if (doc.solution) {
+    const solution: SolutionInterface | null = await Solution.findById(doc.solution);
+    if (!solution) return NextResponse.json({ message: "Solution not found" });
+    await Document.findByIdAndUpdate(
+      solution.document,
+      { solution: "" },
+      { new: true }
+    );
+
+    try {
+      await utapi.deleteFiles([solution.doc.key]);
+    } catch (error: any) {
+      return NextResponse.json({ message: error?.code }, { status: 400 });
+    }
+    const deleteSolution = await Solution.findByIdAndDelete(doc.solution);
+  }
 
   const DeletedDoc = await Document.findByIdAndDelete(id);
-  const body = await req.json();
   const deleteFiles = await utapi.deleteFiles(body);
 
   if (!deleteFiles.success) {
@@ -172,13 +190,10 @@ export const updateDocument = async (req: NextRequest) => {
   return new NextResponse(JSON.stringify(updatedDoc), { status: 200 });
 };
 
-
 export const handleUpvote = async (req: NextRequest) => {
-  
   MongoConnection();
   const id = getIdFromUrl(req.url);
   const body = await req.json();
-
 
   const doc = await Document.findById(id);
 
@@ -288,7 +303,7 @@ export const handleUpvote = async (req: NextRequest) => {
       upvotes: updatedDoc.upvotes,
       downvotes: updatedDoc.downvotes,
       likedDocuments: updatedUser.likedDocuments,
-        dislikedDocuments: updatedUser.dislikedDocuments,
+      dislikedDocuments: updatedUser.dislikedDocuments,
     }),
     {
       status: 200,
@@ -370,7 +385,6 @@ export const handleDownvote = async (req: NextRequest) => {
       {
         likedDocuments: filterLikedDocs,
         dislikedDocuments: updateDislikedDocuments,
-
       },
       { new: true }
     );
@@ -407,7 +421,7 @@ export const handleDownvote = async (req: NextRequest) => {
       upvotes: updatedDoc.upvotes,
       downvotes: updatedDoc.downvotes,
       likedDocuments: updatedUser.likedDocuments,
-        dislikedDocuments: updatedUser.dislikedDocuments,
+      dislikedDocuments: updatedUser.dislikedDocuments,
     }),
     {
       status: 200,

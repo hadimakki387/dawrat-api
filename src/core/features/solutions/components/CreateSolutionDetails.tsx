@@ -2,7 +2,6 @@
 import Document from "@/components/SVGs/Document";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { useCreateSolutionMutation } from "@/core/rtk-query/solutions";
 import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import * as Yup from "yup";
 import { setUploadedSolutions } from "../redux/solutions-slice";
-import { useGetSingleDocumentQuery } from "@/core/rtk-query/documents";
+import { useCreateSolutionMutation, useGetSingleDocumentQuery } from "@/core/rtk-query/documents";
 
 
 

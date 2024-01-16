@@ -18,26 +18,6 @@ const ExtendedApi = mainApi.injectEndpoints({
           title ? `&title=${title}` : ""
         }`,
     }),
-    createSolution: builder.mutation<
-      SolutionInterface,
-      {
-        title: string;
-        description: string;
-        doc: {
-          name: string;
-          size: number;
-          key: string;
-          url: string;
-        };
-        document: string;
-      }
-    >({
-      query: (data) => ({
-        url: "solutions",
-        method: "POST",
-        body: data,
-      }),
-    }),
     updateSolution: builder.mutation<
       SolutionInterface,
       {
@@ -84,7 +64,6 @@ const ExtendedApi = mainApi.injectEndpoints({
 export const {
   useGetSingleSolutionQuery,
   useGetSolutionsQuery,
-  useCreateSolutionMutation,
   useUpdateSolutionMutation,
   useDeleteSolutionMutation,
 } = ExtendedApi;
