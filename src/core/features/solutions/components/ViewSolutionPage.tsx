@@ -120,7 +120,7 @@ function ViewSolutionPage() {
                     onClick={() => {
                       //i want to copy the link to the clipboard
                       navigator.clipboard.writeText(
-                        `${window.location.origin}/public/solution/${id}`
+                        `${window.location.origin}/public/solutions/${id}`
                       );
                       toast.success("Link Copied");
                     }}
