@@ -19,6 +19,7 @@ import { isEmailTaken, shuffleArray } from "./user.helperFunctions";
 import { UserInterface } from "./user.interfaces";
 import User from "./user.model";
 import { createUserValidation } from "./user.validation";
+MongoConnection();
 
 export const create = async (userBody: UserInterface) => {
   MongoConnection();
