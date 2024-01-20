@@ -33,6 +33,7 @@ export const getCourses = async (req: NextRequest) => {
 };
 
 export const getCourseById = async (req: NextRequest) => {
+  MongoConnection()
   const id = getIdFromUrl(req.url);
   const course = await Course.findById(id);
   return new NextResponse(JSON.stringify(returnData(course)), {
@@ -41,6 +42,7 @@ export const getCourseById = async (req: NextRequest) => {
 };
 
 export const getCoursesByUserId = async (req: NextRequest) => {
+  MongoConnection()
   const id = getIdFromUrl(req.url);
   const courses = await Course.find({ ownerId: id });
   return new NextResponse(JSON.stringify(returnArrayData(courses)), {
@@ -49,6 +51,7 @@ export const getCoursesByUserId = async (req: NextRequest) => {
 };
 
 export const getCoursesByDomainId = async (id: string) => {
+  MongoConnection()
   const courses = await Course.find({ domain: id });
   return new NextResponse(JSON.stringify(returnArrayData(courses)), {
     status: 200,
@@ -56,6 +59,7 @@ export const getCoursesByDomainId = async (id: string) => {
 };
 
 export const coursesByUniversityId = async (id: string) => {
+  MongoConnection()
   const courses = await Course.find({ university: id });
   return new NextResponse(JSON.stringify(returnArrayData(courses)), {
     status: 200,
@@ -63,6 +67,7 @@ export const coursesByUniversityId = async (id: string) => {
 };
 
 export const createCourse = async (req: Request) => {
+  MongoConnection()
   const data = await req.json();
 
   const validate = createCourseValidation.body.validate(data);

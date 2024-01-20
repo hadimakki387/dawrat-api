@@ -8,8 +8,10 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import Question from "./questions.model";
 import User from "../user/user.model";
+import MongoConnection from "@/backend/utils/db";
 
 export const getQuestions = async (req: NextRequest) => {
+  MongoConnection()
   const params = new URL(req.url);
   const limit = params.searchParams.get("limit");
 
@@ -26,6 +28,7 @@ export const getQuestions = async (req: NextRequest) => {
 };
 
 export const getQuestionsByUserId = async (req: NextRequest) => {
+  MongoConnection()
   const userId = getIdFromUrl(req.url);
   const data = await Question.find({ userId: userId }).sort({ createdAt: -1 });
   return new Response(JSON.stringify(returnArrayData(data)), {
@@ -34,6 +37,7 @@ export const getQuestionsByUserId = async (req: NextRequest) => {
 };
 
 export const getSingleQuestionById = async (req: NextRequest) => {
+  MongoConnection()
   const id = getIdFromUrl(req.url);
   const question = await Question.findById(id);
   if (!question) {
@@ -50,6 +54,7 @@ export const getSingleQuestionById = async (req: NextRequest) => {
 };
 
 export const createQuestion = async (req: NextRequest) => {
+  MongoConnection()
   const data = await req.json();
 
   const user = await User.findById(data?.userId);
