@@ -8,6 +8,7 @@ import { setSignIn, setTabs } from "../redux/homePage-slice";
 import { useGetItemsQuery } from "@/core/rtk-query/landingPage";
 import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
+import { useRouter } from "next/navigation";
 
 function ItemsSection({
   universities,
@@ -19,6 +20,7 @@ function ItemsSection({
   const { tabs } = useAppSelector((state) => state.homePage);
   const { user } = useAppSelector((state) => state.global);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col justify-center text-center mt-12 w-1/2 m-auto gap-8 p-16 max-sm:w-full max-sm:p-4">
@@ -62,7 +64,7 @@ function ItemsSection({
                 className="border border-neutral-300 p-2 font-medium text-lg max-md:text-[15px]"
                 onClick={() => {
                   if (!user) {
-                    dispatch(setSignIn(true));
+                    router.push(`${window.location.origin}/public/pdf/${document?.id}`);
                   }
                 }}
               />

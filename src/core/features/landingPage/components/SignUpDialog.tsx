@@ -4,7 +4,7 @@ import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useRegisterMutation } from "@/core/rtk-query/landingPage";
 import { useFormik } from "formik";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import * as Yup from "yup";
@@ -17,6 +17,8 @@ function SignUpDialog() {
   const router = useRouter()
   const params = useParams();
   const PdfId = params?.id;
+  const searchParams = useSearchParams()
+  const solution = searchParams?.get("solution")
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -39,6 +41,10 @@ function SignUpDialog() {
           formik.resetForm()
           setTimeout(() => {
             if (PdfId) {
+              if(solution==="true"){
+                router.push(`/solutions/${PdfId}`)
+                return
+              }
               router.push(`/pdf/${PdfId}`);
             } else {
               router.push("/");

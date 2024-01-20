@@ -9,5 +9,6 @@ export async function GET(req: NextRequest) {
   MongoConnection()
   const id = getIdFromUrl(req.url);
   const doc = await Document.findById(id);
-  return new Response(JSON.stringify(doc));
+  if(!doc) return Response.json({message: "Document not found"},{status: 404})
+  return new Response(JSON.stringify(returnData(doc)));
 }

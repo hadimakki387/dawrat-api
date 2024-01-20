@@ -4,10 +4,7 @@ import LandingNavBar from "@/components/layout/LandingNavBar";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useGetPublicDocumentsByIdQuery } from "@/core/rtk-query/public";
 import { useGetStudylistQuery } from "@/core/rtk-query/user";
-import {
-    faDownload,
-    faShare
-} from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress, Skeleton } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
@@ -21,7 +18,7 @@ const ViewPdf = lazy(() => import("@/core/features/pdf/ViewPdf"));
 function PublicPdfViewPage() {
   const param = useParams();
   const id = param?.id;
-  const { data } = useGetPublicDocumentsByIdQuery(id as string);
+  const { data, isError } = useGetPublicDocumentsByIdQuery(id as string);
   const [success, setSuccess] = useState(false);
 
   const { user } = useAppSelector((state) => state.global);
@@ -67,13 +64,16 @@ function PublicPdfViewPage() {
       });
   };
 
-
   return (
     <div className="bg-[#38071f]">
       <div className="h-[10vh]">
         <LandingNavBar />
       </div>
-      {data ? (
+      {isError ? (
+        <div className="h-[90vh] grid place-items-center bg-[#38071f] text-white text-xl font-semibold">
+          Document Not Found
+        </div>
+      ) : data ? (
         <>
           <div className={`${success ? "" : "hidden"}  h-screen px-2`}>
             <div className="flex items-center gap-4 justify-between max-md:flex-col max-md:gap-2">
@@ -146,16 +146,18 @@ function PublicPdfViewPage() {
                     }}
                   />
                 </div>
-                {data.solution && <div className="">
-                  <DaButton
-                    label="Check Solution"
-                    fullRounded
-                    className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
-                    onClick={() => {
-                      router.push(`/public/solutions/${data?.solution}`);
-                    }}
-                  />
-                </div>}
+                {data.solution && (
+                  <div className="">
+                    <DaButton
+                      label="Check Solution"
+                      fullRounded
+                      className="border border-neutral-300 px-6 bg-[#f7f7f7] w-full"
+                      onClick={() => {
+                        router.push(`/public/solutions/${data?.solution}?solution=true`);
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <Suspense>

@@ -6,7 +6,7 @@ import { useLoginMutation } from "@/core/rtk-query/landingPage";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -21,6 +21,8 @@ function SignInDialog() {
   const router = useRouter();
   const params = useParams();
   const PdfId = params?.id;
+  const searchParams = useSearchParams()
+  const solution = searchParams?.get("solution")
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -43,6 +45,10 @@ function SignInDialog() {
           dispatch(setIsAuth(true));
           setTimeout(() => {
             if (PdfId) {
+              if(solution==="true"){
+                router.push(`/solutions/${PdfId}`)
+                return
+              }
               router.push(`/pdf/${PdfId}`);
             } else {
               router.push("/");

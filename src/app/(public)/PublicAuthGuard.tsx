@@ -1,8 +1,10 @@
+"use client";
 import { useGetUserQuery } from "@/core/rtk-query/user";
 import React, { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useGetPublicDocumentsByIdQuery } from "@/core/rtk-query/public";
+import { callOrReturn } from "@tiptap/react";
 
 function PublicAuthGuard({ children }: { children: React.ReactNode }) {
   const id = Cookies.get("dawratUserId");
@@ -13,12 +15,23 @@ function PublicAuthGuard({ children }: { children: React.ReactNode }) {
   const {data:getDocument} = useGetPublicDocumentsByIdQuery(docId as string,{
     skip:!docId
   })
+  const searchParams = useSearchParams()
+  const param = searchParams?.get("solution")
+  console.log(param)
   useLayoutEffect(() => {
+    if(data && isSuccess && (docId && getDocument)){
+      console.log("entered")
+      if(param==="true"){
+        console.log("has params")
+        router.push(`/solutions/${docId}`)
+        return
+      }
+      router.push(`/pdf/${docId}`)
+      return
+    }
     if (data && isSuccess && (!docId || !getDocument)) {
       router.push("/");
-    }
-    if(data && isSuccess && (docId && getDocument)){
-      router.push(`/pdf/${docId}`)
+      return
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isSuccess]);
