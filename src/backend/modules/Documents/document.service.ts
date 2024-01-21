@@ -224,8 +224,8 @@ export const DeleteDocument = async (req: NextRequest) => {
       { status: httpStatus.INTERNAL_SERVER_ERROR }
     );
   }
-
-  return new NextResponse(JSON.stringify({ message: "Document Deleted" }), {
+  const updatedUser = await updateUserUploads(doc.ownerId);
+  return new NextResponse(JSON.stringify({ updatedUser: updatedUser }), {
     status: httpStatus.OK,
   });
 };

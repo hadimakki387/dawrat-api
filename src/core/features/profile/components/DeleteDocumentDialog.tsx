@@ -56,7 +56,7 @@ function DeleteDocumentDialog() {
                     dispatch(setDeleteDocumentDialog(false));
                     dispatch(
                       setUser({
-                        uploads: user?.uploads && user?.uploads - 1,
+                        uploads: res?.updatedUser?.uploads,
                         ...user,
                       })
                     );
