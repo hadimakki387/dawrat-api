@@ -77,12 +77,12 @@ function UploadPdf() {
         <DaButton
           label="Submit"
           className={`bg-primary text-white ${
-            !selectedUniversity || !selectedCourse || !selectedDomain
+            !selectedUniversity?.value || !selectedCourse?.value || !selectedDomain?.value
               ? "hover:cursor-not-allowed"
               : ""
           }`}
           disabled={
-            !selectedUniversity || !selectedCourse || !selectedDomain
+            !selectedUniversity?.value || !selectedCourse?.value || !selectedDomain?.value
           }
           onClick={() => dispatch(setHandleSubmit(Math.random()))}
         />

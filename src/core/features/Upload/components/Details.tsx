@@ -124,13 +124,15 @@ function Details() {
   }, [handleSubmit]);
 
   useEffect(() => {
-    if (parsedStoredDocs)
+    if (parsedStoredDocs) {
+      formik.setFieldValue("description", parsedStoredDocs?.name as string);
       formik.setFieldValue("title", parsedStoredDocs?.name as string);
-    if (uploadedDocs.length > 0)
+    }
+    if (uploadedDocs.length > 0) {
+      formik.setFieldValue("description", uploadedDocs[0]?.name);
       formik.setFieldValue("title", uploadedDocs[0]?.name);
+    }
   }, [uploadedDocs]);
-;
-
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
       <AddCourseDialog />
@@ -368,7 +370,8 @@ function Details() {
           </div>
         </div>
         <div className="text-xs text-error font-semibold">
-          NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR RESELECT THE SECTION WITH ERROR
+          NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR
+          RESELECT THE SECTION WITH ERROR
         </div>
       </div>
     </div>
