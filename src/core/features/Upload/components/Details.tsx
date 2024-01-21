@@ -26,7 +26,7 @@ import {
   setSelectedCourse,
   setSelectedDomain,
   setSelectedUniversity,
-  setUploadedDocs
+  setUploadedDocs,
 } from "../redux/upload-slice";
 import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
@@ -77,7 +77,6 @@ function Details() {
           dispatch(setUploadedDocs([]));
           dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
           formik.resetForm();
-          
         })
         .catch((err) => {
           toast.dismiss(id);
@@ -130,20 +129,7 @@ function Details() {
     if (uploadedDocs.length > 0)
       formik.setFieldValue("title", uploadedDocs[0]?.name);
   }, [uploadedDocs]);
-
-  useEffect(() => {
-    if (!selectedUniversity?.value) {
-      dispatch(setSelectedCourse(null));
-      dispatch(setSelectedDomain(null));
-    }
-  }, [selectedUniversity]);
-  useEffect(() => {
-    if (!selectedCourse?.value) {
-      dispatch(setSelectedDomain(null));
-    }
-  }, [selectedCourse]);
-  console.log("this is loading University");
-  console.log(loadingDomains);
+;
 
   return (
     <div className="border border-neutral-300 rounded-2xl p-8 flex flex-col  gap-4">
@@ -240,24 +226,31 @@ function Details() {
           </div>
           <div className="w-full">
             <DaAutocomplete
-              options={data?.map((item) => ({
-                value: item?.id,
-                label: item?.title,
-              })) || [{
-                label:"loading...",
-                value:""
-              }]}
-             
-              getOptionDisabled={()=>data && data.length>0?false:true}
+              options={
+                data?.map((item) => ({
+                  value: item?.id,
+                  label: item?.title,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
               label="Search for your university"
               onChange={(e) => {
                 dispatch(setSelectedUniversity(e));
               }}
               name="university"
-              onInputChange={(e)=>{
-                console.log(e)
+              onInputChange={(e) => {
+                console.log(e);
               }}
             />
+            {!selectedUniversity?.value && (
+              <p className="text-sm text-error font-semibold">
+                Please Select University
+              </p>
+            )}
           </div>
           <div
             className="text-sm text-primary w-32 hover:cursor-pointer text-right"
@@ -287,23 +280,28 @@ function Details() {
           </div>
           <div className={`w-full `}>
             <DaAutocomplete
-              options={domains?.map((item) => ({
-                value: item?.id,
-                label: item?.title,
-              })) || [{
-                label:"loading...",
-                value:""
-              }]}
-              getOptionDisabled={()=>domains && domains.length>0?false:true}
+              options={
+                domains?.map((item) => ({
+                  value: item?.id,
+                  label: item?.title,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
               label="Search for your domain"
               onChange={(e) => {
                 dispatch(setSelectedDomain(e));
               }}
               name="domain"
-              disabled={!selectedUniversity?.value}
-             
             />
-   
+            {!selectedDomain?.value && (
+              <p className="text-sm text-error font-semibold">
+                Please Select Domain
+              </p>
+            )}
           </div>
           <div
             className={`text-sm text-primary w-32 hover:cursor-pointer text-right max-md:hidden ${
@@ -335,21 +333,28 @@ function Details() {
           </div>
           <div className="w-full">
             <DaAutocomplete
-              options={courses?.map((item:courseInterface) => ({
-                value: item?.id,
-                label: item?.title,
-              }))|| [{
-                label:"loading...",
-                value:""
-              }]}
-              getOptionDisabled={()=>courses && courses.length>0?false:true}
+              options={
+                courses?.map((item: courseInterface) => ({
+                  value: item?.id,
+                  label: item?.title,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
               label="Search for your Course"
               onChange={(e) => {
                 dispatch(setSelectedCourse(e));
               }}
               name="course"
-              disabled={!selectedDomain?.value}
             />
+            {!selectedCourse?.value && (
+              <p className="text-sm text-error font-semibold">
+                Please Select Course
+              </p>
+            )}
           </div>
           <div
             className={`text-sm text-primary w-32 hover:cursor-pointer text-right max-md:hidden ${
@@ -361,6 +366,9 @@ function Details() {
           >
             Add Course
           </div>
+        </div>
+        <div className="text-xs text-error font-semibold">
+          NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR RESELECT THE SECTION WITH ERROR
         </div>
       </div>
     </div>
