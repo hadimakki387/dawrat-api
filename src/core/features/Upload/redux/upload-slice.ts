@@ -21,6 +21,8 @@ const initialState: {
   searchUniversityAddDomain: string;
   selectedUniversityAddDomain: DropdownValue | null;
   addUniversityDialog: boolean;
+  multiUpload: boolean;
+  multipleUploadedDocs: any[];
 } = {
   searchUploadUniversity: "",
   selectedUniversity: {
@@ -48,6 +50,8 @@ const initialState: {
   searchUniversityAddDomain: "",
   selectedUniversityAddDomain: null,
   addUniversityDialog: false,
+  multiUpload: false,
+  multipleUploadedDocs: [],
 };
 
 const uploadSlice = createSlice({
@@ -105,6 +109,12 @@ const uploadSlice = createSlice({
     setAddUniverisityDialog(state, action) {
       state.addUniversityDialog = action.payload;
     },
+    setMultiUpload(state, action) {
+      state.multiUpload = action.payload;
+    },
+    setMultipleUploadedDocs(state, action) {
+      state.multipleUploadedDocs = action.payload;
+    },
   },
 });
 
@@ -126,6 +136,8 @@ export const {
   setSearchUniversityAddDomain,
   setSelectedUniversityAddDomain,
   setAddUniverisityDialog,
+  setMultiUpload,
+  setMultipleUploadedDocs,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

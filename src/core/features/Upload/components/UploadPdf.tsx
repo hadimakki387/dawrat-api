@@ -8,8 +8,15 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { setHandleSubmit, setUploadedDocs } from "../redux/upload-slice";
-import Details from "./Details";
+import {
+  setHandleSubmit,
+  setMultiUpload,
+  setMultipleUploadedDocs,
+  setUploadedDocs,
+} from "../redux/upload-slice";
+import DaCheckbox from "@/components/global/DaCheckbox";
+import SingleUploadDetails from "./SingleUploadDetails";
+import MultipleUploadDetails from "./MultipleUploadDetails";
 
 function UploadPdf() {
   const {
@@ -18,6 +25,8 @@ function UploadPdf() {
     uploadedDocs,
     selectedCourse,
     selectedDomain,
+    multiUpload,
+    multipleUploadedDocs
   } = useAppSelector((state) => state.upload);
   const { data } = useGetUniversitiesQuery({
     title: searchUploadUniversity,
@@ -44,8 +53,9 @@ function UploadPdf() {
           Share your <span className="text-primary font-bold">PDFs</span> and
           benifit your colleague
         </h1>
+
         <UploadDropzone<OurFileRouter>
-          endpoint="pdfUploader"
+          endpoint={!multiUpload ? "pdfUploader" : "multiplePdfUploader"}
           className="ut-label:text-primary  bg-primaryBg border border-primary border-dashed py-4 hover:cursor-pointer rounded-2xl"
           appearance={{
             button:
@@ -54,14 +64,19 @@ function UploadPdf() {
             uploadIcon: "text-primary",
           }}
           onClientUploadComplete={async (res: any) => {
-            if (res) {
+            if (res?.length === 1) {
               dispatch(setUploadedDocs(res));
               localStorage.setItem("uploadedDocs", JSON.stringify(res));
               toast.success("File Uploaded Successfully");
             }
+            if (res?.length > 1) {
+              dispatch(setMultipleUploadedDocs(res));
+              localStorage.setItem("multiUploadedDocs", JSON.stringify(res));
+              toast.success("Files Uploaded Successfully");
+            }
           }}
           onUploadError={(error: Error) => {
-            toast.error(`${error?.message}`)
+            toast.error(`${error?.message}`);
           }}
           onUploadBegin={(name: any) => {
             console.log("Uploading: ", name);
@@ -69,20 +84,37 @@ function UploadPdf() {
           config={{ mode: "auto" }}
         />
       </div>
-      <div className={`${uploadedDocs.length > 0 ? "" : "hidden"}`}>
-        <Details />
+      <div className="flex items-center justify-end gap-4">
+        <p className="text-sm font-semibold">Multiple Docs Upload</p>
+        <DaCheckbox
+          isSwitch
+          onChange={() => {
+            dispatch(setMultiUpload(!multiUpload));
+          }}
+          checked={multiUpload}
+        />
+      </div>
+      <div className={`${uploadedDocs.length > 0 && !multiUpload ? "" : "hidden"}`}>
+        <SingleUploadDetails /> 
+      </div>
+      <div className={`${multipleUploadedDocs.length > 0 && multiUpload ? "" : "hidden"}`}>
+         <MultipleUploadDetails />
       </div>
 
       <div className="flex justify-end items-center">
         <DaButton
           label="Submit"
           className={`bg-primary text-white ${
-            !selectedUniversity?.value || !selectedCourse?.value || !selectedDomain?.value
+            !selectedUniversity?.value ||
+            !selectedCourse?.value ||
+            !selectedDomain?.value
               ? "hover:cursor-not-allowed"
               : ""
           }`}
           disabled={
-            !selectedUniversity?.value || !selectedCourse?.value || !selectedDomain?.value
+            !selectedUniversity?.value ||
+            !selectedCourse?.value ||
+            !selectedDomain?.value
           }
           onClick={() => dispatch(setHandleSubmit(Math.random()))}
         />

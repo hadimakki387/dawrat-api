@@ -32,7 +32,7 @@ import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
 import CreateUniversityDialog from "./CreateUniversityDialog";
 
-function Details() {
+function SingleUploadDetails() {
   const dispatch = useDispatch();
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -378,4 +378,4 @@ function Details() {
   );
 }
 
-export default Details;
+export default SingleUploadDetails;
