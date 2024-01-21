@@ -53,13 +53,9 @@ function DeleteDocumentDialog() {
                   .then((res) => {
                     toast.dismiss(id);
                     toast.success("Document Deleted");
+                    console.log(res.updatedUser.uploads)
+                    dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
                     dispatch(setDeleteDocumentDialog(false));
-                    dispatch(
-                      setUser({
-                        uploads: res?.updatedUser?.uploads,
-                        ...user,
-                      })
-                    );
                   })
                   .catch((err) => {
                     toast.dismiss(id);
