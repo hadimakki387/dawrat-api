@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import {
+  setHandleMultiSubmit,
   setHandleSubmit,
   setMultiUpload,
   setMultipleUploadedDocs,
@@ -116,7 +117,13 @@ function UploadPdf() {
             !selectedCourse?.value ||
             !selectedDomain?.value
           }
-          onClick={() => dispatch(setHandleSubmit(Math.random()))}
+          onClick={() => {
+            if(multiUpload){
+              dispatch(setHandleMultiSubmit(Math.random()))
+            }else{
+              dispatch(setHandleSubmit(Math.random()))
+            }
+          }}
         />
       </div>
     </DaCard>

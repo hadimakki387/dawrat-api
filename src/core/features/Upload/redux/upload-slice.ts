@@ -2,11 +2,12 @@
 
 import { DropdownValue } from "@/services/types";
 import { createSlice } from "@reduxjs/toolkit";
+import { UploadFileResponse } from "uploadthing/client";
 
 const initialState: {
   searchUploadUniversity: string;
   selectedUniversity: DropdownValue | null;
-  uploadedDocs: any[];
+  uploadedDocs: UploadFileResponse[];
   searchCourse: string;
   selectedCourse: DropdownValue | null;
   searchDomain: string;
@@ -22,7 +23,8 @@ const initialState: {
   selectedUniversityAddDomain: DropdownValue | null;
   addUniversityDialog: boolean;
   multiUpload: boolean;
-  multipleUploadedDocs: any[];
+  multipleUploadedDocs: UploadFileResponse[];
+  handleMultiSubmit: number;
 } = {
   searchUploadUniversity: "",
   selectedUniversity: {
@@ -52,6 +54,7 @@ const initialState: {
   addUniversityDialog: false,
   multiUpload: false,
   multipleUploadedDocs: [],
+  handleMultiSubmit: 0,
 };
 
 const uploadSlice = createSlice({
@@ -115,6 +118,9 @@ const uploadSlice = createSlice({
     setMultipleUploadedDocs(state, action) {
       state.multipleUploadedDocs = action.payload;
     },
+    setHandleMultiSubmit(state, action) {
+      state.handleMultiSubmit = action.payload;
+    },
   },
 });
 
@@ -138,6 +144,7 @@ export const {
   setAddUniverisityDialog,
   setMultiUpload,
   setMultipleUploadedDocs,
+  setHandleMultiSubmit,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

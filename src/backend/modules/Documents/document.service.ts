@@ -6,7 +6,10 @@ import {
 } from "../user/user.helperFunctions";
 import { checkDocumentTitle } from "./document.helperFunction";
 import Document from "./document.model";
-import { createDocumentValidation } from "./document.validation";
+import {
+  createDocumentValidation,
+  createManyDocumentsValidation,
+} from "./document.validation";
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import Course from "../Courses/courses.model";
 import University from "../universities/universities.model";
@@ -58,6 +61,58 @@ export const createDocument = async (req: NextRequest) => {
 
   return new NextResponse(
     JSON.stringify({ doc: doc, updatedUser: updatedUser }),
+    { status: 200 }
+  );
+};
+
+export const createManyDocuments = async (req: NextRequest) => {
+  MongoConnection();
+  const userBody = await req.json();
+  const verifyData = createManyDocumentsValidation.body.validate(userBody);
+  if (verifyData.error) {
+    return new NextResponse(
+      JSON.stringify({ message: verifyData.error.message }),
+      { status: 400 }
+    );
+  }
+  const checkTitles = await Promise.all(
+    userBody.docs.map((doc: any) => checkDocumentTitle(doc.name))
+  );
+  if (checkTitles.includes(true)) {
+    return new NextResponse(
+      JSON.stringify({ message: "Title already Taken" }),
+      { status: 400 }
+    );
+  }
+  const createDocuments = await Promise.all(
+    userBody?.docs?.map(async (DocData: any) => {
+      const course = await Course.findById(userBody.course);
+      const university = await University.findById(userBody.university);
+      const updatedCourse = await updateDocsCountInCourse(userBody.course);
+      const doc = await Document.create({
+        university: userBody.university,
+        domain: userBody.domain,
+        course: userBody.course,
+        doc: DocData,
+        courseName: course.title,
+        universityName: university.title,
+        ownerId: userBody.ownerId,
+        title: DocData.name,
+        description: DocData.name,
+      });
+      if (!doc) {
+        return new NextResponse(
+          JSON.stringify({ message: "Something went Wrong, Doc Not Created" }),
+          { status: httpStatus.BAD_REQUEST }
+        );
+      }
+
+      return doc;
+    })
+  );
+  const updatedUser = await updateUserUploads(userBody.ownerId);
+  return new NextResponse(
+    JSON.stringify({ docs: createDocuments, updatedUser: updatedUser }),
     { status: 200 }
   );
 };
@@ -142,7 +197,9 @@ export const DeleteDocument = async (req: NextRequest) => {
   const body = await req.json();
 
   if (doc.solution) {
-    const solution: SolutionInterface | null = await Solution.findById(doc.solution);
+    const solution: SolutionInterface | null = await Solution.findById(
+      doc.solution
+    );
     if (!solution) return NextResponse.json({ message: "Solution not found" });
     await Document.findByIdAndUpdate(
       solution.document,

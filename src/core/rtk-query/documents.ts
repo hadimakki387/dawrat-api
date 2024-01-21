@@ -14,6 +14,13 @@ const ExtendedApi = mainApi.injectEndpoints({
         body,
       }),
     }),
+    createManyDocuments: builder.mutation({
+      query: (body) => ({
+        url: `/documents/upload-many`,
+        method: "POST",
+        body,
+      }),
+    }),
     getManyDocumentsById: builder.query({
       query: ({ body, limit }) => ({
         url: `/documents/get-many?${limit ? `limit=${limit}` : ""}`,
@@ -297,4 +304,5 @@ export const {
   useGetPopularDocumentsInUniversityQuery,
   useGetRecentDocumentsInUniversityQuery,
   useCreateSolutionMutation,
+  useCreateManyDocumentsMutation,
 } = ExtendedApi;

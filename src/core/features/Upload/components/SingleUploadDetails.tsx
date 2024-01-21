@@ -54,7 +54,7 @@ function SingleUploadDetails() {
     onSubmit: (values) => {
       const id = toast.loading("Uploading Document");
 
-      const { serverData, ...actualDoc } = uploadedDocs[0];
+      const actualDoc  = uploadedDocs[0];
       createDocument({
         title: values.title,
         description: values.description,
@@ -370,8 +370,15 @@ function SingleUploadDetails() {
           </div>
         </div>
         <div className="text-xs text-error font-semibold">
-          NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR
-          RESELECT THE SECTION WITH ERROR
+          <p>
+            NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR
+            RESELECT THE SECTION WITH ERROR
+          </p>
+          <p>
+            NOTE: IF YOU WANT TO ADD A SOLUTION GO TO PROFILE CHECK YOU&apos;RE
+            PROFILE <br /> {"->"} GO TO THE DOCUMENT YOU UPLOADED <br /> {"->"} YOU WILL SEE
+            AN UPLOAD SOLUTION BUTTON
+          </p>
         </div>
       </div>
     </div>

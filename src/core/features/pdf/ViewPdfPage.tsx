@@ -35,7 +35,7 @@ const ViewPdf = lazy(() => import("./ViewPdf"));
 function ViewPdfPage() {
   const param = useParams();
   const id = param?.id;
-  const { data } = useGetSingleDocumentQuery(id as string);
+  const { data, isError } = useGetSingleDocumentQuery(id as string);
   const [success, setSuccess] = useState(false);
   const [upvote] = useUpvoteDocumentMutation();
   const [downvote] = useDownvoteDocumentMutation();
@@ -123,7 +123,11 @@ function ViewPdfPage() {
 
   return (
     <div>
-      {data ? (
+      {isError ? (
+        <div className="text-titleText font-semibold text-xl h-[80vh] grid place-items-center">
+          Document Not Found
+        </div>
+      ) : data ? (
         <>
           <SaveForStudyListDialog />
           <div className={`${success ? "" : "hidden"}`}>

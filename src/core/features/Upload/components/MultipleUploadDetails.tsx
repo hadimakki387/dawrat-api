@@ -24,6 +24,8 @@ import {
   setSelectedUniversity,
 } from "../redux/upload-slice";
 import UploadedDocCard from "./UploadedDocCard";
+import { useCreateManyDocumentsMutation } from "@/core/rtk-query/documents";
+import { setUser } from "../../global/redux/global-slice";
 
 type Props = {};
 
@@ -34,7 +36,7 @@ function MultipleUploadDetails({}: Props) {
     uploadedDocs,
     selectedCourse,
     selectedDomain,
-    handleSubmit,
+    handleMultiSubmit,
   } = useAppSelector((state) => state.upload);
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
@@ -52,13 +54,44 @@ function MultipleUploadDetails({}: Props) {
   const dispatch = useDispatch();
   const storedDocs = localStorage.getItem("multiUploadedDocs");
   const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
-  const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
+  const [uploadManyDocs] = useCreateManyDocumentsMutation();
 
   useEffect(() => {
     if (parsedStoredDocs?.length > 0) {
       dispatch(setMultipleUploadedDocs(parsedStoredDocs));
     }
   }, []);
+
+  useEffect(() => {
+    const uploadedDocs = multipleUploadedDocs?.map((doc) => ({
+      name: doc?.name,
+      size: doc?.size,
+      key: doc?.key,
+      url: doc?.url,
+    }));
+    if (handleMultiSubmit !== 0) {
+      const id = toast.loading("Uploading...");
+      uploadManyDocs({
+        docs: uploadedDocs,
+        university: selectedUniversity?.value as string,
+        domain: selectedDomain?.value as string,
+        course: selectedCourse?.value as string,
+        ownerId: user?.id,
+      })
+        .unwrap()
+        .then((res) => {
+          toast.dismiss(id);
+          toast.success("Uploaded");
+          dispatch(setMultipleUploadedDocs([]));
+          localStorage.removeItem("multiUploadedDocs");
+          dispatch(setUser({ ...user, uploads: res.updatedUser.uploads }));
+        })
+        .catch((err) => {
+          toast.dismiss(id);
+          toast.error(`${err?.data?.message}`);
+        });
+    }
+  }, [handleMultiSubmit]);
 
   return (
     <div className="space-y-4">
@@ -226,8 +259,15 @@ function MultipleUploadDetails({}: Props) {
           </div>
         </div>
         <div className="text-xs text-error font-semibold">
-          NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR
-          RESELECT THE SECTION WITH ERROR
+          <p>
+            NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR
+            RESELECT THE SECTION WITH ERROR
+          </p>
+          <p>
+            NOTE: IF YOU WANT TO ADD A SOLUTION GO TO PROFILE CHECK YOU&apos;RE
+            PROFILE <br /> {"->"} GO TO THE DOCUMENT YOU UPLOADED <br /> {"->"} YOU WILL SEE
+            AN UPLOAD SOLUTION BUTTON
+          </p>
         </div>
       </div>
     </div>

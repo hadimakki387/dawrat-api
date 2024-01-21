@@ -1,22 +1,20 @@
 "use client";
 import Document from "@/components/SVGs/Document";
+import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
 import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
-import { UploadThingResponse } from "@/services/types";
 import { faAngleUp, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons/faAngleDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import convert from "convert-units";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { UploadFileResponse } from "uploadthing/client";
 import { setMultipleUploadedDocs } from "../redux/upload-slice";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons/faAngleDown";
-import TextFieldComponent from "@/components/global/TextFieldComponent";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 
 type Props = {
-  doc: UploadThingResponse;
+  doc: UploadFileResponse;
 };
 
 function UploadedDocCard({ doc }: Props) {
@@ -24,25 +22,8 @@ function UploadedDocCard({ doc }: Props) {
   const dispatch = useDispatch();
   const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
   const [open, setOpen] = useState(false);
-  const formik = useFormik({
-    validationSchema: Yup.object({
-      title: Yup.string().required("title is required"),
-      description: Yup.string().required("description is required"),
-    }),
-    initialValues: {
-      title: "",
-      description: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-  useEffect(() => {
-    if (open) {
-      formik.setFieldValue("title", doc.name);
-      formik.setFieldValue("description", doc.name);
-    }
-  }, [open]);
+  console.log(multipleUploadedDocs)
+
   return (
     <div>
       {!open ? (
@@ -56,7 +37,7 @@ function UploadedDocCard({ doc }: Props) {
               />
             </div>
             <div className="flex flex-col justify-between">
-              <div className="text-darkText">{doc.name}</div>
+              <div className={`text-darkText`}>{doc.name}</div>
               <div className="text-xs text-subTitleText">
                 {convert(doc.size).from("B").to("MB").toFixed(2)} MB{" "}
               </div>
@@ -100,7 +81,7 @@ function UploadedDocCard({ doc }: Props) {
                 />
               </div>
               <div className="flex flex-col justify-between">
-                <div className="text-darkText">{doc.name}</div>
+                {/* <div className="text-darkText">{doc.name}</div> */}
                 <div className="text-xs text-subTitleText">
                   {convert(doc.size).from("B").to("MB").toFixed(2)} MB{" "}
                 </div>
@@ -140,26 +121,52 @@ function UploadedDocCard({ doc }: Props) {
                 }}
               />
             </div>
-            
           </div>
           <div className="mb-8 flex flex-col gap-4">
-              <p>Enter Document Title</p>
-              <div>
-                <TextFieldComponent
-                  placeholder="Title"
-                  name="title"
-                  formik={formik}
-                />
-              </div>
-              <p>Enter Document Description</p>
-              <div>
-                <TextFieldComponent
-                  placeholder="Description"
-                  name="description"
-                  formik={formik}
-                />
-              </div>
+            <p>Enter Document Title</p>
+            <div>
+              <TextFieldComponent
+                placeholder="Title"
+                name="title"
+                defaultValue={doc.name}
+                onChange={(e) => {
+                  const index = multipleUploadedDocs.findIndex(
+                    (item: any) => item.key === doc.key
+                  );
+                  dispatch(
+                    setMultipleUploadedDocs([
+                      ...multipleUploadedDocs.slice(0, index),
+                      { ...multipleUploadedDocs[index], name: e.target.value },
+                      ...multipleUploadedDocs.slice(index + 1),
+                    ])
+                  );
+                }}
+              />
             </div>
+            <p>Enter Document Description</p>
+            <div>
+              <TextFieldComponent
+                placeholder="Description"
+                name="description"
+                defaultValue={doc.name}
+                onChange={(e) => {
+                  const index = multipleUploadedDocs.findIndex(
+                    (item: any) => item.key === doc.key
+                  );
+                  dispatch(
+                    setMultipleUploadedDocs([
+                      ...multipleUploadedDocs.slice(0, index),
+                      {
+                        ...multipleUploadedDocs[index],
+                        description: e.target.value,
+                      },
+                      ...multipleUploadedDocs.slice(index + 1),
+                    ])
+                  );
+                }}
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>
