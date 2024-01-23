@@ -120,7 +120,6 @@ function DaAutocomplete({
           noBorders={noBorders}
           disabled={disabled}
           sx={{
-            
             borderRadius:"var(--input-border-radius)",
             backgroundColor:disabled?"var(--silver-bg)":undefined,
             color:"var(--title-text)"

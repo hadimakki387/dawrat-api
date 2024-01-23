@@ -27,12 +27,15 @@ const createDocument: Record<keyof Omit<DocumentInterface, "id" | "_id">, any> =
     language: Joi.string(),
     yearName: Joi.string(),
     languageName: Joi.string(),
+    semester: Joi.string(),
+    semesterName: Joi.string(),
   };
 const createManyDocuments = {
   domain: Joi.string().required(),
   university: Joi.string().required(),
   year: Joi.string(),
   language: Joi.string(),
+  semester: Joi.string(),
   ownerId: Joi.string().required(),
   docs: Joi.array().items(
     Joi.object().keys({

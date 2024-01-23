@@ -22,13 +22,18 @@ import {
   setSelectedCourse,
   setSelectedDomain,
   setSelectedLanguage,
+  setSelectedSemester,
   setSelectedUniversity,
   setSelectedYear,
 } from "../redux/upload-slice";
 import UploadedDocCard from "./UploadedDocCard";
 import { useCreateManyDocumentsMutation } from "@/core/rtk-query/documents";
 import { setUser } from "../../global/redux/global-slice";
-import { useGetLanguagesQuery, useGetYearsQuery } from "@/core/rtk-query/aditionalData";
+import {
+  useGetLanguagesQuery,
+  useGetSemestersQuery,
+  useGetYearsQuery,
+} from "@/core/rtk-query/aditionalData";
 
 type Props = {};
 
@@ -41,7 +46,8 @@ function MultipleUploadDetails({}: Props) {
     selectedDomain,
     handleMultiSubmit,
     selectedYear,
-    selectedLanguage  
+    selectedLanguage,
+    selectedSemester,
   } = useAppSelector((state) => state.upload);
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
@@ -55,8 +61,9 @@ function MultipleUploadDetails({}: Props) {
     useGetCoursesByDomainIdQuery(selectedDomain?.value as string, {
       skip: !selectedDomain?.value ? true : false,
     });
-    const { data: years } = useGetYearsQuery();
-    const {data:languages} = useGetLanguagesQuery()
+  const { data: years } = useGetYearsQuery();
+  const { data: languages } = useGetLanguagesQuery();
+  const { data: semesters } = useGetSemestersQuery();
   const { multipleUploadedDocs } = useAppSelector((state) => state.upload);
   const dispatch = useDispatch();
   const storedDocs = localStorage.getItem("multiUploadedDocs");
@@ -85,7 +92,8 @@ function MultipleUploadDetails({}: Props) {
         course: selectedCourse?.value as string,
         ownerId: user?.id,
         year: selectedYear?.value as string,
-        language: selectedLanguage?.value as string
+        language: selectedLanguage?.value as string,
+        semester: selectedSemester?.value as string,
       })
         .unwrap()
         .then((res) => {
@@ -115,92 +123,135 @@ function MultipleUploadDetails({}: Props) {
           })
         : null}
       <div className="w-full space-y-4">
-      <div className="flex items-center w-full max-md:flex-col gap-4">
-            <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
-              <Institution
-                fill="var(--sub-title-text)"
-                upperFill="var(--title-text)"
-                size={20}
-              />
-              <p>Year</p>
-            </div>
-            <div className="w-full">
-              <DaAutocomplete
-                options={
-                  years?.map((item) => ({
-                    value: item?.id,
-                    label: item?.title,
-                  })) || [
-                    {
-                      label: "loading...",
-                      value: "",
-                    },
-                  ]
-                }
-                label="Select Document Year"
-                onChange={(e) => {
-                  dispatch(setSelectedYear(e));
-                }}
-                name="university"
-              />
-              {!selectedYear?.value && (
-                <p className="text-sm text-error font-semibold">
-                  Please Select the year
-                </p>
-              )}
-            </div>
-            <div
-              className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-              // onClick={() => {
-              //   dispatch(setAddUniverisityDialog(true));
-              // }}
-            >
-              {/* Add University */}
-            </div>
+        <div className="flex items-center w-full max-md:flex-col gap-4">
+          <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
+            <Institution
+              fill="var(--sub-title-text)"
+              upperFill="var(--title-text)"
+              size={20}
+            />
+            <p>Year</p>
           </div>
-          <div className="flex items-center w-full max-md:flex-col gap-4">
-            <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
-              <Institution
-                fill="var(--sub-title-text)"
-                upperFill="var(--title-text)"
-                size={20}
-              />
-              <p>Language</p>
-            </div>
-            <div className="w-full">
-              <DaAutocomplete
-                options={
-                  languages?.map((item) => ({
-                    value: item?.id,
-                    label: item?.title,
-                  })) || [
-                    {
-                      label: "loading...",
-                      value: "",
-                    },
-                  ]
-                }
-                label="Select Document Language"
-                onChange={(e) => {
-                  dispatch(setSelectedLanguage(e));
-                }}
-                name="university"
-              />
-              {!selectedLanguage?.value && (
-                <p className="text-sm text-error font-semibold">
-                  Please Select the Language
-                </p>
-              )}
-            </div>
-            <div
-              className="text-sm text-primary w-32 hover:cursor-pointer text-right"
-              // onClick={() => {
-              //   dispatch(setAddUniverisityDialog(true));
-              // }}
-            >
-              {/* Add University */}
-            </div>
+          <div className="w-full">
+            <DaAutocomplete
+              options={
+                years?.map((item) => ({
+                  value: item?.id,
+                  label: item?.title,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
+              label="Select Document Year"
+              onChange={(e) => {
+                dispatch(setSelectedYear(e));
+              }}
+              name="university"
+            />
+            {!selectedYear?.value && (
+              <p className="text-sm text-error font-semibold">
+                Please Select the year
+              </p>
+            )}
           </div>
+          <div
+            className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+            // onClick={() => {
+            //   dispatch(setAddUniverisityDialog(true));
+            // }}
+          >
+            {/* Add University */}
+          </div>
+        </div>
+        <div className="flex items-center w-full max-md:flex-col gap-4">
+          <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
+            <Institution
+              fill="var(--sub-title-text)"
+              upperFill="var(--title-text)"
+              size={20}
+            />
+            <p>Semester</p>
+          </div>
+          <div className="w-full">
+            <DaAutocomplete
+              options={
+                semesters?.map((item) => ({
+                  value: item?.id,
+                  label: item?.title,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
+              label="What semester is this pdf?"
+              onChange={(e) => {
+                dispatch(setSelectedSemester(e));
+              }}
+              name="university"
+            />
+            {!selectedSemester?.value && (
+              <p className="text-sm text-error font-semibold">
+                Please Select the semester
+              </p>
+            )}
+          </div>
+          <div
+            className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+            // onClick={() => {
+            //   dispatch(setAddUniverisityDialog(true));
+            // }}
+          >
+            {/* Add University */}
+          </div>
+        </div>
+        <div className="flex items-center w-full max-md:flex-col gap-4">
+          <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
+            <Institution
+              fill="var(--sub-title-text)"
+              upperFill="var(--title-text)"
+              size={20}
+            />
+            <p>Language</p>
+          </div>
+          <div className="w-full">
+            <DaAutocomplete
+              options={
+                languages?.map((item) => ({
+                  value: item?.id,
+                  label: item?.title,
+                })) || [
+                  {
+                    label: "loading...",
+                    value: "",
+                  },
+                ]
+              }
+              label="Select Document Language"
+              onChange={(e) => {
+                dispatch(setSelectedLanguage(e));
+              }}
+              name="university"
+            />
+            {!selectedLanguage?.value && (
+              <p className="text-sm text-error font-semibold">
+                Please Select the Language
+              </p>
+            )}
+          </div>
+          <div
+            className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+            // onClick={() => {
+            //   dispatch(setAddUniverisityDialog(true));
+            // }}
+          >
+            {/* Add University */}
+          </div>
+        </div>
         <div className="flex items-center w-full max-md:flex-col gap-2">
           <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
             <Institution

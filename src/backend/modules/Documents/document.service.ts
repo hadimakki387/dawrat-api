@@ -16,7 +16,7 @@ import University from "../universities/universities.model";
 import { returnArrayData } from "@/backend/helper-functions/returnData";
 import httpStatus from "http-status";
 import { utapi } from "@/backend/utils/uploadThing";
-import User, { CurrentYear } from "../user/user.model";
+import User, { CurrentYear, Semester } from "../user/user.model";
 import { SolutionInterface } from "../solutions/solutions.interface";
 import Solution from "../solutions/solutions.mode";
 
@@ -44,7 +44,7 @@ export const createDocument = async (req: NextRequest) => {
   const university = await University.findById(userBody.university);
   const language = await Language.findById(userBody.language);
   const year = await CurrentYear.findById(userBody.year);
-
+  const semester = await Semester.findById(userBody.semester);
 
   const doc = await Document.create({
     ...userBody,
@@ -52,6 +52,7 @@ export const createDocument = async (req: NextRequest) => {
     universityName: university.title,
     yearName: year.title,
     languageName: language.title,
+    semesterName: semester.title,
   });
 
   if (!doc) {
@@ -89,13 +90,14 @@ export const createManyDocuments = async (req: NextRequest) => {
       { status: 400 }
     );
   }
+  const course = await Course.findById(userBody.course);
+  const university = await University.findById(userBody.university);
+  const language = await Language.findById(userBody.language);
+  const year = await CurrentYear.findById(userBody.year);
+  const semester = await Semester.findById(userBody.semester);
+
   const createDocuments = await Promise.all(
     userBody?.docs?.map(async (DocData: any) => {
-      const course = await Course.findById(userBody.course);
-      const university = await University.findById(userBody.university);
-      const language = await Language.findById(userBody.language);
-      const year = await CurrentYear.findById(userBody.year);
-      const updatedCourse = await updateDocsCountInCourse(userBody.course);
       const doc = await Document.create({
         university: userBody.university,
         domain: userBody.domain,
@@ -110,6 +112,8 @@ export const createManyDocuments = async (req: NextRequest) => {
         language: userBody.language,
         yearName: year.title,
         languageName: language.title,
+        semester: userBody.semester,
+        semesterName: semester.title,
       });
       if (!doc) {
         return new NextResponse(
@@ -121,6 +125,8 @@ export const createManyDocuments = async (req: NextRequest) => {
       return doc;
     })
   );
+  
+  const updatedCourse = await updateDocsCountInCourse(userBody.course);
   const updatedUser = await updateUserUploads(userBody.ownerId);
   return new NextResponse(
     JSON.stringify({ docs: createDocuments, updatedUser: updatedUser }),

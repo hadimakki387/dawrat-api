@@ -27,6 +27,7 @@ const initialState: {
   handleMultiSubmit: number;
   selectedYear: DropdownValue | null;
   selectedLanguage: DropdownValue | null;
+  selectedSemester: DropdownValue | null;
 } = {
   searchUploadUniversity: "",
   selectedUniversity: {
@@ -59,6 +60,7 @@ const initialState: {
   handleMultiSubmit: 0,
   selectedYear: null,
   selectedLanguage: null,
+  selectedSemester: null,
 };
 
 const uploadSlice = createSlice({
@@ -131,6 +133,9 @@ const uploadSlice = createSlice({
     setSelectedLanguage(state, action) {
       state.selectedLanguage = action.payload;
     },
+    setSelectedSemester(state, action) {
+      state.selectedSemester = action.payload;
+    },
   },
 });
 
@@ -157,6 +162,7 @@ export const {
   setHandleMultiSubmit,
   setSelectedYear,
   setSelectedLanguage,
+  setSelectedSemester,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

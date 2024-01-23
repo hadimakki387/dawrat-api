@@ -99,3 +99,9 @@ export interface LanguageInterface{
   _id?: string;
   abr: string;
 }
+export interface SemesterInterface{
+  id?: string;
+  title: string;
+  _id?: string;
+  value: number;
+}

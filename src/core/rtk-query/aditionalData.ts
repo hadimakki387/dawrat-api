@@ -1,4 +1,4 @@
-import { LanguageInterface, YearInterface } from "@/services/types";
+import { LanguageInterface, SemesterInterface, YearInterface } from "@/services/types";
 import { mainApi } from ".";
 
 const extendedApi = mainApi.injectEndpoints({
@@ -15,7 +15,13 @@ const extendedApi = mainApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSemesters: builder.query<SemesterInterface[], void>({
+      query: () => ({
+        url: `/semesters`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetYearsQuery, useGetLanguagesQuery } = extendedApi;
+export const { useGetYearsQuery, useGetLanguagesQuery,useGetSemestersQuery } = extendedApi;

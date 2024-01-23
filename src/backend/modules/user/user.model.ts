@@ -118,8 +118,12 @@ const currentYearSchema = new Schema<any, any>({
 });
 
 const semesterSchema = new Schema<any, any>({
-  semester: {
+  title: {
     type: String,
+    required: true,
+  },
+  value: {
+    type: Number,
     required: true,
   },
 });

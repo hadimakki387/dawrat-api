@@ -25,4 +25,6 @@ export interface DocumentInterface {
   language:string;
   yearName: string;
   languageName: string;
+  semester: string;
+  semesterName: string;
 }

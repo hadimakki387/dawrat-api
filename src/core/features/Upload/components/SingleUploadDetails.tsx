@@ -26,6 +26,7 @@ import {
   setSelectedCourse,
   setSelectedDomain,
   setSelectedLanguage,
+  setSelectedSemester,
   setSelectedUniversity,
   setSelectedYear,
   setUploadedDocs,
@@ -33,7 +34,7 @@ import {
 import AddCourseDialog from "./AddCourseDialog";
 import AddDomainDialog from "./AddDomainDialog";
 import CreateUniversityDialog from "./CreateUniversityDialog";
-import { useGetLanguagesQuery, useGetYearsQuery } from "@/core/rtk-query/aditionalData";
+import { useGetLanguagesQuery, useGetSemestersQuery, useGetYearsQuery } from "@/core/rtk-query/aditionalData";
 
 function SingleUploadDetails() {
   const dispatch = useDispatch();
@@ -72,7 +73,8 @@ function SingleUploadDetails() {
           url: actualDoc?.url,
         },
         language: selectedLanguage?.value,
-        year: selectedYear?.value
+        year: selectedYear?.value,
+        semester: selectedSemester?.value
       })
         .unwrap()
         .then((res) => {
@@ -99,6 +101,7 @@ function SingleUploadDetails() {
     handleSubmit,
     selectedYear,
     selectedLanguage,
+    selectedSemester
   } = useAppSelector((state) => state.upload);
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
@@ -115,6 +118,7 @@ function SingleUploadDetails() {
 
   const { data: years } = useGetYearsQuery();
   const {data:languages} = useGetLanguagesQuery()
+  const {data:semesters} = useGetSemestersQuery()
 
   const storedDocs = localStorage.getItem("uploadedDocs");
   const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
@@ -227,6 +231,7 @@ function SingleUploadDetails() {
             />
           </div>
         </div>
+          
           <div className="flex items-center w-full max-md:flex-col gap-4">
             <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
               <Institution
@@ -258,6 +263,49 @@ function SingleUploadDetails() {
               {!selectedYear?.value && (
                 <p className="text-sm text-error font-semibold">
                   Please Select the year
+                </p>
+              )}
+            </div>
+            <div
+              className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+              // onClick={() => {
+              //   dispatch(setAddUniverisityDialog(true));
+              // }}
+            >
+              {/* Add University */}
+            </div>
+          </div>
+          <div className="flex items-center w-full max-md:flex-col gap-4">
+            <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
+              <Institution
+                fill="var(--sub-title-text)"
+                upperFill="var(--title-text)"
+                size={20}
+              />
+              <p>Semester</p>
+            </div>
+            <div className="w-full">
+              <DaAutocomplete
+                options={
+                  semesters?.map((item) => ({
+                    value: item?.id,
+                    label: item?.title,
+                  })) || [
+                    {
+                      label: "loading...",
+                      value: "",
+                    },
+                  ]
+                }
+                label="What semester is this pdf?"
+                onChange={(e) => {
+                  dispatch(setSelectedSemester(e));
+                }}
+                name="university"
+              />
+              {!selectedSemester?.value && (
+                <p className="text-sm text-error font-semibold">
+                  Please Select the semester
                 </p>
               )}
             </div>

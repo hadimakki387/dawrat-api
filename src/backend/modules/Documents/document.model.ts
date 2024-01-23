@@ -85,6 +85,12 @@ const documentSchema = new Schema<any, any>({
   languageName: {
     type: String,
   },
+  semester:{
+    type:String
+  },
+  semesterName:{
+    type:String
+  }
 });
 
 const languageSchema = new Schema<any, any>({
