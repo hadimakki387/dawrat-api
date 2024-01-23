@@ -8,8 +8,6 @@ import MongoConnection from "@/backend/utils/db";
 import { utapi } from "@/backend/utils/uploadThing";
 import httpStatus from "http-status";
 
-
-
 export const checkDocumentTitle = async (title: string) => {
   const doc = await Document.findOne({ title: title });
   if (doc) {
@@ -20,16 +18,18 @@ export const checkDocumentTitle = async (title: string) => {
 };
 
 export const getManyDocumentsById = async (req: NextRequest) => {
-  MongoConnection()
+  MongoConnection();
   const body = await req.json();
   //i want the documents that have the ids in the body as an array and to be in the same order as the body array
   const documents = await Document.find({ _id: { $in: body } });
   const params = new URL(req.url as string);
   const limit = params?.searchParams.get("limit");
-  const sortedDocs = body?.map((id:string) => documents.find(doc => doc._id.toString() === id));
+  const sortedDocs = body
+    ?.map((id: string) => documents.find((doc) => doc._id.toString() === id))
+    .filter((doc:any) => doc !== undefined);
 
   const docsWithCourse = await Promise.all(
-    sortedDocs.map(async (doc:DocumentInterface) => {
+    sortedDocs.map(async (doc: DocumentInterface) => {
       const course = await Course.findById(doc.course);
       const newDoc = {
         ...returnData(doc),
@@ -58,8 +58,7 @@ export const getDocumentById = async (req: NextRequest) => {
   return new Response(JSON.stringify(returnData(doc)), { status: 200 });
 };
 
-
-export const deleteDocFromUploadThing = async (req:NextRequest) =>{
+export const deleteDocFromUploadThing = async (req: NextRequest) => {
   const body = await req.json();
   const deleteFiles = await utapi.deleteFiles(body);
 
@@ -73,4 +72,4 @@ export const deleteDocFromUploadThing = async (req:NextRequest) =>{
   return new NextResponse(JSON.stringify({ message: "Deleted Successfully" }), {
     status: httpStatus.OK,
   });
-}
+};
