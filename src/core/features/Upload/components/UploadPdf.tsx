@@ -18,6 +18,7 @@ import {
 import DaCheckbox from "@/components/global/DaCheckbox";
 import SingleUploadDetails from "./SingleUploadDetails";
 import MultipleUploadDetails from "./MultipleUploadDetails";
+import { useDeleteUploadedPdfMutation } from "@/core/rtk-query/upload";
 
 function UploadPdf() {
   const {
@@ -27,7 +28,7 @@ function UploadPdf() {
     selectedCourse,
     selectedDomain,
     multiUpload,
-    multipleUploadedDocs
+    multipleUploadedDocs,
   } = useAppSelector((state) => state.upload);
   const { data } = useGetUniversitiesQuery({
     title: searchUploadUniversity,
@@ -37,12 +38,16 @@ function UploadPdf() {
 
   const { user } = useAppSelector((state) => state.global);
   const router = useRouter();
+  const [deleteUploadedPdf] = useDeleteUploadedPdfMutation();
 
   useEffect(() => {
     if (user && user.role !== "admin") {
       router.push("/");
     }
   }, [user, router]);
+  // useEffect(()=>{
+
+  // },[multiUpload])
 
   return (
     <DaCard
@@ -65,14 +70,31 @@ function UploadPdf() {
             uploadIcon: "text-primary",
           }}
           onClientUploadComplete={async (res: any) => {
-            if (res?.length === 1) {
+            if (!multiUpload) {
+              const storedDocs = localStorage.getItem("uploadedDocs");
+              const parsedStoredDocs = storedDocs && JSON.parse(storedDocs);
+              if (uploadedDocs.length > 0 || parsedStoredDocs?.length > 0) {
+                deleteUploadedPdf(
+                  [uploadedDocs[0].key] || [parsedStoredDocs[0].key]
+                ).then(() => {
+                  dispatch(setUploadedDocs(res));
+                  localStorage.setItem("uploadedDocs", JSON.stringify(res));
+                  toast.success("File Uploaded Successfully");
+                });
+                return;
+              }
               dispatch(setUploadedDocs(res));
               localStorage.setItem("uploadedDocs", JSON.stringify(res));
               toast.success("File Uploaded Successfully");
             }
-            if (res?.length > 1) {
-              dispatch(setMultipleUploadedDocs(res));
-              localStorage.setItem("multiUploadedDocs", JSON.stringify(res));
+            if (multiUpload) {
+              dispatch(
+                setMultipleUploadedDocs([...res, ...multipleUploadedDocs])
+              );
+              localStorage.setItem(
+                "multiUploadedDocs",
+                JSON.stringify([...res, ...multipleUploadedDocs])
+              );
               toast.success("Files Uploaded Successfully");
             }
           }}
@@ -95,11 +117,17 @@ function UploadPdf() {
           checked={multiUpload}
         />
       </div>
-      <div className={`${uploadedDocs.length > 0 && !multiUpload ? "" : "hidden"}`}>
-        <SingleUploadDetails /> 
+      <div
+        className={`${uploadedDocs.length > 0 && !multiUpload ? "" : "hidden"}`}
+      >
+        <SingleUploadDetails />
       </div>
-      <div className={`${multipleUploadedDocs.length > 0 && multiUpload ? "" : "hidden"}`}>
-         <MultipleUploadDetails />
+      <div
+        className={`${
+          multipleUploadedDocs.length > 0 && multiUpload ? "" : "hidden"
+        }`}
+      >
+        <MultipleUploadDetails />
       </div>
 
       <div className="flex justify-end items-center">
@@ -118,10 +146,10 @@ function UploadPdf() {
             !selectedDomain?.value
           }
           onClick={() => {
-            if(multiUpload){
-              dispatch(setHandleMultiSubmit(Math.random()))
-            }else{
-              dispatch(setHandleSubmit(Math.random()))
+            if (multiUpload) {
+              dispatch(setHandleMultiSubmit(Math.random()));
+            } else {
+              dispatch(setHandleSubmit(Math.random()));
             }
           }}
         />

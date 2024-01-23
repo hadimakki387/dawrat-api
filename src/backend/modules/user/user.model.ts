@@ -99,13 +99,34 @@ const userSchema = new Schema<any, any>({
       ref: "Document",
     },
   ],
-  followedCourses:{
-    type:Array,
-    default:[]
-  }
-
+  followedCourses: {
+    type: Array,
+    default: [],
+  },
+  language: {
+    type: String,
+  },
 });
 
+const currentYearSchema = new Schema<any, any>({
+  title: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  year: { type: Date, required: true },
+});
+
+const semesterSchema = new Schema<any, any>({
+  semester: {
+    type: String,
+    required: true,
+  },
+});
+
+const Semester = models.Semester || model("Semester", semesterSchema);
+const CurrentYear = models.CurrentYear || model("CurrentYear", currentYearSchema);
 const User = models.User || model("User", userSchema);
 
+export { CurrentYear, Semester };
 export default User;

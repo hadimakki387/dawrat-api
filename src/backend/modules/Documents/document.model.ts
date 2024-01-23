@@ -17,7 +17,7 @@ const documentSchema = new Schema<any, any>({
   university: {
     type: String,
   },
-  currentYearOfStudying: {
+  year: {
     type: String,
   },
   course: {
@@ -75,10 +75,30 @@ const documentSchema = new Schema<any, any>({
   },
   solution: {
     type: String,
-    required:false,
+  },
+  language: {
+    type: String,
+  },
+  yearName: {
+    type: String,
+  },
+  languageName: {
+    type: String,
   },
 });
 
+const languageSchema = new Schema<any, any>({
+  title: {
+    type: String,
+    required: true,
+  },
+  abr: {
+    type: String,
+    required: true,
+  },
+});
+
+export const Language = models.Language || model("Language", languageSchema);
 const Document = models.Document || model("Document", documentSchema);
 
 export default Document;

@@ -25,6 +25,8 @@ const initialState: {
   multiUpload: boolean;
   multipleUploadedDocs: UploadFileResponse[];
   handleMultiSubmit: number;
+  selectedYear: DropdownValue | null;
+  selectedLanguage: DropdownValue | null;
 } = {
   searchUploadUniversity: "",
   selectedUniversity: {
@@ -55,6 +57,8 @@ const initialState: {
   multiUpload: false,
   multipleUploadedDocs: [],
   handleMultiSubmit: 0,
+  selectedYear: null,
+  selectedLanguage: null,
 };
 
 const uploadSlice = createSlice({
@@ -121,6 +125,12 @@ const uploadSlice = createSlice({
     setHandleMultiSubmit(state, action) {
       state.handleMultiSubmit = action.payload;
     },
+    setSelectedYear(state, action) {
+      state.selectedYear = action.payload;
+    },
+    setSelectedLanguage(state, action) {
+      state.selectedLanguage = action.payload;
+    },
   },
 });
 
@@ -145,6 +155,8 @@ export const {
   setMultiUpload,
   setMultipleUploadedDocs,
   setHandleMultiSubmit,
+  setSelectedYear,
+  setSelectedLanguage,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

@@ -53,7 +53,7 @@ export interface DocumentI {
   description: string;
   domain: string;
   university: string;
-  currentYearOfStudying: string;
+  year: string;
   course: string;
   ownerId: string;
   doc: {
@@ -68,6 +68,7 @@ export interface DocumentI {
   upvotes: number;
   downvotes: number;
   universityName: string;
+  language: string;
 }
 
 export interface sideBarInterface {
@@ -84,4 +85,17 @@ export interface UploadThingResponse {
   name: string;
   size: number;
   key: string;
+}
+
+export interface YearInterface{
+  id: string;
+  title: string;
+  year: string;
+  _id: string;
+}
+export interface LanguageInterface{
+  id?: string;
+  title: string;
+  _id?: string;
+  abr: string;
 }

@@ -7,7 +7,7 @@ const createDocument: Record<keyof Omit<DocumentInterface, "id" | "_id">, any> =
     description: Joi.string().required(),
     domain: Joi.string().required(),
     university: Joi.string().required(),
-    currentYearOfStudying: Joi.string(),
+    year: Joi.string(),
     ownerId: Joi.string().required(),
     doc: Joi.object().keys({
       name: Joi.string().required(),
@@ -24,11 +24,15 @@ const createDocument: Record<keyof Omit<DocumentInterface, "id" | "_id">, any> =
     universityName: Joi.string(),
     courseTitle: Joi.string(),
     solution: Joi.string(),
+    language: Joi.string(),
+    yearName: Joi.string(),
+    languageName: Joi.string(),
   };
 const createManyDocuments = {
   domain: Joi.string().required(),
   university: Joi.string().required(),
-  currentYearOfStudying: Joi.string(),
+  year: Joi.string(),
+  language: Joi.string(),
   ownerId: Joi.string().required(),
   docs: Joi.array().items(
     Joi.object().keys({

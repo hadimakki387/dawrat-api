@@ -5,7 +5,7 @@ export interface DocumentInterface {
   description: string;
   domain: string;
   university: string;
-  currentYearOfStudying: string;
+  year: string;
   course: string;
   ownerId: string;
   doc:{
@@ -22,4 +22,7 @@ export interface DocumentInterface {
   universityName:string;
   courseTitle:string;
   solution:string;
+  language:string;
+  yearName: string;
+  languageName: string;
 }

@@ -5,7 +5,7 @@ import {
   updateUserUploads,
 } from "../user/user.helperFunctions";
 import { checkDocumentTitle } from "./document.helperFunction";
-import Document from "./document.model";
+import Document, { Language } from "./document.model";
 import {
   createDocumentValidation,
   createManyDocumentsValidation,
@@ -16,7 +16,7 @@ import University from "../universities/universities.model";
 import { returnArrayData } from "@/backend/helper-functions/returnData";
 import httpStatus from "http-status";
 import { utapi } from "@/backend/utils/uploadThing";
-import User from "../user/user.model";
+import User, { CurrentYear } from "../user/user.model";
 import { SolutionInterface } from "../solutions/solutions.interface";
 import Solution from "../solutions/solutions.mode";
 
@@ -42,11 +42,16 @@ export const createDocument = async (req: NextRequest) => {
 
   const course = await Course.findById(userBody.course);
   const university = await University.findById(userBody.university);
+  const language = await Language.findById(userBody.language);
+  const year = await CurrentYear.findById(userBody.year);
+
 
   const doc = await Document.create({
     ...userBody,
     courseName: course.title,
     universityName: university.title,
+    yearName: year.title,
+    languageName: language.title,
   });
 
   if (!doc) {
@@ -88,6 +93,8 @@ export const createManyDocuments = async (req: NextRequest) => {
     userBody?.docs?.map(async (DocData: any) => {
       const course = await Course.findById(userBody.course);
       const university = await University.findById(userBody.university);
+      const language = await Language.findById(userBody.language);
+      const year = await CurrentYear.findById(userBody.year);
       const updatedCourse = await updateDocsCountInCourse(userBody.course);
       const doc = await Document.create({
         university: userBody.university,
@@ -99,6 +106,10 @@ export const createManyDocuments = async (req: NextRequest) => {
         ownerId: userBody.ownerId,
         title: DocData.name,
         description: DocData.name,
+        year: userBody.year,
+        language: userBody.language,
+        yearName: year.title,
+        languageName: language.title,
       });
       if (!doc) {
         return new NextResponse(

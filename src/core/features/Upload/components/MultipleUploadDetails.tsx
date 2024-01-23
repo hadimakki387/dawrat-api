@@ -21,11 +21,14 @@ import {
   setMultipleUploadedDocs,
   setSelectedCourse,
   setSelectedDomain,
+  setSelectedLanguage,
   setSelectedUniversity,
+  setSelectedYear,
 } from "../redux/upload-slice";
 import UploadedDocCard from "./UploadedDocCard";
 import { useCreateManyDocumentsMutation } from "@/core/rtk-query/documents";
 import { setUser } from "../../global/redux/global-slice";
+import { useGetLanguagesQuery, useGetYearsQuery } from "@/core/rtk-query/aditionalData";
 
 type Props = {};
 
@@ -37,6 +40,8 @@ function MultipleUploadDetails({}: Props) {
     selectedCourse,
     selectedDomain,
     handleMultiSubmit,
+    selectedYear,
+    selectedLanguage  
   } = useAppSelector((state) => state.upload);
   const { user } = useAppSelector((state) => state.global);
   const { data } = useGetUniversitiesQuery({
@@ -50,6 +55,8 @@ function MultipleUploadDetails({}: Props) {
     useGetCoursesByDomainIdQuery(selectedDomain?.value as string, {
       skip: !selectedDomain?.value ? true : false,
     });
+    const { data: years } = useGetYearsQuery();
+    const {data:languages} = useGetLanguagesQuery()
   const { multipleUploadedDocs } = useAppSelector((state) => state.upload);
   const dispatch = useDispatch();
   const storedDocs = localStorage.getItem("multiUploadedDocs");
@@ -77,6 +84,8 @@ function MultipleUploadDetails({}: Props) {
         domain: selectedDomain?.value as string,
         course: selectedCourse?.value as string,
         ownerId: user?.id,
+        year: selectedYear?.value as string,
+        language: selectedLanguage?.value as string
       })
         .unwrap()
         .then((res) => {
@@ -106,6 +115,92 @@ function MultipleUploadDetails({}: Props) {
           })
         : null}
       <div className="w-full space-y-4">
+      <div className="flex items-center w-full max-md:flex-col gap-4">
+            <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
+              <Institution
+                fill="var(--sub-title-text)"
+                upperFill="var(--title-text)"
+                size={20}
+              />
+              <p>Year</p>
+            </div>
+            <div className="w-full">
+              <DaAutocomplete
+                options={
+                  years?.map((item) => ({
+                    value: item?.id,
+                    label: item?.title,
+                  })) || [
+                    {
+                      label: "loading...",
+                      value: "",
+                    },
+                  ]
+                }
+                label="Select Document Year"
+                onChange={(e) => {
+                  dispatch(setSelectedYear(e));
+                }}
+                name="university"
+              />
+              {!selectedYear?.value && (
+                <p className="text-sm text-error font-semibold">
+                  Please Select the year
+                </p>
+              )}
+            </div>
+            <div
+              className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+              // onClick={() => {
+              //   dispatch(setAddUniverisityDialog(true));
+              // }}
+            >
+              {/* Add University */}
+            </div>
+          </div>
+          <div className="flex items-center w-full max-md:flex-col gap-4">
+            <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
+              <Institution
+                fill="var(--sub-title-text)"
+                upperFill="var(--title-text)"
+                size={20}
+              />
+              <p>Language</p>
+            </div>
+            <div className="w-full">
+              <DaAutocomplete
+                options={
+                  languages?.map((item) => ({
+                    value: item?.id,
+                    label: item?.title,
+                  })) || [
+                    {
+                      label: "loading...",
+                      value: "",
+                    },
+                  ]
+                }
+                label="Select Document Language"
+                onChange={(e) => {
+                  dispatch(setSelectedLanguage(e));
+                }}
+                name="university"
+              />
+              {!selectedLanguage?.value && (
+                <p className="text-sm text-error font-semibold">
+                  Please Select the Language
+                </p>
+              )}
+            </div>
+            <div
+              className="text-sm text-primary w-32 hover:cursor-pointer text-right"
+              // onClick={() => {
+              //   dispatch(setAddUniverisityDialog(true));
+              // }}
+            >
+              {/* Add University */}
+            </div>
+          </div>
         <div className="flex items-center w-full max-md:flex-col gap-2">
           <div className="w-[15vw] flex items-center gap-4 max-md:w-full">
             <Institution
@@ -263,11 +358,11 @@ function MultipleUploadDetails({}: Props) {
             NOTE: IF ANY OF THE OPTIONS GOES WRONG PLEASE REFRESH THE PAGE OR
             RESELECT THE SECTION WITH ERROR
           </p>
-          <p>
+          {/* <p>
             NOTE: IF YOU WANT TO ADD A SOLUTION GO TO PROFILE CHECK YOU&apos;RE
             PROFILE <br /> {"->"} GO TO THE DOCUMENT YOU UPLOADED <br /> {"->"} YOU WILL SEE
             AN UPLOAD SOLUTION BUTTON
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

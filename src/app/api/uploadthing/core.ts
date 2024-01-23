@@ -19,7 +19,7 @@ export const ourFileRouter = {
       console.log("file url", file.url);
     }),
   pdfUploader: f({
-    pdf: { maxFileSize: "8MB", maxFileCount: 1 },
+    pdf: { maxFileSize: "16MB", maxFileCount: 1 },
   }).onUploadComplete(async ({ metadata, file }: any) => {
     // This code RUNS ON YOUR SERVER after upload
     console.log("Upload complete for userId:", metadata.userId);
@@ -27,7 +27,7 @@ export const ourFileRouter = {
     console.log("file url", file.url);
   }),
   multiplePdfUploader: f({
-    pdf: { maxFileSize: "4MB", maxFileCount: 10 },
+    pdf: { maxFileSize: "16MB", maxFileCount: 10 },
   }).onUploadComplete(async ({ metadata, file }: any) => {
     // This code RUNS ON YOUR SERVER after upload
     console.log("Upload complete for userId:", metadata.userId);
