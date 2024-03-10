@@ -1,18 +1,17 @@
 import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
-import Studylist from "./studylist.model";
-import httpStatus from "http-status";
-import { NextRequest, NextResponse } from "next/server";
 import {
   returnArrayData,
   returnData,
 } from "@/backend/helper-functions/returnData";
+import httpStatus from "http-status";
+import { NextRequest, NextResponse } from "next/server";
+import { UserInterface } from "../user/user.interfaces";
+import User from "../user/user.model";
+import Studylist from "./studylist.model";
 import {
   createStudylistValidation,
   updateStudylistValidation,
 } from "./studylist.validate";
-import User from "../user/user.model";
-import { UserInterface } from "../user/user.interfaces";
-import { StudylistInterface } from "./studylist.interface";
 
 export const getStudyListForUser = async (req: Request) => {
   const id = getIdFromUrl(req.url);
@@ -47,11 +46,11 @@ export const CreateStudylist = async (req: Request) => {
     });
   }
 
-  const updateUserStudyList = User.findByIdAndUpdate(
-    id,
-    { studylist: [studylist._id, ...user.studylist] },
-    { new: true }
-  );
+  // const updateUserStudyList = User.findByIdAndUpdate(
+  //   id,
+  //   { studylist: [studylist._id, ...user.studylist] },
+  //   { new: true }
+  // );
   return new NextResponse(JSON.stringify(returnData(studylist)), {
     status: httpStatus.CREATED,
   });
@@ -67,7 +66,7 @@ export const UpdateStudylist = async (req: Request) => {
       status: httpStatus.BAD_REQUEST,
     });
   }
-  const { document,userId } = data;
+  const { document, } = data;
   const studyList = await Studylist.findById(id);
 
   if (!studyList) {
@@ -89,21 +88,21 @@ export const UpdateStudylist = async (req: Request) => {
       (doc: string[]) => String(doc) !== document
     );
 
-    const updateStudylist = await Studylist.findByIdAndUpdate(
-      studyList._id,
-      { documents: updatedDocuments },
-      { new: true }
-    );
+    // const updateStudylist = await Studylist.findByIdAndUpdate(
+    //   studyList._id,
+    //   { documents: updatedDocuments },
+    //   { new: true }
+    // );
     return new NextResponse(JSON.stringify(updatedDocuments), {
       status: httpStatus.OK,
     });
   }else{
     updatedDocuments = [document, ...studyList.documents];
-    const updateStudylist = await Studylist.findByIdAndUpdate(
-      studyList._id,
-      { documents: updatedDocuments },
-      { new: true }
-    );
+    // const updateStudylist = await Studylist.findByIdAndUpdate(
+    //   studyList._id,
+    //   { documents: updatedDocuments },
+    //   { new: true }
+    // );
     return new NextResponse(JSON.stringify(updatedDocuments), {
       status: httpStatus.OK,
     });
@@ -125,7 +124,7 @@ export const deleteStudylist = async (req: NextRequest) => {
     );
   }
 
-  const user = await User.findById(studyList.owner);
+  // const user = await User.findById(studyList.owner);
 
   if (!studyList) {
     return new NextResponse(
@@ -138,16 +137,16 @@ export const deleteStudylist = async (req: NextRequest) => {
     );
   }
 
-  const updatedStudylist = user.studylist.filter(
-    (studylist: StudylistInterface) => String(studylist) !== id
-  );
-  const updateUserStudyList = await User.findByIdAndUpdate(
-    studyList.owner,
-    { studylist: updatedStudylist },
-    { new: true }
-  );
+  // const updatedStudylist = user.studylist.filter(
+  //   (studylist: StudylistInterface) => String(studylist) !== id
+  // );
+  // const updateUserStudyList = await User.findByIdAndUpdate(
+  //   studyList.owner,
+  //   { studylist: updatedStudylist },
+  //   { new: true }
+  // );
 
-  const deleteStudylist = await Studylist.findByIdAndDelete(id);
+  // const deleteStudylist = await Studylist.findByIdAndDelete(id);
 
   return new NextResponse(
     JSON.stringify({

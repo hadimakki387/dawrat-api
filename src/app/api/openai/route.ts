@@ -1,10 +1,7 @@
 // in this file i will be implementing the route for the openai api in my nextjs app
 // this will be a post request
 
-import Question from "@/backend/modules/questions/questions.model";
 import MongoConnection from "@/backend/utils/db";
-import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
 
 const data = {
   id: "chatcmpl-8RgCf0nL9bYspAS8dwwJeVBCjJI2L",
@@ -32,8 +29,7 @@ const data = {
 
 MongoConnection()
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  const { message } = await req.json();
+export async function POST() {
 
   // const openai = new OpenAI({
   //   apiKey: process.env.OPENAI_API_KEY,

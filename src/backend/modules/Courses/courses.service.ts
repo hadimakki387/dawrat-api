@@ -1,15 +1,14 @@
-import httpStatus from "http-status";
-import { createCourseValidation } from "./courses.validation";
-import { NextRequest, NextResponse } from "next/server";
-import Course from "./courses.model";
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import {
   returnArrayData,
   returnData,
 } from "@/backend/helper-functions/returnData";
 import MongoConnection from "@/backend/utils/db";
+import httpStatus from "http-status";
+import { NextRequest, NextResponse } from "next/server";
 import { DocumentInterface } from "../Documents/document.interface";
-import { DocumentI } from "@/services/types";
-import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
+import Course from "./courses.model";
+import { createCourseValidation } from "./courses.validation";
 
 MongoConnection();
 

@@ -9,8 +9,8 @@ interface Props {
   Letter?: string;
 }
 
-function ProfileAvatar({ className="",Letter="H" }: Props) {
-  const {user} = useAppSelector(state => state.global)
+function ProfileAvatar({ className="" }: Props) {
+  const {user} = useAppSelector((state: { global: any; }) => state.global)
   return (
     <div
       className={`h-11 w-9 bg-[#8d6e63] flex justify-center items-center font-semibold text-2xl pb-1 text-white ${className}`}

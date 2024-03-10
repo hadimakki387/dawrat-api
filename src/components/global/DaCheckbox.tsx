@@ -10,6 +10,7 @@ interface Props extends CheckboxProps {
   isSwitch?: boolean;
   className?: string;
   labelClass?: string;
+  size?: "medium" | "small"
 }
 
 function DaCheckbox({

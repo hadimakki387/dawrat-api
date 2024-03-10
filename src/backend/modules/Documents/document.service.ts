@@ -1,24 +1,23 @@
+import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
+import { returnArrayData } from "@/backend/helper-functions/returnData";
 import MongoConnection from "@/backend/utils/db";
+import { utapi } from "@/backend/utils/uploadThing";
+import httpStatus from "http-status";
 import { NextRequest, NextResponse } from "next/server";
+import Course from "../Courses/courses.model";
+import { SolutionInterface } from "../solutions/solutions.interface";
+import Solution from "../solutions/solutions.mode";
+import University from "../universities/universities.model";
 import {
-  updateDocsCountInCourse,
-  updateUserUploads,
+  updateUserUploads
 } from "../user/user.helperFunctions";
+import User, { CurrentYear, Semester } from "../user/user.model";
 import { checkDocumentTitle } from "./document.helperFunction";
 import Document, { Language } from "./document.model";
 import {
   createDocumentValidation,
   createManyDocumentsValidation,
 } from "./document.validation";
-import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
-import Course from "../Courses/courses.model";
-import University from "../universities/universities.model";
-import { returnArrayData } from "@/backend/helper-functions/returnData";
-import httpStatus from "http-status";
-import { utapi } from "@/backend/utils/uploadThing";
-import User, { CurrentYear, Semester } from "../user/user.model";
-import { SolutionInterface } from "../solutions/solutions.interface";
-import Solution from "../solutions/solutions.mode";
 
 export const createDocument = async (req: NextRequest) => {
   MongoConnection();
@@ -63,7 +62,7 @@ export const createDocument = async (req: NextRequest) => {
   }
 
   const updatedUser = await updateUserUploads(userBody.ownerId);
-  const updatedCourse = await updateDocsCountInCourse(userBody.course);
+  // const updatedCourse = await updateDocsCountInCourse(userBody.course);
 
   return new NextResponse(
     JSON.stringify({ doc: doc, updatedUser: updatedUser }),
@@ -125,8 +124,8 @@ export const createManyDocuments = async (req: NextRequest) => {
       return doc;
     })
   );
-  
-  const updatedCourse = await updateDocsCountInCourse(userBody.course);
+
+  // const updatedCourse = await updateDocsCountInCourse(userBody.course);
   const updatedUser = await updateUserUploads(userBody.ownerId);
   return new NextResponse(
     JSON.stringify({ docs: createDocuments, updatedUser: updatedUser }),
@@ -202,15 +201,15 @@ export const DeleteDocument = async (req: NextRequest) => {
 
   // i want to remove the document from reviewed documents array in user
 
-  const filteredArray = user.reviewedDocuments.filter(
-    (doc: string) => doc !== id
-  );
+  // const filteredArray = user.reviewedDocuments.filter(
+  //   (doc: string) => doc !== id
+  // );
 
-  const updateUser = await User.findByIdAndUpdate(
-    user._id,
-    { reviewedDocuments: filteredArray },
-    { new: true }
-  );
+  // const updateUser = await User.findByIdAndUpdate(
+  //   user._id,
+  //   { reviewedDocuments: filteredArray },
+  //   { new: true }
+  // );
   const body = await req.json();
 
   if (doc.solution) {
@@ -229,10 +228,10 @@ export const DeleteDocument = async (req: NextRequest) => {
     } catch (error: any) {
       return NextResponse.json({ message: error?.code }, { status: 400 });
     }
-    const deleteSolution = await Solution.findByIdAndDelete(doc.solution);
+    // const deleteSolution = await Solution.findByIdAndDelete(doc.solution);
   }
 
-  const DeletedDoc = await Document.findByIdAndDelete(id);
+  // const DeletedDoc = await Document.findByIdAndDelete(id);
   const deleteFiles = await utapi.deleteFiles(body);
 
   if (!deleteFiles.success) {

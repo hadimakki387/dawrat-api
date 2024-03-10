@@ -1,11 +1,11 @@
 import React from "react";
 
-interface Props {
-  size?:number;
-  fill?: string;
-  outerFill?: string;
-    innerFill?: string;
-}
+// interface Props {
+//   size?:number;
+//   fill?: string;
+//   outerFill?: string;
+//     innerFill?: string;
+// }
 
 function CheckWithFlower({ size=16 ,outerFill="var(--pink-bg)",innerFill="var(--pink)"}) {
   return (

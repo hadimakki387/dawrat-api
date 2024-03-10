@@ -102,12 +102,9 @@ export const getUserById = async (id: string) => {
   if (foundUser) {
     const uni = await University.findById(foundUser.university);
     const domain = await Domain.findById(foundUser.domain);
-    const {
-      password,
-      university,
-      domain: domainId,
-      ...userWithoutPassword
-    } = foundUser.toObject();
+    
+
+    const {password, university,domain: domainId,...userWithoutPassword} = foundUser.toObject();
 
     return new Response(
       JSON.stringify({

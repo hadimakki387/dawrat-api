@@ -1,16 +1,15 @@
-import * as React from "react";
-import { useFormik } from "formik";
+import Autocomplete from "@mui/joy/Autocomplete";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
-import Stack from "@mui/joy/Stack";
-import Autocomplete from "@mui/joy/Autocomplete";
-import { useDispatch } from "react-redux";
+import * as React from "react";
 
 interface Props {
   data: Array<any>;
   placeholder: string;
   label?: string;
+  // eslint-disable-next-line no-unused-vars
   setSearch?: (value: string) => any;
+  // eslint-disable-next-line no-unused-vars
   setSelectedItem?: (value: string) => any;
   style?: React.CSSProperties;
   className?: string;
@@ -20,6 +19,7 @@ interface Props {
   disabled?: boolean;
   loading?: boolean;
   value?: string;
+  // eslint-disable-next-line no-unused-vars
   handleSubmit?: (e: any) => any;
 }
 
@@ -35,9 +35,7 @@ export default function AutoCompleteSearch({
   defaultValue,
   formik, // Assign formik prop
   disabled,
-  loading,
   value,
-  handleSubmit,
 }: Props) {
 
   const [menuItems, setMenuItems] = React.useState(data);

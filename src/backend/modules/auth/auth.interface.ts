@@ -1,6 +1,6 @@
 
 
-interface loginUserInterface {
+export interface loginUserInterface {
     email:string;
     password:string
 }

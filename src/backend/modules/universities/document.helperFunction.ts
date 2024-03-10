@@ -1,4 +1,3 @@
-import MongoConnection from "@/backend/utils/db";
 import University from "./universities.model";
 
 

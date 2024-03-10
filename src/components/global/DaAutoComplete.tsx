@@ -1,10 +1,10 @@
 "use client";
-import { Autocomplete, Chip, SxProps } from "@mui/material";
-import React from "react";
-import { FormikProps } from "formik";
-import TextFieldComponent from "./TextFieldComponent";
-import DaCheckbox from "./DaCheckbox";
 import { DropdownValue } from "@/services/types";
+import { Autocomplete, Chip, SxProps } from "@mui/material";
+import { FormikProps } from "formik";
+import React from "react";
+import DaCheckbox from "./DaCheckbox";
+import TextFieldComponent from "./TextFieldComponent";
 
 export type CIAutocompleteProps = {
   sx?: SxProps;
@@ -13,6 +13,7 @@ export type CIAutocompleteProps = {
   className?: string;
   limitTags?: number;
   formik?: FormikProps<any>;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (newValue: DropdownValue | DropdownValue[] | null) => void;
   name?: string;
   multiple?: boolean;
@@ -20,12 +21,17 @@ export type CIAutocompleteProps = {
   options?: DropdownValue[];
   size?: "small" | "medium" | undefined;
   onItemClicked?: (
+    // eslint-disable-next-line no-unused-vars
     item: DropdownValue,
+    // eslint-disable-next-line no-unused-vars
     event: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => boolean | void;
+  // eslint-disable-next-line no-unused-vars
   getOptionDisabled?: (option: DropdownValue) => boolean;
   renderTags?: (
+    // eslint-disable-next-line no-unused-vars
     value: DropdownValue | DropdownValue[],
+    // eslint-disable-next-line no-unused-vars
     getTagProps: any
   ) => React.ReactNode;
   noBorders?: boolean;
@@ -33,6 +39,7 @@ export type CIAutocompleteProps = {
   [key: string]: any;
   labelColor?: string;
   disabled?: boolean;
+  // eslint-disable-next-line no-unused-vars
   onInputChange?:(e:string)=>void
 };
 

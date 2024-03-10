@@ -1,16 +1,12 @@
 "use client";
-import DaSearch from "@/components/global/DaSearch/DaSearch";
-import RecentlyReviewed from "./RecentlyReviewed";
-import MyRecentDocument from "./MyRecentDocument";
-import RecommendedDocs from "./RecommendedDocs";
-import AiQuestions from "./AIQuestions";
-import MyBooks from "./MyBooks";
-import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/core/StoreWrapper";
 import DaButton from "@/components/global/DaButton";
-import Link from "next/link";
-import DaCarousel from "@/components/global/carousel/DaCarousel";
-import { EmblaOptionsType } from "embla-carousel-react";
+import DaSearch from "@/components/global/DaSearch/DaSearch";
+import { useAppSelector } from "@/core/StoreWrapper";
+import { useRouter } from "next/navigation";
+import AiQuestions from "./AIQuestions";
+import MyRecentDocument from "./MyRecentDocument";
+import RecentlyReviewed from "./RecentlyReviewed";
+import RecommendedDocs from "./RecommendedDocs";
 
 function HomePage() {
   const router = useRouter();

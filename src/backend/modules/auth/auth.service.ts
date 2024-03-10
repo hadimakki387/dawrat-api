@@ -8,7 +8,6 @@ import { NextResponse } from "next/server";
 import { verifyPass } from "../user/user.helperFunctions";
 import { getUserByEmail } from "../user/user.service";
 import { loginUserValidate } from "./auth.validate";
-import { redirect } from "next/navigation";
 
 export const loginUserWithEmailAndPassword = async (
   email: string,

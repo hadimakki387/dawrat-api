@@ -11,6 +11,8 @@ export async function GET(req: NextRequest) {
   const title = param.searchParams.get("title");
   const university = param.searchParams.get("university");
   const course = param.searchParams.get("course");
+  const language = param.searchParams.get('language')
+  const semester = param.searchParams.get('semester')
   let filters: any = {};
 
   if (title)
@@ -20,18 +22,25 @@ export async function GET(req: NextRequest) {
     ];
   if (university) filters.university = university;
   if (course) filters.course = course;
+  if(language) filters.language = language
+  if(semester) filters.semester = semester
+
 
   let courses;
   if (course) {
-    console.log(course)
     const getCourse = await Course.findById(course);
     courses = [getCourse]
   } else {
+    // eslint-disable-next-line no-unused-vars
     const {course:CourseID,...restFilters} = filters
     courses = await Course.find(restFilters);
   }
 
+  
   const documents = await Document.find(filters).limit(15);
+  const check = await Document.find({language:'65afeb2aa6c67d837da8d636',$or:filters.$or}).limit(15);
+
+
 
   return new Response(
     JSON.stringify([

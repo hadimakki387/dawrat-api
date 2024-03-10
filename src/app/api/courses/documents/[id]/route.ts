@@ -1,6 +1,5 @@
 import {
-  DeleteDocument,
-  getDocumentsByCourseId,
+  getDocumentsByCourseId
 } from "@/backend/modules/Documents/document.service";
 import { NextRequest } from "next/server";
 

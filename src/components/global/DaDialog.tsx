@@ -34,7 +34,6 @@ interface DialogProps {
 export default function DaDialog({
   open = false,
   title,
-  message,
   onClose,
   onConfirm,
   maxWidth = "sm",
@@ -44,7 +43,6 @@ export default function DaDialog({
   defaultButtoms = false,
   children,
   closeIcon = false,
-  styling,
   loading = false,
 }: DialogProps) {
   return (

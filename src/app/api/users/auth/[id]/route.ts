@@ -2,7 +2,6 @@ import { getIdFromUrl } from "@/backend/helper-functions/getIdFromUrl";
 import { getUserById } from "@/backend/modules/user/user.service";
 import MongoConnection from "@/backend/utils/db";
 import httpStatus from "http-status";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   MongoConnection();

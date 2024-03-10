@@ -8,13 +8,13 @@ function CookiesTest({}: Props) {
   const cookie = Cookies.get("dawratToken");
   const [res, setRes] = useState();
   const fetcher = async () => {
-    const res = await fetch("http://localhost:3000/api/test-cookie")
+     await fetch("http://localhost:3000/api/test-cookie")
       .then((res) => res.json())
       .then((res) => setRes(res))
       .catch((err) => console.log(err));
   };
   const postFetcher = async () => {
-    const res = await fetch("http://localhost:3000/api/test-cookie", {
+     await fetch("http://localhost:3000/api/test-cookie", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

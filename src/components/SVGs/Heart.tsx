@@ -7,7 +7,7 @@ interface Props {
   upperFill?: string;
 }
 
-function Heart({ size, fill, upperFill }: Props) {
+function Heart({ size, fill }: Props) {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"

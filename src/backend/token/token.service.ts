@@ -1,15 +1,13 @@
-import moment, { Moment } from "moment";
-import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import moment, { Moment } from "moment";
 import Token from "./token.model";
-import { ITokenDoc } from "./token.interfaces";
 
 import httpStatus from "http-status";
 
 import { NextResponse } from "next/server";
-import tokenTypes from "./token.types";
 import { config } from "../config/config";
 import { UserInterface } from "../modules/user/user.interfaces";
+import tokenTypes from "./token.types";
 
 
 export const generateToken = (

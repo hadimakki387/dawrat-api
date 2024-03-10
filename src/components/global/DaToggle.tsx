@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
 import { Switch } from "@mui/material";
+import React from "react";
 
 interface Props {
   hasText?: boolean;
@@ -29,6 +29,7 @@ function DaToggle({
           name="hello"
           onClick={onClick}
           size={size}
+          {...props}
         />
         {hasText && (
         <span className=" text-sm font-medium text-subTitleText ">

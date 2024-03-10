@@ -1,7 +1,7 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing({
-  errorFormatter: (error) => {
+  errorFormatter: (error:any) => {
     return error.message;
   },
 });

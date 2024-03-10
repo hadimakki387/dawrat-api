@@ -1,5 +1,3 @@
-import { ChipType } from '@/services/constants';
-import React from 'react'
 
 type Props = {
     label: string;
@@ -11,7 +9,6 @@ type Props = {
 function Chip({
   label,
   className,
-  noBg = false,
 }: Props) {
    
   return (

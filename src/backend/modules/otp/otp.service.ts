@@ -1,6 +1,5 @@
 import EmailTemplate from "@/backend/utils/EmailTemplate";
 import MongoConnection from "@/backend/utils/db";
-import * as bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import User from "../user/user.model";
@@ -33,7 +32,7 @@ export const handleOtpGeneration = async (req: NextRequest) => {
   await Otp.findOneAndDelete({ email: email });
 
   const otp = Math.floor(100000 + Math.random() * 900000);
-  const createOtp = await Otp.create({ email: email, otp: otp });
+  // const createOtp = await Otp.create({ email: email, otp: otp });
 
 
   try {
@@ -112,11 +111,11 @@ export const checkOtpAndChangePass = async (req: NextRequest) => {
     );
   }
   await Otp.findByIdAndDelete(result?._id);
-  const password = await bcrypt.hash(body?.password, 8);
-  const changePass = await User.findOneAndUpdate(
-    { email: email },
-    { password: password }
-  );
+  // const password = await bcrypt.hash(body?.password, 8);
+  // const changePass = await User.findOneAndUpdate(
+  //   { email: email },
+  //   { password: password }
+  // );
 
   return new NextResponse(
     JSON.stringify({

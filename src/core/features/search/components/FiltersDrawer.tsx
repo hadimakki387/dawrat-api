@@ -1,16 +1,13 @@
 import { courseInterface } from "@/backend/modules/Courses/courses.interface";
 import { UniversityInterface } from "@/backend/modules/universities/universities.interface";
-import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
 import DaAutocomplete from "@/components/global/DaAutoComplete";
 import DaButton from "@/components/global/DaButton";
 import TextFieldComponent from "@/components/global/TextFieldComponent";
 import { useAppSelector } from "@/core/StoreWrapper";
-import { DropdownValue } from "@/services/types";
+import { LanguageInterface, SemesterInterface } from "@/services/types";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Drawer } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
 import { useDispatch } from "react-redux";
 import {
   setCategory,
@@ -18,20 +15,25 @@ import {
   setSearchCourse,
   setSearchUniversity,
   setSelectedCourse,
+  setSelectedLanguage,
+  setSelectedSemester,
   setSelectedUniversity,
 } from "../redux/search-slice";
 
 type Props = {
   universities?: UniversityInterface[];
   courses?: courseInterface[];
+  languages?:LanguageInterface[]
+  semesters?:SemesterInterface[]
 };
 
-function FiltersDrawer({ universities, courses }: Props) {
+function FiltersDrawer({ universities, courses,languages,semesters }: Props) {
   const dispatch = useDispatch();
-  const { drawer, selectedCourse, selectedUniversity,category } = useAppSelector(
+  const { drawer, selectedCourse, selectedUniversity,category,selectedLanguage,selectedSemester } = useAppSelector(
     (state) => state.search
   );
-
+  console.log('this is the semesters')
+  console.log(languages)
   return (
     <Drawer
       anchor={"right"}
@@ -110,6 +112,54 @@ function FiltersDrawer({ universities, courses }: Props) {
               name="university"
               label="Course filter"
               value={selectedCourse}
+            />
+          </div>
+          <div className="w-full">
+            <DaAutocomplete
+              options={
+                languages?.map((item) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    value: "",
+                    label: "loading...",
+                  },
+                ]
+              }
+              placeholder="Search Languages"
+              onChange={(e) => {
+                dispatch(setSelectedLanguage(e));
+              }}
+              style={{ borderRadius: "0.7rem" }}
+              className=" p-1"
+              name="languages"
+              label="Languages filter"
+              value={selectedLanguage}
+            />
+          </div>
+          <div className="w-full">
+            <DaAutocomplete
+              options={
+                semesters?.map((item) => ({
+                  label: item?.title,
+                  value: item?.id,
+                })) || [
+                  {
+                    value: "",
+                    label: "loading...",
+                  },
+                ]
+              }
+              placeholder="Search Semesters"
+              onChange={(e) => {
+                dispatch(setSelectedSemester(e));
+              }}
+              style={{ borderRadius: "0.7rem" }}
+              className=" p-1"
+              name="Semesters"
+              label="Semesters filter"
+              value={selectedSemester}
             />
           </div>
           <div className="w-full">

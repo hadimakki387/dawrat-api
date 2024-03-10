@@ -1,12 +1,10 @@
-import React from "react";
-import Home from "../SVGs/Home";
-import AI from "../SVGs/AI";
-import Questions from "../SVGs/Questions";
-import Folder from "../SVGs/Folder";
-import Institution from "../SVGs/Institution";
-import { usePathname, useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname, useRouter } from "next/navigation";
+import AI from "../SVGs/AI";
+import Home from "../SVGs/Home";
+import Institution from "../SVGs/Institution";
+import Questions from "../SVGs/Questions";
 
 type Props = {};
 

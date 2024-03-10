@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { loginUserInterface } from "./auth.interface";
 
 const loginUser: Record<keyof Pick<loginUserInterface,"email" | "password">, any> = {
   password: Joi.string().required(),

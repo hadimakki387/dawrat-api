@@ -1,17 +1,17 @@
 "use client";
 // ** React Imports
-import React, { useState, ReactNode, Children } from "react";
 import { Icon, IconProps } from "@iconify/react";
+import React, { ReactNode, useState } from "react";
 
 // ** MUI Imports
-import Step from "@mui/material/Step";
-import Stepper from "@mui/material/Stepper";
-import StepLabel from "@mui/material/StepLabel";
-import Typography from "@mui/material/Typography";
-import MuiBox, { BoxProps } from "@mui/material/Box";
-import { StepIconProps } from "@mui/material/StepIcon";
-import { alpha, styled, useTheme } from "@mui/material/styles";
 import { StepConnector, stepConnectorClasses } from "@mui/material";
+import MuiBox, { BoxProps } from "@mui/material/Box";
+import Step from "@mui/material/Step";
+import { StepIconProps } from "@mui/material/StepIcon";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import Typography from "@mui/material/Typography";
+import { alpha, styled, useTheme } from "@mui/material/styles";
 
 interface Props {
   stepTitles: string[];

@@ -9,6 +9,7 @@ interface Props {
   placeholder?: string;
   className?: string;
   padding?: string;
+  // eslint-disable-next-line no-unused-vars
   handleSubmit?: (search: string) => any;
   defaultValue?: string;
 }

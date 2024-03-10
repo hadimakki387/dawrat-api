@@ -3,27 +3,20 @@ import DaCard from "@/components/SVGs/DaCard";
 import DaToggle from "@/components/global/DaToggle";
 import ProfileAvatar from "@/components/global/ProfileAvatar";
 import { useAppSelector } from "@/core/StoreWrapper";
-import InteractiveTextField from "./InteractiveTextField/InteractivTextField";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import {
-  decrementQuestionStep,
-  incrementQuestionStep,
-  incrementResetData,
-  resetQuestionStep,
-  setIsPrivate,
+  setIsPrivate
 } from "../redux/askAi-slice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import Button from "@/components/global/DaButton";
 import Step1 from "./questions steps/Step1";
 import Step2 from "./questions steps/Step2";
 import Step3 from "./questions steps/Step3";
-import Step4 from "./questions steps/Step4";
 
 function QuestionInput() {
-  const { isPrivate, QuestionStep, content } = useAppSelector(
+  const { isPrivate, QuestionStep } = useAppSelector(
     (state) => state.askAi
-  );
+  )
   const dispatch = useDispatch();
   const { user } = useAppSelector((state) => state.global);
 

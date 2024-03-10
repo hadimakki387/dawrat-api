@@ -8,13 +8,12 @@ import { useGetUserQuery } from "@/core/rtk-query/user";
 import useScroll from "@/hooks/useScroll";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TextField, styled } from "@mui/material";
-import NavLoader from "../global/navLoader/NavLoader";
 import Cookies from "js-cookie";
+import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import DaButton from "../global/DaButton";
-import Image from "next/image";
+import NavLoader from "../global/navLoader/NavLoader";
 
 function LandingNavBar() {
   const Scroll = useScroll();
@@ -22,26 +21,26 @@ function LandingNavBar() {
   const id = Cookies.get("dawratUserId");
   const { data, isLoading } = useGetUserQuery(id as string);
 
-  const CssTextField = styled(TextField)({
-    color: "#A0AAB4",
-    "& label.Mui-focused": {
-      color: "#A0AAB4",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#B2BAC2",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#E0E3E7",
-      },
-      "&:hover fieldset": {
-        borderColor: "#B2BAC2",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#6F7E8C",
-      },
-    },
-  });
+  // const CssTextField = styled(TextField)({
+  //   color: "#A0AAB4",
+  //   "& label.Mui-focused": {
+  //     color: "#A0AAB4",
+  //   },
+  //   "& .MuiInput-underline:after": {
+  //     borderBottomColor: "#B2BAC2",
+  //   },
+  //   "& .MuiOutlinedInput-root": {
+  //     "& fieldset": {
+  //       borderColor: "#E0E3E7",
+  //     },
+  //     "&:hover fieldset": {
+  //       borderColor: "#B2BAC2",
+  //     },
+  //     "&.Mui-focused fieldset": {
+  //       borderColor: "#6F7E8C",
+  //     },
+  //   },
+  // });
 
   return (
     <div

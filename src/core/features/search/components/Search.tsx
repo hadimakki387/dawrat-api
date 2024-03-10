@@ -1,26 +1,23 @@
 "use client";
-import React from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { useSearchDataQuery } from "@/core/rtk-query/search";
-import CourseCard from "./CourseCard";
 import { courseInterface } from "@/backend/modules/Courses/courses.interface";
-import AutoCompleteSearch from "@/components/global/AutoCompleteSearch";
-import SearchHeader from "./SearchHeader";
-import DocCard from "./DocCard";
-import { DocumentI } from "@/services/types";
 import { DocumentInterface } from "@/backend/modules/Documents/document.interface";
-import CourseCardSkeleton from "./CourseCardSkeleton";
-import DocCardSkeleton from "./DocCardSkeleton";
-import FiltersDrawer from "./FiltersDrawer";
 import DaCarousel from "@/components/global/carousel/DaCarousel";
-import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
+import { useAppSelector } from "@/core/StoreWrapper";
 import {
   useGetAllCoursesQuery,
-  useGetCoursesByUniversityIdQuery,
-  useGetCoursesByUserIdQuery,
+  useGetCoursesByUniversityIdQuery
 } from "@/core/rtk-query/courses";
+import {  useSearchDataQuery } from "@/core/rtk-query/search";
+import { useGetUniversitiesQuery } from "@/core/rtk-query/universities";
+import { useParams } from "next/navigation";
 import MissingDataMessage from "../../HomePage/Components/MissingDataMessage";
-import { useAppSelector } from "@/core/StoreWrapper";
+import CourseCard from "./CourseCard";
+import CourseCardSkeleton from "./CourseCardSkeleton";
+import DocCard from "./DocCard";
+import DocCardSkeleton from "./DocCardSkeleton";
+import FiltersDrawer from "./FiltersDrawer";
+import SearchHeader from "./SearchHeader";
+import { useGetLanguagesQuery, useGetSemestersQuery } from "@/core/rtk-query/aditionalData";
 
 function Search() {
   const param = useParams();
@@ -32,12 +29,16 @@ function Search() {
     category,
     searchCourse,
     searchUniversity,
+    selectedLanguage,
+    selectedSemester
   } = useAppSelector((state) => state.search);
 
   const { data, isLoading } = useSearchDataQuery({
     title: search as string,
     university: selectedUniversity?.value,
     course: selectedCourse?.value,
+    language: selectedLanguage?.value,
+    semester: selectedSemester?.value
   });
   const { data: Universities, isLoading: loadingUniversities } =
     useGetUniversitiesQuery({
@@ -59,6 +60,11 @@ function Search() {
       skip: !selectedUniversity,
     }
   );
+  const {data:languages} = useGetLanguagesQuery()
+  const {data:semesters} = useGetSemestersQuery()
+  console.log('this')
+  console.log(semesters)
+
   return (
     <>
       {isLoading || loadingUniversities ? (
@@ -85,6 +91,13 @@ function Search() {
         </div>
       ) : !isLoading && data.length === 0 && data ? (
         <div className="w-full mt-16">
+          <FiltersDrawer
+            universities={Universities}
+            courses={UniversityCourses || courses}
+            languages={languages}
+            semesters={semesters}
+          />
+          <SearchHeader />
           <MissingDataMessage message="No results found" />
         </div>
       ) : (
@@ -92,6 +105,8 @@ function Search() {
           <FiltersDrawer
             universities={Universities}
             courses={UniversityCourses || courses}
+            semesters={semesters}
+            languages={languages}
           />
           <div className="md:px-20 w-full">
             <SearchHeader

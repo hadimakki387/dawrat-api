@@ -1,6 +1,5 @@
 import { Schema, model, models } from "mongoose";
 import validator from "validator";
-import Studylist from "../studylist/studylist.model";
 
 const userSchema = new Schema<any, any>({
   firstName: {

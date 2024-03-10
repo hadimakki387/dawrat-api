@@ -1,7 +1,6 @@
 import { getDocumentById } from "@/backend/modules/Documents/document.helperFunction";
-import { DeleteDocument, updateDocument } from "@/backend/modules/Documents/document.service";
-import httpStatus from "http-status";
-import { NextRequest, NextResponse } from "next/server";
+import { updateDocument } from "@/backend/modules/Documents/document.service";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   return await getDocumentById(req);

@@ -6,6 +6,7 @@ import { SxProps } from "@mui/material";
 type Props = TabsProps & {
   tabs: string[];
   value: number;
+  // eslint-disable-next-line no-unused-vars
   onChange: (newValue: number) => any;
   tabSx?: SxProps;
 };

@@ -1,10 +1,9 @@
 "use client";
+import { useGetPublicDocumentsByIdQuery } from "@/core/rtk-query/public";
 import { useGetUserQuery } from "@/core/rtk-query/user";
-import React, { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useGetPublicDocumentsByIdQuery } from "@/core/rtk-query/public";
-import { callOrReturn } from "@tiptap/react";
+import React, { useLayoutEffect } from "react";
 
 function PublicAuthGuard({ children }: { children: React.ReactNode }) {
   const id = Cookies.get("dawratUserId");

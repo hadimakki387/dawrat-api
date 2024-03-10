@@ -7,7 +7,7 @@ interface Props {
   upperFill?: string;
 }
 
-function Info({  size=16 , fill, upperFill }: Props) {
+function Info({  size=16 , fill,  }: Props) {
   return (
     <svg 
     xmlnsXlink="http://www.w3.org/1999/xlink"

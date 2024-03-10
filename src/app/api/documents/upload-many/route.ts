@@ -1,4 +1,4 @@
-import { createDocument, createManyDocuments } from "@/backend/modules/Documents/document.service";
+import { createManyDocuments } from "@/backend/modules/Documents/document.service";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {

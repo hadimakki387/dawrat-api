@@ -3,6 +3,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 
 interface Props {
+  // eslint-disable-next-line no-unused-vars
   onChange: (event: SelectChangeEvent) => any;
   disabled?: boolean;
   options: {
@@ -12,7 +13,7 @@ interface Props {
   label:string
 }
 
-function DropDown({ onChange, disabled = false, options, label }: Props) {
+function DropDown({  disabled = false, options, label }: Props) {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {

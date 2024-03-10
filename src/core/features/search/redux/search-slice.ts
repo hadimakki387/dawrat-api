@@ -6,6 +6,8 @@ const initialState: {
   selectedUniversity:DropdownValue | null;
   searchCourse:string;
   selectedCourse:DropdownValue | null;
+  selectedLanguage:DropdownValue | null;
+  selectedSemester: DropdownValue | null
   drawer:boolean;
   category:string;
 } = {
@@ -13,6 +15,8 @@ const initialState: {
   selectedUniversity:null,
   searchCourse:"",
   selectedCourse:null,
+  selectedLanguage:null,
+  selectedSemester:null,
   drawer:false,
   category:"",
 };
@@ -27,6 +31,12 @@ const searchSlice = createSlice({
     setSelectedUniversity: (state, action) => {
       state.selectedUniversity = action.payload;
     },
+    setSelectedLanguage: (state, action) => {
+      state.selectedLanguage = action.payload;
+    },
+    setSelectedSemester: (state, action) => {
+      state.selectedSemester = action.payload;
+    },
     setSearchCourse: (state, action) => {
       state.searchCourse = action.payload;
     },
@@ -39,7 +49,7 @@ const searchSlice = createSlice({
     setCategory: (state, action) => {
       state.category = action.payload;
     },
-
+    
   },
 });
 
@@ -50,6 +60,8 @@ export const {
   setSelectedCourse,
   setDrawer,
   setCategory,
+  setSelectedLanguage,
+  setSelectedSemester
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

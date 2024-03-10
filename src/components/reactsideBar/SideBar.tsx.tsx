@@ -1,3 +1,5 @@
+import { useAppSelector } from "@/core/StoreWrapper";
+import { setToggle } from "@/core/features/global/redux/global-slice";
 import { NavItems } from "@/services/NavItems";
 import { CircularProgress } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,13 +12,10 @@ import {
   SubMenu,
   menuClasses,
 } from "react-pro-sidebar";
+import { useDispatch } from "react-redux";
 import DaButton from "../global/DaButton";
 import { SidebarHeader } from "./components/SidebarHeader";
 import { Typography } from "./components/Typography";
-import { useAppSelector } from "@/core/StoreWrapper";
-import { sideBarInterface } from "@/services/types";
-import { useDispatch } from "react-redux";
-import { setToggle } from "@/core/features/global/redux/global-slice";
 
 type Theme = "light" | "dark";
 

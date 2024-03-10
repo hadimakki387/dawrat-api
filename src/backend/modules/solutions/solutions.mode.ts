@@ -1,5 +1,4 @@
 import { Schema, model, models } from "mongoose";
-import validator from "validator";
 import { SolutionInterface } from "./solutions.interface";
 
 const solutionSchema = new Schema<SolutionInterface>({

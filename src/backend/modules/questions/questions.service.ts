@@ -122,13 +122,13 @@ export const createQuestion = async (req: NextRequest) => {
     );
   }
 
-  const updateUser = await User.findByIdAndUpdate(
-    data?.userId,
-    {
-      questionsCount: user?.questionsCount + 1,
-    },
-    { new: true }
-  );
+  // const updateUser = await User.findByIdAndUpdate(
+  //   data?.userId,
+  //   {
+  //     questionsCount: user?.questionsCount + 1,
+  //   },
+  //   { new: true }
+  // );
 
   return new Response(JSON.stringify(returnData(savedQuestion)), {
     status: httpStatus.CREATED,

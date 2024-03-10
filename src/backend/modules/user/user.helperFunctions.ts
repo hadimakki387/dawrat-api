@@ -1,8 +1,7 @@
-import { NextResponse } from "next/server";
-import Document from "../Documents/document.model";
-import User from "./user.model";
 import * as bcrypt from "bcryptjs";
 import Course from "../Courses/courses.model";
+import Document from "../Documents/document.model";
+import User from "./user.model";
 
 export const isEmailTaken = async (email: string) => {
   const user = await User.findOne({ email: email });

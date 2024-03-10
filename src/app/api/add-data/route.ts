@@ -1,7 +1,4 @@
-import { Language } from "@/backend/modules/Documents/document.model";
-import { CurrentYear, Semester } from "@/backend/modules/user/user.model";
 import MongoConnection from "@/backend/utils/db";
-import { LanguageInterface } from "@/services/types";
 import { NextResponse } from "next/server";
 
 export async function GET(){

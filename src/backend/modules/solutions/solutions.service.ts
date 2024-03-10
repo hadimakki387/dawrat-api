@@ -109,7 +109,7 @@ export const deleteSolution = async (req: NextRequest) => {
   } catch (error:any) {
     return NextResponse.json({ message: error?.code }, { status: 400 });
   }
-  const deleteSolution = await Solution.findByIdAndDelete(id);
+  // const deleteSolution = await Solution.findByIdAndDelete(id);
   if (!solution) return NextResponse.json({ message: "Solution not found" });
   return NextResponse.json(
     {
