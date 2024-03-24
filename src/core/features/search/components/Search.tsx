@@ -62,8 +62,6 @@ function Search() {
   );
   const {data:languages} = useGetLanguagesQuery()
   const {data:semesters} = useGetSemestersQuery()
-  console.log('this')
-  console.log(semesters)
 
   return (
     <>

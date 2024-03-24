@@ -1,4 +1,3 @@
-import { SemesterInterface } from "@/services/types";
 import { mainApi } from ".";
 
 const extendedApi = mainApi.injectEndpoints({
@@ -10,7 +9,8 @@ const extendedApi = mainApi.injectEndpoints({
       query: ({ title, university, course ,language,semester}) => ({
         url: `/search?${title ? `&title=${title}` : ``}${
           university ? `&university=${university}` : ``
-        }${course ? `&course=${course}` : ``}${language ? `&language=${language}` : ``}${semester ? `&semester=${semester}` : ``}`,
+        }${course ? `&course=${course}` : ``}${language ? `&language=${language}` : ``
+      }${semester ? `&semester=${semester}` : ``}`,
       }),
     }),
   

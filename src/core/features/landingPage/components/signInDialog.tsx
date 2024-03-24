@@ -110,7 +110,7 @@ function SignInDialog() {
           />
         </div>
         <div className="flex items-center justify-end text-primary font-semibold">
-          {/* <div
+           <div
             onClick={() => {
               dispatch(setSignIn(false));
               dispatch(setResetPassword(true));
@@ -118,7 +118,7 @@ function SignInDialog() {
             className="hover:cursor-pointer"
           >
             Forget Password?
-          </div> */}
+          </div> 
           <div>
             <DaButton
               label="Sign Up"
