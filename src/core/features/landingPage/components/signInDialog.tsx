@@ -58,8 +58,7 @@ function SignInDialog() {
         .catch((err) => {
           toast.dismiss(id);
           toast.error(`${err?.data?.message}`);
-          dispatch(setSignIn(false));
-          formik.resetForm();
+
         });
     },
   });
@@ -71,7 +70,10 @@ function SignInDialog() {
       open={signIn}
       title="Sign In"
       message="this is sign In"
-      onClose={() => dispatch(setSignIn(false))}
+      onClose={() => {
+        dispatch(setSignIn(false))
+        formik.resetForm()
+      }}
       defaultButtoms={false}
       PaperProps={{ borderRadius: "1rem" }}
       closeIcon
