@@ -114,7 +114,7 @@ function ForgetPasswordDialog({}: Props) {
           <div>
             <div className="text-lg text-titleText">
               You will recieve a code on your email, You will recieve an email
-              from Acme {"<onboarding@resend.dev>"} please Copy and paste the
+              from Acme {"hmakki387@gmail.com"} please Copy and paste the
               code sent
             </div>
             <div className="text-error ">
